@@ -1,0 +1,265 @@
+---
+title: Binomial GLM
+format:
+    minimal-revealjs: default
+---
+
+```{r}
+#| include: false
+
+library(ggplot2)
+library(patchwork)
+```
+
+# Binomial distribution
+
+## Binomial distribution
+
+$$
+f(k, n ,p) = \Pr(X = k) = \binom{n}{k} p^{k} (1 - p)^{n - k}
+$$
+
+As introduced before, we are interested in the mean $\mu$ of the distribution.
+
+$$
+\mu = np
+$$
+
+The variance is:
+
+$$
+\mu = npq = np(1 - p)
+$$
+
+## Binomial distribution, $p$ and *logit*
+
+The core parameter is $p$, the probability of success. In other terms, we want to include predictors on $p$.
+
+$$
+p_i = g^{-1}(\beta_0 + \beta_1x_{1i} + \beta_2x_{2i} + \dots + \beta_px_{pi})
+$$
+
+But what the link function $g(\cdot)$ actually means? The usual link function is the *logit*. The logit of $p$ is defined as:
+
+$$
+\mbox{logit}(p) = \log{\frac{p}{1 - p}}
+$$
+
+## Odds and probabilities
+
+To understand the logit, the first element is the odds. Odds are other ways of expressing probabilities.
+
+$$
+\mbox{odds}(p) = \frac{p}{1 - p}
+$$
+
+Odds are not usually used in daily life. An exception is the betting context, where the chance of winning is commonly expressed in terms of odds.
+
+> **For example**: saying that the probability of winning is $p = 0.7$ means that the odds of winning are $\mbox{odds}(p) = 0.7/0.3 = 2.33$
+
+## Odds and probabilities
+
+A more intuitive way is saying that we have *2.33 successes for each failure*.
+
+Odds can be easily reversed. For example, $1 / 2.33 = 0.43$. This means that the odds of losing are 0.42 or that we have 0.42 failures for each success.
+
+Odds are non negative and bounded between 0 and $+\infty$.
+
+## Odds and probabilities
+
+We can plot probabilities against odds to show the relationship. The red line is the null value $\mbox{odds}(0.5) = 1$:
+
+```{r}
+odds <- function(p) p / (1 - p)
+ggplot() +
+    stat_function(fun = odds) +
+    geom_hline(yintercept = 1,
+    col = "firebrick") +
+    xlab("p") +
+    ylab("odds(p)")
+```
+
+## Odds and probabilities
+
+The plot is not very clear. Because the odds are non symmetric around the null value. We can try taking the log to stabilize the relationship.
+
+```{r}
+ggplot() +
+    stat_function(fun = qlogis) +
+    geom_hline(yintercept = 0,
+    col = "firebrick") +
+        xlab("p") +
+        ylab("logit(p)")
+```
+
+## Odds and probabilities
+
+Taking the log of an odds is called the logit transformation. This has some nice properties:
+
+- Logit are symmetric around 0
+- The sign tell us who is higher:
+    - A logit of 0 means that $p = 0.5$
+    - A positive logit means that $p > 0.5$ or that $\mbox{odds}(p) > 1$
+    - A negative logit means that $p < 0.5$ or that $\mbox{odds}(p) < 1$
+
+## Odds and probabilities
+
+We can always go back to probabilities. If you start with plain odds:
+
+$$
+p = \frac{\mbox{odds}(p)}{1 + \mbox{odds}(p)}
+$$
+
+Or if you have logit:
+
+$$
+p = \frac{e^{\mbox{logit}(p)}}{1 + e^{\mbox{logit}(p)}}
+$$
+
+## What about two probabilities?
+
+Assuming to have two probabilities that we want to compare. Like two groups, two conditions, etc. What we can do?
+
+Let's try taking the ratio of two odds. Assuming that group 1 has probability of success of 0.7 and group 2 has 0.4.
+
+$$
+\mbox{odds}_1 = \frac{0.7}{0.3} , \mbox{odds}_2 = \frac{0.4}{0.6}
+$$
+
+$$
+\frac{\mbox{odds}_1}{\mbox{odds}_2} = \frac{\frac{0.7}{0.3}}{\frac{0.4}{0.6}} = \frac{2.33}{0.66} = 3.5
+$$
+
+What is the meaning?
+
+## What about two probabilities?
+
+This ratio means that the odds at the numerator (group 1) are ~3.5 times higher that the odds of the denominator (group 2).
+
+We calculated a very important quantity called **Odds Ratio** (OR). Properties of **Odds Ratio**s are the same as odds. They ranged from 0 to $+\infty$, the null value is 1, they are asymmetric.
+
+This means that we can take the log, stabilize the pattern and obtain a symmetric measure around 0.
+
+## What about two probabilities?
+
+The main point of taking the log is the following:
+
+```{r}
+#| echo: true
+#| collapse: true
+
+or <- function(p1, p2) odds(p1) / odds(p2)
+
+# difference in probabilities = 0.2
+or(0.7, 0.5)
+or(0.5, 0.7)
+
+```
+
+```{r}
+#| echo: true
+#| collapse: true
+
+# taking the log
+
+log(or(0.7, 0.5))
+log(or(0.5, 0.7))
+```
+
+A flipped OR is just a sign flip in the log space.
+
+## What about two probabilities?
+
+A flipped OR is just a sign flip in the log space.
+
+```{r}
+#| echo: true
+#| collapse: true
+log(or(0.7, 0.5))
+log(odds(0.7)) - log(odds(0.5))
+# logit(0.7) - logit(0.5)
+```
+
+This is crucial! A ratio in the probability/odds space is a difference in the logit space.
+
+This means that when using the logit, ratios are differences as in a standard linear model. 
+
+::: {.callout-tip}
+The log of a numerator/denominator is the difference numerator - denominator.
+:::
+
+## What about two probabilities?
+
+This point can be better understood with a picture.
+
+```{r}
+x <- runif(10000, 0, 1)
+p <- plogis(qlogis(0.01) + 8*x)
+linpred <- qlogis(p)
+y <- rbinom(length(x), 1, p)
+
+dat <- data.frame(
+    y = y,
+    x = x,
+    p = p,
+    lp = linpred
+)
+
+fp <- function(x) {
+    qlogis(0.01) + 8 * x
+}
+
+pp <- c(0.5, 0.6, 0.7, 0.8)
+
+plot_logit <- ggplot() +
+    stat_function(data = data.frame(x = c(0,1)), 
+                  aes(x),
+                  fun = fp) +
+    # points
+    geom_point(aes(x = pp, y = fp(pp))) +
+    geom_point(aes(x = c(0, 0, 0, 0), y = fp(pp))) + 
+    geom_point(aes(x = pp, y = c(-5, -5, -5, -5))) +
+    # segments
+    geom_segment(aes(x = pp, y = c(-5, -5, -5, -5),
+                     xend = pp, yend = fp(pp)),
+                 linetype = "dashed",
+                 linewidth = 0.3) +
+    geom_segment(aes(x = pp, y = c(-5, -5, -5, -5),
+                     xend = pp, yend = fp(pp)),
+                 linetype = "dashed",
+                 linewidth = 0.3) +
+    geom_segment(aes(x = c(0,0,0,0), y = fp(pp),
+                     xend = pp, yend = fp(pp)),
+                 linetype = "dashed",
+                 linewidth = 0.3) +
+    xlab(latex2exp::TeX("$X_1$")) +
+    ylab(latex2exp::TeX("$logit(p)$")) +
+    theme(aspect.ratio=1)
+
+plot_invlogit <- ggplot() +
+    stat_function(data = data.frame(x = c(0,1)), 
+                  aes(x),
+                  fun = function(x) plogis(fp(x))) +
+    # points
+    geom_point(aes(x = pp, y = plogis(fp(pp)))) +
+    geom_point(aes(x = pp, y = c(0, 0, 0, 0))) +
+    geom_point(aes(x = c(0, 0, 0, 0), y = plogis(fp(pp)))) +
+    # segments
+    geom_segment(aes(x = pp, y = c(0, 0, 0, 0),
+                     xend = pp, yend = plogis(fp(pp))),
+                 linetype = "dashed",
+                 linewidth = 0.3) +
+    geom_segment(aes(x = pp, y = c(0, 0, 0, 0),
+                     xend = pp, yend = plogis(fp(pp))),
+                 linetype = "dashed",
+                 linewidth = 0.3) +
+    geom_segment(aes(x = c(0, 0, 0, 0), y = plogis(fp(pp)),
+                     xend = pp, yend = plogis(fp(pp))),
+                 linetype = "dashed",
+                 linewidth = 0.3) +
+    theme(aspect.ratio=1) +
+    xlab(latex2exp::TeX("$X_1$")) +
+    ylab(latex2exp::TeX("$logit^{-1}(p)$"))
+
+plot_logit | plot_invlogit
+```
