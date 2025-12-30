@@ -1,0 +1,1 @@
+Sitemap: https://psicostat.github.io/glm-workshop/sitemap.xml
