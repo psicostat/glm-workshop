@@ -1,0 +1,14 @@
+---
+title: "Introduction to Generalized Linear Models"
+subtitle: "Workshop"
+---
+
+![](files/hex.svg){fig-align="center"}
+
+# Introduction
+
+Introductory workshop about Generalized Linear Models starting from the general theory, model fitting, parameters intepretation and data simulation.
+
+# Materials
+
+- [GLMphd](https://stat-teaching.github.io/GLMphd/) is a complete course on GLM hosted by the [PhD Course in Psychological Sciences](dottorato.psy.unipd.it/en) (University of Padova).

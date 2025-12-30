@@ -1,0 +1,33 @@
+project:
+  type: website
+
+website:
+  title: "GLM Workshop"
+  navbar: true
+
+format:
+  html:
+    theme:
+      - pulse
+      - brand
+    css: styles.css
+    toc: true
+    include-in-header:
+      text: |
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📈</text></svg>">
+
+execute: 
+  freeze: auto
+
+author: 
+  - name: "Margherita Calderan"
+    email: margherita.calderan@unipd.it
+    orcid: "0009-0005-5668-5162"
+    url: https://mar-cald.github.io
+    affiliations: "Department of General Psychology, University of Padova"
+  - name: "Filippo Gambarota"
+    email: filippo.gambarota@unipd.it
+    github: filippogambarota
+    orcid: "0000-0002-6666-1747"
+    url: https://filippogambarota.github.io
+    affiliations: Department of Developmental and Social Psychology, University of Padova
