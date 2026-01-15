@@ -31,3 +31,6 @@ author:
     orcid: "0000-0002-6666-1747"
     url: https://filippogambarota.github.io
     affiliations: Department of Developmental and Social Psychology, University of Padova
+
+bibliography: "https://raw.githubusercontent.com/filippogambarota/bib-database/main/references.bib"
+csl: "https://raw.githubusercontent.com/citation-style-language/styles/master/apa.csl"
