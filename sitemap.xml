@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://psicostat.github.io/glm-workshop/slides/binomial-glm.html</loc>
+    <lastmod>2026-01-19T19:58:53.035Z</lastmod>
+  </url>
+  <url>
     <loc>https://psicostat.github.io/glm-workshop/index.html</loc>
     <lastmod>2025-12-30T14:47:31.396Z</lastmod>
   </url>

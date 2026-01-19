@@ -1,5 +1,796 @@
 [
   {
+    "objectID": "slides/binomial-glm.html#logistic-distribution-and-binomial",
+    "href": "slides/binomial-glm.html#logistic-distribution-and-binomial",
+    "title": "Binomial GLM",
+    "section": "Logistic distribution and binomial",
+    "text": "Logistic distribution and binomial"
+  },
+  {
+    "objectID": "slides/binomial-glm.html#example-shimizu2024-xl",
+    "href": "slides/binomial-glm.html#example-shimizu2024-xl",
+    "title": "Binomial GLM",
+    "section": "Example: Shimizu et al. (2024)",
+    "text": "Example: Shimizu et al. (2024)\nShimizu et al. (2024) investigated the processing of emotional faces.\n\n6 basic emotions: anger, disgust, fear, happiness, sadness and surprise\nintensity in % (from 10% to 100% in steps of 10%)\n71 participants\n377 faces (males and females of different identities)\nforced-choice procedure with 7 options (6 emotions + neutral). Chance level at \\(1/7 = 0.14\\)."
+  },
+  {
+    "objectID": "slides/binomial-glm.html#shimizu2024-xl-dataset",
+    "href": "slides/binomial-glm.html#shimizu2024-xl-dataset",
+    "title": "Binomial GLM",
+    "section": "Shimizu et al. (2024) dataset",
+    "text": "Shimizu et al. (2024) dataset\nWe did some pre-processing for the purpose of this example. The original dataset can be found at  osf.io/zhtbj/.\nYou can download the dataset for this example at this link. It is an rds file and you can open it using:\n\ndat &lt;- readRDS(\"shimizu.rds\")\n\nThen we can load some packages:\n\nlibrary(lme4)      # for mixed-models\nlibrary(tidyverse) # for data manipulation\nlibrary(ggplot2)   # plotting"
+  },
+  {
+    "objectID": "slides/binomial-glm.html#exploring",
+    "href": "slides/binomial-glm.html#exploring",
+    "title": "Binomial GLM",
+    "section": "Exploring",
+    "text": "Exploring\nFor the purpose if this workshop, we will focus on a single subject (otherwise we should use a mixed-effects model). We also select only the relevant columns.\n\ndat &lt;- subset(dat, id == 22)\ndat &lt;- dat[, c(\"id\", \"age\", \"intensity\", \"emotion_lbl\", \"response_lbl\", \"acc\")]\ndat\n\n# A tibble: 377 × 6\n      id age   intensity emotion_lbl response_lbl   acc\n   &lt;int&gt; &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt;        &lt;int&gt;\n 1    22 53           60 fear        suprise          0\n 2    22 53           60 disgust     disgust          1\n 3    22 53           70 happiness   happiness        1\n 4    22 53          100 happiness   happiness        1\n 5    22 53           60 disgust     sadness          0\n 6    22 53           20 fear        neutral          0\n 7    22 53           10 fear        neutral          0\n 8    22 53          100 sadness     sadness          1\n 9    22 53           90 disgust     disgust          1\n10    22 53           40 happiness   happiness        1\n# ℹ 367 more rows"
+  },
+  {
+    "objectID": "slides/binomial-glm.html#exploring-1",
+    "href": "slides/binomial-glm.html#exploring-1",
+    "title": "Binomial GLM",
+    "section": "Exploring",
+    "text": "Exploring\n\nWe have 377 trials and 6 columns.\nThe intensity is the intensity (from 10% to 100%) of the facial expression. emotion_lbl is the emotion and response_lbl is the response.\nWhen emotion_lbl = response_lbl the acc = 1 namely a correct response."
+  },
+  {
+    "objectID": "slides/binomial-glm.html#exploring-2",
+    "href": "slides/binomial-glm.html#exploring-2",
+    "title": "Binomial GLM",
+    "section": "Exploring",
+    "text": "Exploring\nWe can calculate the average accuracy for each emotion. Clearly there is a big difference with fear being the hardest one and surprise the easiest. We remove neutral because we have no associated intensity\n\ndat |&gt; \n  group_by(emotion_lbl) |&gt; \n  summarise(p = mean(acc),\n            n = n()) |&gt; \n  arrange(desc(p))\n\n# A tibble: 7 × 3\n  emotion_lbl     p     n\n  &lt;chr&gt;       &lt;dbl&gt; &lt;int&gt;\n1 neutral     1         7\n2 surprise    0.8      70\n3 happiness   0.686    70\n4 sadness     0.517    60\n5 disgust     0.35    100\n6 anger       0.333    30\n7 fear        0.05     40\n\ndat &lt;- filter(dat, emotion_lbl != \"neutral\")"
+  },
+  {
+    "objectID": "slides/binomial-glm.html#exploring-3",
+    "href": "slides/binomial-glm.html#exploring-3",
+    "title": "Binomial GLM",
+    "section": "Exploring",
+    "text": "Exploring\nAlso for intensity, there is a clear increasing pattern. In this specific subject, the highest intensities are not clearly distinguished (maybe a non-linear pattern).\n\ndat |&gt; \n  group_by(intensity) |&gt; \n  summarise(p = mean(acc),\n            n = n()) |&gt; \n  arrange(desc(p))\n\n# A tibble: 10 × 3\n   intensity      p     n\n       &lt;dbl&gt;  &lt;dbl&gt; &lt;int&gt;\n 1        70 0.703     37\n 2        90 0.676     37\n 3       100 0.676     37\n 4        80 0.649     37\n 5        50 0.622     37\n 6        60 0.622     37\n 7        40 0.486     37\n 8        30 0.324     37\n 9        10 0.0811    37\n10        20 0.0811    37"
+  },
+  {
+    "objectID": "slides/binomial-glm.html#exploring-plots",
+    "href": "slides/binomial-glm.html#exploring-plots",
+    "title": "Binomial GLM",
+    "section": "Exploring, plots",
+    "text": "Exploring, plots\n\ndat |&gt; \n  group_by(emotion_lbl) |&gt; \n  summarise(p = mean(acc),\n            n = n()) |&gt; \n  ggplot(aes(x = fct_reorder(emotion_lbl, p), y = p)) + \n  geom_point(size = 4) +\n  geom_line(group = 1) +\n  ylim(c(0, 1)) +\n  xlab(\"Emotion\") +\n  ylab(\"Accuracy\") +\n  geom_hline(yintercept = 1/7, lty = \"dotted\")"
+  },
+  {
+    "objectID": "slides/binomial-glm.html#exploring-plots-output",
+    "href": "slides/binomial-glm.html#exploring-plots-output",
+    "title": "Binomial GLM",
+    "section": "Exploring, plots",
+    "text": "Exploring, plots"
+  },
+  {
+    "objectID": "slides/binomial-glm.html#exploring-plots-1",
+    "href": "slides/binomial-glm.html#exploring-plots-1",
+    "title": "Binomial GLM",
+    "section": "Exploring, plots",
+    "text": "Exploring, plots\n\ndat |&gt; \n  group_by(intensity) |&gt; \n  summarise(p = mean(acc),\n            n = n()) |&gt; \n  arrange(desc(p)) |&gt; \n  ggplot(aes(x = intensity, y = p)) + \n  geom_point(size = 4) +\n  geom_line() +\n  ylim(c(0, 1)) +\n  xlab(\"Intensity (%)\") +\n  ylab(\"Accuracy\") +\n  geom_hline(yintercept = 1/7, lty = \"dotted\")"
+  },
+  {
+    "objectID": "slides/binomial-glm.html#exploring-plots-1-output",
+    "href": "slides/binomial-glm.html#exploring-plots-1-output",
+    "title": "Binomial GLM",
+    "section": "Exploring, plots",
+    "text": "Exploring, plots"
+  },
+  {
+    "objectID": "slides/binomial-glm.html#exploring-plots-2",
+    "href": "slides/binomial-glm.html#exploring-plots-2",
+    "title": "Binomial GLM",
+    "section": "Exploring, plots",
+    "text": "Exploring, plots\nWe have few trials but we can also explore the interaction between emotion and intensity. There are some emotions where the rate of increase in accuracy as a function of the emotion is faster compared to others.\n\ndat |&gt; \n  group_by(intensity, emotion_lbl) |&gt; \n  summarise(p = mean(acc)) |&gt; \n  ggplot(aes(x = intensity, y = p, color = emotion_lbl)) +\n  geom_point(size = 4) +\n  geom_line()"
+  },
+  {
+    "objectID": "slides/binomial-glm.html#exploring-plots-2-output",
+    "href": "slides/binomial-glm.html#exploring-plots-2-output",
+    "title": "Binomial GLM",
+    "section": "Exploring, plots",
+    "text": "Exploring, plots"
+  },
+  {
+    "objectID": "slides/binomial-glm.html#exploring-odds-and-odds-ratios",
+    "href": "slides/binomial-glm.html#exploring-odds-and-odds-ratios",
+    "title": "Binomial GLM",
+    "section": "Exploring, odds and odds ratios",
+    "text": "Exploring, odds and odds ratios\nWe can start exploring the effects calcualting odds and odds ratios.\n\nodds &lt;- function(p) p / (1 - p)\nor &lt;- function(pn, pd) odds(pn) / odds(pd)\n\n\n(p_anger &lt;- mean(dat$acc[dat$emotion_lbl == \"anger\"]))\n## [1] 0.3333333\n(p_surprise &lt;- mean(dat$acc[dat$emotion_lbl == \"surprise\"]))\n## [1] 0.8\n\nodds(p_anger)\n## [1] 0.5\nodds(p_surprise)\n## [1] 4\n\nor(p_surprise, p_anger)\n## [1] 8"
+  },
+  {
+    "objectID": "slides/binomial-glm.html#exploring-odds-and-odds-ratios-1",
+    "href": "slides/binomial-glm.html#exploring-odds-and-odds-ratios-1",
+    "title": "Binomial GLM",
+    "section": "Exploring, odds and odds ratios",
+    "text": "Exploring, odds and odds ratios\nWe can also create a contingency table:\n\ntable(dat$acc, dat$emotion_lbl)\n\n   \n    anger disgust fear happiness sadness surprise\n  0    20      65   38        22      29       14\n  1    10      35    2        48      31       56\n\n(all_p &lt;- tapply(dat$acc, dat$emotion_lbl, FUN = mean))\n\n    anger   disgust      fear happiness   sadness  surprise \n0.3333333 0.3500000 0.0500000 0.6857143 0.5166667 0.8000000 \n\nodds(all_p)\n\n     anger    disgust       fear  happiness    sadness   surprise \n0.50000000 0.53846154 0.05263158 2.18181818 1.06896552 4.00000000 \n\n\nWhen the odds are lower than 1, the probability of success is lower than the probability of failure. When the odds are greater than 1 the probability of success is higher."
+  },
+  {
+    "objectID": "slides/binomial-glm.html#exploring-odds-and-odds-ratios-2",
+    "href": "slides/binomial-glm.html#exploring-odds-and-odds-ratios-2",
+    "title": "Binomial GLM",
+    "section": "Exploring, odds and odds ratios",
+    "text": "Exploring, odds and odds ratios\nWe can also calculate all the possible comparisons. Note that depending on the numerator/denominator the odds ratio is different but we can simply take the inverse to switch numerator and numerator. Interpreting odds ratio &gt; 1 is usually more intutive.\n\n\n     anger / disgust         anger / fear    anger / happiness \n               0.929                9.500                0.229 \n     anger / sadness     anger / surprise       disgust / fear \n               0.468                0.125               10.231 \n disgust / happiness    disgust / sadness   disgust / surprise \n               0.247                0.504                0.135 \n    fear / happiness       fear / sadness      fear / surprise \n               0.024                0.049                0.013 \n happiness / sadness happiness / surprise   sadness / surprise \n               2.041                0.545                0.267 \n\n\nFor example, happiness / sadness ~ 2.04 means that the odds (not the probability) of a correct response is 2 times higher for happy faces compared to sad faces."
+  },
+  {
+    "objectID": "slides/binomial-glm.html#the-glm-function",
+    "href": "slides/binomial-glm.html#the-glm-function",
+    "title": "Binomial GLM",
+    "section": "The glm function",
+    "text": "The glm function\nIn R we can fit a GLM with the glm function. The syntax is the same as the lm (for standard linear models). We only need to specify the random component and the link function.\n\nglm(y ~ x1 + x2 + x3 * x4, # systematic component (linear predictor)\n    data = data,\n    family = binomial(link = \"logit\")) # random component and link function\n\nClearly, the y in this example need to be consistent with the chosen family. In this case the model is expecting a 0-1 vector. If we provide labels (characters) or number &gt; 1 or &lt; 0 the function will fail.\n\n\n\n\n\n\nNote\n\n\nA glm with family = gaussian(link = \"identity\") is the same as running a lm. Internally glm calls lm in this case."
+  },
+  {
+    "objectID": "slides/binomial-glm.html#the-null-model",
+    "href": "slides/binomial-glm.html#the-null-model",
+    "title": "Binomial GLM",
+    "section": "The null model",
+    "text": "The null model\nWe can start with the easiest model that is a model without the systematic component (with no predictors).\n\nfit0 &lt;- glm(acc ~ 1, data = dat, family = binomial(link = \"logit\"))\nsummary(fit0)\n\n\nCall:\nglm(formula = acc ~ 1, family = binomial(link = \"logit\"), data = dat)\n\nCoefficients:\n            Estimate Std. Error z value Pr(&gt;|z|)\n(Intercept) -0.03244    0.10399  -0.312    0.755\n\n(Dispersion parameter for binomial family taken to be 1)\n\n    Null deviance: 512.83  on 369  degrees of freedom\nResidual deviance: 512.83  on 369  degrees of freedom\nAIC: 514.83\n\nNumber of Fisher Scoring iterations: 3"
+  },
+  {
+    "objectID": "slides/binomial-glm.html#the-null-model-1",
+    "href": "slides/binomial-glm.html#the-null-model-1",
+    "title": "Binomial GLM",
+    "section": "The null model",
+    "text": "The null model"
+  },
+  {
+    "objectID": "slides/binomial-glm.html#the-null-model-formally",
+    "href": "slides/binomial-glm.html#the-null-model-formally",
+    "title": "Binomial GLM",
+    "section": "The null model, formally",
+    "text": "The null model, formally\n\\[\n\\eta_i = \\beta_0\n\\]\n\\[\np_i = g^{-1}(\\eta_i) = g^{-1}(\\beta_0)\n\\]\n\\(g^{-1}(\\cdot)\\) is the inverse-logit link:\n\\[\np_i = \\frac{e^{\\beta_0}}{1 + e^{\\beta_0}}\n\\]\nIn other terms, the probability can be calculated inverting the logit link function evaluated on the linear predictor \\(\\eta\\). In this case \\(\\eta\\) only contains \\(\\beta_0\\)."
+  },
+  {
+    "objectID": "slides/binomial-glm.html#the-null-model-interpretation",
+    "href": "slides/binomial-glm.html#the-null-model-interpretation",
+    "title": "Binomial GLM",
+    "section": "The null model, interpretation",
+    "text": "The null model, interpretation\nIn this case, the intercept is -0.032. The intercept is the expected value (i.e., the mean) of y (accuracy here) when everthing is zero. In this case \\(\\beta_0\\) is just the (logit transformed) overall accuracy.\n\nb0 &lt;- coef(fit0)[\"(Intercept)\"]\n\nexp(b0) / (1 + exp(b0)) # inverse logit\n\n(Intercept) \n  0.4918919 \n\nplogis(b0)              # directly with the dedicated function\n\n(Intercept) \n  0.4918919 \n\nmean(dat$acc)           # average accuracy\n\n[1] 0.4918919\n\nlog(odds(mean(dat$acc))) # probability to logit\n\n[1] -0.03243528\n\nqlogis(mean(dat$acc)) # probability to logit with the dedicated function\n\n[1] -0.03243528"
+  },
+  {
+    "objectID": "slides/binomial-glm.html#categorical-predictor-emotion",
+    "href": "slides/binomial-glm.html#categorical-predictor-emotion",
+    "title": "Binomial GLM",
+    "section": "Categorical predictor, emotion",
+    "text": "Categorical predictor, emotion\nThen we can include emotion_lbl as predictor. Let’s see what happens:\n\nfit_em &lt;- glm(acc ~ emotion_lbl, data = dat, family = binomial(link = \"logit\"))\nsummary(fit_em)\n\n\nCall:\nglm(formula = acc ~ emotion_lbl, family = binomial(link = \"logit\"), \n    data = dat)\n\nCoefficients:\n                     Estimate Std. Error z value Pr(&gt;|z|)    \n(Intercept)          -0.69315    0.38730  -1.790  0.07350 .  \nemotion_lbldisgust    0.07411    0.44040   0.168  0.86637    \nemotion_lblfear      -2.25129    0.82235  -2.738  0.00619 ** \nemotion_lblhappiness  1.47331    0.46507   3.168  0.00154 ** \nemotion_lblsadness    0.75984    0.46555   1.632  0.10266    \nemotion_lblsurprise   2.07944    0.48917   4.251 2.13e-05 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\n(Dispersion parameter for binomial family taken to be 1)\n\n    Null deviance: 512.83  on 369  degrees of freedom\nResidual deviance: 423.88  on 364  degrees of freedom\nAIC: 435.88\n\nNumber of Fisher Scoring iterations: 5"
+  },
+  {
+    "objectID": "slides/binomial-glm.html#categorical-predictor-emotion-1",
+    "href": "slides/binomial-glm.html#categorical-predictor-emotion-1",
+    "title": "Binomial GLM",
+    "section": "Categorical predictor, emotion",
+    "text": "Categorical predictor, emotion\nNow we have 6 coefficients. As in standard linear models, by default, categorical predictors are transformed into dummy variables:\n\nunique(model.matrix(~ emotion_lbl, data = dat))\n\n   (Intercept) emotion_lbldisgust emotion_lblfear emotion_lblhappiness\n1            1                  0               1                    0\n2            1                  1               0                    0\n3            1                  0               0                    1\n8            1                  0               0                    0\n15           1                  0               0                    0\n42           1                  0               0                    0\n   emotion_lblsadness emotion_lblsurprise\n1                   0                   0\n2                   0                   0\n3                   0                   0\n8                   1                   0\n15                  0                   1\n42                  0                   0\n\n\nThe intercept is the reference level (in this case anger) and the other 5 coefficients represent the comparison between all emotions vs anger."
+  },
+  {
+    "objectID": "slides/binomial-glm.html#categorical-predictor-emotion-2",
+    "href": "slides/binomial-glm.html#categorical-predictor-emotion-2",
+    "title": "Binomial GLM",
+    "section": "Categorical predictor, emotion",
+    "text": "Categorical predictor, emotion\nRemember that we are working on the link-function space. For this reason comparisons are expressed in logit. For example, \\(\\beta_1\\) (emotion_lbldisgust) is the comparison between disgust and anger. Formally:\n\\[\n\\beta_1 = \\mbox{logit}(p(y = 1 | \\mbox{disgust})) - \\mbox{logit}(p(y = 1 | \\mbox{anger}))\n\\]\nBut the logit is the logarithm of the odds (let’s call \\(p_a\\) and \\(p_d\\) anger and disgust respectively)\n\\[\n\\log{\\frac{p_d}{1 - p_d}} - \\log{\\frac{p_a}{1 - p_a}}\n\\]\nA difference of logs can be expressed as the log of the ratio:\n\\[\n\\log{\\frac{\\frac{p_d}{1 - p_d}}{\\frac{p_a}{1 - p_a}}}\n\\]\nFinally we can take the exponential to remove the log:\n\\[\ne^{\\log{\\frac{\\frac{p_d}{1 - p_d}}{\\frac{p_a}{1 - p_a}}}} = \\frac{\\frac{p_d}{1 - p_d}}{\\frac{p_a}{1 - p_a}}\n\\]\nThis is exactly the odds ratio! This means that taking the exponential of \\(\\beta_1\\) returns the estimated odds ratio for that comparison."
+  },
+  {
+    "objectID": "slides/binomial-glm.html#categorical-predictor",
+    "href": "slides/binomial-glm.html#categorical-predictor",
+    "title": "Binomial GLM",
+    "section": "Categorical predictor",
+    "text": "Categorical predictor\n\ncoef(fit_em)\n\n         (Intercept)   emotion_lbldisgust      emotion_lblfear \n         -0.69314718           0.07410797          -2.25129179 \nemotion_lblhappiness   emotion_lblsadness  emotion_lblsurprise \n          1.47330574           0.75983856           2.07944154 \n\nexp(coef(fit_em))\n\n         (Intercept)   emotion_lbldisgust      emotion_lblfear \n           0.5000000            1.0769231            0.1052632 \nemotion_lblhappiness   emotion_lblsadness  emotion_lblsurprise \n           4.3636364            2.1379310            8.0000000 \n\n\nComparing with the manual calculation:\n\np_d &lt;- mean(dat$acc[dat$emotion_lbl == \"disgust\"])\np_a &lt;- mean(dat$acc[dat$emotion_lbl == \"anger\"])\n\nor(p_d, p_a)\n\n[1] 1.076923"
+  },
+  {
+    "objectID": "slides/binomial-glm.html#categorical-predictor-main-effect-of-emotion",
+    "href": "slides/binomial-glm.html#categorical-predictor-main-effect-of-emotion",
+    "title": "Binomial GLM",
+    "section": "Categorical predictor, main effect of emotion",
+    "text": "Categorical predictor, main effect of emotion\nWe can also assess the effect of emotion_lbl using a Likelihood Ratio Test (LRT). Basically we can compare the model with or without the emotion_lbl predictor. Using the LRT we are setting the effect of emotion_lbl to zero. This means that the null hypothesis is that all possible contrasts among emotions are zero.\n\nanova(fit0, fit_em) # comparing two models\n\nAnalysis of Deviance Table\n\nModel 1: acc ~ 1\nModel 2: acc ~ emotion_lbl\n  Resid. Df Resid. Dev Df Deviance  Pr(&gt;Chi)    \n1       369     512.83                          \n2       364     423.88  5   88.955 &lt; 2.2e-16 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\ncar::Anova(fit_em)  # using the car::Anova\n\nAnalysis of Deviance Table (Type II tests)\n\nResponse: acc\n            LR Chisq Df Pr(&gt;Chisq)    \nemotion_lbl   88.955  5  &lt; 2.2e-16 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1"
+  },
+  {
+    "objectID": "slides/binomial-glm.html#categorical-predictor-confidence-intervals",
+    "href": "slides/binomial-glm.html#categorical-predictor-confidence-intervals",
+    "title": "Binomial GLM",
+    "section": "Categorical predictor, confidence intervals",
+    "text": "Categorical predictor, confidence intervals\nThe confidence intervals for model parameters can be extracted with the confint.default() function. These are called Wald confidence intervals. They are computed as:\n\\[\n\\beta \\pm q_{\\alpha/2} \\mbox{SE}_\\beta\n\\]\nWhere \\(q\\) is the critical test statistics (\\(z\\) in this case) at \\(\\alpha\\) level and \\(\\mbox{SE}_\\beta\\) is the standard error.\n\nfits &lt;- summary(fit_em)$coefficients\nfits\n\n                        Estimate Std. Error    z value     Pr(&gt;|z|)\n(Intercept)          -0.69314718  0.3872983 -1.7896983 0.0735024219\nemotion_lbldisgust    0.07410797  0.4404044  0.1682725 0.8663688694\nemotion_lblfear      -2.25129179  0.8223512 -2.7376280 0.0061884033\nemotion_lblhappiness  1.47330574  0.4650676  3.1679388 0.0015352381\nemotion_lblsadness    0.75983856  0.4655543  1.6321158 0.1026550954\nemotion_lblsurprise   2.07944154  0.4891684  4.2509728 0.0000212844"
+  },
+  {
+    "objectID": "slides/binomial-glm.html#categorical-predictor-confidence-intervals-1",
+    "href": "slides/binomial-glm.html#categorical-predictor-confidence-intervals-1",
+    "title": "Binomial GLM",
+    "section": "Categorical predictor, confidence intervals",
+    "text": "Categorical predictor, confidence intervals\n\n(z &lt;- abs(qnorm(0.05/2))) # critical test statistics at alpha/2 (two tails)\n\n[1] 1.959964\n\ndata.frame(\n  lower = fits[, \"Estimate\"] - z * fits[, \"Std. Error\"],\n  upper = fits[, \"Estimate\"] + z * fits[, \"Std. Error\"]\n)\n\n                          lower       upper\n(Intercept)          -1.4522380  0.06594361\nemotion_lbldisgust   -0.7890688  0.93728475\nemotion_lblfear      -3.8630706 -0.63951297\nemotion_lblhappiness  0.5617900  2.38482150\nemotion_lblsadness   -0.1526311  1.67230825\nemotion_lblsurprise   1.1206891  3.03819397\n\n\nOr directly using the confint.default()\n\nconfint.default(fit_em)\n\n                          2.5 %      97.5 %\n(Intercept)          -1.4522380  0.06594361\nemotion_lbldisgust   -0.7890688  0.93728475\nemotion_lblfear      -3.8630706 -0.63951297\nemotion_lblhappiness  0.5617900  2.38482150\nemotion_lblsadness   -0.1526311  1.67230825\nemotion_lblsurprise   1.1206891  3.03819397"
+  },
+  {
+    "objectID": "slides/binomial-glm.html#categorical-predictor-confidence-intervals-2",
+    "href": "slides/binomial-glm.html#categorical-predictor-confidence-intervals-2",
+    "title": "Binomial GLM",
+    "section": "Categorical predictor, confidence intervals",
+    "text": "Categorical predictor, confidence intervals\nBut these are confidence intervals of log odds ratios (differences in logit). To obtain confidence intervals of odds ratios we can just exponentiate the upper and lower bound:\n\nexp(confint.default(fit_em))\n\n                          2.5 %     97.5 %\n(Intercept)          0.23404591  1.0681665\nemotion_lbldisgust   0.45426761  2.5530399\nemotion_lblfear      0.02100341  0.5275493\nemotion_lblhappiness 1.75380897 10.8571245\nemotion_lblsadness   0.85844631  5.3244438\nemotion_lblsurprise  3.06696696 20.8675218\n\n\nNotice that, for differences in logit the null value is zero. Taking \\(e^0 = 1\\) thus the null value of an odds ratio is 1 (numerator is the same as the denominator)."
+  },
+  {
+    "objectID": "slides/binomial-glm.html#categorical-predictor-confidence-intervals-3",
+    "href": "slides/binomial-glm.html#categorical-predictor-confidence-intervals-3",
+    "title": "Binomial GLM",
+    "section": "Categorical predictor, confidence intervals",
+    "text": "Categorical predictor, confidence intervals\nThe real default for confidence intervals using just confint() (and not confint.default()) are the so-called profile likelihood confindence intervals. The main difference is that Wald confidence intervals are symmetric by definition while the profile likelihood not necessarly.\n\nconfint(fit_em)\n\n                          2.5 %      97.5 %\n(Intercept)          -1.4942114  0.04295714\nemotion_lbldisgust   -0.7729310  0.96810000\nemotion_lblfear      -4.1872943 -0.80517570\nemotion_lblhappiness  0.5830921  2.41838129\nemotion_lblsadness   -0.1359529  1.70183598\nemotion_lblsurprise   1.1479829  3.07708494\n\n# you can also do exp(confint(fit_em))\n\nIn this case they are very similar to the Wald but is not always like this.\n\n\nSee this post for a nice overview."
+  },
+  {
+    "objectID": "slides/binomial-glm.html#categorical-predictor-specific-contrasts-of-emotion-levels",
+    "href": "slides/binomial-glm.html#categorical-predictor-specific-contrasts-of-emotion-levels",
+    "title": "Binomial GLM",
+    "section": "Categorical predictor, specific contrasts of emotion levels",
+    "text": "Categorical predictor, specific contrasts of emotion levels\nWe can also test some specific contrasts using the emmeans or the multcomp package. For example:\n\nlibrary(emmeans)\nmm &lt;- emmeans(fit_em, ~ emotion_lbl)\nmm\n\n emotion_lbl  emmean    SE  df asymp.LCL asymp.UCL\n anger       -0.6931 0.387 Inf    -1.452    0.0659\n disgust     -0.6190 0.210 Inf    -1.030   -0.2081\n fear        -2.9444 0.725 Inf    -4.366   -1.5226\n happiness    0.7802 0.257 Inf     0.276    1.2848\n sadness      0.0667 0.258 Inf    -0.440    0.5730\n surprise     1.3863 0.299 Inf     0.801    1.9719\n\nResults are given on the logit (not the response) scale. \nConfidence level used: 0.95 \n\n\nThese are called estimated mrginal means. Importantly, the emmeans package use the model and not the data. Marginal means will depends on the fitted model."
+  },
+  {
+    "objectID": "slides/binomial-glm.html#categorical-predictor-specific-contrasts-of-emotion-levels-1",
+    "href": "slides/binomial-glm.html#categorical-predictor-specific-contrasts-of-emotion-levels-1",
+    "title": "Binomial GLM",
+    "section": "Categorical predictor, specific contrasts of emotion levels",
+    "text": "Categorical predictor, specific contrasts of emotion levels\nWe would expect estimated probabilities but we have values in logit (this is why we have negative values). We can also transform the logit into probabilities:\n\nemmeans(fit_em, ~ emotion_lbl, type = \"response\")\n\n emotion_lbl  prob     SE  df asymp.LCL asymp.UCL\n anger       0.333 0.0861 Inf    0.1897     0.516\n disgust     0.350 0.0477 Inf    0.2631     0.448\n fear        0.050 0.0345 Inf    0.0125     0.179\n happiness   0.686 0.0555 Inf    0.5685     0.783\n sadness     0.517 0.0645 Inf    0.3918     0.639\n surprise    0.800 0.0478 Inf    0.6901     0.878\n\nConfidence level used: 0.95 \nIntervals are back-transformed from the logit scale"
+  },
+  {
+    "objectID": "slides/binomial-glm.html#what-emmeans-is-doing",
+    "href": "slides/binomial-glm.html#what-emmeans-is-doing",
+    "title": "Binomial GLM",
+    "section": "What emmeans is doing?",
+    "text": "What emmeans is doing?\nTo understand what emmeans is doing we need to introduce the term prediction. Given the predictors we ask the model the predicted logit or probability.\n\n# prediction for the first 5 trials. \n# The best prediction of the model is the (logit) mean\n\nhead(predict(fit0, type = \"link\"))\n\n          1           2           3           4           5           6 \n-0.03243528 -0.03243528 -0.03243528 -0.03243528 -0.03243528 -0.03243528 \n\n# prediction for the first 5 trials. \n# the prediction depend on the emotion\n\nhead(predict(fit_em, type = \"link\")) \n\n         1          2          3          4          5          6 \n-2.9444390 -0.6190392  0.7801586  0.7801586 -0.6190392 -2.9444390 \n\nhead(predict(fit_em, type = \"response\")) \n\n        1         2         3         4         5         6 \n0.0500000 0.3500000 0.6857143 0.6857143 0.3500000 0.0500000 \n\nhead(plogis(predict(fit_em, type = \"link\"))) # same\n\n        1         2         3         4         5         6 \n0.0500000 0.3500000 0.6857143 0.6857143 0.3500000 0.0500000"
+  },
+  {
+    "objectID": "slides/binomial-glm.html#what-emmeans-is-doing-1",
+    "href": "slides/binomial-glm.html#what-emmeans-is-doing-1",
+    "title": "Binomial GLM",
+    "section": "What emmeans is doing?",
+    "text": "What emmeans is doing?\nFor example, to know what is the predicted accuracy for anger and disgust we can do:\n\npredict(fit_em, newdata = data.frame(emotion_lbl = c(\"anger\", \"disgust\")), type = \"response\")\n\n        1         2 \n0.3333333 0.3500000 \n\n\nOr manually:\n\nB &lt;- coef(fit_em)\nc(\n    plogis(B[\"(Intercept)\"]), # anger\n    plogis(B[\"(Intercept)\"] + B[\"emotion_lbldisgust\"]) # disgust\n)\n\n(Intercept) (Intercept) \n  0.3333333   0.3500000 \n\n\nOn the logit scale, we can do linear combinations of coefficients. This is not valid on the probability scale, this is the reason why we need the link function."
+  },
+  {
+    "objectID": "slides/binomial-glm.html#what-emmeans-is-doing-2",
+    "href": "slides/binomial-glm.html#what-emmeans-is-doing-2",
+    "title": "Binomial GLM",
+    "section": "What emmeans is doing?",
+    "text": "What emmeans is doing?\nFor reproducing the entire emmeans output we just need to provide all emotions into newdata =\n\nnd &lt;- data.frame(emotion_lbl = unique(dat$emotion_lbl))\ndata.frame(predict(fit_em, newdata = nd, se = TRUE, type = \"response\"))\n\n        fit     se.fit residual.scale\n1 0.0500000 0.03445835              1\n2 0.3500000 0.04769696              1\n3 0.6857143 0.05548619              1\n4 0.5166667 0.06451385              1\n5 0.8000000 0.04780914              1\n6 0.3333333 0.08606630              1"
+  },
+  {
+    "objectID": "slides/binomial-glm.html#contrasts-with-emmeans",
+    "href": "slides/binomial-glm.html#contrasts-with-emmeans",
+    "title": "Binomial GLM",
+    "section": "Contrasts with emmeans",
+    "text": "Contrasts with emmeans\nWe can also compute all contrasts across emotions:\n\n# or emmeans(fit_em, pairwise ~ emotion_lbl)\npairs(mm, p.adjust = \"bonferroni\")\n\n contrast             estimate    SE  df z.ratio p.value\n anger - disgust       -0.0741 0.440 Inf  -0.168  1.0000\n anger - fear           2.2513 0.822 Inf   2.738  0.0680\n anger - happiness     -1.4733 0.465 Inf  -3.168  0.0192\n anger - sadness       -0.7598 0.466 Inf  -1.632  0.5771\n anger - surprise      -2.0794 0.489 Inf  -4.251  0.0003\n disgust - fear         2.3254 0.755 Inf   3.079  0.0253\n disgust - happiness   -1.3992 0.332 Inf  -4.214  0.0004\n disgust - sadness     -0.6857 0.333 Inf  -2.061  0.3080\n disgust - surprise    -2.0053 0.365 Inf  -5.494  &lt;.0001\n fear - happiness      -3.7246 0.770 Inf  -4.839  &lt;.0001\n fear - sadness        -3.0111 0.770 Inf  -3.910  0.0013\n fear - surprise       -4.3307 0.785 Inf  -5.520  &lt;.0001\n happiness - sadness    0.7135 0.365 Inf   1.956  0.3679\n happiness - surprise  -0.6061 0.394 Inf  -1.537  0.6404\n sadness - surprise    -1.3196 0.395 Inf  -3.341  0.0108\n\nResults are given on the log odds ratio (not the response) scale. \nP value adjustment: tukey method for comparing a family of 6 estimates \n\n\nBe careful to the multiple comparison approach! You can use the p.adjust = argument and choose an appropriate method."
+  },
+  {
+    "objectID": "slides/binomial-glm.html#contrasts-with-emmeans-1",
+    "href": "slides/binomial-glm.html#contrasts-with-emmeans-1",
+    "title": "Binomial GLM",
+    "section": "Contrasts with emmeans",
+    "text": "Contrasts with emmeans\nSome of these contrasts are also the model parameters:\n contrast             estimate    SE  df z.ratio p.value\n anger - disgust       -0.0741 0.440 Inf  -0.168  1.0000\n anger - fear           2.2513 0.822 Inf   2.738  0.0680\n anger - happiness     -1.4733 0.465 Inf  -3.168  0.0192\n anger - sadness       -0.7598 0.466 Inf  -1.632  0.5771\n anger - surprise      -2.0794 0.489 Inf  -4.251  0.0003\n disgust - fear         2.3254 0.755 Inf   3.079  0.0253\n disgust - happiness   -1.3992 0.332 Inf  -4.214  0.0004\n disgust - sadness     -0.6857 0.333 Inf  -2.061  0.3080\n disgust - surprise    -2.0053 0.365 Inf  -5.494  &lt;.0001\n fear - happiness      -3.7246 0.770 Inf  -4.839  &lt;.0001\n fear - sadness        -3.0111 0.770 Inf  -3.910  0.0013\n fear - surprise       -4.3307 0.785 Inf  -5.520  &lt;.0001\n happiness - sadness    0.7135 0.365 Inf   1.956  0.3679\n happiness - surprise  -0.6061 0.394 Inf  -1.537  0.6404\n sadness - surprise    -1.3196 0.395 Inf  -3.341  0.0108\n\nResults are given on the log odds ratio (not the response) scale. \nP value adjustment: tukey method for comparing a family of 6 estimates"
+  },
+  {
+    "objectID": "slides/binomial-glm.html#contrasts-with-emmeans-2",
+    "href": "slides/binomial-glm.html#contrasts-with-emmeans-2",
+    "title": "Binomial GLM",
+    "section": "Contrasts with emmeans",
+    "text": "Contrasts with emmeans\nYou can also express the contrasts into the probability space. We are just taking the exponential thus transforming differences of logit into odds ratios.\n\npairs(mm, type = \"response\")\n\n contrast             odds.ratio     SE  df null z.ratio p.value\n anger / disgust          0.9286 0.4090 Inf    1  -0.168  1.0000\n anger / fear             9.5000 7.8100 Inf    1   2.738  0.0680\n anger / happiness        0.2292 0.1070 Inf    1  -3.168  0.0192\n anger / sadness          0.4677 0.2180 Inf    1  -1.632  0.5771\n anger / surprise         0.1250 0.0611 Inf    1  -4.251  0.0003\n disgust / fear          10.2308 7.7300 Inf    1   3.079  0.0253\n disgust / happiness      0.2468 0.0819 Inf    1  -4.214  0.0004\n disgust / sadness        0.5037 0.1680 Inf    1  -2.061  0.3080\n disgust / surprise       0.1346 0.0491 Inf    1  -5.494  &lt;.0001\n fear / happiness         0.0241 0.0186 Inf    1  -4.839  &lt;.0001\n fear / sadness           0.0492 0.0379 Inf    1  -3.910  0.0013\n fear / surprise          0.0132 0.0103 Inf    1  -5.520  &lt;.0001\n happiness / sadness      2.0411 0.7440 Inf    1   1.956  0.3679\n happiness / surprise     0.5455 0.2150 Inf    1  -1.537  0.6404\n sadness / surprise       0.2672 0.1060 Inf    1  -3.341  0.0108\n\nP value adjustment: tukey method for comparing a family of 6 estimates \nTests are performed on the log odds ratio scale \n\n\nNotice that: Tests are performed on the log odds ratio scale"
+  },
+  {
+    "objectID": "slides/binomial-glm.html#custom-contrasts",
+    "href": "slides/binomial-glm.html#custom-contrasts",
+    "title": "Binomial GLM",
+    "section": "Custom contrasts",
+    "text": "Custom contrasts\nClearly you can also provide custom contrasts like contr.sum() or MASS::contr.sdiff() (for comparing the next level with the previous level). For an overview about contrasts coding see Granziol et al. (2025) and Schad et al. (2020).\n\ncontrast(mm, \"consec\") # consec ~ MASS::contr.sdif()\n\n contrast            estimate    SE  df z.ratio p.value\n disgust - anger       0.0741 0.440 Inf   0.168  0.9999\n fear - disgust       -2.3254 0.755 Inf  -3.079  0.0093\n happiness - fear      3.7246 0.770 Inf   4.839  &lt;.0001\n sadness - happiness  -0.7135 0.365 Inf  -1.956  0.1972\n surprise - sadness    1.3196 0.395 Inf   3.341  0.0036\n\nResults are given on the log odds ratio (not the response) scale. \nP value adjustment: mvt method for 5 tests \n\n# see ?emmeans::contrast\n\nHere we are comparing 2 vs 1, 2 vs 3, 3 vs 4, etc."
+  },
+  {
+    "objectID": "slides/binomial-glm.html#plotting",
+    "href": "slides/binomial-glm.html#plotting",
+    "title": "Binomial GLM",
+    "section": "Plotting",
+    "text": "Plotting\nThere are several options to plot the model results. In this case we could plot the predicted probability for each emotion and the confidence intervals. You can use the effects package or ggeffects (that internally uses effects) to create ggplot2 objects.\n\nlibrary(ggeffects)\n# grid of prediction and CI (as we did with emmeans or predict())\nggeffect(fit_em, \"emotion_lbl\")\n\n# Predicted probabilities of acc\n\nemotion_lbl | Predicted |     95% CI\n------------------------------------\nanger       |      0.33 | 0.19, 0.52\ndisgust     |      0.35 | 0.26, 0.45\nfear        |      0.05 | 0.01, 0.18\nhappiness   |      0.69 | 0.57, 0.78\nsadness     |      0.52 | 0.39, 0.64\nsurprise    |      0.80 | 0.69, 0.88"
+  },
+  {
+    "objectID": "slides/binomial-glm.html#plotting-1",
+    "href": "slides/binomial-glm.html#plotting-1",
+    "title": "Binomial GLM",
+    "section": "Plotting",
+    "text": "Plotting\n\n# this return a ggplot2 object, you can add layers with +\nplot(ggeffect(fit_em, \"emotion_lbl\"))"
+  },
+  {
+    "objectID": "slides/binomial-glm.html#numerical-predictor-effect-of-intensity",
+    "href": "slides/binomial-glm.html#numerical-predictor-effect-of-intensity",
+    "title": "Binomial GLM",
+    "section": "Numerical predictor, effect of intensity",
+    "text": "Numerical predictor, effect of intensity\nNow let’s fit a model with only the effect of intensity.\n\nfit_int &lt;- glm(acc ~ intensity, data = dat, family = binomial(link = \"logit\"))\nsummary(fit_int)\n\n\nCall:\nglm(formula = acc ~ intensity, family = binomial(link = \"logit\"), \n    data = dat)\n\nCoefficients:\n             Estimate Std. Error z value Pr(&gt;|z|)    \n(Intercept) -1.797692   0.263646  -6.819 9.19e-12 ***\nintensity    0.031976   0.004291   7.452 9.19e-14 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\n(Dispersion parameter for binomial family taken to be 1)\n\n    Null deviance: 512.83  on 369  degrees of freedom\nResidual deviance: 447.05  on 368  degrees of freedom\nAIC: 451.05\n\nNumber of Fisher Scoring iterations: 4"
+  },
+  {
+    "objectID": "slides/binomial-glm.html#numerical-predictor-effect-of-intensity-1",
+    "href": "slides/binomial-glm.html#numerical-predictor-effect-of-intensity-1",
+    "title": "Binomial GLM",
+    "section": "Numerical predictor, effect of intensity",
+    "text": "Numerical predictor, effect of intensity\nNow the intercept is the logit accuracy when intensity is zero (that is not really a meaningful value). \\(\\beta_1\\) here is the expected increase in logit for a unit increase in intensity. In other terms, moving from intensity e.g., 10 to 11 increase the logit of 0.03.\nAs for the emotion, we can exponentiate \\(\\beta_1\\) obtaining the odds ratio of increasing 1 unit in intensity:\n\nexp(coef(fit_int))\n\n(Intercept)   intensity \n  0.1656809   1.0324926 \n\n\nWe have an odds ratio of 1.03 that is quite low (1 is the null value). But this is a scale problem, 1 point in the intensity scale is meaningless."
+  },
+  {
+    "objectID": "slides/binomial-glm.html#numerical-predictor-effect-of-intensity-2",
+    "href": "slides/binomial-glm.html#numerical-predictor-effect-of-intensity-2",
+    "title": "Binomial GLM",
+    "section": "Numerical predictor, effect of intensity",
+    "text": "Numerical predictor, effect of intensity\nBefore improving the model, notice that the story is the same regardless having categorical or numerical predictor. For categorical predictors the coefficients are odds ratios (or difference in logit) comparing levels (anger vs fear). For numerical predictor the coefficients are odds ratios (or difference in logit) comparing values separated by 1 unit (in the scale of the predictor).\n\n(pp &lt;- predict(fit_int, newdata = data.frame(intensity = c(15, 16))))\n\n        1         2 \n-1.318054 -1.286078 \n\ndiff(pp) # same as b1\n\n         2 \n0.03197586 \n\nexp(diff(pp))  # same as exp(b1)\n\n       2 \n1.032493"
+  },
+  {
+    "objectID": "slides/binomial-glm.html#numerical-predictor-effect-of-intensity-3",
+    "href": "slides/binomial-glm.html#numerical-predictor-effect-of-intensity-3",
+    "title": "Binomial GLM",
+    "section": "Numerical predictor, effect of intensity",
+    "text": "Numerical predictor, effect of intensity\nIn fact, we can clearly see that on the logit scale the effect is linear while on the probability scale is not linear.\n\n# pairs of unit differences in different positions of x\ndiffs &lt;- list(c(10, 11), c(50, 51), c(80, 81))\nsapply(diffs, function(d) diff(predict(fit_int, data.frame(intensity = d))))\n\n         2          2          2 \n0.03197586 0.03197586 0.03197586 \n\n\nBut is not the same when we take differences in probabilities\n\n# pairs of unit differences in different positions of x\ndiffs &lt;- list(c(10, 11), c(50, 51), c(80, 81))\nsapply(diffs, function(d) diff(predict(fit_int, data.frame(intensity = d), type = \"response\")))\n\n          2           2           2 \n0.004884715 0.007927308 0.006900733"
+  },
+  {
+    "objectID": "slides/binomial-glm.html#numerical-predictor-effect-of-intensity-4",
+    "href": "slides/binomial-glm.html#numerical-predictor-effect-of-intensity-4",
+    "title": "Binomial GLM",
+    "section": "Numerical predictor, effect of intensity",
+    "text": "Numerical predictor, effect of intensity\nSame increase in intensity produces a different increase on the probability scale but not on the logit scale."
+  },
+  {
+    "objectID": "slides/binomial-glm.html#numerical-predictor-marginal-effects",
+    "href": "slides/binomial-glm.html#numerical-predictor-marginal-effects",
+    "title": "Binomial GLM",
+    "section": "Numerical predictor, marginal effects",
+    "text": "Numerical predictor, marginal effects\nThis means that for interpreting results in the probability scale (what we actually want) we cannot think in linear terms (as in standard linear regression). For each value of intensity we have a different slope (i.e., derivative)."
+  },
+  {
+    "objectID": "slides/binomial-glm.html#marginal-effects",
+    "href": "slides/binomial-glm.html#marginal-effects",
+    "title": "Binomial GLM",
+    "section": "Marginal effects",
+    "text": "Marginal effects\nNow let’s plot all the red slopes and see what we can learn:"
+  },
+  {
+    "objectID": "slides/binomial-glm.html#marginal-effects-a-really-comprehensive-framework",
+    "href": "slides/binomial-glm.html#marginal-effects-a-really-comprehensive-framework",
+    "title": "Binomial GLM",
+    "section": "Marginal effects: a really comprehensive framework",
+    "text": "Marginal effects: a really comprehensive framework\nThe marginaleffects package provide a very complete and comprehensive framework to compute marginal effects for several models. You can have a very detailed overview of the theory and the functions reading:\n\nThe main paper by Arel-Bundock et al. (2024)\nhttps://www.youtube.com/watch?v=ANDC_kkAjeM"
+  },
+  {
+    "objectID": "slides/binomial-glm.html#marginal-effects-of-intensity",
+    "href": "slides/binomial-glm.html#marginal-effects-of-intensity",
+    "title": "Binomial GLM",
+    "section": "Marginal effects of intensity",
+    "text": "Marginal effects of intensity\n\nlibrary(marginaleffects)\nsl &lt;- slopes(fit_int)\nsl\n\n\n Estimate Std. Error     z Pr(&gt;|z|)     S   2.5 %  97.5 %\n  0.00796   0.001061  7.51   &lt;0.001  43.9 0.00589 0.01004\n  0.00796   0.001061  7.51   &lt;0.001  43.9 0.00589 0.01004\n  0.00762   0.000938  8.12   &lt;0.001  51.0 0.00578 0.00946\n  0.00507   0.000362 14.01   &lt;0.001 145.7 0.00436 0.00578\n  0.00796   0.001061  7.51   &lt;0.001  43.9 0.00589 0.01004\n--- 360 rows omitted. See ?print.marginaleffects ---\n  0.00484   0.000351 13.77   &lt;0.001 140.8 0.00415 0.00552\n  0.00748   0.000905  8.27   &lt;0.001  52.7 0.00571 0.00925\n  0.00507   0.000362 14.01   &lt;0.001 145.7 0.00436 0.00578\n  0.00694   0.000725  9.57   &lt;0.001  69.7 0.00552 0.00836\n  0.00748   0.000905  8.27   &lt;0.001  52.7 0.00571 0.00925\nTerm: intensity\nType: response\nComparison: dY/dX"
+  },
+  {
+    "objectID": "slides/binomial-glm.html#marginal-effects-of-intensity-1",
+    "href": "slides/binomial-glm.html#marginal-effects-of-intensity-1",
+    "title": "Binomial GLM",
+    "section": "Marginal effects of intensity",
+    "text": "Marginal effects of intensity\n\n# average marginal effect\navg_slopes(fit_int)\n\n\n Estimate Std. Error  z Pr(&gt;|z|)    S   2.5 %  97.5 %\n  0.00664   0.000602 11   &lt;0.001 91.7 0.00546 0.00782\n\nTerm: intensity\nType: response\nComparison: dY/dX\n\n# max marginal effect\nfilter(sl, estimate == max(estimate))\n\n\n Estimate Std. Error    z Pr(&gt;|z|)    S   2.5 % 97.5 %\n  0.00796    0.00106 7.51   &lt;0.001 43.9 0.00589   0.01\n  0.00796    0.00106 7.51   &lt;0.001 43.9 0.00589   0.01\n  0.00796    0.00106 7.51   &lt;0.001 43.9 0.00589   0.01\n  0.00796    0.00106 7.51   &lt;0.001 43.9 0.00589   0.01\n  0.00796    0.00106 7.51   &lt;0.001 43.9 0.00589   0.01\n--- 27 rows omitted. See ?print.marginaleffects ---\n  0.00796    0.00106 7.51   &lt;0.001 43.9 0.00589   0.01\n  0.00796    0.00106 7.51   &lt;0.001 43.9 0.00589   0.01\n  0.00796    0.00106 7.51   &lt;0.001 43.9 0.00589   0.01\n  0.00796    0.00106 7.51   &lt;0.001 43.9 0.00589   0.01\n  0.00796    0.00106 7.51   &lt;0.001 43.9 0.00589   0.01\nTerm: intensity\nType: response\nComparison: dY/dX"
+  },
+  {
+    "objectID": "slides/binomial-glm.html#plotting-2",
+    "href": "slides/binomial-glm.html#plotting-2",
+    "title": "Binomial GLM",
+    "section": "Plotting",
+    "text": "Plotting\nThe pattern for intensity is almost linear, this is why we have more than one maximum.\n\nplot(ggeffect(fit_int, \"intensity\"))"
+  },
+  {
+    "objectID": "slides/binomial-glm.html#inverse-estimation",
+    "href": "slides/binomial-glm.html#inverse-estimation",
+    "title": "Binomial GLM",
+    "section": "Inverse estimation",
+    "text": "Inverse estimation\nWe can also do what is called inverse estimation (common in Psychophysics). We can ask the model what is the level of intensity required to achieve a certain accuracy.\n\nMASS::dose.p(fit_int, p = 0.75)\n\n              Dose       SE\np = 0.75: 90.57784 5.916972\n\n\nWe need roughly 90% of intensity to have an accuracy of 75%."
+  },
+  {
+    "objectID": "slides/binomial-glm.html#improving-the-model",
+    "href": "slides/binomial-glm.html#improving-the-model",
+    "title": "Binomial GLM",
+    "section": "Improving the model",
+    "text": "Improving the model\nWe have two problems in terms of intepretability in this model:\n\nThe intercept is meaningless because 0% intensity is not a plausible value\nIntensity from 0% to 100% in steps of 1% is too granular\n\nThus we can center the variable on the minimum (0 become 10%) and rescale the variable from 0 (10%) to 10 (100%) where the unit increase is 10%.\n\ndat$intensity10 &lt;- (dat$intensity - 10) / 10"
+  },
+  {
+    "objectID": "slides/binomial-glm.html#additive-model-intensity-and-emotion",
+    "href": "slides/binomial-glm.html#additive-model-intensity-and-emotion",
+    "title": "Binomial GLM",
+    "section": "Additive model, intensity and emotion",
+    "text": "Additive model, intensity and emotion\nWe can now fit a model with the additive effect of emotion and intensity. To simplify the pattern let’s keep only two emotions.\n\nfit_int_emo &lt;- glm(acc ~ intensity10 + emotion_lbl, data = dat, family = binomial(link = \"logit\"), subset = emotion_lbl %in% c(\"anger\", \"surprise\"))\n\nsummary(fit_int_emo)\n\n\nCall:\nglm(formula = acc ~ intensity10 + emotion_lbl, family = binomial(link = \"logit\"), \n    data = dat, subset = emotion_lbl %in% c(\"anger\", \"surprise\"))\n\nCoefficients:\n                    Estimate Std. Error z value Pr(&gt;|z|)    \n(Intercept)          -5.2155     1.2367  -4.217 2.47e-05 ***\nintensity10           0.8363     0.1858   4.502 6.73e-06 ***\nemotion_lblsurprise   4.1623     1.0010   4.158 3.21e-05 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\n(Dispersion parameter for binomial family taken to be 1)\n\n    Null deviance: 128.207  on 99  degrees of freedom\nResidual deviance:  63.942  on 97  degrees of freedom\nAIC: 69.942\n\nNumber of Fisher Scoring iterations: 6"
+  },
+  {
+    "objectID": "slides/binomial-glm.html#additive-model-intensity-and-emotion-1",
+    "href": "slides/binomial-glm.html#additive-model-intensity-and-emotion-1",
+    "title": "Binomial GLM",
+    "section": "Additive model, intensity and emotion",
+    "text": "Additive model, intensity and emotion\nThe interpretation is the same as before. The intercept is the expected logit when everthing is zero (intensity = 10 and emotion = anger).\nintensity is the increase in logit accuracy for a unit (10%) increase in intensity controlling for emotion_lbl.\nemotion_lblsurprise is the logit difference between anger and surprise controlling for emotion_lbl."
+  },
+  {
+    "objectID": "slides/binomial-glm.html#additive-model-intensity-and-emotion-2",
+    "href": "slides/binomial-glm.html#additive-model-intensity-and-emotion-2",
+    "title": "Binomial GLM",
+    "section": "Additive model, intensity and emotion",
+    "text": "Additive model, intensity and emotion\nWe can have also the two main effects (not really useful with a factor with two levels):\n\ncar::Anova(fit_int_emo)\n\nAnalysis of Deviance Table (Type II tests)\n\nResponse: acc\n            LR Chisq Df Pr(&gt;Chisq)    \nintensity10   44.305  1  2.809e-11 ***\nemotion_lbl   32.834  1  1.004e-08 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1"
+  },
+  {
+    "objectID": "slides/binomial-glm.html#additive-model-intensity-and-emotion-3",
+    "href": "slides/binomial-glm.html#additive-model-intensity-and-emotion-3",
+    "title": "Binomial GLM",
+    "section": "Additive model, intensity and emotion",
+    "text": "Additive model, intensity and emotion\n\nlibrary(patchwork) # composing plots\n\nplot(ggeffect(fit_int_emo, \"intensity10\")) + \n  plot(ggeffect(fit_int_emo, \"emotion_lbl\"))"
+  },
+  {
+    "objectID": "slides/binomial-glm.html#additive-model-intensity-and-emotion-4",
+    "href": "slides/binomial-glm.html#additive-model-intensity-and-emotion-4",
+    "title": "Binomial GLM",
+    "section": "Additive model, intensity and emotion",
+    "text": "Additive model, intensity and emotion\nThis means that we have an odds ratio of 64.22 in favour of anger and an odds ratio of 2.31 for a unit increase in intensity.\nWe can also compute again the marginal effects for intensity:\n\navg_slopes(fit_int_emo)\n\n\n        Term         Contrast Estimate Std. Error     z Pr(&gt;|z|)    S  2.5 %\n emotion_lbl surprise - anger   0.4667    0.07159  6.52   &lt;0.001 33.7 0.3263\n intensity10 dY/dX              0.0852    0.00751 11.35   &lt;0.001 96.7 0.0704\n 97.5 %\n 0.6070\n 0.0999\n\nType: response\n\n\nThis means that we have on average a 8% of increase in accuracy across different levels of intensity."
+  },
+  {
+    "objectID": "slides/binomial-glm.html#interaction-model-intensity-and-emotion",
+    "href": "slides/binomial-glm.html#interaction-model-intensity-and-emotion",
+    "title": "Binomial GLM",
+    "section": "Interaction model, intensity and emotion",
+    "text": "Interaction model, intensity and emotion\nThe final model that we can try is including the interaction between intensity and emotion.\n\nfit_emo_x_int &lt;- glm(acc ~ intensity10 * emotion_lbl, \n                     data = dat, family = binomial(link = \"logit\"), \n                     subset = emotion_lbl %in% c(\"anger\", \"surprise\"))\n\nsummary(fit_emo_x_int)\n\n\nCall:\nglm(formula = acc ~ intensity10 * emotion_lbl, family = binomial(link = \"logit\"), \n    data = dat, subset = emotion_lbl %in% c(\"anger\", \"surprise\"))\n\nCoefficients:\n                                Estimate Std. Error z value Pr(&gt;|z|)   \n(Intercept)                      -3.1654     1.1766  -2.690  0.00714 **\nintensity10                       0.4841     0.1933   2.504  0.01228 * \nemotion_lblsurprise               1.0226     1.4454   0.707  0.47929   \nintensity10:emotion_lblsurprise   0.9782     0.4738   2.065  0.03897 * \n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\n(Dispersion parameter for binomial family taken to be 1)\n\n    Null deviance: 128.207  on 99  degrees of freedom\nResidual deviance:  58.274  on 96  degrees of freedom\nAIC: 66.274\n\nNumber of Fisher Scoring iterations: 7"
+  },
+  {
+    "objectID": "slides/binomial-glm.html#interaction-model-intensity-and-emotion-1",
+    "href": "slides/binomial-glm.html#interaction-model-intensity-and-emotion-1",
+    "title": "Binomial GLM",
+    "section": "Interaction model, intensity and emotion",
+    "text": "Interaction model, intensity and emotion\nWith interactions, always visualize first:\n\nplot(ggeffect(fit_emo_x_int, terms = c(\"intensity10\", \"emotion_lbl\")))"
+  },
+  {
+    "objectID": "slides/binomial-glm.html#interaction-model-intensity-and-emotion-2",
+    "href": "slides/binomial-glm.html#interaction-model-intensity-and-emotion-2",
+    "title": "Binomial GLM",
+    "section": "Interaction model, intensity and emotion",
+    "text": "Interaction model, intensity and emotion\nClearly the effect of intensity is not the same for anger and surprise. The participant reaches high accuracies faster for surprised faces compared to angry faces.\nNow, model parameters represent this pattern:\n\nintercept: is the expected logit for anger and intensity 0 (10%). Can be considered as the accuracy for the hardest angry face.\nintensity10: is the increase in logit accuracy for a unit increase (10%) in intensity for angry faces (the red slope in the previous plot)\nemotion_lblsurprise: is the logit difference (log odds ratio) between anger and surprise when intensity is 0 (10%). Is a conditional log odds ratio for a fixed value of intensity.\nintensity10:emotion_lblsurprise: this is the actual interaction. Is the logit difference of the two slopes (in logit). Is the red slope vs the blue slope."
+  },
+  {
+    "objectID": "slides/binomial-glm.html#interaction-model-intensity-and-emotion-3",
+    "href": "slides/binomial-glm.html#interaction-model-intensity-and-emotion-3",
+    "title": "Binomial GLM",
+    "section": "Interaction model, intensity and emotion",
+    "text": "Interaction model, intensity and emotion\nLet’s improve a little bit the intepretation. We can center the emotion applying not the dummy (or treatment) coding but the sum to zero coding.\n\ndatsub &lt;- filter(dat, emotion_lbl %in% c(\"anger\", \"surprise\"))\ndatsub$emotion_lbl &lt;- factor(datsub$emotion_lbl)\ncontrasts(datsub$emotion_lbl) &lt;- -contr.sum(2)/2\ncontrasts(datsub$emotion_lbl)\n\n         [,1]\nanger    -0.5\nsurprise  0.5\n\n\n\nfit_emo_x_int2 &lt;- glm(acc ~ intensity10 * emotion_lbl, \n                      data = datsub, \n                      family = binomial(link = \"logit\"))\n\nsummary(fit_emo_x_int2)\n\n\nCall:\nglm(formula = acc ~ intensity10 * emotion_lbl, family = binomial(link = \"logit\"), \n    data = datsub)\n\nCoefficients:\n                         Estimate Std. Error z value Pr(&gt;|z|)    \n(Intercept)               -2.6541     0.7227  -3.672  0.00024 ***\nintensity10                0.9732     0.2369   4.108 3.99e-05 ***\nemotion_lbl1               1.0226     1.4454   0.707  0.47929    \nintensity10:emotion_lbl1   0.9782     0.4738   2.065  0.03897 *  \n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\n(Dispersion parameter for binomial family taken to be 1)\n\n    Null deviance: 128.207  on 99  degrees of freedom\nResidual deviance:  58.274  on 96  degrees of freedom\nAIC: 66.274\n\nNumber of Fisher Scoring iterations: 7"
+  },
+  {
+    "objectID": "slides/binomial-glm.html#interaction-model-intensity-and-emotion-4",
+    "href": "slides/binomial-glm.html#interaction-model-intensity-and-emotion-4",
+    "title": "Binomial GLM",
+    "section": "Interaction model, intensity and emotion",
+    "text": "Interaction model, intensity and emotion\nThe parameters are intepreted in the same way but now we have a different meaning of 0:\n\nThe intercept is the average logit accuracy when intensity is 10%\nintensity10: is the slope when emotion_lbl is 0 but 0 now is in the middle of anger and surprise. This means that intensity10 is the main effect of intensity controlling for emotion.\nThe interaction is the same as before as well as the other emotion_lbl1 parameter."
+  },
+  {
+    "objectID": "slides/binomial-glm.html#interaction-model-intensity-and-emotion-5",
+    "href": "slides/binomial-glm.html#interaction-model-intensity-and-emotion-5",
+    "title": "Binomial GLM",
+    "section": "Interaction model, intensity and emotion",
+    "text": "Interaction model, intensity and emotion\n\nnames(fit_emo_x_int$coefficients) &lt;- names(fit_emo_x_int2$coefficients) # just for a better output, dangerous otherwise\ncar::compareCoefs(fit_emo_x_int, fit_emo_x_int2)\n\nCalls:\n1: glm(formula = acc ~ intensity10 * emotion_lbl, family = binomial(link = \n  \"logit\"), data = dat, subset = emotion_lbl %in% c(\"anger\", \"surprise\"))\n2: glm(formula = acc ~ intensity10 * emotion_lbl, family = binomial(link = \n  \"logit\"), data = datsub)\n\n                         Model 1 Model 2\n(Intercept)               -3.165  -2.654\nSE                         1.177   0.723\n                                        \nintensity10                0.484   0.973\nSE                         0.193   0.237\n                                        \nemotion_lbl1                1.02    1.02\nSE                          1.45    1.45\n                                        \nintensity10:emotion_lbl1   0.978   0.978\nSE                         0.474   0.474"
+  },
+  {
+    "objectID": "slides/binomial-glm.html#deviance",
+    "href": "slides/binomial-glm.html#deviance",
+    "title": "Binomial GLM",
+    "section": "Deviance",
+    "text": "Deviance\nWhen using the summary() function we can see that there is as section about Deviance:\n\nsummary(fit_int)\n\n\nCall:\nglm(formula = acc ~ intensity, family = binomial(link = \"logit\"), \n    data = dat)\n\nCoefficients:\n             Estimate Std. Error z value Pr(&gt;|z|)    \n(Intercept) -1.797692   0.263646  -6.819 9.19e-12 ***\nintensity    0.031976   0.004291   7.452 9.19e-14 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\n(Dispersion parameter for binomial family taken to be 1)\n\n    Null deviance: 512.83  on 369  degrees of freedom\nResidual deviance: 447.05  on 368  degrees of freedom\nAIC: 451.05\n\nNumber of Fisher Scoring iterations: 4\n\n\nThis information can be used to assess the goodness of fit of the model and also to compute pseudo-\\(R^2\\) values (see later)."
+  },
+  {
+    "objectID": "slides/binomial-glm.html#deviance-1",
+    "href": "slides/binomial-glm.html#deviance-1",
+    "title": "Binomial GLM",
+    "section": "Deviance",
+    "text": "Deviance\nWe need to define three types of models:\n\nNull Model: a model without predictors (only the intercept)\nActual Model: the model we fitted with predictors of interest\nSaturated Model: a model fitting the data perfectly (no error)"
+  },
+  {
+    "objectID": "slides/binomial-glm.html#deviance-and-likelihood",
+    "href": "slides/binomial-glm.html#deviance-and-likelihood",
+    "title": "Binomial GLM",
+    "section": "Deviance and likelihood",
+    "text": "Deviance and likelihood\nThis is a visual rappresentation of the three models. The current model should be always between the null and the saturated."
+  },
+  {
+    "objectID": "slides/binomial-glm.html#deviance-and-likelihood-1",
+    "href": "slides/binomial-glm.html#deviance-and-likelihood-1",
+    "title": "Binomial GLM",
+    "section": "Deviance and likelihood",
+    "text": "Deviance and likelihood\nWe can simplify the idea of likelihood and deviance thinking about the distance between the fitted line and the points. As the distance decrease, the likelihood of the model increase."
+  },
+  {
+    "objectID": "slides/binomial-glm.html#deviance-2",
+    "href": "slides/binomial-glm.html#deviance-2",
+    "title": "Binomial GLM",
+    "section": "Deviance",
+    "text": "Deviance\nThe null and residual deviance that we see in the model output can be calculated as:\n\\[\nD_{\\mbox{null}} = 2 -(log(\\mathcal{L}_{\\mbox{null}}) - log(\\mathcal{L}_{\\mbox{sat}}))\n\\] \\[\nD_{\\mbox{resid}} = 2 -(log(\\mathcal{L}_{\\mbox{current}}) - log(\\mathcal{L}_{\\mbox{sat}}))\n\\]"
+  },
+  {
+    "objectID": "slides/binomial-glm.html#deviance-3",
+    "href": "slides/binomial-glm.html#deviance-3",
+    "title": "Binomial GLM",
+    "section": "Deviance",
+    "text": "Deviance\n\ndat$id &lt;- factor(1:nrow(dat))\nfit_cur &lt;- fit_int # current model\nfit_sat &lt;- glm(acc ~ 0 + id, data = dat, family = binomial(link = \"logit\"))\nfit_null &lt;- glm(acc ~ 1, data = dat, family = binomial(link = \"logit\"))\n\n\n# residual\n2 * -(logLik(fit_cur) - logLik(fit_sat))\n\n'log Lik.' 447.0538 (df=2)\n\n# null\n2 * -(logLik(fit_null) - logLik(fit_sat))\n\n'log Lik.' 512.8316 (df=1)"
+  },
+  {
+    "objectID": "slides/binomial-glm.html#deviance-lrt",
+    "href": "slides/binomial-glm.html#deviance-lrt",
+    "title": "Binomial GLM",
+    "section": "Deviance, LRT",
+    "text": "Deviance, LRT"
+  },
+  {
+    "objectID": "slides/binomial-glm.html#r2",
+    "href": "slides/binomial-glm.html#r2",
+    "title": "Binomial GLM",
+    "section": "\\(R^2\\)",
+    "text": "\\(R^2\\)\nThe \\(R^2\\) cannot be computed as in standard linear regression. There are different types of pseudo-\\(R^2\\) for example:\n\nLikelihood ratio \\(R^2_L\\)\nCox and Snell \\(R^2_{CS}\\)\nNagelkerke \\(R^2_N\\)\nMcFadden \\(R^2_{McF}\\)\nTjur \\(R^2_T\\)\n\nAll these methods are based on the deviance and/or the likelihood of current/null/saturated models.\n\n\nSee https://en.wikipedia.org/wiki/Pseudo-R-squared for a nice overview."
+  },
+  {
+    "objectID": "slides/binomial-glm.html#r2-1",
+    "href": "slides/binomial-glm.html#r2-1",
+    "title": "Binomial GLM",
+    "section": "\\(R^2\\)",
+    "text": "\\(R^2\\)\nThe performance R package (used to plot diagnostics and other modelling-related metrics) implements most of the pseudo-\\(R^2\\) values. The default for binomial models is the method proposed by Tjur (2009).\n\nperformance::r2(fit_emo_x_int2)\n\n# R2 for Logistic Regression\n  Tjur's R2: 0.578\n\n# performance::r2_tjur()\nperformance::r2_coxsnell(fit_emo_x_int2)\n\nCox & Snell's R2 \n       0.5030847 \n\nperformance::r2_mcfadden(fit_emo_x_int2)\n\n# R2 for Generalized Linear Regression\n       R2: 0.545\n  adj. R2: 0.530\n\nperformance::r2_nagelkerke(fit_emo_x_int2)\n\nNagelkerke's R2 \n      0.6962745"
+  },
+  {
+    "objectID": "slides/binomial-glm.html#residuals",
+    "href": "slides/binomial-glm.html#residuals",
+    "title": "Binomial GLM",
+    "section": "Residuals",
+    "text": "Residuals\nDiagnostics in GLMs is more complex than in standard linear models. The main reason is that residuals are more complex due to the link function. For example these are the residuals of the last model we fitted."
+  },
+  {
+    "objectID": "slides/binomial-glm.html#residuals-1",
+    "href": "slides/binomial-glm.html#residuals-1",
+    "title": "Binomial GLM",
+    "section": "Residuals",
+    "text": "Residuals\nThere are few problems with residuals in GLM:\n\nMean and variance are linked. This means that as the mean increase also the variance increase violating the standard homoschedasticity assumption. This mainly happens with standard raw residuals and in GLM we need to use other residuals (e.g., Pearson, Deviance, etc.)\nResiduals (even the Pearson or Deviance) are problematic for discrete GLM (such as Binomial or Poisson), see the plot in the previous slide.\nResiduals for non-normal distributions are not expected to be normally distributed even when the model is well specified.\nThere are no standard and universal way to assess the residuals pattern."
+  },
+  {
+    "objectID": "slides/binomial-glm.html#residuals-a-proposal",
+    "href": "slides/binomial-glm.html#residuals-a-proposal",
+    "title": "Binomial GLM",
+    "section": "Residuals, a proposal",
+    "text": "Residuals, a proposal\n\nThe DHARMa package uses a simulation-based approach to create readily interpretable scaled (quantile) residuals for fitted generalized linear (mixed) models\n\nThese residuals seems quite promising as an unified framework but I haven’t systematically explored this possibility.\nThe DHARMa package has a nice documentation explaining the idea and how to use the quantile residuals (see also Dunn & Smyth, 1996, 2018)."
+  },
+  {
+    "objectID": "slides/binomial-glm.html#residuals-a-proposal-1",
+    "href": "slides/binomial-glm.html#residuals-a-proposal-1",
+    "title": "Binomial GLM",
+    "section": "Residuals, a proposal",
+    "text": "Residuals, a proposal\n\nThe resulting residuals are standardized to values between 0 and 1 and can be interpreted as intuitively as residuals from a linear regression.\n\n\nlibrary(DHARMa)\nplot(simulateResiduals(fit_emo_x_int2))"
+  },
+  {
+    "objectID": "slides/binomial-glm.html#residuals-a-proposal-1-output",
+    "href": "slides/binomial-glm.html#residuals-a-proposal-1-output",
+    "title": "Binomial GLM",
+    "section": "Residuals, a proposal",
+    "text": "Residuals, a proposal"
+  },
+  {
+    "objectID": "slides/binomial-glm.html#why-simulating-data",
+    "href": "slides/binomial-glm.html#why-simulating-data",
+    "title": "Binomial GLM",
+    "section": "Why simulating data?",
+    "text": "Why simulating data?\nIf you plan to use a GLM and you want to compute some inferential properties (statistical power, type-1 error, etc.) there are usually no analytical (i.e., formula-based) methods to solve the problem.\nThe only way to do a power analysis with a logistic regression is to simulate data and re-fit the model multiple times to see the long-run behaviour.\nMCS are also useful to understand more deeply a certain statistical model or procedure."
+  },
+  {
+    "objectID": "slides/binomial-glm.html#general-mcs-workflow",
+    "href": "slides/binomial-glm.html#general-mcs-workflow",
+    "title": "Binomial GLM",
+    "section": "General MCS workflow",
+    "text": "General MCS workflow\n\nDefine the Data Generation Process (DGP)\nDefine the sample size, number of trials, conditions, etc.\nSimulate data using random number generations and the DGP\nFit the target model\nRepeat 3-4 a large number of times maybe with different features (e.g., different sample size) defined in 2\nSummarise the simulation results. For example, counting the number of times the p value is significant (i.e., estimating the statistical power)\n\n\n\nWe have also a longer document about implementing a MCS in R."
+  },
+  {
+    "objectID": "slides/binomial-glm.html#data-generation-process-dgp",
+    "href": "slides/binomial-glm.html#data-generation-process-dgp",
+    "title": "Binomial GLM",
+    "section": "1. Data Generation Process (DGP)",
+    "text": "1. Data Generation Process (DGP)\nLet’s try estimating the statistical power for the intensity effect in our example.\nWe will simulate data according to a Binomial GLM with a logit link function.\n\nbinomial(link = \"logit\")\nqlogis() # link function\nplogis() # inverse link function"
+  },
+  {
+    "objectID": "slides/binomial-glm.html#experiment-features",
+    "href": "slides/binomial-glm.html#experiment-features",
+    "title": "Binomial GLM",
+    "section": "2. Experiment features",
+    "text": "2. Experiment features\nWe will simulate a single subject doing \\(n\\) trials. The main predictor is intensity ranging from 10% to 100% in steps of 10%.\n\n(intensity &lt;- seq(10, 100, 10))\n\n [1]  10  20  30  40  50  60  70  80  90 100"
+  },
+  {
+    "objectID": "slides/binomial-glm.html#random-number-generation",
+    "href": "slides/binomial-glm.html#random-number-generation",
+    "title": "Binomial GLM",
+    "section": "3. Random number generation",
+    "text": "3. Random number generation\nIn R, to simulate data you can use the r* function. Each implemented distribution in R has the associated r* function (as the p* and q* function we used before).\n\n# simulate 10 numbers from a gaussian distribution\n# with mu = 10 and sigma = 5\nrnorm(n = 10, mean = 10, sd = 5)\n\n [1]  3.6031478  8.5497049 18.5713723 12.1999381 -0.1916042 13.0965869\n [7]  8.6323919 14.0407634 11.4905662 13.5182401\n\n\nFor the Binomial we have rbinom:\n\n# n = number of rows in our case\n# size = number of trials\n# p = probability of success in each trial\nrbinom(n = 1, size = 1, prob = 0.5)\n\n[1] 1\n\nrbinom(n = 5, size = 1, prob = 0.5)\n\n[1] 1 0 1 1 1\n\nrbinom(n = 5, size = 10, prob = 0.5)\n\n[1] 5 2 4 4 6"
+  },
+  {
+    "objectID": "slides/binomial-glm.html#random-number-generation-1",
+    "href": "slides/binomial-glm.html#random-number-generation-1",
+    "title": "Binomial GLM",
+    "section": "3. Random number generation",
+    "text": "3. Random number generation\nNotice that rbinom is not really intutive because it works both on the binary and the binomial form.\nThis means to generate \\(k\\) bernoulli trials with results 0 or 1\n\nrbinom(10, 1, 0.5)\n\n [1] 0 0 0 1 0 1 1 0 1 0\n\n\nThis is the same but aggregating:\n\n# the result is the number of successes over 10 \n# bernoulli trials\nrbinom(1, 10, 0.5)\n\n[1] 6\n\n\nDepending if you want to work with 0-1 values or number of successes/failures (aggregated) you should use one of the two strategies."
+  },
+  {
+    "objectID": "slides/binomial-glm.html#random-number-generation-2",
+    "href": "slides/binomial-glm.html#random-number-generation-2",
+    "title": "Binomial GLM",
+    "section": "3. Random number generation",
+    "text": "3. Random number generation\nThe crucial part of rbinom is that the prob = argument is vectorized. This means that if you simulate \\(n\\) trials you can provide \\(n\\) probabilities.\n\n# 20 different probabilities\n(p &lt;- seq(0.1, 0.9, length.out = 20))\n\n [1] 0.1000000 0.1421053 0.1842105 0.2263158 0.2684211 0.3105263 0.3526316\n [8] 0.3947368 0.4368421 0.4789474 0.5210526 0.5631579 0.6052632 0.6473684\n[15] 0.6894737 0.7315789 0.7736842 0.8157895 0.8578947 0.9000000\n\n\nThis means that for the last trials, the probability of success (1) is larger.\n\nrbinom(n = 20, size = 1, prob = p)\n\n [1] 0 0 0 1 0 0 1 1 0 0 0 1 1 1 1 1 0 1 1 1"
+  },
+  {
+    "objectID": "slides/binomial-glm.html#dataset",
+    "href": "slides/binomial-glm.html#dataset",
+    "title": "Binomial GLM",
+    "section": "Dataset",
+    "text": "Dataset\nWe can start with the deterministic part of the simulation, the experiment.\nWe simulate an experiment with nt trials with random intensity values from 10 to 100. We could also create a balanced version.\n\nnt &lt;- 100 # number of trials\n\ndat &lt;- data.frame(\n  intensity = sample(intensity, nt, replace = TRUE)\n)\n\nhead(dat) # first 6 rows\n\n  intensity\n1        50\n2        80\n3        90\n4       100\n5        70\n6        70"
+  },
+  {
+    "objectID": "slides/binomial-glm.html#systematic-component-and-random-component",
+    "href": "slides/binomial-glm.html#systematic-component-and-random-component",
+    "title": "Binomial GLM",
+    "section": "Systematic component and random component",
+    "text": "Systematic component and random component\nThe model can be formalized as:\n\\[\np_i = g^{-1}(\\beta_0 + \\beta_1 \\times \\mbox{intensity}_i)\n\\]\n\\[\ny_i \\sim \\mathrm{Bernoulli}(p_i) \\qquad y_i \\in \\{0,1\\}\n\\]\nWhere \\(g^{-1}\\) is the inverse logit function (qlogis). This can be reas as, for each trial \\(i\\) the true probability of success is a function of the intensity-\\(i\\). The 0-1 outcome comes from a Bernoulli distribution with probability of success \\(p_i\\). This means that according to \\(\\beta_1\\) different intensity values will have a different probability of success.\nFinally \\(\\beta_0 + \\beta_1 \\times \\mbox{intensity}_i\\) (i.e., the linear predictor \\(\\eta_i\\)) need to be simulated in logit scale, then converted back into probabilities."
+  },
+  {
+    "objectID": "slides/binomial-glm.html#systematic-component-and-random-component-1",
+    "href": "slides/binomial-glm.html#systematic-component-and-random-component-1",
+    "title": "Binomial GLM",
+    "section": "Systematic component and random component",
+    "text": "Systematic component and random component\n\\(\\beta_0\\) is the (logit) probability of success for intensity 10%, centering the intensity on the minimum. \\(\\beta_1\\) is the increase in logit for a unit increase in intensity. Let’s rescale intensity to be between 0 (10%) and 10 (100%).\n\nb0 &lt;- qlogis(0.1) # logit of success when intensity = 10%\nb1 &lt;- 1\nintensity10 &lt;- (intensity - 10) / 10\neta &lt;- b0 + b1 * intensity10\n\ndata.frame(\n  intensity,\n  eta\n) |&gt; \n  ggplot(aes(x = intensity, y = plogis(eta))) +\n  geom_point(size = 5) +\n  geom_line() +\n  xlab(\"Intensity\") +\n  ylab(\"Accuracy\") +\n  ggtitle(latex2exp::TeX(\"$\\\\beta_1 = 1$\"))"
+  },
+  {
+    "objectID": "slides/binomial-glm.html#systematic-component-and-random-component-1-output",
+    "href": "slides/binomial-glm.html#systematic-component-and-random-component-1-output",
+    "title": "Binomial GLM",
+    "section": "Systematic component and random component",
+    "text": "Systematic component and random component"
+  },
+  {
+    "objectID": "slides/binomial-glm.html#systematic-component-and-random-component-2",
+    "href": "slides/binomial-glm.html#systematic-component-and-random-component-2",
+    "title": "Binomial GLM",
+    "section": "Systematic component and random component",
+    "text": "Systematic component and random component\nYou can choose different \\(\\beta_1\\) values according to your hypothesis."
+  },
+  {
+    "objectID": "slides/binomial-glm.html#systematic-component-and-random-component-3",
+    "href": "slides/binomial-glm.html#systematic-component-and-random-component-3",
+    "title": "Binomial GLM",
+    "section": "Systematic component and random component",
+    "text": "Systematic component and random component\nNow we can simply apply the same functions to the full dataset. Let’s stick with \\(\\beta_1 = 0.5\\) for the moment.\n\nb0 &lt;- qlogis(0.1)\nb1 &lt;- 1\ndat$intensity10 &lt;- with(dat, (intensity - 10)/10)\ndat$eta &lt;- with(dat, b0 + b1 * intensity10) # link function space\ndat$p &lt;- plogis(dat$eta) # inverse link (probability)\nhead(dat)\n\n  intensity intensity10      eta         p\n1        50           4 1.802775 0.8584864\n2        80           7 4.802775 0.9918599\n3        90           8 5.802775 0.9969899\n4       100           9 6.802775 0.9988905\n5        70           6 3.802775 0.9781781\n6        70           6 3.802775 0.9781781"
+  },
+  {
+    "objectID": "slides/binomial-glm.html#simulate-the-0-1-response",
+    "href": "slides/binomial-glm.html#simulate-the-0-1-response",
+    "title": "Binomial GLM",
+    "section": "Simulate the 0-1 response",
+    "text": "Simulate the 0-1 response\nFinally we need to simulate the 0-1 response for each trial/observation:\n\ndat$acc &lt;- rbinom(nrow(dat), 1, dat$p)\nhead(dat)\n\n  intensity intensity10      eta         p acc\n1        50           4 1.802775 0.8584864   1\n2        80           7 4.802775 0.9918599   1\n3        90           8 5.802775 0.9969899   1\n4       100           9 6.802775 0.9988905   1\n5        70           6 3.802775 0.9781781   1\n6        70           6 3.802775 0.9781781   1\n\n\nFor each row/trial, p is the true accuracy according to intensity and acc is the actual simulated response."
+  },
+  {
+    "objectID": "slides/binomial-glm.html#simulate-the-0-1-response-1",
+    "href": "slides/binomial-glm.html#simulate-the-0-1-response-1",
+    "title": "Binomial GLM",
+    "section": "Simulate the 0-1 response",
+    "text": "Simulate the 0-1 response\nAlways plot your simulated data to check the results:"
+  },
+  {
+    "objectID": "slides/binomial-glm.html#fit-the-target-model",
+    "href": "slides/binomial-glm.html#fit-the-target-model",
+    "title": "Binomial GLM",
+    "section": "4. Fit the target model",
+    "text": "4. Fit the target model\nNow we can fit the desired model:\n\nfit &lt;- glm(acc ~ intensity10, data = dat, family = binomial(link = \"logit\"))\nsummary(fit)\n\n\nCall:\nglm(formula = acc ~ intensity10, family = binomial(link = \"logit\"), \n    data = dat)\n\nCoefficients:\n            Estimate Std. Error z value Pr(&gt;|z|)    \n(Intercept)  -2.1855     0.7037  -3.106   0.0019 ** \nintensity10   1.1466     0.2698   4.250 2.14e-05 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\n(Dispersion parameter for binomial family taken to be 1)\n\n    Null deviance: 107.855  on 99  degrees of freedom\nResidual deviance:  58.252  on 98  degrees of freedom\nAIC: 62.252\n\nNumber of Fisher Scoring iterations: 7"
+  },
+  {
+    "objectID": "slides/binomial-glm.html#repeat-the-process",
+    "href": "slides/binomial-glm.html#repeat-the-process",
+    "title": "Binomial GLM",
+    "section": "5. Repeat the process",
+    "text": "5. Repeat the process\nNow the core of MCS. By repeating the data generation and model fitting we are simulating the randomness that could happen in real data collection. Better wrapping everything into a function:\n\nsim_data &lt;- function(nt, b0, b1){\n  dat &lt;- data.frame(\n    intensity = sample(seq(10, 100, 10), nt, replace = TRUE)\n  )\n  dat$intensity10 &lt;- with(dat, (intensity - 10)/10)\n  dat$eta &lt;- with(dat, b0 + b1 * intensity10)\n  dat$p &lt;- plogis(dat$eta)\n  dat$acc &lt;- rbinom(nrow(dat), 1, dat$p)\n  return(dat)\n}\n\nfit_model &lt;- function(data){\n  glm(acc ~ intensity10, data = data, family = binomial(link = \"logit\"))\n}\n\nsummary_model &lt;- function(fit){\n  # keep only intensity coefficients\n  data.frame(summary(fit)$coefficients)[2, ]\n}"
+  },
+  {
+    "objectID": "slides/binomial-glm.html#repeat-the-process-1",
+    "href": "slides/binomial-glm.html#repeat-the-process-1",
+    "title": "Binomial GLM",
+    "section": "5. Repeat the process",
+    "text": "5. Repeat the process\nAnd a overall simulation function:\n\ndo_sim &lt;- function(nsim, nt, b0, b1){\n  res &lt;- replicate(nsim, {\n    dat &lt;- sim_data(nt, b0, b1)\n    fit &lt;- fit_model(dat)\n    summary_model(fit)\n  }, simplify = FALSE)\n  res &lt;- do.call(rbind, res)\n  rownames(res) &lt;- NULL\n  names(res) &lt;- c(\"b\", \"se\", \"z\", \"p\")\n  return(res)\n}\n\ndo_sim(5, 100, b0, b1)\n\n          b        se        z            p\n1 1.0040211 0.2300946 4.363515 1.279891e-05\n2 1.0897481 0.2266575 4.807907 1.525189e-06\n3 1.0327898 0.2047053 5.045253 4.529220e-07\n4 1.4052891 0.3229837 4.350960 1.355428e-05\n5 0.7817826 0.1691335 4.622281 3.795437e-06"
+  },
+  {
+    "objectID": "slides/binomial-glm.html#repeat-the-process-2",
+    "href": "slides/binomial-glm.html#repeat-the-process-2",
+    "title": "Binomial GLM",
+    "section": "5. Repeat the process",
+    "text": "5. Repeat the process\nnsim is the number of simulations. Usually larger is better considering computational constraints. If feasible, 5000 or 10000 is usually more than enough. For complex models where 5000 or 10000 is not an option, try never go below 1000. See Burton et al. (2006) and Koehler et al. (2009) for discussion about the number of simulations.\n\ntictoc::tic()\nsim &lt;- do_sim(1000, nt = 50, b0 = qlogis(0.1), b1 = 0.5)\ntictoc::toc()\n\n1.351 sec elapsed\n\n\nIn this case we are lucky, running 1000 simulations only takes ~ 1.5 seconds. Sometimes can also takes hours, days or weeks."
+  },
+  {
+    "objectID": "slides/binomial-glm.html#results",
+    "href": "slides/binomial-glm.html#results",
+    "title": "Binomial GLM",
+    "section": "6. Results",
+    "text": "6. Results\nEach row is the parameter estimated from a simulated dataset. The statistical power is the % of p values lower than \\(\\alpha\\) of the total number of simulations:\n\nhead(sim)\n\n          b        se        z            p\n1 0.6652635 0.1818432 3.658446 0.0002537488\n2 0.3914373 0.1279559 3.059159 0.0022195955\n3 0.2969467 0.1186695 2.502300 0.0123389208\n4 0.5360653 0.1482249 3.616568 0.0002985352\n5 0.4311440 0.1391194 3.099093 0.0019411393\n6 0.5967306 0.1562029 3.820228 0.0001333281\n\nsum(sim$p &lt;= 0.05) / 1000\n\n[1] 0.991\n\n# or mean(sum(sim$p &lt;= 0.05))\n\nThe power is pretty high with 50 trials. Let’s try a lower effect with different number of trials."
+  },
+  {
+    "objectID": "slides/binomial-glm.html#more-conditions",
+    "href": "slides/binomial-glm.html#more-conditions",
+    "title": "Binomial GLM",
+    "section": "More conditions",
+    "text": "More conditions\nWe can try different number of trials. For each n we simulate 1000 datasets, fit the models, extract the p values and estimate the statistical power.\n\nn &lt;- c(10, 50, 80, 100, 150, 200)\npower &lt;- rep(NA, length(n))\n\nfor(i in 1:length(power)){\n  res &lt;- do_sim(1000, n[i], b0 = qlogis(0.1), b1 = 0.2)\n  power[i] &lt;- mean(res$p &lt;= 0.05)\n}\n\npower\n\n[1] 0.000 0.316 0.551 0.628 0.819 0.898"
+  },
+  {
+    "objectID": "slides/binomial-glm.html#more-conditions-1",
+    "href": "slides/binomial-glm.html#more-conditions-1",
+    "title": "Binomial GLM",
+    "section": "More conditions",
+    "text": "More conditions"
+  },
+  {
+    "objectID": "slides/binomial-glm.html#probit-link-function",
+    "href": "slides/binomial-glm.html#probit-link-function",
+    "title": "Binomial GLM",
+    "section": "Probit link function",
+    "text": "Probit link function\nSometimes, the probit link function can be used. The main difference is that when using the logit link function the underlying distribution is called logistic. When using the probit link function the underlying distribution is Gaussian."
+  },
+  {
+    "objectID": "slides/binomial-glm.html#probit-link-function-1",
+    "href": "slides/binomial-glm.html#probit-link-function-1",
+    "title": "Binomial GLM",
+    "section": "Probit link function",
+    "text": "Probit link function\nWhen using the probit link the parameters are interpreted as difference in z-scores associated with a unit increase in the predictors. In fact probabilities are mapped into z-scores using the cumulative normal distribution.\n\np1 &lt;- 0.8\np2 &lt;- 0.6\n\nqlogis(c(p1, p2)) # log(odds(p1)), logit link\n\n[1] 1.3862944 0.4054651\n\nqnorm(c(p1, p2)) # probit link\n\n[1] 0.8416212 0.2533471\n\nlog(or(p1, p2)) # ~ beta1, logit link\n\n[1] 0.9808293\n\nqnorm(p1) - qnorm(p2) # ~beta1, probit link\n\n[1] 0.5882741"
+  },
+  {
+    "objectID": "slides/binomial-glm.html#probit-link-function-2",
+    "href": "slides/binomial-glm.html#probit-link-function-2",
+    "title": "Binomial GLM",
+    "section": "Probit link function",
+    "text": "Probit link function"
+  },
+  {
+    "objectID": "slides/binomial-glm.html#when-using-the-probit-link-function",
+    "href": "slides/binomial-glm.html#when-using-the-probit-link-function",
+    "title": "Binomial GLM",
+    "section": "When using the probit link function?",
+    "text": "When using the probit link function?\nThe probit can be a really useful choice:\n\nA binomial GLM with a probit link can be used to estimate Signal Detection Theory (\\(d\\)’ and criterion) parameters (see DeCarlo, 1998, 2010).\nThe parameters are intepreted as differences in standard deviations similar to Cohen’s \\(d\\). This is also very useful in simulations."
+  },
+  {
+    "objectID": "slides/binomial-glm.html#odds-ratio-or-to-cohens-d",
+    "href": "slides/binomial-glm.html#odds-ratio-or-to-cohens-d",
+    "title": "Binomial GLM",
+    "section": "Odds Ratio (OR) to Cohen’s \\(d\\)",
+    "text": "Odds Ratio (OR) to Cohen’s \\(d\\)\nThe Odds Ratio can be considered an effect size measure. We can transform the OR into other effect size measure (Borenstein et al., 2009; Sánchez-Meca et al., 2003).\n\\[\nd = \\log(OR) \\frac{\\sqrt{3}}{\\pi}\n\\]\n\n# in R with the effectsize package\nor &lt;- 1.5\neffectsize::logoddsratio_to_d(log(or))\n\n[1] 0.2235446\n\n# or \neffectsize::oddsratio_to_d(or)\n\n[1] 0.2235446"
+  },
+  {
+    "objectID": "slides/binomial-glm.html#odds-ratio-or-to-cohens-d-1",
+    "href": "slides/binomial-glm.html#odds-ratio-or-to-cohens-d-1",
+    "title": "Binomial GLM",
+    "section": "Odds Ratio (OR) to Cohen’s \\(d\\)",
+    "text": "Odds Ratio (OR) to Cohen’s \\(d\\)"
+  },
+  {
+    "objectID": "slides/binomial-glm.html#binary-vs-binomial-data-structure",
+    "href": "slides/binomial-glm.html#binary-vs-binomial-data-structure",
+    "title": "Binomial GLM",
+    "section": "Binary vs binomial data structure",
+    "text": "Binary vs binomial data structure\nIn our facial expression example we used the binary data structure. This means that the vector of the response variable contains 0 and 1.\n\nhead(dat)\n\n# A tibble: 6 × 6\n     id age   intensity emotion_lbl response_lbl   acc\n  &lt;int&gt; &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt;        &lt;int&gt;\n1    22 53           60 fear        suprise          0\n2    22 53           60 disgust     disgust          1\n3    22 53           70 happiness   happiness        1\n4    22 53          100 happiness   happiness        1\n5    22 53           60 disgust     sadness          0\n6    22 53           20 fear        neutral          0"
+  },
+  {
+    "objectID": "slides/binomial-glm.html#binary-vs-binomial-data-structure-1",
+    "href": "slides/binomial-glm.html#binary-vs-binomial-data-structure-1",
+    "title": "Binomial GLM",
+    "section": "Binary vs binomial data structure",
+    "text": "Binary vs binomial data structure\nThe same dataset can be also used in the so-called binomial format. In this case we can aggregate emotion_lbl and intensity counting the number of correct responses.\n\ndat_binomial &lt;- dat |&gt; \n  group_by(intensity) |&gt; \n  summarise(nt = n(),      # total number of trials\n            nc = sum(acc), # number of correct responses\n            nf = nt - nc,  # number of fails\n            acc = nc / nt) # proportion of correct response\n\nhead(dat_binomial)\n\n# A tibble: 6 × 5\n  intensity    nt    nc    nf    acc\n      &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;  &lt;dbl&gt;\n1        10    37     3    34 0.0811\n2        20    37     3    34 0.0811\n3        30    37    12    25 0.324 \n4        40    37    18    19 0.486 \n5        50    37    23    14 0.622 \n6        60    37    23    14 0.622"
+  },
+  {
+    "objectID": "slides/binomial-glm.html#binary-vs-binomial-data-structure-2",
+    "href": "slides/binomial-glm.html#binary-vs-binomial-data-structure-2",
+    "title": "Binomial GLM",
+    "section": "Binary vs binomial data structure",
+    "text": "Binary vs binomial data structure\nThe dataset contains exactly the same information, we are not losing anything by aggregating. We can check it by fitting two models. Notice the way of writing the model in the binomial way:\n\nfit_binary   &lt;- glm(acc ~ intensity, data = dat, family = binomial(link = \"logit\"))\nfit_binomial &lt;- glm(cbind(nc, nf) ~ intensity, data = dat_binomial, family = binomial(link = \"logit\"))\n\ncar::compareCoefs(fit_binary, fit_binomial)\n\nCalls:\n1: glm(formula = acc ~ intensity, family = binomial(link = \"logit\"), data = \n  dat)\n2: glm(formula = cbind(nc, nf) ~ intensity, family = binomial(link = \n  \"logit\"), data = dat_binomial)\n\n            Model 1 Model 2\n(Intercept)  -1.798  -1.798\nSE            0.264   0.264\n                           \nintensity   0.03198 0.03198\nSE          0.00429 0.00429"
+  },
+  {
+    "objectID": "slides/binomial-glm.html#binary-vs-binomial-data-structure-3",
+    "href": "slides/binomial-glm.html#binary-vs-binomial-data-structure-3",
+    "title": "Binomial GLM",
+    "section": "Binary vs binomial data structure",
+    "text": "Binary vs binomial data structure\nA third option is also modelling directly the proportions providing the weigths = argument as the number of trials.\n\nfit_prop &lt;- glm(acc ~ intensity, data = dat_binomial, weights = nt, family = binomial(link = \"logit\")) \ncar::compareCoefs(fit_binary, fit_binomial, fit_prop)\n\nCalls:\n1: glm(formula = acc ~ intensity, family = binomial(link = \"logit\"), data = \n  dat)\n2: glm(formula = cbind(nc, nf) ~ intensity, family = binomial(link = \n  \"logit\"), data = dat_binomial)\n3: glm(formula = acc ~ intensity, family = binomial(link = \"logit\"), data = \n  dat_binomial, weights = nt)\n\n            Model 1 Model 2 Model 3\n(Intercept)  -1.798  -1.798  -1.798\nSE            0.264   0.264   0.264\n                                   \nintensity   0.03198 0.03198 0.03198\nSE          0.00429 0.00429 0.00429\n                                   \n\n\nAgain, exactly the same."
+  },
+  {
+    "objectID": "slides/binomial-glm.html#binary-vs-binomial-data-structure-4",
+    "href": "slides/binomial-glm.html#binary-vs-binomial-data-structure-4",
+    "title": "Binomial GLM",
+    "section": "Binary vs binomial data structure",
+    "text": "Binary vs binomial data structure\nWhy using the binary vs the binomial format? Depends on the type of predictors!\nIn our (and similar) case, “aggregating” with categorical predictor is possible without losing information. The advantage is that models in the binomial format are very fast (especially for complex models such as mixed-effects models). Also the diagnostics in terms of residuals are better (see Gelman et al., 2020, p. 253)\nIf you have predictors at the 0-1 level you cannot aggregate without losing information. In our case, imagine to have for each trial the 0-1 accuracy and the reaction time. You need to use the binary format otherwise you have to bin the reaction time variable (losing information)."
+  },
+  {
+    "objectID": "slides/binomial-glm.html#references",
+    "href": "slides/binomial-glm.html#references",
+    "title": "Binomial GLM",
+    "section": "References",
+    "text": "References\n\n\n\n\nArel-Bundock, V., Greifer, N., & Heiss, A. (2024). How to Interpret Statistical Models Using marginaleffects for R and Python. Journal of Statistical Software, 111, 1–32. https://doi.org/10.18637/jss.v111.i09\n\n\nBorenstein, M., Hedges, L. V., Higgins, J. P. T., & Rothstein, H. R. (2009). Introduction to Meta-Analysis. https://doi.org/10.1002/9780470743386\n\n\nBurton, A., Altman, D. G., Royston, P., & Holder, R. L. (2006). The design of simulation studies in medical statistics. Statistics in Medicine, 25, 4279–4292. https://doi.org/10.1002/sim.2673\n\n\nDeCarlo, L. T. (1998). Signal detection theory and generalized linear models. Psychological Methods, 3, 186–205. https://doi.org/10.1037/1082-989X.3.2.186\n\n\nDeCarlo, L. T. (2010). On the statistical and theoretical basis of signal detection theory and extensions: Unequal variance, random coefficient, and mixture models. Journal of Mathematical Psychology, 54, 304–313. https://doi.org/10.1016/j.jmp.2010.01.001\n\n\nDunn, P. K., & Smyth, G. K. (1996). Randomized Quantile Residuals. Journal of Computational and Graphical Statistics: A Joint Publication of American Statistical Association, Institute of Mathematical Statistics, Interface Foundation of North America, 5, 236–244. https://doi.org/10.1080/10618600.1996.10474708\n\n\nDunn, P. K., & Smyth, G. K. (2018). Generalized Linear Models With Examples in R. Springer.\n\n\nGelman, A., Hill, J., & Vehtari, A. (2020). Regression and Other Stories. Cambridge University Press. https://doi.org/10.1017/9781139161879\n\n\nGranziol, U., Rabe, M., Gallucci, M., Spoto, A., & Vidotto, G. (2025). Not another post hoc paper: A new look at contrast analysis and planned comparisons. Advances in Methods and Practices in Psychological Science, 8. https://doi.org/10.1177/25152459241293110\n\n\nKoehler, E., Brown, E., & Haneuse, S. J.-P. A. (2009). On the assessment of Monte Carlo error in simulation-based statistical analyses. The American Statistician, 63, 155–162. https://doi.org/10.1198/tast.2009.0030\n\n\nSánchez-Meca, J., Marín-Martínez, F., & Chacón-Moscoso, S. (2003). Effect-size indices for dichotomized outcomes in meta-analysis. Psychological Methods, 8, 448–467. https://doi.org/10.1037/1082-989X.8.4.448\n\n\nSchad, D. J., Vasishth, S., Hohenstein, S., & Kliegl, R. (2020). How to capitalize on a priori contrasts in linear (mixed) models: A tutorial. Journal of Memory and Language, 110, 104038. https://doi.org/10.1016/j.jml.2019.104038\n\n\nShimizu, Y., Ogawa, K., Kimura, M., Fujiwara, K., & Watanabe, N. (2024). The influence of emotional facial expression intensity on decoding accuracy: High intensity does not yield high accuracy. The Japanese Psychological Research, 66, 521–540. https://doi.org/10.1111/jpr.12529\n\n\nTjur, T. (2009). Coefficients of Determination in Logistic Regression Models—A New Proposal: The Coefficient of Discrimination. The American Statistician, 63, 366–372. https://doi.org/10.1198/tast.2009.08210"
+  },
+  {
     "objectID": "index.html",
     "href": "index.html",
     "title": "Introduction to Generalized Linear Models",
