@@ -1,6 +1,19 @@
 ---
 title: "Introduction to Generalized Linear Models"
 subtitle: "Workshop"
+listing:
+  id: slides
+  contents: slides
+  type: table
+  date-format: "*[Last modified:] DD-MM-YYYY*"
+  fields: 
+    - title
+    - date
+bibliography: "https://raw.githubusercontent.com/filippogambarota/bib-database/main/references.bib"
+csl: files/apa-cv.csl
+nocite: |
+  @Gelman2020-tg, @Agresti2018-oh, @Agresti2015-cz, @Dunn2018-ww, @Fox2015-ps, @Faraway2016-py, @McCullagh1989-dy
+suppress-bibliography: true
 ---
 
 ![](files/hex.svg){fig-align="center"}
@@ -9,6 +22,24 @@ subtitle: "Workshop"
 
 Introductory workshop about Generalized Linear Models starting from the general theory, model fitting, parameters intepretation and data simulation.
 
+# Slides
+
+::: {#slides}
+:::
+
 # Materials
 
-- [GLMphd](https://stat-teaching.github.io/GLMphd/) is a complete course on GLM hosted by the [PhD Course in Psychological Sciences](dottorato.psy.unipd.it/en) (University of Padova).
+- [GLMphd](https://stat-teaching.github.io/GLMphd/) is a complete course on GLM parto of the [PhD Course in Psychological Sciences](dottorato.psy.unipd.it/en) (University of Padova).
+- [General workflow for Monte Carlo Simulations](https://filippogambarota.github.io/notes/mcs-workflow/): a short blog post about a general framework to create MCS in R.
+
+# Books
+
+Some books about Generalized Linear Models:
+
+- @Gelman2020-tg
+- @Agresti2018-oh
+- @Agresti2015-cz
+- @Dunn2018-ww
+- @Fox2015-ps
+- @Faraway2016-py
+- @McCullagh1989-dy

@@ -24,13 +24,13 @@ author:
     email: margherita.calderan@unipd.it
     orcid: "0009-0005-5668-5162"
     url: https://mar-cald.github.io
-    affiliations: "Department of General Psychology, University of Padova"
+    affiliations: University of Padova
   - name: "Filippo Gambarota"
     email: filippo.gambarota@unipd.it
     github: filippogambarota
     orcid: "0000-0002-6666-1747"
     url: https://filippogambarota.github.io
-    affiliations: Department of Developmental and Social Psychology, University of Padova
+    affiliations: University of Padova
 
 bibliography: "https://raw.githubusercontent.com/filippogambarota/bib-database/main/references.bib"
 csl: "https://raw.githubusercontent.com/citation-style-language/styles/master/apa.csl"
