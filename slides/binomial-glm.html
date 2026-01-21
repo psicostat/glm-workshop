@@ -118,7 +118,7 @@
     div.csl-indent {
       margin-left: 2em;
     }  </style>
-  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-08a46e3af1717ecafb23d6d56c27ea6e.css">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-38aae41c7f244e387608eb2b1713ee2f.css">
 
 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
@@ -248,7 +248,7 @@
     </div>
 </div>
 
-  <p class="date"><em>Last modified: 20-01-2026</em></p>
+  <p class="date"><em>Last modified: 21-01-2026</em></p>
 </section>
 <section id="TOC">
 <nav role="doc-toc"> 
@@ -290,7 +290,7 @@
 <section id="shimizu2024-xl-dataset" class="slide level2">
 <h2><span class="citation" data-cites="Shimizu2024-xl">Shimizu et al. (<a href="#/references" role="doc-biblioref" onclick="">2024</a>)</span> dataset</h2>
 <p>We did some pre-processing for the purpose of this example. The original dataset can be found at <i class="ai  ai-osf" aria-label="osf"></i> <a href="https://osf.io/zhtbj/">osf.io/zhtbj/</a>.</p>
-<p>You can download the dataset for this example at this <a href="../data/shimizu2024.rds">link</a>. It is an <code>rds</code> file and you can open it using:</p>
+<p>You can download the dataset for this example at this <a href="../data/shimizu2024.rds">link</a>. It is a <code>rds</code> file, and you can open it using:</p>
 <div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"shimizu.rds"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -458,7 +458,7 @@
 </div>
 </div></section><section id="exploring-odds-and-odds-ratios" class="slide level2">
 <h2>Exploring, odds and odds ratios</h2>
-<p>We can start exploring the effects calcualting odds and odds ratios.</p>
+<p>We can start exploring the effects calculating odds and odds ratios.</p>
 <div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a aria-hidden="true" tabindex="-1"></a>odds <span class="ot">&lt;-</span> <span class="cf">function</span>(p) p <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> p)</span>
 <span id="cb13-2"><a aria-hidden="true" tabindex="-1"></a>or <span class="ot">&lt;-</span> <span class="cf">function</span>(pn, pd) <span class="fu">odds</span>(pn) <span class="sc">/</span> <span class="fu">odds</span>(pd)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -504,7 +504,7 @@
 </section>
 <section id="exploring-odds-and-odds-ratios-2" class="slide level2">
 <h2>Exploring, odds and odds ratios</h2>
-<p>We can also calculate all the possible comparisons. Note that depending on the numerator/denominator the odds ratio is different but we can simply take the inverse to switch numerator and numerator. Interpreting odds ratio &gt; 1 is usually more intutive.</p>
+<p>We can also calculate all the possible comparisons. Note that depending on the numerator/denominator the odds ratio is different, but we can simply take the inverse to switch numerator and numerator. Interpreting odds ratio &gt; 1 is usually more intuitive.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output cell-output-stdout">
 <pre><code>     anger / disgust         anger / fear    anger / happiness 
@@ -594,7 +594,7 @@ p_i = \frac{e^{\beta_0}}{1 + e^{\beta_0}}
 </section>
 <section id="the-null-model-interpretation" class="slide level2">
 <h2>The null model, interpretation</h2>
-<p>In this case, the intercept is -0.032. The intercept is the expected value (i.e., the mean) of <code>y</code> (accuracy here) when everthing is zero. In this case <span class="math inline">\(\beta_0\)</span> is just the (logit transformed) overall accuracy.</p>
+<p>In this case, the intercept is -0.032. The intercept is the expected value (i.e., the mean) of <code>y</code> (accuracy here) when everything is zero. In this case <span class="math inline">\(\beta_0\)</span> is just the (logit transformed) overall accuracy.</p>
 <div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a aria-hidden="true" tabindex="-1"></a>b0 <span class="ot">&lt;-</span> <span class="fu">coef</span>(fit0)[<span class="st">"(Intercept)"</span>]</span>
 <span id="cb25-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(b0) <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">+</span> <span class="fu">exp</span>(b0)) <span class="co"># inverse logit</span></span>
@@ -668,9 +668,9 @@ Number of Fisher Scoring iterations: 5</code></pre>
 </div>
 <p>The intercept is the reference level (in this case <code>anger</code>) and the other 5 coefficients represent the comparison between all emotions vs anger.</p>
 </section>
-<section id="categorical-predictor-emotion-2" class="slide level2 scrollable">
+<section id="categorical-predictor-emotion-2" class="slide level2 smaller">
 <h2>Categorical predictor, emotion</h2>
-<p>Remember that we are working on the link-function space. For this reason comparisons are expressed in logit. For example, <span class="math inline">\(\beta_1\)</span> (<code>emotion_lbldisgust</code>) is the comparison between <code>disgust</code> and <code>anger</code>. Formally:</p>
+<p>Remember that we are working on the link-function space where comparisons are expressed in logit. <span class="math inline">\(\beta_1\)</span> (<code>emotion_lbldisgust</code>) is the comparison between <code>disgust</code> and <code>anger</code>. Formally:</p>
 <p><span class="math display">\[
 \beta_1 = \mbox{logit}(p(y = 1 | \mbox{disgust})) - \mbox{logit}(p(y = 1 | \mbox{anger}))
 \]</span></p>
@@ -806,7 +806,7 @@ emotion_lblsurprise   1.1206891  3.03819397</code></pre>
 </section>
 <section id="confidence-intervals-3" class="slide level2">
 <h2>Confidence intervals</h2>
-<p>But these are confidence intervals of log odds ratios (differences in logit). To obtain confidence intervals of odds ratios we can just exponentiate the upper and lower bound:</p>
+<p>But these are confidence intervals of log odds ratios (differences in logit). To obtain confidence intervals of odds ratios we can just take the exponential of the upper and lower bound:</p>
 <div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(<span class="fu">confint.default</span>(fit_em))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -823,7 +823,7 @@ emotion_lblsurprise  3.06696696 20.8675218</code></pre>
 </section>
 <section id="confidence-intervals-4" class="slide level2">
 <h2>Confidence intervals</h2>
-<p>The real default for confidence intervals using just <code>confint()</code> (and not <code>confint.default()</code>) are the so-called profile likelihood confindence intervals. The main difference is that Wald confidence intervals are symmetric by definition while the profile likelihood not necessarly.</p>
+<p>The real default for confidence intervals using just <code>confint()</code> (and not <code>confint.default()</code>) are the so-called profile likelihood confidence intervals. The main difference is that Wald confidence intervals are symmetric by definition while the profile likelihood not necessary.</p>
 <div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(fit_em)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -862,7 +862,7 @@ Results are given on the logit (not the response) scale.
 Confidence level used: 0.95 </code></pre>
 </div>
 </div>
-<p>These are called <strong>e</strong>stimated <strong>m</strong>rginal <strong>means</strong>. Importantly, the <code>emmeans</code> package use the model and not the data. Marginal means will depends on the fitted model.</p>
+<p>These are called <strong>e</strong>stimated <strong>m</strong>rginal <strong>means</strong>. Importantly, the <code>emmeans</code> package uses the model and not the data. Marginal means will depend on the fitted model.</p>
 </section>
 <section id="specific-contrasts-of-emotion-levels-1" class="slide level2">
 <h2>Specific contrasts of <code>emotion</code> levels</h2>
@@ -1050,10 +1050,10 @@ Tests are performed on the log odds ratio scale </code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code> contrast            estimate    SE  df z.ratio p.value
  disgust - anger       0.0741 0.440 Inf   0.168  0.9999
- fear - disgust       -2.3254 0.755 Inf  -3.079  0.0092
+ fear - disgust       -2.3254 0.755 Inf  -3.079  0.0089
  happiness - fear      3.7246 0.770 Inf   4.839  &lt;.0001
- sadness - happiness  -0.7135 0.365 Inf  -1.956  0.1968
- surprise - sadness    1.3196 0.395 Inf   3.341  0.0035
+ sadness - happiness  -0.7135 0.365 Inf  -1.956  0.1973
+ surprise - sadness    1.3196 0.395 Inf   3.341  0.0036
 
 Results are given on the log odds ratio (not the response) scale. 
 P value adjustment: mvt method for 5 tests </code></pre>
@@ -1123,7 +1123,7 @@ Number of Fisher Scoring iterations: 4</code></pre>
 <section id="numerical-predictor-effect-of-intensity-1" class="slide level2">
 <h2>Numerical predictor, effect of <code>intensity</code></h2>
 <p>Now the intercept is the logit accuracy when <code>intensity</code> is zero (that is not really a meaningful value). <span class="math inline">\(\beta_1\)</span> here is the expected increase in logit for a unit increase in intensity. In other terms, moving from intensity e.g., 10 to 11 increase the logit of 0.03.</p>
-<p>As for the emotion, we can exponentiate <span class="math inline">\(\beta_1\)</span> obtaining the odds ratio of increasing 1 unit in intensity:</p>
+<p>As for the emotion, we can take the exponential of <span class="math inline">\(\beta_1\)</span> obtaining the odds ratio of increasing 1 unit in intensity:</p>
 <div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb82"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(<span class="fu">coef</span>(fit_int))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -1280,16 +1280,16 @@ Comparison: dY/dX</code></pre>
 p = 0.75: 90.57784 5.916972</code></pre>
 </div>
 </div>
-<p>We need roughly 90% of <code>intensity</code> to have an accuracy of 75%.</p>
+<p>Furthermore, we need roughly 90% of <code>intensity</code> to have an accuracy of 75%.</p>
 </section>
 <section id="improving-the-model" class="slide level2">
 <h2>Improving the model</h2>
-<p>We have two problems in terms of intepretability in this model:</p>
+<p>We have two problems in terms of interpretability in this model:</p>
 <ul>
 <li>The intercept is meaningless because 0% intensity is not a plausible value</li>
 <li>Intensity from 0% to 100% in steps of 1% is too granular</li>
 </ul>
-<p>Thus we can center the variable on the minimum (0 become 10%) and rescale the variable from 0 (10%) to 10 (100%) where the unit increase is 10%.</p>
+<p>We can center the variable on the minimum (0 become 10%) and rescale the variable from 0 (10%) to 10 (100%) where the unit increase is 10%.</p>
 <div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb103"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb103-1"><a aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>intensity10 <span class="ot">&lt;-</span> (dat<span class="sc">$</span>intensity <span class="sc">-</span> <span class="dv">10</span>) <span class="sc">/</span> <span class="dv">10</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -1327,7 +1327,7 @@ Number of Fisher Scoring iterations: 6</code></pre>
 </section>
 <section id="additive-model-intensity-and-emotion-1" class="slide level2">
 <h2>Additive model, <code>intensity</code> and <code>emotion</code></h2>
-<p>The interpretation is the same as before. The <code>intercept</code> is the expected logit when everthing is zero (intensity = 10 and emotion = anger).</p>
+<p>The interpretation is the same as before. The <code>intercept</code> is the expected logit when everything is zero (intensity = 10 and emotion = anger).</p>
 <p><code>intensity</code> is the increase in logit accuracy for a unit (10%) increase in intensity controlling for <code>emotion_lbl</code>.</p>
 <p><code>emotion_lblsurprise</code> is the logit difference between anger and surprise controlling for <code>emotion_lbl</code>.</p>
 </section>
@@ -1360,7 +1360,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <img data-src="binomial-glm_files/figure-revealjs/unnamed-chunk-55-1.svg" class="quarto-figure quarto-figure-center r-stretch"></section>
 <section id="additive-model-intensity-and-emotion-4" class="slide level2">
 <h2>Additive model, <code>intensity</code> and <code>emotion</code></h2>
-<p>This means that we have an odds ratio of 64.22 in favour of anger and an odds ratio of 2.31 for a unit increase in intensity.</p>
+<p>This means that we have an odds ratio of 64.22 in favor of anger and an odds ratio of 2.31 for a unit increase in intensity.</p>
 <p>We can also compute again the marginal effects for <code>intensity</code>:</p>
 <div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb109"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb109-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">avg_slopes</span>(fit_int_emo)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -1376,7 +1376,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 Type: response</code></pre>
 </div>
 </div>
-<p>This means that we have on average a 8% of increase in accuracy across different levels of <code>intensity</code>.</p>
+<p>This means that we have on average an 8% of increase in accuracy across different levels of <code>intensity</code>.</p>
 </section>
 <section id="interaction-model-intensity-and-emotion" class="slide level2">
 <h2>Interaction model, <code>intensity</code> and <code>emotion</code></h2>
@@ -1432,7 +1432,7 @@ Number of Fisher Scoring iterations: 7</code></pre>
 </section>
 <section id="interaction-model-intensity-and-emotion-3" class="slide level2">
 <h2>Interaction model, <code>intensity</code> and <code>emotion</code></h2>
-<p>Let’s improve a little bit the intepretation. We can <em>center</em> the emotion applying not the dummy (or treatment) coding but the sum to zero coding.</p>
+<p>Let’s improve a little bit the interpretation. We can <em>center</em> the emotion applying not the dummy (or treatment) coding but the sum to zero coding.</p>
 <div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb114"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb114-1"><a aria-hidden="true" tabindex="-1"></a>datsub <span class="ot">&lt;-</span> <span class="fu">filter</span>(dat, emotion_lbl <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"anger"</span>, <span class="st">"surprise"</span>))</span>
 <span id="cb114-2"><a aria-hidden="true" tabindex="-1"></a>datsub<span class="sc">$</span>emotion_lbl <span class="ot">&lt;-</span> <span class="fu">factor</span>(datsub<span class="sc">$</span>emotion_lbl)</span>
@@ -1480,7 +1480,7 @@ Number of Fisher Scoring iterations: 7</code></pre>
 </section>
 <section id="interaction-model-intensity-and-emotion-5" class="slide level2">
 <h2>Interaction model, <code>intensity</code> and <code>emotion</code></h2>
-<p>The parameters are intepreted in the same way but now we have a different meaning of 0:</p>
+<p>The parameters are interpreted in the same way, but now we have a different meaning of 0:</p>
 <ul>
 <li>The intercept is the average logit accuracy when intensity is 10%</li>
 <li><code>intensity10</code>: is the slope when <code>emotion_lbl</code> is 0 but 0 now is in the middle of <code>anger</code> and <code>surprise</code>. This means that <code>intensity10</code> is the main effect of intensity controlling for emotion.</li>
@@ -1562,7 +1562,7 @@ Number of Fisher Scoring iterations: 4
 </section>
 <section id="deviance-and-likelihood" class="slide level2">
 <h2>Deviance and likelihood</h2>
-<p>This is a visual rappresentation of the three models. The current model should be always between the null and the saturated.</p>
+<p>This is a visual representation of the three models. The current model should be always between the null and the saturated.</p>
 
 <img data-src="binomial-glm_files/figure-revealjs/unnamed-chunk-64-1.svg" class="quarto-figure quarto-figure-center r-stretch"></section>
 <section id="deviance-and-likelihood-1" class="slide level2">
@@ -1734,8 +1734,8 @@ D_{\mbox{resid}} = 2 -(log(\mathcal{L}_{\mbox{current}}) - log(\mathcal{L}_{\mbo
 <span id="cb131-2"><a aria-hidden="true" tabindex="-1"></a><span class="co"># with mu = 10 and sigma = 5</span></span>
 <span id="cb131-3"><a aria-hidden="true" tabindex="-1"></a><span class="fu">rnorm</span>(<span class="at">n =</span> <span class="dv">10</span>, <span class="at">mean =</span> <span class="dv">10</span>, <span class="at">sd =</span> <span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1] 17.798349  4.297473  6.941225 11.708218  7.596031  6.915416  9.424055
- [8]  9.376224 15.244305 10.311286</code></pre>
+<pre><code> [1]  0.5383932 10.9113661  4.4995351  9.5580316 12.7771419 12.4440070
+ [7] 12.2122934  9.3329124  6.1627081 15.3577288</code></pre>
 </div>
 </div>
 </section>
@@ -1752,11 +1752,11 @@ D_{\mbox{resid}} = 2 -(log(\mathcal{L}_{\mbox{current}}) - log(\mathcal{L}_{\mbo
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb135"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb135-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">rbinom</span>(<span class="at">n =</span> <span class="dv">5</span>, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">prob =</span> <span class="fl">0.5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0 1 0 1 1</code></pre>
+<pre><code>[1] 0 0 0 1 1</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb137"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb137-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">rbinom</span>(<span class="at">n =</span> <span class="dv">5</span>, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">prob =</span> <span class="fl">0.5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 3 6 6 3 7</code></pre>
+<pre><code>[1] 2 6 6 3 5</code></pre>
 </div>
 </div>
 </section>
@@ -1767,7 +1767,7 @@ D_{\mbox{resid}} = 2 -(log(\mathcal{L}_{\mbox{current}}) - log(\mathcal{L}_{\mbo
 <div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb139"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb139-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">rbinom</span>(<span class="dv">10</span>, <span class="dv">1</span>, <span class="fl">0.5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1] 0 1 1 1 0 1 0 0 0 0</code></pre>
+<pre><code> [1] 1 1 0 1 1 1 1 1 1 1</code></pre>
 </div>
 </div>
 <p>This is the same but aggregating:</p>
@@ -1797,7 +1797,7 @@ D_{\mbox{resid}} = 2 -(log(\mathcal{L}_{\mbox{current}}) - log(\mathcal{L}_{\mbo
 <div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb145"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb145-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">rbinom</span>(<span class="at">n =</span> <span class="dv">20</span>, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">prob =</span> p)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1] 0 0 0 0 0 1 0 1 0 0 1 0 0 1 1 1 0 1 1 0</code></pre>
+<pre><code> [1] 0 0 1 1 1 1 0 0 0 0 0 0 1 1 1 0 0 0 1 0</code></pre>
 </div>
 </div>
 </section>
@@ -1815,12 +1815,12 @@ D_{\mbox{resid}} = 2 -(log(\mathcal{L}_{\mbox{current}}) - log(\mathcal{L}_{\mbo
 <span id="cb147-7"><a aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dat) <span class="co"># first 6 rows</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  intensity
-1        10
-2        90
-3        20
-4        30
-5        40
-6        10</code></pre>
+1        40
+2        40
+3        50
+4        10
+5        50
+6       100</code></pre>
 </div>
 </div>
 </section>
@@ -1886,12 +1886,12 @@ y_i \sim \mathrm{Bernoulli}(p_i) \qquad y_i \in \{0,1\}
 <span id="cb150-6"><a aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dat)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  intensity intensity10        eta         p
-1        10           0 -2.1972246 0.1000000
-2        90           8  5.8027754 0.9969899
-3        20           1 -1.1972246 0.2319693
-4        30           2 -0.1972246 0.4508531
-5        40           3  0.8027754 0.6905679
-6        10           0 -2.1972246 0.1000000</code></pre>
+1        40           3  0.8027754 0.6905679
+2        40           3  0.8027754 0.6905679
+3        50           4  1.8027754 0.8584864
+4        10           0 -2.1972246 0.1000000
+5        50           4  1.8027754 0.8584864
+6       100           9  6.8027754 0.9988905</code></pre>
 </div>
 </div>
 </section>
@@ -1903,12 +1903,12 @@ y_i \sim \mathrm{Bernoulli}(p_i) \qquad y_i \in \{0,1\}
 <span id="cb152-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dat)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  intensity intensity10        eta         p acc
-1        10           0 -2.1972246 0.1000000   0
-2        90           8  5.8027754 0.9969899   1
-3        20           1 -1.1972246 0.2319693   1
-4        30           2 -0.1972246 0.4508531   1
-5        40           3  0.8027754 0.6905679   1
-6        10           0 -2.1972246 0.1000000   0</code></pre>
+1        40           3  0.8027754 0.6905679   0
+2        40           3  0.8027754 0.6905679   1
+3        50           4  1.8027754 0.8584864   0
+4        10           0 -2.1972246 0.1000000   0
+5        50           4  1.8027754 0.8584864   1
+6       100           9  6.8027754 0.9988905   1</code></pre>
 </div>
 </div>
 <p>For each row/trial, <code>p</code> is the true accuracy according to <code>intensity</code> and <code>acc</code> is the actual simulated response.</p>
@@ -1932,16 +1932,16 @@ glm(formula = acc ~ intensity10, family = binomial(link = "logit"),
 
 Coefficients:
             Estimate Std. Error z value Pr(&gt;|z|)    
-(Intercept)  -1.4097     0.5061  -2.786  0.00534 ** 
-intensity10   0.8876     0.2136   4.155 3.25e-05 ***
+(Intercept)  -1.9988     0.5722  -3.493 0.000477 ***
+intensity10   0.9347     0.1969   4.747 2.06e-06 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 (Dispersion parameter for binomial family taken to be 1)
 
-    Null deviance: 112.467  on 99  degrees of freedom
-Residual deviance:  66.433  on 98  degrees of freedom
-AIC: 70.433
+    Null deviance: 118.59  on 99  degrees of freedom
+Residual deviance:  58.62  on 98  degrees of freedom
+AIC: 62.62
 
 Number of Fisher Scoring iterations: 6</code></pre>
 </div>
@@ -1991,11 +1991,11 @@ Number of Fisher Scoring iterations: 6</code></pre>
 <span id="cb157-13"><a aria-hidden="true" tabindex="-1"></a><span class="fu">do_sim</span>(<span class="dv">5</span>, <span class="dv">100</span>, b0, b1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>          b        se        z            p
-1 1.0794689 0.2315480 4.661967 3.132016e-06
-2 0.9183486 0.1877311 4.891829 9.990331e-07
-3 1.1781601 0.2562692 4.597354 4.278903e-06
-4 1.1220663 0.2303073 4.872040 1.104519e-06
-5 0.6472039 0.1311354 4.935385 7.999277e-07</code></pre>
+1 1.1878385 0.2484520 4.780958 1.744619e-06
+2 1.4235879 0.3191330 4.460798 8.165498e-06
+3 1.9570631 0.4753204 4.117356 3.832445e-05
+4 1.2834451 0.3208077 4.000668 6.316380e-05
+5 0.8576472 0.1820976 4.709821 2.479343e-06</code></pre>
 </div>
 </div>
 </section>
@@ -2007,7 +2007,7 @@ Number of Fisher Scoring iterations: 6</code></pre>
 <span id="cb159-2"><a aria-hidden="true" tabindex="-1"></a>sim <span class="ot">&lt;-</span> <span class="fu">do_sim</span>(<span class="dv">1000</span>, <span class="at">nt =</span> <span class="dv">50</span>, <span class="at">b0 =</span> <span class="fu">qlogis</span>(<span class="fl">0.1</span>), <span class="at">b1 =</span> <span class="fl">0.5</span>)</span>
 <span id="cb159-3"><a aria-hidden="true" tabindex="-1"></a>tictoc<span class="sc">::</span><span class="fu">toc</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>1.444 sec elapsed</code></pre>
+<pre><code>1.404 sec elapsed</code></pre>
 </div>
 </div>
 <p>In this case we are lucky, running 1000 simulations only takes ~ 1.5 seconds. Sometimes can also takes hours, days or weeks.</p>
@@ -2019,16 +2019,16 @@ Number of Fisher Scoring iterations: 6</code></pre>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb161"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb161-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(sim)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>          b        se        z            p
-1 0.6859474 0.1801308 3.808051 0.0001400665
-2 0.4918903 0.1425360 3.450989 0.0005585358
-3 0.5530817 0.1473875 3.752570 0.0001750310
-4 0.4879792 0.1420892 3.434317 0.0005940500
-5 0.7022594 0.1942396 3.615428 0.0002998515
-6 0.4930705 0.1447942 3.405319 0.0006608692</code></pre>
+1 1.5410786 0.4852222 3.176027 0.0014930715
+2 0.3764563 0.1198587 3.140833 0.0016846805
+3 0.3810226 0.1310121 2.908301 0.0036339844
+4 0.5209755 0.1500228 3.472643 0.0005153596
+5 0.5370749 0.1589363 3.379184 0.0007270144
+6 0.5244714 0.1468180 3.572255 0.0003539202</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb163"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb163-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(sim<span class="sc">$</span>p <span class="sc">&lt;=</span> <span class="fl">0.05</span>) <span class="sc">/</span> <span class="dv">1000</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.99</code></pre>
+<pre><code>[1] 0.994</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb165"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb165-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># or mean(sum(sim$p &lt;= 0.05))</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
