@@ -347,9 +347,9 @@ unique(model.matrix(~ emotion_lbl, data = dat))
 
 The intercept is the reference level (in this case `anger`) and the other 5 coefficients represent the comparison between all emotions vs anger.
 
-## Categorical predictor, emotion {.scrollable}
+## Categorical predictor, emotion {.smaller}
 
-Remember that we are working on the link-function space. For this reason comparisons are expressed in logit. For example, $\beta_1$ (`emotion_lbldisgust`) is the comparison between `disgust` and `anger`. Formally:
+Remember that we are working on the link-function space where comparisons are expressed in logit. $\beta_1$ (`emotion_lbldisgust`) is the comparison between `disgust` and `anger`. Formally:
 
 $$
 \beta_1 = \mbox{logit}(p(y = 1 | \mbox{disgust})) - \mbox{logit}(p(y = 1 | \mbox{anger}))

@@ -10,8 +10,8 @@ $body-color: #242424ff;
 $link-color: #ce4589;
 
 $presentation-font-size-root: 33px;
-$presentation-h1-font-size: 80px;
-$presentation-h2-font-size: $h2-font-size;
+$presentation-h1-font-size: 80px!important;
+$presentation-h2-font-size: $h2-font-size!important;
 $code-block-font-size: 0.7em;
 
 /*-- scss:rules --*/
