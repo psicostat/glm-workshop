@@ -20,7 +20,7 @@ suppress-bibliography: true
 
 # Introduction
 
-Introductory workshop about Generalized Linear Models starting from the general theory, model fitting, parameters intepretation and data simulation.
+Introductory workshop about Generalized Linear Models starting from the general theory, model fitting, parameters interpretation and data simulation.
 
 # Slides
 
@@ -29,7 +29,7 @@ Introductory workshop about Generalized Linear Models starting from the general 
 
 # Materials
 
-- [GLMphd](https://stat-teaching.github.io/GLMphd/) is a complete course on GLM parto of the [PhD Course in Psychological Sciences](dottorato.psy.unipd.it/en) (University of Padova).
+- [GLMphd](https://stat-teaching.github.io/GLMphd/) is a complete course on GLM part of the [PhD Course in Psychological Sciences](dottorato.psy.unipd.it/en) (University of Padova).
 - [General workflow for Monte Carlo Simulations](https://filippogambarota.github.io/notes/mcs-workflow/): a short blog post about a general framework to create MCS in R.
 
 # Books
