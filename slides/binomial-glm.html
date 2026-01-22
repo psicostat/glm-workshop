@@ -248,13 +248,13 @@
     </div>
 </div>
 
-  <p class="date"><em>Last modified: 21-01-2026</em></p>
+  <p class="date"><em>Last modified: 22-01-2026</em></p>
 </section>
 <section id="TOC">
 <nav role="doc-toc"> 
 <h2 id="toc-title">Contents</h2>
 <ul>
-<li><a href="#/a-dataset-example" id="/toc-a-dataset-example">A dataset example</a></li>
+<li><a href="#/practical-example" id="/toc-practical-example">Practical example</a></li>
 <li><a href="#/model" id="/toc-model">Model</a></li>
 <li><a href="#/diagnostics" id="/toc-diagnostics">Diagnostics</a></li>
 <li><a href="#/monte-carlo-simulations-mcs" id="/toc-monte-carlo-simulations-mcs">Monte Carlo simulations (MCS)</a></li>
@@ -267,8 +267,8 @@
 </section>
 
 <section>
-<section id="a-dataset-example" class="title-slide slide level1 center">
-<h1>A dataset example</h1>
+<section id="practical-example" class="title-slide slide level1 center">
+<h1>Practical example</h1>
 
 </section>
 <section id="example-shimizu2024-xl" class="slide level2">
@@ -360,7 +360,7 @@
 </section>
 <section id="exploring-3" class="slide level2">
 <h2>Exploring</h2>
-<p>Also for intensity, there is a clear increasing pattern. In this specific subject, the highest intensities are not clearly distinguished (maybe a non-linear pattern).</p>
+<p>Also for intensity, there is a clear pattern. An increasing intensity is associated with increased accuracy.</p>
 <div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a aria-hidden="true" tabindex="-1"></a>dat <span class="sc">|&gt;</span> </span>
 <span id="cb8-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(intensity) <span class="sc">|&gt;</span> </span>
@@ -678,13 +678,9 @@ Number of Fisher Scoring iterations: 5</code></pre>
 <p><span class="math display">\[
 \log{\frac{p_d}{1 - p_d}} - \log{\frac{p_a}{1 - p_a}}
 \]</span></p>
-<p>A difference of logs can be expressed as the log of the ratio:</p>
+<p>A difference of logs can be expressed as the log of the ratio. We can take the exponential to remove the log.</p>
 <p><span class="math display">\[
-\log{\frac{\frac{p_d}{1 - p_d}}{\frac{p_a}{1 - p_a}}}
-\]</span></p>
-<p>Finally we can take the exponential to remove the log:</p>
-<p><span class="math display">\[
-e^{\log{\frac{\frac{p_d}{1 - p_d}}{\frac{p_a}{1 - p_a}}}} = \frac{\frac{p_d}{1 - p_d}}{\frac{p_a}{1 - p_a}}
+\log{\frac{\frac{p_d}{1 - p_d}}{\frac{p_a}{1 - p_a}}} \qquad e^{\log{\frac{\frac{p_d}{1 - p_d}}{\frac{p_a}{1 - p_a}}}} = \frac{\frac{p_d}{1 - p_d}}{\frac{p_a}{1 - p_a}}
 \]</span></p>
 <p>This is exactly the odds ratio! This means that taking the exponential of <span class="math inline">\(\beta_1\)</span> returns the estimated odds ratio for that comparison.</p>
 </section>
@@ -733,6 +729,11 @@ Model 2: acc ~ emotion_lbl
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
+</div>
+</section>
+<section id="main-effect-of-emotion-1" class="slide level2">
+<h2>Main effect of <code>emotion</code></h2>
+<div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">Anova</span>(fit_em)  <span class="co"># using the car::Anova</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Analysis of Deviance Table (Type II tests)
@@ -896,6 +897,11 @@ Confidence level used: 0.95
 <pre><code>          1           2           3           4           5           6 
 -0.03243528 -0.03243528 -0.03243528 -0.03243528 -0.03243528 -0.03243528 </code></pre>
 </div>
+</div>
+</section>
+<section id="what-emmeans-is-doing-1" class="slide level2">
+<h2>What <code>emmeans</code> is doing?</h2>
+<div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># prediction for the first 5 trials. </span></span>
 <span id="cb58-2"><a aria-hidden="true" tabindex="-1"></a><span class="co"># the prediction depend on the emotion</span></span>
 <span id="cb58-3"><a aria-hidden="true" tabindex="-1"></a></span>
@@ -916,7 +922,7 @@ Confidence level used: 0.95
 </div>
 </div>
 </section>
-<section id="what-emmeans-is-doing-1" class="slide level2">
+<section id="what-emmeans-is-doing-2" class="slide level2">
 <h2>What <code>emmeans</code> is doing?</h2>
 <p>For example, to know what is the predicted accuracy for <code>anger</code> and <code>disgust</code> we can do:</p>
 <div class="cell" data-layout-align="center">
@@ -929,10 +935,8 @@ Confidence level used: 0.95
 <p>Or manually:</p>
 <div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">coef</span>(fit_em)</span>
-<span id="cb66-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(</span>
-<span id="cb66-3"><a aria-hidden="true" tabindex="-1"></a>    <span class="fu">plogis</span>(B[<span class="st">"(Intercept)"</span>]), <span class="co"># anger</span></span>
-<span id="cb66-4"><a aria-hidden="true" tabindex="-1"></a>    <span class="fu">plogis</span>(B[<span class="st">"(Intercept)"</span>] <span class="sc">+</span> B[<span class="st">"emotion_lbldisgust"</span>]) <span class="co"># disgust</span></span>
-<span id="cb66-5"><a aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb66-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="fu">plogis</span>(B[<span class="st">"(Intercept)"</span>]), <span class="co"># anger</span></span>
+<span id="cb66-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">plogis</span>(B[<span class="st">"(Intercept)"</span>] <span class="sc">+</span> B[<span class="st">"emotion_lbldisgust"</span>])) <span class="co"># disgust</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>(Intercept) (Intercept) 
   0.3333333   0.3500000 </code></pre>
@@ -940,7 +944,7 @@ Confidence level used: 0.95
 </div>
 <p>On the logit scale, we can do linear combinations of coefficients. This is not valid on the probability scale, this is the reason why we need the link function.</p>
 </section>
-<section id="what-emmeans-is-doing-2" class="slide level2">
+<section id="what-emmeans-is-doing-3" class="slide level2">
 <h2>What <code>emmeans</code> is doing?</h2>
 <p>For reproducing the entire <code>emmeans</code> output we just need to provide all emotions into <code>newdata =</code></p>
 <div class="cell" data-layout-align="center">
@@ -1052,8 +1056,8 @@ Tests are performed on the log odds ratio scale </code></pre>
  disgust - anger       0.0741 0.440 Inf   0.168  0.9999
  fear - disgust       -2.3254 0.755 Inf  -3.079  0.0089
  happiness - fear      3.7246 0.770 Inf   4.839  &lt;.0001
- sadness - happiness  -0.7135 0.365 Inf  -1.956  0.1973
- surprise - sadness    1.3196 0.395 Inf   3.341  0.0036
+ sadness - happiness  -0.7135 0.365 Inf  -1.956  0.1975
+ surprise - sadness    1.3196 0.395 Inf   3.341  0.0035
 
 Results are given on the log odds ratio (not the response) scale. 
 P value adjustment: mvt method for 5 tests </code></pre>
@@ -1090,7 +1094,7 @@ surprise    |      0.80 | 0.69, 0.88</code></pre>
 <span id="cb79-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">ggeffect</span>(fit_em, <span class="st">"emotion_lbl"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
-<img data-src="binomial-glm_files/figure-revealjs/unnamed-chunk-39-1.svg" class="quarto-figure quarto-figure-center r-stretch"></section>
+<img data-src="binomial-glm_files/figure-revealjs/unnamed-chunk-41-1.svg" class="quarto-figure quarto-figure-center r-stretch"></section>
 <section id="numerical-predictor-effect-of-intensity" class="slide level2">
 <h2>Numerical predictor, effect of <code>intensity</code></h2>
 <p>Now let’s fit a model with only the effect of intensity.</p>
@@ -1181,17 +1185,17 @@ Number of Fisher Scoring iterations: 4</code></pre>
 <h2>Numerical predictor, effect of <code>intensity</code></h2>
 <p>Same increase in <code>intensity</code> produces a different increase on the probability scale but not on the logit scale.</p>
 
-<img data-src="binomial-glm_files/figure-revealjs/unnamed-chunk-45-1.svg" class="quarto-figure quarto-figure-center r-stretch"></section>
+<img data-src="binomial-glm_files/figure-revealjs/unnamed-chunk-47-1.svg" class="quarto-figure quarto-figure-center r-stretch"></section>
 <section id="numerical-predictor-marginal-effects" class="slide level2">
 <h2>Numerical predictor, marginal effects</h2>
 <p>This means that for interpreting results in the probability scale (what we actually want) we cannot think in linear terms (as in standard linear regression). For each value of <code>intensity</code> we have a different slope (i.e., derivative).</p>
 
-<img data-src="binomial-glm_files/figure-revealjs/unnamed-chunk-46-1.svg" class="quarto-figure quarto-figure-center r-stretch"></section>
+<img data-src="binomial-glm_files/figure-revealjs/unnamed-chunk-48-1.svg" class="quarto-figure quarto-figure-center r-stretch"></section>
 <section id="marginal-effects" class="slide level2">
 <h2>Marginal effects</h2>
 <p>Now let’s plot all the red slopes and see what we can learn:</p>
 
-<img data-src="binomial-glm_files/figure-revealjs/unnamed-chunk-47-1.svg" class="quarto-figure quarto-figure-center r-stretch"></section>
+<img data-src="binomial-glm_files/figure-revealjs/unnamed-chunk-49-1.svg" class="quarto-figure quarto-figure-center r-stretch"></section>
 <section id="marginal-effects-a-really-comprehensive-framework" class="slide level2">
 <h2>Marginal effects: a really comprehensive framework</h2>
 <p>The <code>marginaleffects</code> <a href="https://marginaleffects.com/">package</a> provide a very complete and comprehensive framework to compute marginal effects for several models. You can have a very detailed overview of the theory and the functions reading:</p>
@@ -1204,22 +1208,22 @@ Number of Fisher Scoring iterations: 4</code></pre>
 <h2>Marginal effects of <code>intensity</code></h2>
 <div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb94"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb94-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(marginaleffects)</span>
-<span id="cb94-2"><a aria-hidden="true" tabindex="-1"></a>sl <span class="ot">&lt;-</span> <span class="fu">slopes</span>(fit_int)</span>
+<span id="cb94-2"><a aria-hidden="true" tabindex="-1"></a>sl <span class="ot">&lt;-</span> <span class="fu">slopes</span>(fit_int, <span class="at">variables =</span> <span class="st">"intensity"</span>, <span class="at">by =</span> <span class="st">"intensity"</span>)</span>
 <span id="cb94-3"><a aria-hidden="true" tabindex="-1"></a>sl</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
- Estimate Std. Error     z Pr(&gt;|z|)     S   2.5 %  97.5 %
-  0.00796   0.001061  7.51   &lt;0.001  43.9 0.00589 0.01004
-  0.00796   0.001061  7.51   &lt;0.001  43.9 0.00589 0.01004
-  0.00762   0.000938  8.12   &lt;0.001  51.0 0.00578 0.00946
-  0.00507   0.000362 14.01   &lt;0.001 145.7 0.00436 0.00578
-  0.00796   0.001061  7.51   &lt;0.001  43.9 0.00589 0.01004
---- 360 rows omitted. See ?print.marginaleffects ---
-  0.00484   0.000351 13.77   &lt;0.001 140.8 0.00415 0.00552
-  0.00748   0.000905  8.27   &lt;0.001  52.7 0.00571 0.00925
-  0.00507   0.000362 14.01   &lt;0.001 145.7 0.00436 0.00578
-  0.00694   0.000725  9.57   &lt;0.001  69.7 0.00552 0.00836
-  0.00748   0.000905  8.27   &lt;0.001  52.7 0.00571 0.00925
+ intensity Estimate Std. Error     z Pr(&gt;|z|)     S   2.5 %  97.5 %
+        10  0.00484   0.000351 13.77   &lt;0.001 140.8 0.00415 0.00552
+        20  0.00582   0.000471 12.35   &lt;0.001 113.9 0.00489 0.00674
+        30  0.00674   0.000685  9.84   &lt;0.001  73.5 0.00540 0.00808
+        40  0.00748   0.000905  8.27   &lt;0.001  52.7 0.00571 0.00925
+        50  0.00792   0.001048  7.55   &lt;0.001  44.4 0.00586 0.00997
+        60  0.00796   0.001061  7.51   &lt;0.001  43.9 0.00589 0.01004
+        70  0.00762   0.000938  8.12   &lt;0.001  51.0 0.00578 0.00946
+        80  0.00694   0.000725  9.57   &lt;0.001  69.7 0.00552 0.00836
+        90  0.00605   0.000502 12.05   &lt;0.001 108.7 0.00507 0.00703
+       100  0.00507   0.000362 14.01   &lt;0.001 145.7 0.00436 0.00578
+
 Term: intensity
 Type: response
 Comparison: dY/dX</code></pre>
@@ -1240,41 +1244,44 @@ Term: intensity
 Type: response
 Comparison: dY/dX</code></pre>
 </div>
+</div>
+</section>
+<section id="marginal-effects-of-intensity-2" class="slide level2">
+<h2>Marginal effects of <code>intensity</code></h2>
+<div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb98"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb98-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># max marginal effect</span></span>
 <span id="cb98-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(sl, estimate <span class="sc">==</span> <span class="fu">max</span>(estimate))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
- Estimate Std. Error    z Pr(&gt;|z|)    S   2.5 % 97.5 %
-  0.00796    0.00106 7.51   &lt;0.001 43.9 0.00589   0.01
-  0.00796    0.00106 7.51   &lt;0.001 43.9 0.00589   0.01
-  0.00796    0.00106 7.51   &lt;0.001 43.9 0.00589   0.01
-  0.00796    0.00106 7.51   &lt;0.001 43.9 0.00589   0.01
-  0.00796    0.00106 7.51   &lt;0.001 43.9 0.00589   0.01
---- 27 rows omitted. See ?print.marginaleffects ---
-  0.00796    0.00106 7.51   &lt;0.001 43.9 0.00589   0.01
-  0.00796    0.00106 7.51   &lt;0.001 43.9 0.00589   0.01
-  0.00796    0.00106 7.51   &lt;0.001 43.9 0.00589   0.01
-  0.00796    0.00106 7.51   &lt;0.001 43.9 0.00589   0.01
-  0.00796    0.00106 7.51   &lt;0.001 43.9 0.00589   0.01
+ intensity Estimate Std. Error    z Pr(&gt;|z|)    S   2.5 % 97.5 %
+        60  0.00796    0.00106 7.51   &lt;0.001 43.9 0.00589   0.01
+
 Term: intensity
 Type: response
 Comparison: dY/dX</code></pre>
 </div>
 </div>
 </section>
+<section id="marginal-effects-of-intensity-3" class="slide level2">
+<h2>Marginal effects of <code>intensity</code></h2>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb100"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb100-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">plot_slopes</span>(fit_int, <span class="at">variables =</span> <span class="st">"intensity"</span>, <span class="at">by =</span> <span class="st">"intensity"</span>, <span class="at">vcov =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+
+</div>
+<img data-src="binomial-glm_files/figure-revealjs/unnamed-chunk-53-1.svg" class="quarto-figure quarto-figure-center r-stretch"></section>
 <section id="plotting-2" class="slide level2">
 <h2>Plotting</h2>
 <p>The pattern for intensity is almost linear, this is why we have more than one maximum.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb100"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb100-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">ggeffect</span>(fit_int, <span class="st">"intensity"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb101"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb101-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">ggeffect</span>(fit_int, <span class="st">"intensity"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
-<img data-src="binomial-glm_files/figure-revealjs/unnamed-chunk-50-1.svg" class="quarto-figure quarto-figure-center r-stretch"></section>
+<img data-src="binomial-glm_files/figure-revealjs/unnamed-chunk-54-1.svg" class="quarto-figure quarto-figure-center r-stretch"></section>
 <section id="inverse-estimation" class="slide level2">
 <h2>Inverse estimation</h2>
 <p>We can also do what is called inverse estimation (common in Psychophysics). We can ask the model what is the level of <code>intensity</code> required to achieve a certain accuracy.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb101"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb101-1"><a aria-hidden="true" tabindex="-1"></a>MASS<span class="sc">::</span><span class="fu">dose.p</span>(fit_int, <span class="at">p =</span> <span class="fl">0.75</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb102"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb102-1"><a aria-hidden="true" tabindex="-1"></a>MASS<span class="sc">::</span><span class="fu">dose.p</span>(fit_int, <span class="at">p =</span> <span class="fl">0.75</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>              Dose       SE
 p = 0.75: 90.57784 5.916972</code></pre>
@@ -1291,16 +1298,16 @@ p = 0.75: 90.57784 5.916972</code></pre>
 </ul>
 <p>We can center the variable on the minimum (0 become 10%) and rescale the variable from 0 (10%) to 10 (100%) where the unit increase is 10%.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb103"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb103-1"><a aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>intensity10 <span class="ot">&lt;-</span> (dat<span class="sc">$</span>intensity <span class="sc">-</span> <span class="dv">10</span>) <span class="sc">/</span> <span class="dv">10</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb104"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb104-1"><a aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>intensity10 <span class="ot">&lt;-</span> (dat<span class="sc">$</span>intensity <span class="sc">-</span> <span class="dv">10</span>) <span class="sc">/</span> <span class="dv">10</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="additive-model-intensity-and-emotion" class="slide level2">
 <h2>Additive model, <code>intensity</code> and <code>emotion</code></h2>
 <p>We can now fit a model with the additive effect of emotion and intensity. To simplify the pattern let’s keep only two emotions.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb104"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb104-1"><a aria-hidden="true" tabindex="-1"></a>fit_int_emo <span class="ot">&lt;-</span> <span class="fu">glm</span>(acc <span class="sc">~</span> intensity10 <span class="sc">+</span> emotion_lbl, <span class="at">data =</span> dat, <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>), <span class="at">subset =</span> emotion_lbl <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"anger"</span>, <span class="st">"surprise"</span>))</span>
-<span id="cb104-2"><a aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb104-3"><a aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_int_emo)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb105"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb105-1"><a aria-hidden="true" tabindex="-1"></a>fit_int_emo <span class="ot">&lt;-</span> <span class="fu">glm</span>(acc <span class="sc">~</span> intensity10 <span class="sc">+</span> emotion_lbl, <span class="at">data =</span> dat, <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>), <span class="at">subset =</span> emotion_lbl <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"anger"</span>, <span class="st">"surprise"</span>))</span>
+<span id="cb105-2"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb105-3"><a aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_int_emo)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -1335,7 +1342,7 @@ Number of Fisher Scoring iterations: 6</code></pre>
 <h2>Additive model, <code>intensity</code> and <code>emotion</code></h2>
 <p>We can have also the two main effects (not really useful with a factor with two levels):</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb106"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb106-1"><a aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">Anova</span>(fit_int_emo)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb107"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb107-1"><a aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">Anova</span>(fit_int_emo)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Analysis of Deviance Table (Type II tests)
 
@@ -1351,42 +1358,41 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <section id="additive-model-intensity-and-emotion-3" class="slide level2">
 <h2>Additive model, <code>intensity</code> and <code>emotion</code></h2>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb108"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb108-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork) <span class="co"># composing plots</span></span>
-<span id="cb108-2"><a aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb108-3"><a aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">ggeffect</span>(fit_int_emo, <span class="st">"intensity10"</span>)) <span class="sc">+</span> </span>
-<span id="cb108-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(<span class="fu">ggeffect</span>(fit_int_emo, <span class="st">"emotion_lbl"</span>)) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb109"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb109-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork) <span class="co"># composing plots</span></span>
+<span id="cb109-2"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb109-3"><a aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">ggeffect</span>(fit_int_emo, <span class="st">"intensity10"</span>)) <span class="sc">+</span> </span>
+<span id="cb109-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(<span class="fu">ggeffect</span>(fit_int_emo, <span class="st">"emotion_lbl"</span>)) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
-<img data-src="binomial-glm_files/figure-revealjs/unnamed-chunk-55-1.svg" class="quarto-figure quarto-figure-center r-stretch"></section>
+<img data-src="binomial-glm_files/figure-revealjs/unnamed-chunk-59-1.svg" class="quarto-figure quarto-figure-center r-stretch"></section>
 <section id="additive-model-intensity-and-emotion-4" class="slide level2">
 <h2>Additive model, <code>intensity</code> and <code>emotion</code></h2>
 <p>This means that we have an odds ratio of 64.22 in favor of anger and an odds ratio of 2.31 for a unit increase in intensity.</p>
-<p>We can also compute again the marginal effects for <code>intensity</code>:</p>
+<p>We can also compute again the marginal effects for <code>intensity</code> for each <code>emotion</code>:</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb109"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb109-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">avg_slopes</span>(fit_int_emo)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb110"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb110-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">avg_slopes</span>(fit_int_emo, <span class="at">variables =</span> <span class="st">"intensity10"</span>, <span class="at">by =</span> <span class="st">"emotion_lbl"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
-        Term         Contrast Estimate Std. Error     z Pr(&gt;|z|)    S  2.5 %
- emotion_lbl surprise - anger   0.4667    0.07159  6.52   &lt;0.001 33.7 0.3263
- intensity10 dY/dX              0.0852    0.00751 11.35   &lt;0.001 96.7 0.0704
- 97.5 %
- 0.6070
- 0.0999
+ emotion_lbl Estimate Std. Error     z Pr(&gt;|z|)     S  2.5 % 97.5 %
+    anger      0.0937    0.00508 18.45   &lt;0.001 250.0 0.0837 0.1036
+    surprise   0.0815    0.00920  8.86   &lt;0.001  60.2 0.0635 0.0995
 
-Type: response</code></pre>
+Term: intensity10
+Type: response
+Comparison: dY/dX</code></pre>
 </div>
 </div>
-<p>This means that we have on average an 8% of increase in accuracy across different levels of <code>intensity</code>.</p>
+<p>This means that we have on average an 8% and 9% of increase in accuracy.</p>
 </section>
 <section id="interaction-model-intensity-and-emotion" class="slide level2">
 <h2>Interaction model, <code>intensity</code> and <code>emotion</code></h2>
 <p>The final model that we can try is including the interaction between <code>intensity</code> and <code>emotion</code>.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb111"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb111-1"><a aria-hidden="true" tabindex="-1"></a>fit_emo_x_int <span class="ot">&lt;-</span> <span class="fu">glm</span>(acc <span class="sc">~</span> intensity10 <span class="sc">*</span> emotion_lbl, </span>
-<span id="cb111-2"><a aria-hidden="true" tabindex="-1"></a>                     <span class="at">data =</span> dat, <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>), </span>
-<span id="cb111-3"><a aria-hidden="true" tabindex="-1"></a>                     <span class="at">subset =</span> emotion_lbl <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"anger"</span>, <span class="st">"surprise"</span>))</span>
-<span id="cb111-4"><a aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb111-5"><a aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_emo_x_int)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb112"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb112-1"><a aria-hidden="true" tabindex="-1"></a>fit_emo_x_int <span class="ot">&lt;-</span> <span class="fu">glm</span>(acc <span class="sc">~</span> intensity10 <span class="sc">*</span> emotion_lbl, </span>
+<span id="cb112-2"><a aria-hidden="true" tabindex="-1"></a>                     <span class="at">data =</span> dat, <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>), </span>
+<span id="cb112-3"><a aria-hidden="true" tabindex="-1"></a>                     <span class="at">subset =</span> emotion_lbl <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"anger"</span>, <span class="st">"surprise"</span>))</span>
+<span id="cb112-4"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb112-5"><a aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_emo_x_int)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -1416,10 +1422,10 @@ Number of Fisher Scoring iterations: 7</code></pre>
 <h2>Interaction model, <code>intensity</code> and <code>emotion</code></h2>
 <p>With interactions, always visualize first:</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb113"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb113-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">ggeffect</span>(fit_emo_x_int, <span class="at">terms =</span> <span class="fu">c</span>(<span class="st">"intensity10"</span>, <span class="st">"emotion_lbl"</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb114"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb114-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">ggeffect</span>(fit_emo_x_int, <span class="at">terms =</span> <span class="fu">c</span>(<span class="st">"intensity10"</span>, <span class="st">"emotion_lbl"</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
-<img data-src="binomial-glm_files/figure-revealjs/unnamed-chunk-58-1.svg" class="quarto-figure quarto-figure-center r-stretch"></section>
+<img data-src="binomial-glm_files/figure-revealjs/unnamed-chunk-62-1.svg" class="quarto-figure quarto-figure-center r-stretch"></section>
 <section id="interaction-model-intensity-and-emotion-2" class="slide level2">
 <h2>Interaction model, <code>intensity</code> and <code>emotion</code></h2>
 <p>Clearly the effect of intensity is not the same for <code>anger</code> and <code>surprise</code>. The participant reaches high accuracies faster for <code>surprised</code> faces compared to <code>angry</code> faces.</p>
@@ -1434,10 +1440,10 @@ Number of Fisher Scoring iterations: 7</code></pre>
 <h2>Interaction model, <code>intensity</code> and <code>emotion</code></h2>
 <p>Let’s improve a little bit the interpretation. We can <em>center</em> the emotion applying not the dummy (or treatment) coding but the sum to zero coding.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb114"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb114-1"><a aria-hidden="true" tabindex="-1"></a>datsub <span class="ot">&lt;-</span> <span class="fu">filter</span>(dat, emotion_lbl <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"anger"</span>, <span class="st">"surprise"</span>))</span>
-<span id="cb114-2"><a aria-hidden="true" tabindex="-1"></a>datsub<span class="sc">$</span>emotion_lbl <span class="ot">&lt;-</span> <span class="fu">factor</span>(datsub<span class="sc">$</span>emotion_lbl)</span>
-<span id="cb114-3"><a aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(datsub<span class="sc">$</span>emotion_lbl) <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fu">contr.sum</span>(<span class="dv">2</span>)<span class="sc">/</span><span class="dv">2</span></span>
-<span id="cb114-4"><a aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(datsub<span class="sc">$</span>emotion_lbl)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb115"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb115-1"><a aria-hidden="true" tabindex="-1"></a>datsub <span class="ot">&lt;-</span> <span class="fu">filter</span>(dat, emotion_lbl <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"anger"</span>, <span class="st">"surprise"</span>))</span>
+<span id="cb115-2"><a aria-hidden="true" tabindex="-1"></a>datsub<span class="sc">$</span>emotion_lbl <span class="ot">&lt;-</span> <span class="fu">factor</span>(datsub<span class="sc">$</span>emotion_lbl)</span>
+<span id="cb115-3"><a aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(datsub<span class="sc">$</span>emotion_lbl) <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fu">contr.sum</span>(<span class="dv">2</span>)<span class="sc">/</span><span class="dv">2</span></span>
+<span id="cb115-4"><a aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(datsub<span class="sc">$</span>emotion_lbl)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>         [,1]
 anger    -0.5
@@ -1448,11 +1454,11 @@ surprise  0.5</code></pre>
 <section id="interaction-model-intensity-and-emotion-4" class="slide level2">
 <h2>Interaction model, <code>intensity</code> and <code>emotion</code></h2>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb116"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb116-1"><a aria-hidden="true" tabindex="-1"></a>fit_emo_x_int2 <span class="ot">&lt;-</span> <span class="fu">glm</span>(acc <span class="sc">~</span> intensity10 <span class="sc">*</span> emotion_lbl, </span>
-<span id="cb116-2"><a aria-hidden="true" tabindex="-1"></a>                      <span class="at">data =</span> datsub, </span>
-<span id="cb116-3"><a aria-hidden="true" tabindex="-1"></a>                      <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>))</span>
-<span id="cb116-4"><a aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb116-5"><a aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_emo_x_int2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb117"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb117-1"><a aria-hidden="true" tabindex="-1"></a>fit_emo_x_int2 <span class="ot">&lt;-</span> <span class="fu">glm</span>(acc <span class="sc">~</span> intensity10 <span class="sc">*</span> emotion_lbl, </span>
+<span id="cb117-2"><a aria-hidden="true" tabindex="-1"></a>                      <span class="at">data =</span> datsub, </span>
+<span id="cb117-3"><a aria-hidden="true" tabindex="-1"></a>                      <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>))</span>
+<span id="cb117-4"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb117-5"><a aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_emo_x_int2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -1490,8 +1496,8 @@ Number of Fisher Scoring iterations: 7</code></pre>
 <section id="interaction-model-intensity-and-emotion-6" class="slide level2">
 <h2>Interaction model, <code>intensity</code> and <code>emotion</code></h2>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb118"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb118-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(fit_emo_x_int<span class="sc">$</span>coefficients) <span class="ot">&lt;-</span> <span class="fu">names</span>(fit_emo_x_int2<span class="sc">$</span>coefficients) <span class="co"># just for a better output, dangerous otherwise</span></span>
-<span id="cb118-2"><a aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">compareCoefs</span>(fit_emo_x_int, fit_emo_x_int2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb119"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb119-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(fit_emo_x_int<span class="sc">$</span>coefficients) <span class="ot">&lt;-</span> <span class="fu">names</span>(fit_emo_x_int2<span class="sc">$</span>coefficients) <span class="co"># just for a better output, dangerous otherwise</span></span>
+<span id="cb119-2"><a aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">compareCoefs</span>(fit_emo_x_int, fit_emo_x_int2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Calls:
 1: glm(formula = acc ~ intensity10 * emotion_lbl, family = binomial(link = 
@@ -1524,7 +1530,7 @@ SE                         0.474   0.474
 <h2>Deviance</h2>
 <p>When using the <code>summary()</code> function we can see that there is as section about <em>Deviance</em>:</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb120"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb120-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_int)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb121"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb121-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_int)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell" data-layout-align="center">
 <pre><code>
@@ -1564,12 +1570,12 @@ Number of Fisher Scoring iterations: 4
 <h2>Deviance and likelihood</h2>
 <p>This is a visual representation of the three models. The current model should be always between the null and the saturated.</p>
 
-<img data-src="binomial-glm_files/figure-revealjs/unnamed-chunk-64-1.svg" class="quarto-figure quarto-figure-center r-stretch"></section>
+<img data-src="binomial-glm_files/figure-revealjs/unnamed-chunk-68-1.svg" class="quarto-figure quarto-figure-center r-stretch"></section>
 <section id="deviance-and-likelihood-1" class="slide level2">
 <h2>Deviance and likelihood</h2>
 <p>We can simplify the idea of likelihood and deviance thinking about the distance between the fitted line and the points. As the distance decreases, the likelihood of the model increases.</p>
 
-<img data-src="binomial-glm_files/figure-revealjs/unnamed-chunk-65-1.svg" class="quarto-figure quarto-figure-center r-stretch"></section>
+<img data-src="binomial-glm_files/figure-revealjs/unnamed-chunk-69-1.svg" class="quarto-figure quarto-figure-center r-stretch"></section>
 <section id="deviance-2" class="slide level2">
 <h2>Deviance</h2>
 <p>The null and residual deviance that we see in the model output can be calculated as:</p>
@@ -1582,19 +1588,19 @@ D_{\mbox{resid}} = 2 -(log(\mathcal{L}_{\mbox{current}}) - log(\mathcal{L}_{\mbo
 <section id="deviance-3" class="slide level2">
 <h2>Deviance</h2>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb121"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb121-1"><a aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>id <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(dat))</span>
-<span id="cb121-2"><a aria-hidden="true" tabindex="-1"></a>fit_cur <span class="ot">&lt;-</span> fit_int <span class="co"># current model</span></span>
-<span id="cb121-3"><a aria-hidden="true" tabindex="-1"></a>fit_sat <span class="ot">&lt;-</span> <span class="fu">glm</span>(acc <span class="sc">~</span> <span class="dv">0</span> <span class="sc">+</span> id, <span class="at">data =</span> dat, <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>))</span>
-<span id="cb121-4"><a aria-hidden="true" tabindex="-1"></a>fit_null <span class="ot">&lt;-</span> <span class="fu">glm</span>(acc <span class="sc">~</span> <span class="dv">1</span>, <span class="at">data =</span> dat, <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb122"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb122-1"><a aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>id <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(dat))</span>
+<span id="cb122-2"><a aria-hidden="true" tabindex="-1"></a>fit_cur <span class="ot">&lt;-</span> fit_int <span class="co"># current model</span></span>
+<span id="cb122-3"><a aria-hidden="true" tabindex="-1"></a>fit_sat <span class="ot">&lt;-</span> <span class="fu">glm</span>(acc <span class="sc">~</span> <span class="dv">0</span> <span class="sc">+</span> id, <span class="at">data =</span> dat, <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>))</span>
+<span id="cb122-4"><a aria-hidden="true" tabindex="-1"></a>fit_null <span class="ot">&lt;-</span> <span class="fu">glm</span>(acc <span class="sc">~</span> <span class="dv">1</span>, <span class="at">data =</span> dat, <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb122"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb122-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># residual</span></span>
-<span id="cb122-2"><a aria-hidden="true" tabindex="-1"></a><span class="dv">2</span> <span class="sc">*</span> <span class="sc">-</span>(<span class="fu">logLik</span>(fit_cur) <span class="sc">-</span> <span class="fu">logLik</span>(fit_sat))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb123"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb123-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># residual</span></span>
+<span id="cb123-2"><a aria-hidden="true" tabindex="-1"></a><span class="dv">2</span> <span class="sc">*</span> <span class="sc">-</span>(<span class="fu">logLik</span>(fit_cur) <span class="sc">-</span> <span class="fu">logLik</span>(fit_sat))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>'log Lik.' 447.0538 (df=2)</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb124"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb124-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># null</span></span>
-<span id="cb124-2"><a aria-hidden="true" tabindex="-1"></a><span class="dv">2</span> <span class="sc">*</span> <span class="sc">-</span>(<span class="fu">logLik</span>(fit_null) <span class="sc">-</span> <span class="fu">logLik</span>(fit_sat))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb125"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb125-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># null</span></span>
+<span id="cb125-2"><a aria-hidden="true" tabindex="-1"></a><span class="dv">2</span> <span class="sc">*</span> <span class="sc">-</span>(<span class="fu">logLik</span>(fit_null) <span class="sc">-</span> <span class="fu">logLik</span>(fit_sat))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>'log Lik.' 512.8316 (df=1)</code></pre>
 </div>
@@ -1623,27 +1629,27 @@ D_{\mbox{resid}} = 2 -(log(\mathcal{L}_{\mbox{current}}) - log(\mathcal{L}_{\mbo
 <h2><span class="math inline">\(R^2\)</span></h2>
 <p>The <code>performance</code> R package (used to plot diagnostics and other modelling-related metrics) implements most of the pseudo-<span class="math inline">\(R^2\)</span> values. The default for binomial models is the method proposed by <span class="citation" data-cites="Tjur2009-ml">Tjur (<a href="#/references" role="doc-biblioref" onclick="">2009</a>)</span>.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb126"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb126-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># performance::r2_tjur()</span></span>
-<span id="cb126-2"><a aria-hidden="true" tabindex="-1"></a>performance<span class="sc">::</span><span class="fu">r2</span>(fit_emo_x_int2) </span>
-<span id="cb126-3"><a aria-hidden="true" tabindex="-1"></a><span class="do">## # R2 for Logistic Regression</span></span>
-<span id="cb126-4"><a aria-hidden="true" tabindex="-1"></a><span class="do">##   Tjur's R2: 0.578</span></span>
-<span id="cb126-5"><a aria-hidden="true" tabindex="-1"></a>performance<span class="sc">::</span><span class="fu">r2_coxsnell</span>(fit_emo_x_int2)</span>
-<span id="cb126-6"><a aria-hidden="true" tabindex="-1"></a><span class="do">## Cox &amp; Snell's R2 </span></span>
-<span id="cb126-7"><a aria-hidden="true" tabindex="-1"></a><span class="do">##        0.5030847</span></span>
-<span id="cb126-8"><a aria-hidden="true" tabindex="-1"></a>performance<span class="sc">::</span><span class="fu">r2_mcfadden</span>(fit_emo_x_int2)</span>
-<span id="cb126-9"><a aria-hidden="true" tabindex="-1"></a><span class="do">## # R2 for Generalized Linear Regression</span></span>
-<span id="cb126-10"><a aria-hidden="true" tabindex="-1"></a><span class="do">##        R2: 0.545</span></span>
-<span id="cb126-11"><a aria-hidden="true" tabindex="-1"></a><span class="do">##   adj. R2: 0.530</span></span>
-<span id="cb126-12"><a aria-hidden="true" tabindex="-1"></a>performance<span class="sc">::</span><span class="fu">r2_nagelkerke</span>(fit_emo_x_int2)</span>
-<span id="cb126-13"><a aria-hidden="true" tabindex="-1"></a><span class="do">## Nagelkerke's R2 </span></span>
-<span id="cb126-14"><a aria-hidden="true" tabindex="-1"></a><span class="do">##       0.6962745</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb127"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb127-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># performance::r2_tjur()</span></span>
+<span id="cb127-2"><a aria-hidden="true" tabindex="-1"></a>performance<span class="sc">::</span><span class="fu">r2</span>(fit_emo_x_int2) </span>
+<span id="cb127-3"><a aria-hidden="true" tabindex="-1"></a><span class="do">## # R2 for Logistic Regression</span></span>
+<span id="cb127-4"><a aria-hidden="true" tabindex="-1"></a><span class="do">##   Tjur's R2: 0.578</span></span>
+<span id="cb127-5"><a aria-hidden="true" tabindex="-1"></a>performance<span class="sc">::</span><span class="fu">r2_coxsnell</span>(fit_emo_x_int2)</span>
+<span id="cb127-6"><a aria-hidden="true" tabindex="-1"></a><span class="do">## Cox &amp; Snell's R2 </span></span>
+<span id="cb127-7"><a aria-hidden="true" tabindex="-1"></a><span class="do">##        0.5030847</span></span>
+<span id="cb127-8"><a aria-hidden="true" tabindex="-1"></a>performance<span class="sc">::</span><span class="fu">r2_mcfadden</span>(fit_emo_x_int2)</span>
+<span id="cb127-9"><a aria-hidden="true" tabindex="-1"></a><span class="do">## # R2 for Generalized Linear Regression</span></span>
+<span id="cb127-10"><a aria-hidden="true" tabindex="-1"></a><span class="do">##        R2: 0.545</span></span>
+<span id="cb127-11"><a aria-hidden="true" tabindex="-1"></a><span class="do">##   adj. R2: 0.530</span></span>
+<span id="cb127-12"><a aria-hidden="true" tabindex="-1"></a>performance<span class="sc">::</span><span class="fu">r2_nagelkerke</span>(fit_emo_x_int2)</span>
+<span id="cb127-13"><a aria-hidden="true" tabindex="-1"></a><span class="do">## Nagelkerke's R2 </span></span>
+<span id="cb127-14"><a aria-hidden="true" tabindex="-1"></a><span class="do">##       0.6962745</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="residuals" class="slide level2">
 <h2>Residuals</h2>
 <p>Diagnostics in GLMs is more complex than in standard linear models. The main reason is that residuals are more complex due to the link function. For example these are the residuals of the last model we fitted.</p>
 
-<img data-src="binomial-glm_files/figure-revealjs/unnamed-chunk-69-1.svg" class="quarto-figure quarto-figure-center r-stretch"></section>
+<img data-src="binomial-glm_files/figure-revealjs/unnamed-chunk-73-1.svg" class="quarto-figure quarto-figure-center r-stretch"></section>
 <section id="residuals-1" class="slide level2">
 <h2>Residuals</h2>
 <p>There are few problems with residuals in GLM:</p>
@@ -1668,15 +1674,15 @@ D_{\mbox{resid}} = 2 -(log(\mathcal{L}_{\mbox{current}}) - log(\mathcal{L}_{\mbo
 <p>The resulting residuals are standardized to values between 0 and 1 and can be interpreted as intuitively as residuals from a linear regression.</p>
 </blockquote>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb127"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb127-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DHARMa)</span>
-<span id="cb127-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">simulateResiduals</span>(fit_emo_x_int2))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb128"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb128-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DHARMa)</span>
+<span id="cb128-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">simulateResiduals</span>(fit_emo_x_int2))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 
 </section><section id="residuals-a-proposal-1-output" class="slide level2 output-location-slide"><h2>Residuals, a proposal</h2><div class="cell output-location-slide" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="binomial-glm_files/figure-revealjs/unnamed-chunk-70-1.svg" class="quarto-figure quarto-figure-center"></p>
+<p><img data-src="binomial-glm_files/figure-revealjs/unnamed-chunk-74-1.svg" class="quarto-figure quarto-figure-center"></p>
 </figure>
 </div>
 </div>
@@ -1711,16 +1717,16 @@ D_{\mbox{resid}} = 2 -(log(\mathcal{L}_{\mbox{current}}) - log(\mathcal{L}_{\mbo
 <p>Let’s try estimating the statistical power for the <code>intensity</code> effect in our example.</p>
 <p>We will simulate data according to a Binomial GLM with a logit link function.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb128"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb128-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>)</span>
-<span id="cb128-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">qlogis</span>() <span class="co"># link function</span></span>
-<span id="cb128-3"><a aria-hidden="true" tabindex="-1"></a><span class="fu">plogis</span>() <span class="co"># inverse link function</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb129"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb129-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>)</span>
+<span id="cb129-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">qlogis</span>() <span class="co"># link function</span></span>
+<span id="cb129-3"><a aria-hidden="true" tabindex="-1"></a><span class="fu">plogis</span>() <span class="co"># inverse link function</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="experiment-features" class="slide level2">
 <h2>2. Experiment features</h2>
 <p>We will simulate a single subject doing <span class="math inline">\(n\)</span> trials. The main predictor is <code>intensity</code> ranging from 10% to 100% in steps of 10%.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb129"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb129-1"><a aria-hidden="true" tabindex="-1"></a>(intensity <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">10</span>, <span class="dv">100</span>, <span class="dv">10</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb130"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb130-1"><a aria-hidden="true" tabindex="-1"></a>(intensity <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">10</span>, <span class="dv">100</span>, <span class="dv">10</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1]  10  20  30  40  50  60  70  80  90 100</code></pre>
 </div>
@@ -1730,12 +1736,12 @@ D_{\mbox{resid}} = 2 -(log(\mathcal{L}_{\mbox{current}}) - log(\mathcal{L}_{\mbo
 <h2>3. Random number generation</h2>
 <p>In R, to simulate data you can use the <code>r*</code> function. Each implemented distribution in R has the associated <code>r*</code> function (as the <code>p*</code> and <code>q*</code> function we used before).</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb131"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb131-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># simulate 10 numbers from a gaussian distribution</span></span>
-<span id="cb131-2"><a aria-hidden="true" tabindex="-1"></a><span class="co"># with mu = 10 and sigma = 5</span></span>
-<span id="cb131-3"><a aria-hidden="true" tabindex="-1"></a><span class="fu">rnorm</span>(<span class="at">n =</span> <span class="dv">10</span>, <span class="at">mean =</span> <span class="dv">10</span>, <span class="at">sd =</span> <span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb132"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb132-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># simulate 10 numbers from a gaussian distribution</span></span>
+<span id="cb132-2"><a aria-hidden="true" tabindex="-1"></a><span class="co"># with mu = 10 and sigma = 5</span></span>
+<span id="cb132-3"><a aria-hidden="true" tabindex="-1"></a><span class="fu">rnorm</span>(<span class="at">n =</span> <span class="dv">10</span>, <span class="at">mean =</span> <span class="dv">10</span>, <span class="at">sd =</span> <span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1]  0.5383932 10.9113661  4.4995351  9.5580316 12.7771419 12.4440070
- [7] 12.2122934  9.3329124  6.1627081 15.3577288</code></pre>
+<pre><code> [1]  4.3905582 11.7268075  8.0782505 12.8939900 20.2093366  5.3326365
+ [7] -0.9990885  6.8922503  8.3178244 12.2612597</code></pre>
 </div>
 </div>
 </section>
@@ -1743,20 +1749,20 @@ D_{\mbox{resid}} = 2 -(log(\mathcal{L}_{\mbox{current}}) - log(\mathcal{L}_{\mbo
 <h2>3. Random number generation</h2>
 <p>For the Binomial we have <code>rbinom</code>:</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb133"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb133-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># n = number of rows in our case</span></span>
-<span id="cb133-2"><a aria-hidden="true" tabindex="-1"></a><span class="co"># size = number of trials</span></span>
-<span id="cb133-3"><a aria-hidden="true" tabindex="-1"></a><span class="co"># p = probability of success in each trial</span></span>
-<span id="cb133-4"><a aria-hidden="true" tabindex="-1"></a><span class="fu">rbinom</span>(<span class="at">n =</span> <span class="dv">1</span>, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">prob =</span> <span class="fl">0.5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb134"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb134-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># n = number of rows in our case</span></span>
+<span id="cb134-2"><a aria-hidden="true" tabindex="-1"></a><span class="co"># size = number of trials</span></span>
+<span id="cb134-3"><a aria-hidden="true" tabindex="-1"></a><span class="co"># p = probability of success in each trial</span></span>
+<span id="cb134-4"><a aria-hidden="true" tabindex="-1"></a><span class="fu">rbinom</span>(<span class="at">n =</span> <span class="dv">1</span>, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">prob =</span> <span class="fl">0.5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0</code></pre>
+<pre><code>[1] 1</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb135"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb135-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">rbinom</span>(<span class="at">n =</span> <span class="dv">5</span>, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">prob =</span> <span class="fl">0.5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb136"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb136-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">rbinom</span>(<span class="at">n =</span> <span class="dv">5</span>, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">prob =</span> <span class="fl">0.5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0 0 0 1 1</code></pre>
+<pre><code>[1] 1 1 0 1 0</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb137"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb137-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">rbinom</span>(<span class="at">n =</span> <span class="dv">5</span>, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">prob =</span> <span class="fl">0.5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb138"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb138-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">rbinom</span>(<span class="at">n =</span> <span class="dv">5</span>, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">prob =</span> <span class="fl">0.5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 2 6 6 3 5</code></pre>
+<pre><code>[1] 6 4 5 4 3</code></pre>
 </div>
 </div>
 </section>
@@ -1765,18 +1771,18 @@ D_{\mbox{resid}} = 2 -(log(\mathcal{L}_{\mbox{current}}) - log(\mathcal{L}_{\mbo
 <p>Notice that <code>rbinom</code> is not really intutive because it works both on the binary and the binomial form.</p>
 <p>This means to generate <span class="math inline">\(k\)</span> bernoulli trials with results 0 or 1</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb139"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb139-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">rbinom</span>(<span class="dv">10</span>, <span class="dv">1</span>, <span class="fl">0.5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb140"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb140-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">rbinom</span>(<span class="dv">10</span>, <span class="dv">1</span>, <span class="fl">0.5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1] 1 1 0 1 1 1 1 1 1 1</code></pre>
+<pre><code> [1] 0 0 1 1 0 1 0 0 1 0</code></pre>
 </div>
 </div>
 <p>This is the same but aggregating:</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb141"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb141-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># the result is the number of successes over 10 </span></span>
-<span id="cb141-2"><a aria-hidden="true" tabindex="-1"></a><span class="co"># bernoulli trials</span></span>
-<span id="cb141-3"><a aria-hidden="true" tabindex="-1"></a><span class="fu">rbinom</span>(<span class="dv">1</span>, <span class="dv">10</span>, <span class="fl">0.5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb142"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb142-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># the result is the number of successes over 10 </span></span>
+<span id="cb142-2"><a aria-hidden="true" tabindex="-1"></a><span class="co"># bernoulli trials</span></span>
+<span id="cb142-3"><a aria-hidden="true" tabindex="-1"></a><span class="fu">rbinom</span>(<span class="dv">1</span>, <span class="dv">10</span>, <span class="fl">0.5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 6</code></pre>
+<pre><code>[1] 7</code></pre>
 </div>
 </div>
 <p>Depending if you want to work with 0-1 values or number of successes/failures (aggregated) you should use one of the two strategies.</p>
@@ -1785,8 +1791,8 @@ D_{\mbox{resid}} = 2 -(log(\mathcal{L}_{\mbox{current}}) - log(\mathcal{L}_{\mbo
 <h2>3. Random number generation</h2>
 <p>The crucial part of <code>rbinom</code> is that the <code>prob =</code> argument is vectorized. This means that if you simulate <span class="math inline">\(n\)</span> trials you can provide <span class="math inline">\(n\)</span> probabilities.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb143"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb143-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># 20 different probabilities</span></span>
-<span id="cb143-2"><a aria-hidden="true" tabindex="-1"></a>(p <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fl">0.1</span>, <span class="fl">0.9</span>, <span class="at">length.out =</span> <span class="dv">20</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb144"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb144-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># 20 different probabilities</span></span>
+<span id="cb144-2"><a aria-hidden="true" tabindex="-1"></a>(p <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fl">0.1</span>, <span class="fl">0.9</span>, <span class="at">length.out =</span> <span class="dv">20</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] 0.1000000 0.1421053 0.1842105 0.2263158 0.2684211 0.3105263 0.3526316
  [8] 0.3947368 0.4368421 0.4789474 0.5210526 0.5631579 0.6052632 0.6473684
@@ -1795,9 +1801,9 @@ D_{\mbox{resid}} = 2 -(log(\mathcal{L}_{\mbox{current}}) - log(\mathcal{L}_{\mbo
 </div>
 <p>This means that for the last trials, the probability of success (1) is larger.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb145"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb145-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">rbinom</span>(<span class="at">n =</span> <span class="dv">20</span>, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">prob =</span> p)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb146"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb146-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">rbinom</span>(<span class="at">n =</span> <span class="dv">20</span>, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">prob =</span> p)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1] 0 0 1 1 1 1 0 0 0 0 0 0 1 1 1 0 0 0 1 0</code></pre>
+<pre><code> [1] 0 0 0 1 1 0 1 0 1 0 0 0 1 1 1 1 1 1 1 1</code></pre>
 </div>
 </div>
 </section>
@@ -1806,21 +1812,21 @@ D_{\mbox{resid}} = 2 -(log(\mathcal{L}_{\mbox{current}}) - log(\mathcal{L}_{\mbo
 <p>We can start with the deterministic part of the simulation, the experiment.</p>
 <p>We simulate an experiment with <code>nt</code> trials with random <code>intensity</code> values from 10 to 100. We could also create a balanced version.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb147"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb147-1"><a aria-hidden="true" tabindex="-1"></a>nt <span class="ot">&lt;-</span> <span class="dv">100</span> <span class="co"># number of trials</span></span>
-<span id="cb147-2"><a aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb147-3"><a aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb147-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="at">intensity =</span> <span class="fu">sample</span>(intensity, nt, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb147-5"><a aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb147-6"><a aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb147-7"><a aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dat) <span class="co"># first 6 rows</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb148"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb148-1"><a aria-hidden="true" tabindex="-1"></a>nt <span class="ot">&lt;-</span> <span class="dv">100</span> <span class="co"># number of trials</span></span>
+<span id="cb148-2"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb148-3"><a aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb148-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="at">intensity =</span> <span class="fu">sample</span>(intensity, nt, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb148-5"><a aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb148-6"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb148-7"><a aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dat) <span class="co"># first 6 rows</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  intensity
-1        40
-2        40
-3        50
-4        10
-5        50
-6       100</code></pre>
+1        50
+2        10
+3        90
+4        60
+5        70
+6        40</code></pre>
 </div>
 </div>
 </section>
@@ -1842,21 +1848,21 @@ y_i \sim \mathrm{Bernoulli}(p_i) \qquad y_i \in \{0,1\}
 <div class="cell" data-layout-align="center">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb149"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb149-1"><a aria-hidden="true" tabindex="-1"></a>b0 <span class="ot">&lt;-</span> <span class="fu">qlogis</span>(<span class="fl">0.1</span>) <span class="co"># logit of success when intensity = 10%</span></span>
-<span id="cb149-2"><a aria-hidden="true" tabindex="-1"></a>b1 <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb149-3"><a aria-hidden="true" tabindex="-1"></a>intensity10 <span class="ot">&lt;-</span> (intensity <span class="sc">-</span> <span class="dv">10</span>) <span class="sc">/</span> <span class="dv">10</span></span>
-<span id="cb149-4"><a aria-hidden="true" tabindex="-1"></a>eta <span class="ot">&lt;-</span> b0 <span class="sc">+</span> b1 <span class="sc">*</span> intensity10</span>
-<span id="cb149-5"><a aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb149-6"><a aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(</span>
-<span id="cb149-7"><a aria-hidden="true" tabindex="-1"></a>  intensity,</span>
-<span id="cb149-8"><a aria-hidden="true" tabindex="-1"></a>  eta</span>
-<span id="cb149-9"><a aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span> </span>
-<span id="cb149-10"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> intensity, <span class="at">y =</span> <span class="fu">plogis</span>(eta))) <span class="sc">+</span></span>
-<span id="cb149-11"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">5</span>) <span class="sc">+</span></span>
-<span id="cb149-12"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
-<span id="cb149-13"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Intensity"</span>) <span class="sc">+</span></span>
-<span id="cb149-14"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Accuracy"</span>) <span class="sc">+</span></span>
-<span id="cb149-15"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(latex2exp<span class="sc">::</span><span class="fu">TeX</span>(<span class="st">"$</span><span class="sc">\\</span><span class="st">beta_1 = 1$"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb150"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb150-1"><a aria-hidden="true" tabindex="-1"></a>b0 <span class="ot">&lt;-</span> <span class="fu">qlogis</span>(<span class="fl">0.1</span>) <span class="co"># logit of success when intensity = 10%</span></span>
+<span id="cb150-2"><a aria-hidden="true" tabindex="-1"></a>b1 <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb150-3"><a aria-hidden="true" tabindex="-1"></a>intensity10 <span class="ot">&lt;-</span> (intensity <span class="sc">-</span> <span class="dv">10</span>) <span class="sc">/</span> <span class="dv">10</span></span>
+<span id="cb150-4"><a aria-hidden="true" tabindex="-1"></a>eta <span class="ot">&lt;-</span> b0 <span class="sc">+</span> b1 <span class="sc">*</span> intensity10</span>
+<span id="cb150-5"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb150-6"><a aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(</span>
+<span id="cb150-7"><a aria-hidden="true" tabindex="-1"></a>  intensity,</span>
+<span id="cb150-8"><a aria-hidden="true" tabindex="-1"></a>  eta</span>
+<span id="cb150-9"><a aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span> </span>
+<span id="cb150-10"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> intensity, <span class="at">y =</span> <span class="fu">plogis</span>(eta))) <span class="sc">+</span></span>
+<span id="cb150-11"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">5</span>) <span class="sc">+</span></span>
+<span id="cb150-12"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb150-13"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Intensity"</span>) <span class="sc">+</span></span>
+<span id="cb150-14"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Accuracy"</span>) <span class="sc">+</span></span>
+<span id="cb150-15"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(latex2exp<span class="sc">::</span><span class="fu">TeX</span>(<span class="st">"$</span><span class="sc">\\</span><span class="st">beta_1 = 1$"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 
@@ -1865,7 +1871,7 @@ y_i \sim \mathrm{Bernoulli}(p_i) \qquad y_i \in \{0,1\}
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="binomial-glm_files/figure-revealjs/unnamed-chunk-80-1.svg" class="quarto-figure quarto-figure-center"></p>
+<p><img data-src="binomial-glm_files/figure-revealjs/unnamed-chunk-84-1.svg" class="quarto-figure quarto-figure-center"></p>
 </figure>
 </div>
 </div>
@@ -1873,25 +1879,25 @@ y_i \sim \mathrm{Bernoulli}(p_i) \qquad y_i \in \{0,1\}
 <h2>Systematic component and random component</h2>
 <p>You can choose different <span class="math inline">\(\beta_1\)</span> values according to your hypothesis.</p>
 
-<img data-src="binomial-glm_files/figure-revealjs/unnamed-chunk-81-1.svg" class="quarto-figure quarto-figure-center r-stretch"></section>
+<img data-src="binomial-glm_files/figure-revealjs/unnamed-chunk-85-1.svg" class="quarto-figure quarto-figure-center r-stretch"></section>
 <section id="systematic-component-and-random-component-3" class="slide level2">
 <h2>Systematic component and random component</h2>
 <p>Now we can simply apply the same functions to the full dataset. Let’s stick with <span class="math inline">\(\beta_1 = 0.5\)</span> for the moment.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb150"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb150-1"><a aria-hidden="true" tabindex="-1"></a>b0 <span class="ot">&lt;-</span> <span class="fu">qlogis</span>(<span class="fl">0.1</span>)</span>
-<span id="cb150-2"><a aria-hidden="true" tabindex="-1"></a>b1 <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb150-3"><a aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>intensity10 <span class="ot">&lt;-</span> <span class="fu">with</span>(dat, (intensity <span class="sc">-</span> <span class="dv">10</span>)<span class="sc">/</span><span class="dv">10</span>)</span>
-<span id="cb150-4"><a aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>eta <span class="ot">&lt;-</span> <span class="fu">with</span>(dat, b0 <span class="sc">+</span> b1 <span class="sc">*</span> intensity10) <span class="co"># link function space</span></span>
-<span id="cb150-5"><a aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>p <span class="ot">&lt;-</span> <span class="fu">plogis</span>(dat<span class="sc">$</span>eta) <span class="co"># inverse link (probability)</span></span>
-<span id="cb150-6"><a aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dat)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb151"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb151-1"><a aria-hidden="true" tabindex="-1"></a>b0 <span class="ot">&lt;-</span> <span class="fu">qlogis</span>(<span class="fl">0.1</span>)</span>
+<span id="cb151-2"><a aria-hidden="true" tabindex="-1"></a>b1 <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb151-3"><a aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>intensity10 <span class="ot">&lt;-</span> <span class="fu">with</span>(dat, (intensity <span class="sc">-</span> <span class="dv">10</span>)<span class="sc">/</span><span class="dv">10</span>)</span>
+<span id="cb151-4"><a aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>eta <span class="ot">&lt;-</span> <span class="fu">with</span>(dat, b0 <span class="sc">+</span> b1 <span class="sc">*</span> intensity10) <span class="co"># link function space</span></span>
+<span id="cb151-5"><a aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>p <span class="ot">&lt;-</span> <span class="fu">plogis</span>(dat<span class="sc">$</span>eta) <span class="co"># inverse link (probability)</span></span>
+<span id="cb151-6"><a aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dat)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  intensity intensity10        eta         p
-1        40           3  0.8027754 0.6905679
-2        40           3  0.8027754 0.6905679
-3        50           4  1.8027754 0.8584864
-4        10           0 -2.1972246 0.1000000
-5        50           4  1.8027754 0.8584864
-6       100           9  6.8027754 0.9988905</code></pre>
+1        50           4  1.8027754 0.8584864
+2        10           0 -2.1972246 0.1000000
+3        90           8  5.8027754 0.9969899
+4        60           5  2.8027754 0.9428256
+5        70           6  3.8027754 0.9781781
+6        40           3  0.8027754 0.6905679</code></pre>
 </div>
 </div>
 </section>
@@ -1899,16 +1905,16 @@ y_i \sim \mathrm{Bernoulli}(p_i) \qquad y_i \in \{0,1\}
 <h2>Simulate the 0-1 response</h2>
 <p>Finally we need to simulate the 0-1 response for each trial/observation:</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb152"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb152-1"><a aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>acc <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="fu">nrow</span>(dat), <span class="dv">1</span>, dat<span class="sc">$</span>p)</span>
-<span id="cb152-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dat)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb153"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb153-1"><a aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>acc <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="fu">nrow</span>(dat), <span class="dv">1</span>, dat<span class="sc">$</span>p)</span>
+<span id="cb153-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dat)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  intensity intensity10        eta         p acc
-1        40           3  0.8027754 0.6905679   0
-2        40           3  0.8027754 0.6905679   1
-3        50           4  1.8027754 0.8584864   0
-4        10           0 -2.1972246 0.1000000   0
-5        50           4  1.8027754 0.8584864   1
-6       100           9  6.8027754 0.9988905   1</code></pre>
+1        50           4  1.8027754 0.8584864   1
+2        10           0 -2.1972246 0.1000000   1
+3        90           8  5.8027754 0.9969899   1
+4        60           5  2.8027754 0.9428256   1
+5        70           6  3.8027754 0.9781781   1
+6        40           3  0.8027754 0.6905679   1</code></pre>
 </div>
 </div>
 <p>For each row/trial, <code>p</code> is the true accuracy according to <code>intensity</code> and <code>acc</code> is the actual simulated response.</p>
@@ -1917,13 +1923,13 @@ y_i \sim \mathrm{Bernoulli}(p_i) \qquad y_i \in \{0,1\}
 <h2>Simulate the 0-1 response</h2>
 <p>Always plot your simulated data to check the results:</p>
 
-<img data-src="binomial-glm_files/figure-revealjs/unnamed-chunk-84-1.svg" class="quarto-figure quarto-figure-center r-stretch"></section>
+<img data-src="binomial-glm_files/figure-revealjs/unnamed-chunk-88-1.svg" class="quarto-figure quarto-figure-center r-stretch"></section>
 <section id="fit-the-target-model" class="slide level2">
 <h2>4. Fit the target model</h2>
 <p>Now we can fit the desired model:</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb154"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb154-1"><a aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">glm</span>(acc <span class="sc">~</span> intensity10, <span class="at">data =</span> dat, <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>))</span>
-<span id="cb154-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb155"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb155-1"><a aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">glm</span>(acc <span class="sc">~</span> intensity10, <span class="at">data =</span> dat, <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>))</span>
+<span id="cb155-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -1932,16 +1938,16 @@ glm(formula = acc ~ intensity10, family = binomial(link = "logit"),
 
 Coefficients:
             Estimate Std. Error z value Pr(&gt;|z|)    
-(Intercept)  -1.9988     0.5722  -3.493 0.000477 ***
-intensity10   0.9347     0.1969   4.747 2.06e-06 ***
+(Intercept)  -2.1416     0.5559  -3.852 0.000117 ***
+intensity10   1.0694     0.2148   4.978 6.42e-07 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 (Dispersion parameter for binomial family taken to be 1)
 
-    Null deviance: 118.59  on 99  degrees of freedom
-Residual deviance:  58.62  on 98  degrees of freedom
-AIC: 62.62
+    Null deviance: 122.173  on 99  degrees of freedom
+Residual deviance:  59.591  on 98  degrees of freedom
+AIC: 63.591
 
 Number of Fisher Scoring iterations: 6</code></pre>
 </div>
@@ -1951,51 +1957,51 @@ Number of Fisher Scoring iterations: 6</code></pre>
 <h2>5. Repeat the process</h2>
 <p>Now the core of MCS. By repeating the data generation and model fitting we are simulating the randomness that could happen in real data collection. Better wrapping everything into a function:</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb156"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb156-1"><a aria-hidden="true" tabindex="-1"></a>sim_data <span class="ot">&lt;-</span> <span class="cf">function</span>(nt, b0, b1){</span>
-<span id="cb156-2"><a aria-hidden="true" tabindex="-1"></a>  dat <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb156-3"><a aria-hidden="true" tabindex="-1"></a>    <span class="at">intensity =</span> <span class="fu">sample</span>(<span class="fu">seq</span>(<span class="dv">10</span>, <span class="dv">100</span>, <span class="dv">10</span>), nt, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb156-4"><a aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb156-5"><a aria-hidden="true" tabindex="-1"></a>  dat<span class="sc">$</span>intensity10 <span class="ot">&lt;-</span> <span class="fu">with</span>(dat, (intensity <span class="sc">-</span> <span class="dv">10</span>)<span class="sc">/</span><span class="dv">10</span>)</span>
-<span id="cb156-6"><a aria-hidden="true" tabindex="-1"></a>  dat<span class="sc">$</span>eta <span class="ot">&lt;-</span> <span class="fu">with</span>(dat, b0 <span class="sc">+</span> b1 <span class="sc">*</span> intensity10)</span>
-<span id="cb156-7"><a aria-hidden="true" tabindex="-1"></a>  dat<span class="sc">$</span>p <span class="ot">&lt;-</span> <span class="fu">plogis</span>(dat<span class="sc">$</span>eta)</span>
-<span id="cb156-8"><a aria-hidden="true" tabindex="-1"></a>  dat<span class="sc">$</span>acc <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="fu">nrow</span>(dat), <span class="dv">1</span>, dat<span class="sc">$</span>p)</span>
-<span id="cb156-9"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(dat)</span>
-<span id="cb156-10"><a aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb156-11"><a aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb156-12"><a aria-hidden="true" tabindex="-1"></a>fit_model <span class="ot">&lt;-</span> <span class="cf">function</span>(data){</span>
-<span id="cb156-13"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">glm</span>(acc <span class="sc">~</span> intensity10, <span class="at">data =</span> data, <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>))</span>
-<span id="cb156-14"><a aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb156-15"><a aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb156-16"><a aria-hidden="true" tabindex="-1"></a>summary_model <span class="ot">&lt;-</span> <span class="cf">function</span>(fit){</span>
-<span id="cb156-17"><a aria-hidden="true" tabindex="-1"></a>  <span class="co"># keep only intensity coefficients</span></span>
-<span id="cb156-18"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="fu">summary</span>(fit)<span class="sc">$</span>coefficients)[<span class="dv">2</span>, ]</span>
-<span id="cb156-19"><a aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb157"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb157-1"><a aria-hidden="true" tabindex="-1"></a>sim_data <span class="ot">&lt;-</span> <span class="cf">function</span>(nt, b0, b1){</span>
+<span id="cb157-2"><a aria-hidden="true" tabindex="-1"></a>  dat <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb157-3"><a aria-hidden="true" tabindex="-1"></a>    <span class="at">intensity =</span> <span class="fu">sample</span>(<span class="fu">seq</span>(<span class="dv">10</span>, <span class="dv">100</span>, <span class="dv">10</span>), nt, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb157-4"><a aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb157-5"><a aria-hidden="true" tabindex="-1"></a>  dat<span class="sc">$</span>intensity10 <span class="ot">&lt;-</span> <span class="fu">with</span>(dat, (intensity <span class="sc">-</span> <span class="dv">10</span>)<span class="sc">/</span><span class="dv">10</span>)</span>
+<span id="cb157-6"><a aria-hidden="true" tabindex="-1"></a>  dat<span class="sc">$</span>eta <span class="ot">&lt;-</span> <span class="fu">with</span>(dat, b0 <span class="sc">+</span> b1 <span class="sc">*</span> intensity10)</span>
+<span id="cb157-7"><a aria-hidden="true" tabindex="-1"></a>  dat<span class="sc">$</span>p <span class="ot">&lt;-</span> <span class="fu">plogis</span>(dat<span class="sc">$</span>eta)</span>
+<span id="cb157-8"><a aria-hidden="true" tabindex="-1"></a>  dat<span class="sc">$</span>acc <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="fu">nrow</span>(dat), <span class="dv">1</span>, dat<span class="sc">$</span>p)</span>
+<span id="cb157-9"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(dat)</span>
+<span id="cb157-10"><a aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb157-11"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb157-12"><a aria-hidden="true" tabindex="-1"></a>fit_model <span class="ot">&lt;-</span> <span class="cf">function</span>(data){</span>
+<span id="cb157-13"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">glm</span>(acc <span class="sc">~</span> intensity10, <span class="at">data =</span> data, <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>))</span>
+<span id="cb157-14"><a aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb157-15"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb157-16"><a aria-hidden="true" tabindex="-1"></a>summary_model <span class="ot">&lt;-</span> <span class="cf">function</span>(fit){</span>
+<span id="cb157-17"><a aria-hidden="true" tabindex="-1"></a>  <span class="co"># keep only intensity coefficients</span></span>
+<span id="cb157-18"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="fu">summary</span>(fit)<span class="sc">$</span>coefficients)[<span class="dv">2</span>, ]</span>
+<span id="cb157-19"><a aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="repeat-the-process-1" class="slide level2">
 <h2>5. Repeat the process</h2>
 <p>And a overall simulation function:</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb157"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb157-1"><a aria-hidden="true" tabindex="-1"></a>do_sim <span class="ot">&lt;-</span> <span class="cf">function</span>(nsim, nt, b0, b1){</span>
-<span id="cb157-2"><a aria-hidden="true" tabindex="-1"></a>  res <span class="ot">&lt;-</span> <span class="fu">replicate</span>(nsim, {</span>
-<span id="cb157-3"><a aria-hidden="true" tabindex="-1"></a>    dat <span class="ot">&lt;-</span> <span class="fu">sim_data</span>(nt, b0, b1)</span>
-<span id="cb157-4"><a aria-hidden="true" tabindex="-1"></a>    fit <span class="ot">&lt;-</span> <span class="fu">fit_model</span>(dat)</span>
-<span id="cb157-5"><a aria-hidden="true" tabindex="-1"></a>    <span class="fu">summary_model</span>(fit)</span>
-<span id="cb157-6"><a aria-hidden="true" tabindex="-1"></a>  }, <span class="at">simplify =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb157-7"><a aria-hidden="true" tabindex="-1"></a>  res <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, res)</span>
-<span id="cb157-8"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">rownames</span>(res) <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
-<span id="cb157-9"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">names</span>(res) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"b"</span>, <span class="st">"se"</span>, <span class="st">"z"</span>, <span class="st">"p"</span>)</span>
-<span id="cb157-10"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(res)</span>
-<span id="cb157-11"><a aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb157-12"><a aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb157-13"><a aria-hidden="true" tabindex="-1"></a><span class="fu">do_sim</span>(<span class="dv">5</span>, <span class="dv">100</span>, b0, b1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb158"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb158-1"><a aria-hidden="true" tabindex="-1"></a>do_sim <span class="ot">&lt;-</span> <span class="cf">function</span>(nsim, nt, b0, b1){</span>
+<span id="cb158-2"><a aria-hidden="true" tabindex="-1"></a>  res <span class="ot">&lt;-</span> <span class="fu">replicate</span>(nsim, {</span>
+<span id="cb158-3"><a aria-hidden="true" tabindex="-1"></a>    dat <span class="ot">&lt;-</span> <span class="fu">sim_data</span>(nt, b0, b1)</span>
+<span id="cb158-4"><a aria-hidden="true" tabindex="-1"></a>    fit <span class="ot">&lt;-</span> <span class="fu">fit_model</span>(dat)</span>
+<span id="cb158-5"><a aria-hidden="true" tabindex="-1"></a>    <span class="fu">summary_model</span>(fit)</span>
+<span id="cb158-6"><a aria-hidden="true" tabindex="-1"></a>  }, <span class="at">simplify =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb158-7"><a aria-hidden="true" tabindex="-1"></a>  res <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, res)</span>
+<span id="cb158-8"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">rownames</span>(res) <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb158-9"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">names</span>(res) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"b"</span>, <span class="st">"se"</span>, <span class="st">"z"</span>, <span class="st">"p"</span>)</span>
+<span id="cb158-10"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(res)</span>
+<span id="cb158-11"><a aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb158-12"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb158-13"><a aria-hidden="true" tabindex="-1"></a><span class="fu">do_sim</span>(<span class="dv">5</span>, <span class="dv">100</span>, b0, b1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>          b        se        z            p
-1 1.1878385 0.2484520 4.780958 1.744619e-06
-2 1.4235879 0.3191330 4.460798 8.165498e-06
-3 1.9570631 0.4753204 4.117356 3.832445e-05
-4 1.2834451 0.3208077 4.000668 6.316380e-05
-5 0.8576472 0.1820976 4.709821 2.479343e-06</code></pre>
+<pre><code>         b        se        z            p
+1 0.941232 0.1946091 4.836525 1.321287e-06
+2 1.235469 0.2669301 4.628437 3.684358e-06
+3 1.049048 0.2265102 4.631350 3.632888e-06
+4 1.472190 0.3232121 4.554874 5.241703e-06
+5 1.057303 0.2352444 4.494488 6.973766e-06</code></pre>
 </div>
 </div>
 </section>
@@ -2003,11 +2009,11 @@ Number of Fisher Scoring iterations: 6</code></pre>
 <h2>5. Repeat the process</h2>
 <p><code>nsim</code> is the number of simulations. Usually larger is better considering computational constraints. If feasible, 5000 or 10000 is usually more than enough. For complex models where 5000 or 10000 is not an option, try never go below 1000. See <span class="citation" data-cites="Burton2006-hl">Burton et al. (<a href="#/references" role="doc-biblioref" onclick="">2006</a>)</span> and <span class="citation" data-cites="Koehler2009-do">Koehler et al. (<a href="#/references" role="doc-biblioref" onclick="">2009</a>)</span> for discussion about the number of simulations.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb159"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb159-1"><a aria-hidden="true" tabindex="-1"></a>tictoc<span class="sc">::</span><span class="fu">tic</span>()</span>
-<span id="cb159-2"><a aria-hidden="true" tabindex="-1"></a>sim <span class="ot">&lt;-</span> <span class="fu">do_sim</span>(<span class="dv">1000</span>, <span class="at">nt =</span> <span class="dv">50</span>, <span class="at">b0 =</span> <span class="fu">qlogis</span>(<span class="fl">0.1</span>), <span class="at">b1 =</span> <span class="fl">0.5</span>)</span>
-<span id="cb159-3"><a aria-hidden="true" tabindex="-1"></a>tictoc<span class="sc">::</span><span class="fu">toc</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb160"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb160-1"><a aria-hidden="true" tabindex="-1"></a>tictoc<span class="sc">::</span><span class="fu">tic</span>()</span>
+<span id="cb160-2"><a aria-hidden="true" tabindex="-1"></a>sim <span class="ot">&lt;-</span> <span class="fu">do_sim</span>(<span class="dv">1000</span>, <span class="at">nt =</span> <span class="dv">50</span>, <span class="at">b0 =</span> <span class="fu">qlogis</span>(<span class="fl">0.1</span>), <span class="at">b1 =</span> <span class="fl">0.5</span>)</span>
+<span id="cb160-3"><a aria-hidden="true" tabindex="-1"></a>tictoc<span class="sc">::</span><span class="fu">toc</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>1.404 sec elapsed</code></pre>
+<pre><code>1.652 sec elapsed</code></pre>
 </div>
 </div>
 <p>In this case we are lucky, running 1000 simulations only takes ~ 1.5 seconds. Sometimes can also takes hours, days or weeks.</p>
@@ -2016,21 +2022,21 @@ Number of Fisher Scoring iterations: 6</code></pre>
 <h2>6. Results</h2>
 <p>Each row is the parameter estimated from a simulated dataset. The statistical power is the % of p values lower than <span class="math inline">\(\alpha\)</span> of the total number of simulations:</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb161"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb161-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(sim)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb162"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb162-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(sim)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>          b        se        z            p
-1 1.5410786 0.4852222 3.176027 0.0014930715
-2 0.3764563 0.1198587 3.140833 0.0016846805
-3 0.3810226 0.1310121 2.908301 0.0036339844
-4 0.5209755 0.1500228 3.472643 0.0005153596
-5 0.5370749 0.1589363 3.379184 0.0007270144
-6 0.5244714 0.1468180 3.572255 0.0003539202</code></pre>
+1 0.5790291 0.1592947 3.634956 0.0002780279
+2 0.6101511 0.1730646 3.525567 0.0004225767
+3 0.7401876 0.2017535 3.668773 0.0002437175
+4 0.5055373 0.1338794 3.776066 0.0001593248
+5 0.5319331 0.1443626 3.684700 0.0002289720
+6 0.5249730 0.1398023 3.755109 0.0001732664</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb163"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb163-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(sim<span class="sc">$</span>p <span class="sc">&lt;=</span> <span class="fl">0.05</span>) <span class="sc">/</span> <span class="dv">1000</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb164"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb164-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(sim<span class="sc">$</span>p <span class="sc">&lt;=</span> <span class="fl">0.05</span>) <span class="sc">/</span> <span class="dv">1000</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.994</code></pre>
+<pre><code>[1] 0.988</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb165"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb165-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># or mean(sum(sim$p &lt;= 0.05))</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb166"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb166-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># or mean(sum(sim$p &lt;= 0.05))</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>The power is pretty high with 50 trials. Let’s try a lower effect with different number of trials.</p>
 </section>
@@ -2038,24 +2044,24 @@ Number of Fisher Scoring iterations: 6</code></pre>
 <h2>More conditions</h2>
 <p>We can try different number of trials. For each <code>n</code> we simulate 1000 datasets, fit the models, extract the p values and estimate the statistical power.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb166"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb166-1"><a aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">50</span>, <span class="dv">80</span>, <span class="dv">100</span>, <span class="dv">150</span>, <span class="dv">200</span>)</span>
-<span id="cb166-2"><a aria-hidden="true" tabindex="-1"></a>power <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="fu">length</span>(n))</span>
-<span id="cb166-3"><a aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb166-4"><a aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(power)){</span>
-<span id="cb166-5"><a aria-hidden="true" tabindex="-1"></a>  res <span class="ot">&lt;-</span> <span class="fu">do_sim</span>(<span class="dv">1000</span>, n[i], <span class="at">b0 =</span> <span class="fu">qlogis</span>(<span class="fl">0.1</span>), <span class="at">b1 =</span> <span class="fl">0.2</span>)</span>
-<span id="cb166-6"><a aria-hidden="true" tabindex="-1"></a>  power[i] <span class="ot">&lt;-</span> <span class="fu">mean</span>(res<span class="sc">$</span>p <span class="sc">&lt;=</span> <span class="fl">0.05</span>)</span>
-<span id="cb166-7"><a aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb166-8"><a aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb166-9"><a aria-hidden="true" tabindex="-1"></a>power</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb167"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb167-1"><a aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">50</span>, <span class="dv">80</span>, <span class="dv">100</span>, <span class="dv">150</span>, <span class="dv">200</span>)</span>
+<span id="cb167-2"><a aria-hidden="true" tabindex="-1"></a>power <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="fu">length</span>(n))</span>
+<span id="cb167-3"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb167-4"><a aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(power)){</span>
+<span id="cb167-5"><a aria-hidden="true" tabindex="-1"></a>  res <span class="ot">&lt;-</span> <span class="fu">do_sim</span>(<span class="dv">1000</span>, n[i], <span class="at">b0 =</span> <span class="fu">qlogis</span>(<span class="fl">0.1</span>), <span class="at">b1 =</span> <span class="fl">0.2</span>)</span>
+<span id="cb167-6"><a aria-hidden="true" tabindex="-1"></a>  power[i] <span class="ot">&lt;-</span> <span class="fu">mean</span>(res<span class="sc">$</span>p <span class="sc">&lt;=</span> <span class="fl">0.05</span>)</span>
+<span id="cb167-7"><a aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb167-8"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb167-9"><a aria-hidden="true" tabindex="-1"></a>power</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.000 0.362 0.520 0.603 0.820 0.912</code></pre>
+<pre><code>[1] 0.000 0.356 0.489 0.626 0.830 0.922</code></pre>
 </div>
 </div>
 </section>
 <section id="more-conditions-1" class="slide level2">
 <h2>More conditions</h2>
 
-<img data-src="binomial-glm_files/figure-revealjs/unnamed-chunk-91-1.svg" class="quarto-figure quarto-figure-center r-stretch"></section></section>
+<img data-src="binomial-glm_files/figure-revealjs/unnamed-chunk-95-1.svg" class="quarto-figure quarto-figure-center r-stretch"></section></section>
 <section>
 <section id="latent-formulation-of-the-binomial-model" class="title-slide slide level1 center">
 <h1>Latent formulation of the binomial model</h1>
@@ -2075,7 +2081,7 @@ p = \frac{e^p}{1 + e^p}
 <section id="latent-formulation-of-the-binomial-model-2" class="slide level2">
 <h2>Latent formulation of the binomial model</h2>
 
-<img data-src="binomial-glm_files/figure-revealjs/unnamed-chunk-92-1.svg" class="quarto-figure quarto-figure-center r-stretch"></section>
+<img data-src="binomial-glm_files/figure-revealjs/unnamed-chunk-96-1.svg" class="quarto-figure quarto-figure-center r-stretch"></section>
 <section id="latent-formulation-of-the-binomial-model-3" class="slide level2">
 <h2>Latent formulation of the binomial model</h2>
 <ul>
@@ -2100,7 +2106,7 @@ p = \frac{e^p}{1 + e^p}
 <section id="latent-formulation-of-the-binomial-model-6" class="slide level2">
 <h2>Latent formulation of the binomial model</h2>
 
-<img data-src="binomial-glm_files/figure-revealjs/unnamed-chunk-93-1.svg" class="quarto-figure quarto-figure-center r-stretch"></section>
+<img data-src="binomial-glm_files/figure-revealjs/unnamed-chunk-97-1.svg" class="quarto-figure quarto-figure-center r-stretch"></section>
 <section id="latent-formulation-of-the-binomial-model-7" class="slide level2">
 <h2>Latent formulation of the binomial model</h2>
 <p>In other terms, the logistic regression can be expressed as a linear model predicting shifts in the mean of the logistic distribution as a functions of predictors as in standard linear models assuming normality.</p>
@@ -2128,13 +2134,13 @@ z_i = \beta_0 + \beta_1 x_i + \epsilon_i
 <h2>Latent formulation of the binomial model</h2>
 <p>In R we can show this very easily. We can simulate a latent shift and the corresponding pattern in probabilities using the standard and latent form of the logistic regression.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb168"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb168-1"><a aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fl">0.5</span> <span class="co"># probability of group 1</span></span>
-<span id="cb168-2"><a aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fl">0.8</span> <span class="co"># probability of group 2</span></span>
-<span id="cb168-3"><a aria-hidden="true" tabindex="-1"></a>(d <span class="ot">&lt;-</span> <span class="fu">qlogis</span>(p2) <span class="sc">-</span> <span class="fu">qlogis</span>(p1)) <span class="co"># latent shift, log odds ratio</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb169"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb169-1"><a aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fl">0.5</span> <span class="co"># probability of group 1</span></span>
+<span id="cb169-2"><a aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fl">0.8</span> <span class="co"># probability of group 2</span></span>
+<span id="cb169-3"><a aria-hidden="true" tabindex="-1"></a>(d <span class="ot">&lt;-</span> <span class="fu">qlogis</span>(p2) <span class="sc">-</span> <span class="fu">qlogis</span>(p1)) <span class="co"># latent shift, log odds ratio</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1.386294</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb170"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb170-1"><a aria-hidden="true" tabindex="-1"></a>(OR <span class="ot">&lt;-</span> <span class="fu">exp</span>(d)) <span class="co"># odds ratio</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb171"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb171-1"><a aria-hidden="true" tabindex="-1"></a>(OR <span class="ot">&lt;-</span> <span class="fu">exp</span>(d)) <span class="co"># odds ratio</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 4</code></pre>
 </div>
@@ -2143,27 +2149,27 @@ z_i = \beta_0 + \beta_1 x_i + \epsilon_i
 <section id="latent-formulation-of-the-binomial-model-10" class="slide level2">
 <h2>Latent formulation of the binomial model</h2>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb172"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb172-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># number of observations, large to show the pattern</span></span>
-<span id="cb172-2"><a aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10000</span></span>
-<span id="cb172-3"><a aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb172-4"><a aria-hidden="true" tabindex="-1"></a><span class="co"># using rbinom</span></span>
-<span id="cb172-5"><a aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">1</span>, <span class="at">each =</span> n<span class="sc">/</span><span class="dv">2</span>) <span class="co"># condition 1 and condition 2</span></span>
-<span id="cb172-6"><a aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">plogis</span>(<span class="fu">qlogis</span>(p1) <span class="sc">+</span> d <span class="sc">*</span> x)</span>
-<span id="cb172-7"><a aria-hidden="true" tabindex="-1"></a>yb <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, p)</span>
-<span id="cb172-8"><a aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb172-9"><a aria-hidden="true" tabindex="-1"></a><span class="co"># latent form</span></span>
-<span id="cb172-10"><a aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">qlogis</span>(p1) <span class="sc">+</span> x <span class="sc">*</span> d <span class="sc">+</span> <span class="fu">rlogis</span>(n, <span class="dv">0</span>, <span class="dv">1</span>)</span>
-<span id="cb172-11"><a aria-hidden="true" tabindex="-1"></a>yl <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(z <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>)</span>
-<span id="cb172-12"><a aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb172-13"><a aria-hidden="true" tabindex="-1"></a><span class="fu">tapply</span>(yb, x, mean)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb173"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb173-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># number of observations, large to show the pattern</span></span>
+<span id="cb173-2"><a aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10000</span></span>
+<span id="cb173-3"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb173-4"><a aria-hidden="true" tabindex="-1"></a><span class="co"># using rbinom</span></span>
+<span id="cb173-5"><a aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">1</span>, <span class="at">each =</span> n<span class="sc">/</span><span class="dv">2</span>) <span class="co"># condition 1 and condition 2</span></span>
+<span id="cb173-6"><a aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">plogis</span>(<span class="fu">qlogis</span>(p1) <span class="sc">+</span> d <span class="sc">*</span> x)</span>
+<span id="cb173-7"><a aria-hidden="true" tabindex="-1"></a>yb <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, p)</span>
+<span id="cb173-8"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb173-9"><a aria-hidden="true" tabindex="-1"></a><span class="co"># latent form</span></span>
+<span id="cb173-10"><a aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">qlogis</span>(p1) <span class="sc">+</span> x <span class="sc">*</span> d <span class="sc">+</span> <span class="fu">rlogis</span>(n, <span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb173-11"><a aria-hidden="true" tabindex="-1"></a>yl <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(z <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>)</span>
+<span id="cb173-12"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb173-13"><a aria-hidden="true" tabindex="-1"></a><span class="fu">tapply</span>(yb, x, mean)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     0      1 
-0.5022 0.7974 </code></pre>
+0.5136 0.7956 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb174"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb174-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">tapply</span>(yl, x, mean)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb175"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb175-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">tapply</span>(yl, x, mean)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     0      1 
-0.5006 0.8058 </code></pre>
+0.5088 0.8084 </code></pre>
 </div>
 </div>
 </section>
@@ -2181,27 +2187,27 @@ z_i = \beta_0 + \beta_1 x_i + \epsilon_i
 <h2>Probit link function</h2>
 <p>Sometimes, the <em>probit</em> link function can be used. The main difference is that when using the <em>logit</em> link function the underlying distribution is called logistic. When using the <em>probit</em> link function the underlying distribution is Gaussian.</p>
 
-<img data-src="binomial-glm_files/figure-revealjs/unnamed-chunk-96-1.svg" class="quarto-figure quarto-figure-center r-stretch"></section>
+<img data-src="binomial-glm_files/figure-revealjs/unnamed-chunk-100-1.svg" class="quarto-figure quarto-figure-center r-stretch"></section>
 <section id="probit-link-function-2" class="slide level2">
 <h2>Probit link function</h2>
 <p>When using the <strong>probit link</strong> the parameters are interpreted as difference in <em>z-scores</em> associated with a unit increase in the predictors. In fact probabilities are mapped into <em>z-scores</em> using the cumulative normal distribution.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb176"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb176-1"><a aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fl">0.8</span></span>
-<span id="cb176-2"><a aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fl">0.6</span></span>
-<span id="cb176-3"><a aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb176-4"><a aria-hidden="true" tabindex="-1"></a><span class="fu">qlogis</span>(<span class="fu">c</span>(p1, p2)) <span class="co"># log(odds(p1)), logit link</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb177"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb177-1"><a aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fl">0.8</span></span>
+<span id="cb177-2"><a aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fl">0.6</span></span>
+<span id="cb177-3"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb177-4"><a aria-hidden="true" tabindex="-1"></a><span class="fu">qlogis</span>(<span class="fu">c</span>(p1, p2)) <span class="co"># log(odds(p1)), logit link</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1.3862944 0.4054651</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb178"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb178-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">qnorm</span>(<span class="fu">c</span>(p1, p2)) <span class="co"># probit link</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb179"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb179-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">qnorm</span>(<span class="fu">c</span>(p1, p2)) <span class="co"># probit link</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.8416212 0.2533471</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb180"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb180-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">log</span>(<span class="fu">or</span>(p1, p2)) <span class="co"># ~ beta1, logit link</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb181"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb181-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">log</span>(<span class="fu">or</span>(p1, p2)) <span class="co"># ~ beta1, logit link</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.9808293</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb182"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb182-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">qnorm</span>(p1) <span class="sc">-</span> <span class="fu">qnorm</span>(p2) <span class="co"># ~beta1, probit link</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb183"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb183-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">qnorm</span>(p1) <span class="sc">-</span> <span class="fu">qnorm</span>(p2) <span class="co"># ~beta1, probit link</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.5882741</code></pre>
 </div>
@@ -2210,7 +2216,7 @@ z_i = \beta_0 + \beta_1 x_i + \epsilon_i
 <section id="probit-link-function-3" class="slide level2">
 <h2>Probit link function</h2>
 
-<img data-src="binomial-glm_files/figure-revealjs/unnamed-chunk-98-1.svg" class="quarto-figure quarto-figure-center r-stretch"></section>
+<img data-src="binomial-glm_files/figure-revealjs/unnamed-chunk-102-1.svg" class="quarto-figure quarto-figure-center r-stretch"></section>
 <section id="why-using-the-probit-link-function" class="slide level2">
 <h2>Why using the probit link function?</h2>
 <p>The probit can be a really useful choice:</p>
@@ -2231,14 +2237,14 @@ z_i = \beta_0 + \beta_1 x_i + \epsilon_i
 d = \log(OR) \frac{\sqrt{3}}{\pi}
 \]</span></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb184"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb184-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># in R with the effectsize package</span></span>
-<span id="cb184-2"><a aria-hidden="true" tabindex="-1"></a>or <span class="ot">&lt;-</span> <span class="fl">1.5</span></span>
-<span id="cb184-3"><a aria-hidden="true" tabindex="-1"></a>effectsize<span class="sc">::</span><span class="fu">logoddsratio_to_d</span>(<span class="fu">log</span>(or))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb185"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb185-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># in R with the effectsize package</span></span>
+<span id="cb185-2"><a aria-hidden="true" tabindex="-1"></a>or <span class="ot">&lt;-</span> <span class="fl">1.5</span></span>
+<span id="cb185-3"><a aria-hidden="true" tabindex="-1"></a>effectsize<span class="sc">::</span><span class="fu">logoddsratio_to_d</span>(<span class="fu">log</span>(or))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.2235446</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb186"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb186-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># or </span></span>
-<span id="cb186-2"><a aria-hidden="true" tabindex="-1"></a>effectsize<span class="sc">::</span><span class="fu">oddsratio_to_d</span>(or)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb187"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb187-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># or </span></span>
+<span id="cb187-2"><a aria-hidden="true" tabindex="-1"></a>effectsize<span class="sc">::</span><span class="fu">oddsratio_to_d</span>(or)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.2235446</code></pre>
 </div>
@@ -2247,7 +2253,7 @@ d = \log(OR) \frac{\sqrt{3}}{\pi}
 <section id="odds-ratio-or-to-cohens-d-2" class="slide level2">
 <h2>Odds Ratio (OR) to Cohen’s <span class="math inline">\(d\)</span></h2>
 
-<img data-src="binomial-glm_files/figure-revealjs/unnamed-chunk-100-1.svg" class="quarto-figure quarto-figure-center r-stretch"></section></section>
+<img data-src="binomial-glm_files/figure-revealjs/unnamed-chunk-104-1.svg" class="quarto-figure quarto-figure-center r-stretch"></section></section>
 <section>
 <section id="binary-vs-binomial-data-structure" class="title-slide slide level1 center">
 <h1>Binary vs binomial data structure</h1>
@@ -2257,7 +2263,7 @@ d = \log(OR) \frac{\sqrt{3}}{\pi}
 <h2>Binary vs binomial data structure</h2>
 <p>In our facial expression example we used the binary data structure. This means that the vector of the response variable contains 0 and 1.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb188"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb188-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dat)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb189"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb189-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dat)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 6
      id age   intensity emotion_lbl response_lbl   acc
@@ -2275,14 +2281,18 @@ d = \log(OR) \frac{\sqrt{3}}{\pi}
 <h2>Binary vs binomial data structure</h2>
 <p>The same dataset can be also used in the so-called binomial format. In this case we can aggregate <code>emotion_lbl</code> and <code>intensity</code> counting the number of correct responses.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb190"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb190-1"><a aria-hidden="true" tabindex="-1"></a>dat_binomial <span class="ot">&lt;-</span> dat <span class="sc">|&gt;</span> </span>
-<span id="cb190-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(intensity) <span class="sc">|&gt;</span> </span>
-<span id="cb190-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">nt =</span> <span class="fu">n</span>(),      <span class="co"># total number of trials</span></span>
-<span id="cb190-4"><a aria-hidden="true" tabindex="-1"></a>            <span class="at">nc =</span> <span class="fu">sum</span>(acc), <span class="co"># number of correct responses</span></span>
-<span id="cb190-5"><a aria-hidden="true" tabindex="-1"></a>            <span class="at">nf =</span> nt <span class="sc">-</span> nc,  <span class="co"># number of fails</span></span>
-<span id="cb190-6"><a aria-hidden="true" tabindex="-1"></a>            <span class="at">acc =</span> nc <span class="sc">/</span> nt) <span class="co"># proportion of correct response</span></span>
-<span id="cb190-7"><a aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb190-8"><a aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dat_binomial)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb191"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb191-1"><a aria-hidden="true" tabindex="-1"></a>dat_binomial <span class="ot">&lt;-</span> dat <span class="sc">|&gt;</span> </span>
+<span id="cb191-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(intensity) <span class="sc">|&gt;</span> </span>
+<span id="cb191-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">nt =</span> <span class="fu">n</span>(),      <span class="co"># total number of trials</span></span>
+<span id="cb191-4"><a aria-hidden="true" tabindex="-1"></a>            <span class="at">nc =</span> <span class="fu">sum</span>(acc), <span class="co"># number of correct responses</span></span>
+<span id="cb191-5"><a aria-hidden="true" tabindex="-1"></a>            <span class="at">nf =</span> nt <span class="sc">-</span> nc,  <span class="co"># number of fails</span></span>
+<span id="cb191-6"><a aria-hidden="true" tabindex="-1"></a>            <span class="at">acc =</span> nc <span class="sc">/</span> nt) <span class="co"># proportion of correct response</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="binary-vs-binomial-data-structure-3" class="slide level2">
+<h2>Binary vs binomial data structure</h2>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb192"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb192-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dat_binomial)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 5
   intensity    nt    nc    nf    acc
@@ -2296,14 +2306,18 @@ d = \log(OR) \frac{\sqrt{3}}{\pi}
 </div>
 </div>
 </section>
-<section id="binary-vs-binomial-data-structure-3" class="slide level2">
+<section id="binary-vs-binomial-data-structure-4" class="slide level2">
 <h2>Binary vs binomial data structure</h2>
 <p>The dataset contains <strong>exactly</strong> the same information, we are not losing anything by aggregating. We can check it by fitting two models. Notice the way of writing the model in the binomial way:</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb192"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb192-1"><a aria-hidden="true" tabindex="-1"></a>fit_binary   <span class="ot">&lt;-</span> <span class="fu">glm</span>(acc <span class="sc">~</span> intensity, <span class="at">data =</span> dat, <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>))</span>
-<span id="cb192-2"><a aria-hidden="true" tabindex="-1"></a>fit_binomial <span class="ot">&lt;-</span> <span class="fu">glm</span>(<span class="fu">cbind</span>(nc, nf) <span class="sc">~</span> intensity, <span class="at">data =</span> dat_binomial, <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>))</span>
-<span id="cb192-3"><a aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-4"><a aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">compareCoefs</span>(fit_binary, fit_binomial)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb194"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb194-1"><a aria-hidden="true" tabindex="-1"></a>fit_binary   <span class="ot">&lt;-</span> <span class="fu">glm</span>(acc <span class="sc">~</span> intensity, <span class="at">data =</span> dat, <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>))</span>
+<span id="cb194-2"><a aria-hidden="true" tabindex="-1"></a>fit_binomial <span class="ot">&lt;-</span> <span class="fu">glm</span>(<span class="fu">cbind</span>(nc, nf) <span class="sc">~</span> intensity, <span class="at">data =</span> dat_binomial, <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="binary-vs-binomial-data-structure-5" class="slide level2">
+<h2>Binary vs binomial data structure</h2>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb195"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb195-1"><a aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">compareCoefs</span>(fit_binary, fit_binomial)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Calls:
 1: glm(formula = acc ~ intensity, family = binomial(link = "logit"), data = 
@@ -2321,12 +2335,12 @@ SE          0.00429 0.00429
 </div>
 </div>
 </section>
-<section id="binary-vs-binomial-data-structure-4" class="slide level2">
+<section id="binary-vs-binomial-data-structure-6" class="slide level2">
 <h2>Binary vs binomial data structure</h2>
 <p>A third option is also modelling directly the proportions providing the <code>weigths =</code> argument as the number of trials.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb194"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb194-1"><a aria-hidden="true" tabindex="-1"></a>fit_prop <span class="ot">&lt;-</span> <span class="fu">glm</span>(acc <span class="sc">~</span> intensity, <span class="at">data =</span> dat_binomial, <span class="at">weights =</span> nt, <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>)) </span>
-<span id="cb194-2"><a aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">compareCoefs</span>(fit_binary, fit_binomial, fit_prop)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb197"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb197-1"><a aria-hidden="true" tabindex="-1"></a>fit_prop <span class="ot">&lt;-</span> <span class="fu">glm</span>(acc <span class="sc">~</span> intensity, <span class="at">data =</span> dat_binomial, <span class="at">weights =</span> nt, <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>)) </span>
+<span id="cb197-2"><a aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">compareCoefs</span>(fit_binary, fit_binomial, fit_prop)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Calls:
 1: glm(formula = acc ~ intensity, family = binomial(link = "logit"), data = 
@@ -2347,7 +2361,7 @@ SE          0.00429 0.00429 0.00429
 </div>
 <p>Again, exactly the same.</p>
 </section>
-<section id="binary-vs-binomial-data-structure-5" class="slide level2">
+<section id="binary-vs-binomial-data-structure-7" class="slide level2">
 <h2>Binary vs binomial data structure</h2>
 <p>Why using the binary vs the binomial format? Depends on the type of predictors!</p>
 <p>In our (and similar) case, “aggregating” with categorical predictor is possible without losing information. The advantage is that models in the binomial format are very fast (especially for complex models such as mixed-effects models). Also the diagnostics in terms of residuals are better <span class="citation" data-cites="Gelman2020-tg">(see <a href="#/references" role="doc-biblioref" onclick="">Gelman et al., 2020, p. 253</a>)</span></p>
