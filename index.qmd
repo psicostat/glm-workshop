@@ -6,6 +6,7 @@ listing:
   contents: slides
   type: table
   date-format: "*[Last modified:] DD-MM-YYYY*"
+  sort: filename
   fields: 
     - title
     - date

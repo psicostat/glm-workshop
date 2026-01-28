@@ -1,0 +1,1140 @@
+---
+title: Introduction to Generalized Linear Models for Psychology
+subtitle: Generalized Linear Models Workshop 
+format: 
+  minimal-revealjs:
+    slide-number: true
+execute: 
+  echo: true
+date: last-modified
+date-format: "*[Last modified:] DD-MM-YYYY*"
+toc: true
+#html-math-method: mathml
+fig-dpi: 300
+---
+
+```{r}
+#| include: false
+#| message: false
+#| warning: false
+
+set.seed(15051995)
+
+pkg <- c("ggplot2","patchwork","distributional","ggdist","tidyverse")
+sapply(pkg, require, character.only = T)
+
+gen_norm <- function(mu, sd){
+  x = rnorm(1e6,mu,sd)
+  return(data.frame(x=x))
+}
+
+my_cols <- c("deeppink4", "deepskyblue4", "#F8A31B", "forestgreen", "#000000")
+
+theme_clean <- function(base_size = 14) {
+  list(
+    theme_classic(base_size = base_size),
+    theme(
+      axis.line  = element_line(colour = "black", linewidth = 1),
+      axis.ticks = element_line(colour = "black", linewidth = 1),
+      axis.ticks.length = grid::unit(10, "pt"),
+      axis.text = element_text(colour = "black"),
+      axis.text.y = element_text(angle = 90, vjust = 0.5, hjust = 0.5),
+      axis.text.x = element_text(vjust = 0.5, hjust = 0.5),
+      legend.title = element_text(size = base_size),
+      legend.text  = element_text(size = base_size),
+      legend.key.size = grid::unit(1.2, "lines")
+    ),
+    guides(
+      x = guide_axis(cap = "both"),
+      y = guide_axis(cap = "both")
+    )
+  )
+}
+
+
+```
+
+# Linear Regression $y \sim x$ {.section}
+
+## Linear Regression $y \sim x$
+
+-   Estimate the expected (average) outcome given predictors.
+
+```{r}
+#| echo: false
+#| fig-height: 6
+#| fig-width: 12
+#| fig-align: left
+
+x  <- seq(0, 1, 0.2)
+lp <- 0.1 + 0.2 * x
+
+dd <- data.frame(
+  x    = x,
+  mean = lp,
+  sd   = 0.02
+)
+
+dd$dist <- dist_normal(dd$mean, dd$sd)
+
+dd_points <- data.frame(
+  x = runif(100, 0, 1) 
+)
+
+dd_points$y <- rnorm(100, 0.1 + 0.2 * dd_points$x, 0.05)
+
+p = ggplot(dd, aes(x = x, y = mean)) +
+  geom_line(size = 3,color = my_cols[2]) +
+  xlab("x") +
+  ylab("y") +
+  scale_x_continuous(limits = c(0,1.2), breaks = seq(0,1.25,0.2))+
+  scale_y_continuous(limits = c(0,.4), breaks = seq(0,.4,0.1))+
+  geom_point(data = dd_points, aes(x = x, y = y), size = 3, alpha = 0.5)+
+  theme_clean(base_size = 24)
+
+p
+
+```
+
+## Linear Regression $y \sim x$
+
+-   A **constant change** in a *x* leads to a constant change in the *y*.
+
+```{r }
+#| echo: false
+#| fig-height: 6
+#| fig-width: 12
+#| fig-align: left
+
+# Build “rise over run” step segments between successive x grid points
+dd_step <- dd[-nrow(dd), ]
+dd_step$xend   <- dd$x[-1]
+dd_step$y_next <- dd$mean[-1]
+dd_step$dy     <- dd_step$y_next - dd_step$mean
+
+p +  geom_segment(data = dd_step,
+               aes(x = x, y = mean, xend = xend, yend = mean),
+               color = my_cols[5], linewidth = 1) +
+  geom_segment(data = dd_step,
+               aes(x = xend, y = mean, xend = xend, yend = y_next),
+               color = my_cols[5], linewidth = 1) +
+  geom_text(data = dd_step,
+            aes(x = xend, y = (mean-.05), label = sprintf("+%.2f", dy)),
+            color = "red3", size = 7, hjust = 0.6) 
+
+```
+
+## Normal Linear Regression $y \sim x$
+
+-   **Variation**: Characterize how outcomes vary around that expectation.
+
+```{r}
+#| echo: false
+#| fig-height: 6
+#| fig-width: 12
+#| fig-align: center
+
+x  <- seq(0, 1, 0.2)
+lp <- 0.1 + 0.2 * x
+
+dd <- data.frame(
+  x    = x,
+  mean = lp,
+  sd   = 0.02
+)
+
+dd$dist <- dist_normal(dd$mean, dd$sd)
+
+dd_points <- data.frame(
+  x = runif(100, 0, 1) 
+)
+
+dd_points$y <- rnorm(100, 0.1 + 0.2 * dd_points$x, 0.05)
+
+ggplot(dd, aes(x = x, y = mean)) +
+  stat_slab(aes(ydist = dist), alpha = 0.5) +
+  geom_line() +
+  geom_point(aes(y = mean), size = 5, col = my_cols[2]) +
+  xlab("x") +
+  ylab("y") +
+  ylim(0,0.4)+
+  geom_point(data = dd_points, aes(x = x, y = y), size = 3, alpha = 0.5)+
+  theme_clean(base_size = 24)+
+  guides(
+    x = guide_axis(cap = "both"),
+    y = guide_axis(cap = "both")
+  )
+```
+
+## The Normal distribution
+
+The Normal distribution has parameters $\mu$ (mean) and $\sigma^2$ (variance):
+
+$f(y \mid \mu, \sigma^2) = \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left( - \frac{(y - \mu)^2}{2\sigma^2} \right)$
+
+<br/>
+
+```{r}
+#| echo: false
+#| fig-width: 14
+#| fig-align: center
+
+dat = data.frame(x = rbind(gen_norm(0,1),gen_norm(0,2),gen_norm(2,1)),
+                 parameters = rep(c("Normal(0, 1)",
+                              "Normal(0, 2)",
+                              "Normal(2, 1)"), each = nrow(gen_norm(0,1))))
+
+ggplot(subset(dat,parameters == "Normal(0, 1)"), aes(x=x, fill = parameters))+
+  geom_density(alpha = 0.8)+
+  scale_fill_manual(values = my_cols)+
+  xlab("")+xlim(-8,8)+
+  theme_clean(base_size = 24)+
+  theme(legend.position = "right",
+        legend.title=element_blank())
+```
+
+## The Normal distribution
+
+The Normal distribution has parameters $\mu$ (mean) and $\sigma^2$ (variance):
+
+$f(y \mid \mu, \sigma^2) = \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left( - \frac{(y - \mu)^2}{2\sigma^2} \right)$
+
+<br/>
+
+```{r}
+#| echo: false
+#| fig-width: 14
+#| fig-align: center
+
+
+ggplot(subset(dat,parameters != "Normal(2, 1)"), aes(x=x, fill = parameters))+
+  geom_density(alpha = 0.8)+
+  scale_fill_manual(values = my_cols)+
+  xlab("")+xlim(-8,8)+
+  theme_clean(base_size = 24)+
+  theme(legend.position = "right",
+        legend.title=element_blank())
+```
+
+## The Normal distribution
+
+The Normal distribution has parameters $\mu$ (mean) and $\sigma^2$ (variance):
+
+$f(y \mid \mu, \sigma^2) = \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left( - \frac{(y - \mu)^2}{2\sigma^2} \right)$
+
+<br/>
+
+```{r}
+#| echo: false
+#| fig-width: 14
+#| fig-align: center
+
+ggplot(dat, aes(x=x, fill = parameters))+
+  geom_density(alpha = 0.8)+
+  scale_fill_manual(values = my_cols)+
+  xlab("")+xlim(-8,8)+
+   ylim(0,0.4)+
+  theme_clean(base_size = 24)+
+  theme(legend.position = "right",
+        legend.title=element_blank())
+```
+
+## $$y_i \sim \mathcal{N}(\beta_0 + \beta_1 x_i, \sigma^2)$$
+
+```{r}
+#| echo: false
+#| fig-height: 6
+#| fig-width: 12
+#| fig-align: center
+
+x  <- seq(0, 1, 0.2)
+lp <- 0.1 + 0.2 * x
+
+dd <- data.frame(
+  x    = x,
+  mean = lp,
+  sd   = 0.02
+)
+
+dd$dist <- dist_normal(dd$mean, dd$sd)
+
+dd_points <- data.frame(
+  x = runif(100, 0, 1) 
+)
+
+dd_points$y <- rnorm(100, 0.1 + 0.2 * dd_points$x, 0.05)
+
+ggplot(dd, aes(x = x, y = mean)) +
+  stat_slab(aes(ydist = dist), alpha = 0.5) +
+  geom_line() +
+  geom_point(aes(y = mean), size = 5, col = my_cols[2]) +
+  xlab("x") +
+  ylab("y") +
+  ylim(0,0.4)+
+  geom_point(data = dd_points, aes(x = x, y = y), size = 3, alpha = 0.5)+
+  theme_clean(base_size = 24)+
+  guides(
+    x = guide_axis(cap = "both"),
+    y = guide_axis(cap = "both")
+  )
+
+
+
+```
+
+Conditional on $x$, the variable $y$ follows a Normal distribution centered at the regression line, with fixed spread ($\sigma^2$)
+
+## $$y \sim \mathcal{N}(\mu, \sigma^2)$$
+
+```{r}
+#| echo: false
+#| fig-height: 4
+#| fig-width: 14
+#| fig-align: center
+
+dat = data.frame(x = rbind(gen_norm(0,.25),gen_norm(1,.25), 
+                           gen_norm(2,.25), gen_norm(3,.25),
+                           gen_norm(4,.25)),
+                 parameters = rep(c("Normal(0, 0.25)",
+                                    "Normal(1, 0.25)",
+                                    "Normal(2, 0.25)",
+                                    "Normal(3, 0.25)",
+                                    "Normal(4, 0.25)"), each = nrow(gen_norm(0,1))))
+
+ggplot(dat, aes(x=x, fill = parameters))+
+  geom_density(alpha = 0.6, color = "black", size = 1,show.legend = FALSE)+
+  annotate("point", y = 0, x = 0, colour = my_cols[2],size = 5)+
+  annotate("point", y = 0, x = 1, colour = my_cols[2],size = 5)+
+  annotate("point", y = 0, x = 2, colour = my_cols[2],size = 5)+
+  annotate("point", y = 0, x = 3, colour = my_cols[2],size = 5)+
+  annotate("point", y = 0, x = 4, colour = my_cols[2],size = 5)+
+  scale_fill_manual(values = rep("grey",5))+
+  xlim(-2.5,5.5)+
+  labs(
+    x = expression(mu))+
+  scale_x_continuous(breaks = c(-1,0,1,2,3,4,5))+
+  theme_clean(base_size = 24)+
+  theme(legend.position = "right",
+        legend.title=element_blank())
+```
+
+-   **Support**: $(-\infty, +\infty)$
+-   **Mean** (expected value): $\mu$
+-   **Variance**: $\sigma^2$
+-   **Independence:** $\mu$ and $\sigma^2$ are separate; changing the mean does *not* change the variance!
+
+## Why do these matter for regression?
+
+When building a model, we need to know:
+
+-   **Support**: what range of values is possible
+-   **Mean** (expected value): what value to predict on average
+-   **Variance**: how much variation around the mean
+-   **Mean–variance relationship**: does variance change with the mean?
+
+## Where the Normal model breaks down
+
+### Reaction Times
+
+```{r}
+#| echo: false
+
+set.seed(42)
+dat_rt <- data.frame(
+    rt = c(rgamma(1e5, 7, scale = 0.05) * 1000,
+           rgamma(1e5, 14, scale = 0.05) * 1000),
+    slow = rep(c("fast","slow"), each = 1e5)
+) 
+
+dat_rt |> 
+    ggplot(aes(x = rt, fill = slow)) +
+    geom_density( color = "black", alpha = 0.8, show.legend = FALSE) +
+    labs(x = "Reaction Time (ms)", y = "Count", 
+         title = " ") +
+    theme_clean(base_size = 24)+
+  scale_fill_manual(values = my_cols)+
+  scale_x_continuous(limits = c(0,1800))+
+  ylab("density")
+
+```
+
+## Where the Normal model breaks down
+
+### Exam pass/fail
+
+```{r}
+#| echo: false
+
+dat_exam <- data.frame(y = c(70, 30), x = c("Passed", "Failed"))
+
+dat_exam |> 
+    ggplot(aes(x = reorder(x, -y), y = y, fill = x)) +
+    geom_col(color = "black",  width = 0.5, show.legend = FALSE) +
+    labs(y = "Count (out of 100)", x = "", 
+         title = " ") +
+    ylim(c(0, 100)) +
+    theme_clean(base_size = 24)+
+  scale_fill_manual(values = my_cols)
+```
+
+## Where the Normal model breaks down
+
+### Number of errors in a task
+
+```{r}
+#| echo: false
+
+set.seed(42)
+dat_count <- data.frame(x = rpois(1e4, 12))
+
+dat_count |> 
+    ggplot(aes(x = x)) +
+    geom_bar(fill = my_cols[3], color = "black") +
+    scale_x_continuous(breaks = seq(0, 30, 3)) +
+    labs(x = "Number of Errors", y = "Count", 
+         title = " ") +
+    theme_clean(base_size = 24)+
+  guides(
+    x = guide_axis(cap = "both"),
+    y = guide_axis(cap = "both")
+  )
+
+```
+
+## Probability distributions
+
+A probability distribution of a random variable $Y$ describes the **probabilities assigned to each possible value** $y$, given certain parameters values.
+
+<br/>
+
+::: fragment
+For a normally distributed random varible...
+
+$$f(y \mid \mu, \sigma^2) = \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left( - \frac{(y - \mu)^2}{2\sigma^2} \right)$$
+:::
+
+## Parameters and variables
+
+Any probability function has **parameters** and **variables**:
+
+$$f(y \mid \boldsymbol{\theta})$$
+
+-   $y$ is a specific observed value
+-   $\boldsymbol{\theta}$ is a vector of parameters that define the distribution's shape
+-   $f(\cdot)$ is the function itself
+
+## 
+
+| Distribution | Support | $E[Y]$ | $\mathrm{Var}(Y)$ |
+|------------------|-----------------|----------------:|--------------------:|
+| **Normal**: $f(y \text{ | } \mu,\sigma^2)$ | $y \in \mathbb{R}$ | $\mu$ | $\sigma^2$ |
+| **Gamma**: $f(y \text{ | } \alpha,\beta)$ | $y \in (0,\infty)$ | $\alpha/\beta$ | $\alpha/\beta^2$ |
+| **Binomial**: $f(y \text{ | } n,p)$ | $y \in \{0,1,\dots,n\}$ | $np$ | $np(1-p)$ |
+| **Poisson**: $f(y \text{ | } \lambda)$ | $y \in \{0,1,2,\dots\}$ | $\lambda$ | $\lambda$ |
+
+## Generalized Linear Models (GLMs)
+
+::: incremental
+-   **Right distribution**: Match the outcome's support
+
+-   **Mean-dependent variance**: Variance changes with the mean, not constant
+
+-   **Link function**: Transform the mean $\rightarrow$ Ensures predictions respect the outcome's constraints
+:::
+
+------------------------------------------------------------------------
+
+## Example: Passing the exam
+
+Does studying more increase the probability of passing?
+
+```{r}
+#| echo: false
+#| cache: true
+#| fig-width: 16
+#| fig-height: 8
+#| fig-align: left
+
+set.seed(123)
+n <- 50
+x <- round(runif(n, 0, 100))
+b0 <- -3
+b1 <- 0.05
+y <- rbinom(length(x), 1, plogis(b0 + b1*x))
+
+dat_exam <- data.frame(id = 1:n, study_hours = x, passed = y)
+
+exam_plot <- dat_exam |>
+  ggplot(aes(x = study_hours, y = passed)) +
+  geom_hline(yintercept = c(0, 1), linetype = "dashed", size = 3,
+             col = "red", alpha = 0.5) +
+  geom_point(size = 5, alpha = 0.5, 
+             position = position_jitter(height = 0.03, width = 1)) +
+  labs(x = "Study Hours", y = "Passed (0 = No, 1 = Yes)",
+       title = "") +
+  theme_clean(base_size = 24) +
+  scale_y_continuous(limits = c(-0.2, 1.2), breaks = c(0,0.2,0.4,0.6,0.8,1))
+
+
+exam_plot
+```
+
+## Fitting a Normal Linear Model
+
+```{r}
+#| echo: true
+#| eval: false
+fit_lm <- lm(passed ~ study_hours, data = dat_exam)
+```
+
+```{r}
+#| echo: false
+#| fig-width: 16
+#| fig-height: 8
+#| fig-align: left
+
+exam_plot +
+    geom_smooth(method = "lm", se = FALSE, color = my_cols[2], linewidth = 2.5) +
+    ggtitle(" ")
+
+```
+
+## Fitting a Generalized Linear Model
+
+```{r}
+#| echo: true
+#| eval: false
+fit_glm <- glm(passed ~ study_hours, data = dat_exam, 
+               family = binomial(link = "logit"))
+```
+
+```{r}
+#| echo: false
+#| fig-width: 16
+#| fig-height: 8
+#| fig-align: left
+exam_plot +
+    stat_smooth(method = "glm", se = FALSE, method.args = list(family = binomial),
+                color = my_cols[2], linewidth = 2.5) +
+    ggtitle(" ")
+```
+
+# Generalized Linear Models (GLM) {.section}
+
+## The three ingredients of a GLM
+
+::: incremental
+1.  **Random Component**: Choose a distribution  
+
+2.  **Systematic Component**: Linear predictor
+
+    $\eta_i = \beta_0 + \beta_1 x_i + …$  
+
+3.  **Link Function**: Connect mean to predictor
+
+    $g(\mu_i) = \eta_i$
+:::
+
+------------------------------------------------------------------------
+
+## 1. Random Component
+
+The **random component** specifies the probability distribution of the outcome $y$:
+
+$$
+y \sim \text{Distribution}(\text{parameters})
+$$
+
+ 
+
+::: {.fragment fragment-index="1"}
+What **support** does your outcome have?
+
+-   Binary: $\{0, 1\}$ → $\text{Binomial}(n, p)$
+-   Counts: $\{0, 1, 2, \ldots\}$ → $\text{Poisson}(\lambda)$
+-   Any real number: $(-\infty, \infty)$ → $\text{Gaussian}(\mu, \sigma)$
+:::
+
+## 1. Random Component
+
+Choosing a distribution specifies not only the mean, but also how the variance depends on the mean:
+
+\
+
+$$
+\mathrm{Var}(Y \mid \mathbf{X}) = V(\mu),
+\qquad \mu = E(Y \mid \mathbf{X}).
+$$
+
+ 
+
+*Examples*:
+
+-   Normal: $V(\mu)=\text{constant}$;
+-   Binomial: $V(\mu)=\mu(1-\mu)$;
+-   Poisson: $V(\mu)=\mu$.
+
+## 2. Systematic Component
+
+The **systematic component** is *exactly the same* as in *normal* linear regression: we predict a linear combination of predictors.
+
+<br/>
+
+$$
+\eta_i = \beta_0 + \beta_1 x_{1i} + \beta_2 x_{2i} + \cdots + \beta_k x_{ki}
+$$
+
+<br/>
+
+where $k$ denotes the total number of predictors.
+
+------------------------------------------------------------------------
+
+## 3. Link Function
+
+The **link function** $g(\cdot)$ connects the expected value (mean) $\mu_i$ of the distribution to the linear predictor $\eta$:
+
+\
+
+$$
+g(\mu_i) = \eta_i
+$$
+
+\
+
+-   The linear predictor $\eta_i$ can be any real number: $(-\infty, +\infty)$
+-   But $\mu_i$ (the mean) is **constrained** by the distribution's support
+-   The link function **transforms** $\mu$ to be unbounded
+
+## Common link functions
+
+| Distribution | Support | Link Function | Purpose |
+|-------------|-------------|-------------|---------------------------------|
+| Normal | $(-\infty, +\infty)$ | **Identity**: $\text{ }$ $g(\mu) = \mu$ | No transformation |
+| Binomial | $[0, 1]$ | **Logit**: $g(\mu) = \log\!\left(\frac{\mu}{1-\mu}\right)$ | Probability to $\mathbb{R}$ |
+| Gamma | $(0, \infty)$ | **Log**: $g(\mu) = \log(\mu)$ | Positive to $\mathbb{R}$ |
+
+------------------------------------------------------------------------
+
+## Putting it together
+
+For example, a Generalized Linear Model with the **Gaussian** family and **identity link** could be written as:
+
+<br/>
+
+$$
+\begin{aligned}
+y_i &\sim \text{Gaussian}(\mu_i, \sigma) \quad && \text{Random component} \\ \\
+g(\mu_i) &= \eta_i \quad && \text{Identity link} \\ \\
+\eta_i &= \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} \quad && \text{Systematic component}
+\end{aligned}
+$$
+
+## Putting it together
+
+For example, a Generalized Linear Model with the **Binomial** family and **logit link** could be written as:
+
+<br/>
+
+$$
+\begin{aligned}
+y_i &\sim \text{Binomial}(n, p_i) && \text{Random component} \\ \\
+\log\left(\frac{p_i}{1-p_i}\right) &= \eta_i && \text{Logit link} \\ \\
+\eta_i &= \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} && \text{Systematic component}
+\end{aligned}
+$$
+
+# Binomial Logistic Regression {.section}
+
+## Bernoulli and Binomial distributions
+
+-   Number of items correct on a test (out of $n$)
+-   Number of people who improve after treatment (out of $n$ patients)
+-   Accuracy on a task (successes / total trials)
+
+## Bernoulli distribution
+
+A single binary trial with two outcomes (success/failure):
+
+\
+
+$$
+P(Y = y \mid p) = p^y(1-p)^{1-y}, \quad y \in \{0, 1\}
+$$
+
+\
+
+where $p$ is the probability of success.
+
+\
+
+**Mean:** $E(Y) = p$
+
+**Variance:** $\text{Var}(Y) = p(1-p)$
+
+## Flip one coin (heads with probability 0.7)
+
+```{r}
+#| echo: true
+#| eval: true
+#| cache: true
+one = rbinom(n = 1, size = 1, prob = 0.7);one
+```
+
+Over 10,000 flips, what’s the estimated probability of heads?
+
+```{r}
+#| echo: true
+#| eval: true
+#| cache: true
+many = rbinom(n = 100000, size = 1, prob = 0.7); head(many)
+```
+
+. . .
+
+```{r}
+#| echo: true
+#| eval: true
+#| cache: true
+
+# Mean: E(Y) = p 
+p = mean(many); p
+```
+
+. . .
+
+```{r}
+#| echo: true
+#| eval: true
+#| cache: true
+
+# Variance: Var(Y) = p(1-p)
+p*(1-p)
+sd(many)^2
+```
+
+## Binomial distribution
+
+The probability of getting exactly **k** successes in **n** independent *Bernoulli* trials:
+
+\
+
+$$
+P(Y = k \mid n, p) = \binom{n}{k} p^k (1-p)^{n-k}, \quad k \in \{0, 1, \ldots, n\}.
+$$
+
+\
+
+**Mean:** $E(Y) = np$
+
+**Variance:** $\text{Var}(Y) = np(1-p)$
+
+## Flip one coin 10 times
+
+How many heads you get?
+
+```{r}
+#| echo: true
+#| eval: true
+n = 10; p = 0.7
+rbinom(n = 1, size = n, prob = 0.7)
+```
+
+Over 10,000 repetition ...
+
+```{r}
+#| echo: true
+#| eval: true
+many = rbinom(n = 100000, size = n, prob = p); head(many)
+```
+
+. . .
+
+```{r}
+#| echo: true
+#| eval: true
+n*p # Mean count: E(Y) = np 
+```
+
+. . .
+
+```{r}
+#| echo: true
+#| eval: true
+n*p*(1-p) # Variance count: Var(Y) = np(1-p)
+```
+
+. . .
+
+```{r}
+#| echo: true
+#| eval: true
+mean(many/n) # Mean proportion = p
+p*(1-p)/n    # Var(Y/n) = p(1-p)/n (variance of proportion)
+```
+
+## Binomial distribution: $n = 20$, $p = 0.9$
+
+```{r}
+#| echo: false
+#| fig-height: 8
+#| fig-width: 14
+
+n <- 20
+p <- 0.9
+dat_binom <- data.frame(k = 0:n)
+dat_binom$prob <- dbinom(x = dat_binom$k, size = n, prob = p)
+
+p09 = dat_binom |> 
+    ggplot(aes(x = k, y = prob)) +
+    geom_segment(aes(x = k, xend = k, y = 0, yend = prob), 
+                 color = my_cols[1], linewidth = 3) +
+   geom_point(size = 4, color = my_cols[1]) +
+    labs(x = "Number of Successes (k)", y = "Probability") +
+    theme_clean(base_size = 24)+
+  scale_x_continuous(breaks = round(seq(0,20,1)))+
+  scale_y_continuous(breaks = round(seq(0,.5,.05),2))+
+  guides(
+    x = guide_axis(cap = "both"),
+    y = guide_axis(cap = "both")
+  )
+
+p09
+
+```
+
+## Binomial distribution: $n = 20$, $p = 0.5$
+
+```{r}
+#| echo: false
+#| fig-height: 8
+#| fig-width: 14
+
+n <- 20
+p <- 0.5
+dat_binom <- data.frame(k = 0:n)
+dat_binom$prob <- dbinom(x = dat_binom$k, size = n, prob = p)
+
+p05 = dat_binom |> 
+    ggplot(aes(x = k, y = prob)) +
+    geom_segment(aes(x = k, xend = k, y = 0, yend = prob), 
+                 color = my_cols[2], linewidth = 3) +
+   geom_point(size = 4, color = my_cols[2]) +
+    labs(x = "Number of Successes (k)", y = "Probability") +
+    theme_clean(base_size = 24)+
+  scale_x_continuous(breaks = round(seq(0,20,1)))+
+  scale_y_continuous(breaks = round(seq(0,.5,.05),2))+
+  guides(
+    x = guide_axis(cap = "both"),
+    y = guide_axis(cap = "both")
+  )
+
+p05
+
+```
+
+## Mean–variance relationship
+
+$$E[Y] = np \quad \text{and} \quad \mathrm{Var}(Y) = np(1-p)$$
+
+```{r}
+#| echo: false
+#| eval: true
+#| fig-width: 18
+#| fig-height: 8
+
+p09|p05
+```
+
+## Mean–variance relationship
+
+```{r}
+#| echo: false
+#| fig-width: 10
+#| fig-height: 6
+
+p <- seq(0, 1, 0.01)
+df_mv <- data.frame(
+  p = p,
+  variance = p * (1 - p)
+)
+
+mid <- 0.5
+w <- 0.25  # highlight range: [0.38, 0.62]
+
+ggplot(df_mv, aes(x = p, y = variance)) +
+  geom_line(data = subset(df_mv, p <  mid - w),
+            linewidth = 2, color = my_cols[1]) +
+  geom_line(data = subset(df_mv, p >= mid - w & p <= mid + w),
+            linewidth = 2, color = my_cols[2]) +
+  geom_line(data = subset(df_mv, p >  mid + w),
+            linewidth = 2, color = my_cols[1]) +
+  labs(
+    x = expression(mu == p),
+    y = expression(Var == p * (1 - p)),
+    title = " "
+  ) +
+  theme_clean(24) +
+  guides(
+    x = guide_axis(cap = "both"),
+    y = guide_axis(cap = "both")
+  )
+
+```
+
+**Variance is not constant!** We model both the mean and the variance!
+
+# Odds, Logit Link, Odds Ratios {.section}
+
+## Odds
+
+Let $\mu = P(\text{Pass}=1)$. The *odds* of passing compare “pass” to “fail”:
+
+\
+
+$$
+\text{odds} = \frac{\mu}{1-\mu}.
+$$
+
+\
+
+::: fragment
+If $\mu=0.80$, then $\text{odds}=\frac{0.80}{0.20}=4$.
+:::
+
+\
+
+::: fragment
+So passing is **4-to-1** relative to failing (4 expected passes for 1 fail, on average).
+:::
+
+## Logit link (log-odds)
+
+The logit link takes probabilities $(0,1)$ to the real line:
+
+\
+
+$$
+\eta_i = \log\!\left(\frac{\mu_i}{1-\mu_i}\right).
+$$
+
+\
+
+In a logistic regression we assume the log-odds are linear in predictors:
+
+\
+
+$$
+\eta_i = \beta_0 + \beta_1 x_i.
+$$
+
+## Linear on log-odds
+
+A +1 increase in $x$ changes $\eta$ by a constant amount: $\eta(x+1)-\eta(x)=\beta_1$.
+(So equal increases in $x$ correspond to equal increases in log-odds.)
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+#| fig-align: center
+#| fig-height: 10
+#| fig-width: 18
+
+## log odds (logit) as a function of predictor x: eta = b0 + b1*x
+b0 <- 0
+b1 <- 0.8  # <--- so +1 in x gives +0.6 in log-odds (not +1)
+
+# Generate data for plotting
+x_vals <- seq(-10, 10, length.out = 300)
+eta_vals <- b0 + b1 * x_vals
+p_vals <- plogis(eta_vals)
+Y_LogOdds <- log(p_vals/(1 - p_vals))  # equals eta_vals 
+
+data <- data.frame(x = x_vals, Y_LogOdds = Y_LogOdds)
+
+# Define x positions for vertical lines (equal intervals in x)
+x_positions <- seq(-4, 4, 1)
+
+# Corresponding log-odds values at those x's
+y_LogOdds <- b0 + b1 * x_positions
+
+# PLOT
+ggplot(data, aes(x = x, y = Y_LogOdds)) +
+  geom_line(color = my_cols[2], linewidth = 3) +
+  geom_vline(xintercept = x_positions, linetype = "dashed",
+             color = "red", linewidth = .8) +
+  geom_hline(yintercept = y_LogOdds, linetype = 1,
+             color = "#777777", linewidth = 1) +
+  theme_clean(base_size = 26) +
+  labs(
+    x = expression(x),
+    y = expression(eta[i])
+  ) +
+  scale_y_continuous(breaks = y_LogOdds)+
+  scale_x_continuous(breaks = -10:10) +
+  coord_cartesian(ylim = c(-3, 3), xlim = c(-4, 4.3))
+
+
+```
+
+
+
+
+## Inverse link (back to probability)
+
+To go back to probability we apply the inverse-logit:
+
+$$
+\mu_i = \frac{e^{\eta_i}}{1+e^{\eta_i}}.
+$$
+
+```{r}
+#| echo: false
+#| fig-align: left
+x_vals <- seq(-4, 4, 0.01)
+p_vals <- plogis(x_vals)
+
+df_logit <- data.frame(
+  eta      = x_vals,
+  p        = p_vals
+)
+
+ggplot(df_logit, aes(x = eta)) +
+  geom_line(aes(y = p), linewidth = 2, color = my_cols[2]) +
+  geom_hline(yintercept = c(0, 1), linetype = "dashed", alpha = 0.5) +
+  labs(
+    x = expression(eta[i]),
+    y = expression(p[i] == frac(e^{eta[i]}, 1 + e^{eta[i]}))
+  ) +
+  ylim(-0.1, 1.05) +
+  theme_clean(24) +
+  guides(
+    x = guide_axis(cap = "both"),
+    y = guide_axis(cap = "both")
+  )
+
+
+```
+
+## Not linear in probability
+
+Equal increases in $x$ generally **do not** correspond to equal increases in $\mu$,
+because $\mu=\text{logit}^{-1}(\eta)$ is nonlinear. 
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+#| fig-align: center
+#| fig-height: 10
+#| fig-width: 18
+
+# Choose coefficients so +1 in x gives +b1 in log-odds (not +1)
+b0 <- 0
+b1 <- 0.8
+
+# Generate data for plotting
+x_vals <- seq(-10, 10, length.out = 300)
+eta_vals <- b0 + b1 * x_vals
+Y_Logit  <- plogis(eta_vals)  # p = inverse-logit(eta) [web:227]
+
+data <- data.frame(x = x_vals, Y_Logit = Y_Logit)
+
+# Define x positions for vertical lines (equal intervals in x)
+x_positions <- seq(-4, 4, 1)
+
+# Compute corresponding y values (probabilities) at those x's
+y_logis <- plogis(b0 + b1 * x_positions)  # [web:227]
+
+# PLOT
+ggplot(data, aes(x = x, y = Y_Logit)) +
+  geom_line(color = my_cols[2], linewidth = 3) +
+  geom_vline(xintercept = x_positions, linetype = "dashed",
+             color = "red", linewidth = .8) +
+  geom_hline(yintercept = y_logis, linetype = 1,
+             color = "#777777", linewidth = 1) +
+  labs(
+    x = expression(x),
+    y = expression(p[i] == frac(e^{eta[i]}, 1 + e^{eta[i]}))
+  ) +
+  scale_x_continuous(breaks = -4:4) +
+  coord_cartesian(xlim = c(-5, 4), ylim = c(0, 1)) +
+  scale_y_continuous(breaks = seq(0, 1, .1)) +
+  theme_clean(base_size = 24) +
+  geom_text(
+    data = data.frame(x = x_positions, y = 0.05, label = paste0("x = ", x_positions)),
+    aes(x = x, y = y, label = label),
+    color = "black", vjust = 3, size = 7, fontface = "bold"
+  ) +
+  geom_text(
+    data = data.frame(x = -5, y = y_logis, label = paste0("p = ", round(y_logis, 2))),
+    aes(x = x, y = y, label = label),
+    color = "black", hjust = 0, vjust = -.2, size = 7, fontface = "bold"
+  )
+```
+
+## Odds ratios
+
+From the model $\eta_i=\beta_0+\beta_1 x_i$, the odds are
+
+\
+
+$$
+\frac{\mu_i}{1-\mu_i}=\exp(\beta_0+\beta_1 x_i).
+$$
+\
+
+::: {.incremental}
+
+-   The odds of passing when study hours $x = 0$ is $\exp(\beta_0)$
+-   The odds of passing when study hours $x = 1$ is \
+    $$\exp(\beta_0 + \beta_1) = \exp(\beta_0) \exp(\beta_1)$$
+:::
+
+## Odds Ratios
+
+Then the ratio of these two odds is:
+
+\
+
+$$\frac{\exp(\beta_0)\exp(\beta_1)}{\exp(\beta_0)} = \exp(\beta_1)$$
+
+\
+
+This means that the odds of passing when increasing study hours by 1 is $\exp(\beta_1)$ times greater than at the baseline (i.e., when $x = 0$).
+
+##
+
+If we increase $x$ by 1 unit, the odds ratio is
+
+\
+
+$$
+\text{OR}=\frac{\text{odds}(x+1)}{\text{odds}(x)}=\exp(\beta_1).
+$$
+
+\
+
+
+So each +1 unit in study hours multiplies the odds of passing by $\exp(\beta_1)$.
+
+## Numerical example ($\beta_1=0.8$)
+
+Here $\exp(0.8)\approx 2.23$, so each +1 hour multiplies the odds by ~2.23. 
+
+| Baseline **p** | Baseline odds $p/(1-p)$ | New odds $=2.23\times$ odds | New **p** | $\Delta$ **p** |
+|---:|---:|---:|---:|---:|
+| 0.10 | 0.11 | 0.25 | 0.20 | +0.10 |
+| 0.20 | 0.25 | 0.55 | 0.36 | +0.16 |
+| 0.36 | 0.55 | 1.22 | 0.55 | +0.20 |
+| 0.55 | 1.22 | 2.73 | 0.73 | +0.18 |
+| 0.73 | 2.73 | 6.07 | 0.86 | +0.13 |
+| 0.86 | 6.07 | 13.51 | 0.93 | +0.07 |
+
+## 
+
+![](/img/coffe.png){fig-align="center" width="500"}
+
+[Vecteezy](https://www.vecteezy.com/free-png/funny)
+
