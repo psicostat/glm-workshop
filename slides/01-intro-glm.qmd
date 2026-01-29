@@ -124,7 +124,7 @@ p +  geom_segment(data = dd_step,
 
 ## Linear Regression $y \sim x$
 
--   **Variation**: Characterize how outcomes vary around that expectation.
+-   Characterize how outcomes vary around that expectation.
 
 ```{r}
 #| echo: false
@@ -164,23 +164,6 @@ ggplot(dd, aes(x = x, y = mean)) +
   )
 ```
 
-## Random variable vs observed value
-
--   Before we observe $y_i$, the outcome is uncertain: we model it as a **random variable** $Y_i$.
-
-$$
-Y_i \mid x_i \sim \text{Distribution}(\text{parameters}).
-$$
-
--   After collecting data, we record one realized (observed) value $y_i$.
-
-$$
-y_i \text{ is the observed value (a realization) of } Y_i.
-$$
-
-<br/>
-
-Following @Dunn2018-ww, we write $y_i$ for the response and it is modeled as random before observation.
 
 ## Probability distributions
 
@@ -324,7 +307,7 @@ ggplot(dd, aes(x = x, y = mean)) +
 
 ```
 
-For a fixed $x_i$, the model describes the distribution of possible outcomes around the mean $\mu_i$; the data give one realized outcome $y_i$.
+For a fixed $x_i$, the model describes the distribution of possible outcomes around the mean $\mu_i$.
 
 ## $$y_i \mid x_i \sim \mathcal{N}(\beta_0 + \beta_1 x_i,\ \sigma^2)$$
 
@@ -561,8 +544,7 @@ exam_plot +
 
 ## 1. Random component
 
-The **random component** specifies a probability model for the response $y_i$
-(we treat $y_i$ as random in the model):
+The **random component** specifies a probability model for the response $y_i$:
 
 <br/>
 
@@ -648,10 +630,11 @@ $$
 
 For example, a Generalized Linear Model with the **Normal** family and **identity link** can be written as:
 
+<br/>
+
 $$
 \begin{aligned}
 y_i &\sim \mathcal{N}(\mu_i, \sigma^2) && \text{Random component} \\
-\mu_i &= E(y_i \mid x_i) && \text{Mean} \\
 \mu_i &= \eta_i && \text{Link (identity)} \\
 \eta_i &= \beta_0 + \beta_1 x_{i1} + \cdots + \beta_k x_{ik} && \text{Systematic component}
 \end{aligned}
@@ -661,10 +644,11 @@ $$
 
 For example, a Generalized Linear Model with the **Binomial** family and **logit link** can be written as:
 
+<br/>
+
 $$
 \begin{aligned}
 y_i \mid x_i &\sim \text{Binomial}(n_i, p_i) && \text{Random component} \\
-\mu_i &= E(y_i \mid x_i)=n_i p_i && \text{Mean (expected count)} \\
 \text{logit}(p_i) &= \log\!\left(\frac{p_i}{1-p_i}\right)=\eta_i && \text{Link (logit)} \\
 \eta_i &= \beta_0 + \beta_1 x_{i1} + \cdots + \beta_k x_{ik} && \text{Systematic component}
 \end{aligned}
