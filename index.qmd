@@ -19,6 +19,10 @@ suppress-bibliography: true
 
 ![](files/hex.svg){fig-align="center"}
 
+<center>
+{{< qrcode https://psicostat.github.io/glm-workshop/ qr1 width=200 height=200 colorDark='#543391' >}}
+</center>
+
 # Introduction
 
 Introductory workshop about Generalized Linear Models starting from the general theory, model fitting, parameters interpretation and data simulation.

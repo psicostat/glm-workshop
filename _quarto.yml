@@ -3,7 +3,11 @@ project:
 
 website:
   title: "GLM Workshop"
-  navbar: true
+  navbar:
+    right:
+        - icon: github
+          href: https://github.com/psicostat/glm-workshop
+          aria-label: GitHub
 
 format:
   html:
