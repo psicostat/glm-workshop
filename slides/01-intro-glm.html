@@ -6,8 +6,8 @@
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="../site_libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ea1d7ac60288e0f1efdbc993fd8432ae.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.8.21">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-4279360f14831a022364d2ef6b4efa56.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.8.26">
 
   <meta name="author" content="Margherita Calderan">
   <meta name="author" content="Filippo Gambarota">
@@ -226,80 +226,110 @@
     </div>
 </div>
 
-  <p class="date"><em>Last modified: 28-01-2026</em></p>
+  <p class="date"><em>Last modified: 29-01-2026</em></p>
 </section>
 <section id="TOC">
 <nav role="doc-toc"> 
 <h2 id="toc-title">Contents</h2>
 <ul>
-<li><a href="#/linear-regression-y-sim-x" id="/toc-linear-regression-y-sim-x">Linear Regression <span class="math inline">\(y \sim x\)</span></a></li>
+<li><a href="#/linear-regression" id="/toc-linear-regression">Linear Regression</a></li>
+<li><a href="#/the-normal-distribution" id="/toc-the-normal-distribution">The Normal distribution</a></li>
+<li><a href="#/probability-distributions" id="/toc-probability-distributions">Probability distributions</a></li>
 <li><a href="#/generalized-linear-models-glm" id="/toc-generalized-linear-models-glm">Generalized Linear Models (GLM)</a></li>
 <li><a href="#/binomial-logistic-regression" id="/toc-binomial-logistic-regression">Binomial Logistic Regression</a></li>
-<li><a href="#/odds-logit-link-odds-ratios" id="/toc-odds-logit-link-odds-ratios">Odds, Logit Link, Odds Ratios</a></li>
+<li><a href="#/odds-and-logit-link" id="/toc-odds-and-logit-link">Odds and Logit Link</a></li>
 </ul>
 </nav>
 </section>
 
 <section>
-<section id="linear-regression-y-sim-x" class="title-slide slide level1 section center">
-<h1>Linear Regression <span class="math inline">\(y \sim x\)</span></h1>
+<section id="linear-regression" class="title-slide slide level1 section center">
+<h1>Linear Regression</h1>
 
 </section>
-<section id="linear-regression-y-sim-x-1" class="slide level2">
-<h2>Linear Regression <span class="math inline">\(y \sim x\)</span></h2>
-<ul>
-<li>Estimate the expected (average) outcome given predictors.</li>
-</ul>
+<section id="linear-regression-1" class="slide level2">
+<h2>Linear Regression</h2>
+<p>Estimate the expected (average) outcome given predictors.</p>
 
-<img data-src="01-intro-glm_files/figure-revealjs/unnamed-chunk-2-1.svg" class="quarto-figure quarto-figure-left r-stretch"></section>
-<section id="linear-regression-y-sim-x-2" class="slide level2">
-<h2>Linear Regression <span class="math inline">\(y \sim x\)</span></h2>
-<ul>
-<li>A <strong>constant change</strong> in a <em>x</em> leads to a constant change in the <em>y</em>.</li>
-</ul>
+<img data-src="01-intro-glm_files/figure-revealjs/unnamed-chunk-2-1.svg" class="quarto-figure quarto-figure-left r-stretch"><blockquote>
+<p>The <a href="https://en.wikipedia.org/wiki/Expected_value">expected value</a> of a random variable with a finite number of outcomes is a weighted average of all possible outcomes.</p>
+</blockquote>
+</section>
+<section id="linear-regression-2" class="slide level2">
+<h2>Linear Regression</h2>
+<p>A constant change in <strong>x</strong> leads to a constant change in the <strong>expected outcome</strong>.</p>
 
 <img data-src="01-intro-glm_files/figure-revealjs/unnamed-chunk-3-1.svg" class="quarto-figure quarto-figure-left r-stretch"></section>
-<section id="normal-linear-regression-y-sim-x" class="slide level2">
-<h2>Normal Linear Regression <span class="math inline">\(y \sim x\)</span></h2>
-<ul>
-<li><strong>Variation</strong>: Characterize how outcomes vary around that expectation.</li>
-</ul>
+<section id="normal-linear-regression-lmyx" class="slide level2">
+<h2>Normal linear regression: <code>lm(y~x)</code></h2>
+<p>For a fixed <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>x</mi><mi>i</mi></msub><annotation encoding="application/x-tex">x_i</annotation></semantics></math>, the model describes the <strong>distribution of possible outcomes</strong> around the mean <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>μ</mi><mi>i</mi></msub><annotation encoding="application/x-tex">\mu_i</annotation></semantics></math>.</p>
 
-<img data-src="01-intro-glm_files/figure-revealjs/unnamed-chunk-4-1.svg" class="quarto-figure quarto-figure-center r-stretch"></section>
-<section id="the-normal-distribution" class="slide level2">
-<h2>The Normal distribution</h2>
-<p>The Normal distribution has parameters <span class="math inline">\(\mu\)</span> (mean) and <span class="math inline">\(\sigma^2\)</span> (variance):</p>
-<p><span class="math inline">\(f(y \mid \mu, \sigma^2) = \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left( - \frac{(y - \mu)^2}{2\sigma^2} \right)\)</span></p>
+<img data-src="01-intro-glm_files/figure-revealjs/unnamed-chunk-4-1.svg" class="quarto-figure quarto-figure-left r-stretch"><blockquote>
+<p>The <a href="https://en.wikipedia.org/wiki/Expected_value">expected value</a> of a random variable with a finite number of outcomes is a weighted average of all possible outcomes.</p>
+</blockquote>
+</section></section>
+<section>
+<section id="the-normal-distribution" class="title-slide slide level1 section center">
+<h1>The Normal distribution</h1>
+
+</section>
+<section id="normal-distribution" class="slide level2">
+<h2>Normal distribution</h2>
+<p>A Normal distribution has parameters <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>μ</mi><annotation encoding="application/x-tex">\mu</annotation></semantics></math> (mean) and <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>σ</mi><mn>2</mn></msup><annotation encoding="application/x-tex">\sigma^2</annotation></semantics></math> (variance):</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>y</mi><mo>∣</mo><mi>μ</mi><mo>,</mo><msup><mi>σ</mi><mn>2</mn></msup><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mfrac><mn>1</mn><msqrt><mrow><mn>2</mn><mi>π</mi><msup><mi>σ</mi><mn>2</mn></msup></mrow></msqrt></mfrac><mo>exp</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>−</mi><mfrac><msup><mrow><mo stretchy="true" form="prefix">(</mo><mi>y</mi><mo>−</mo><mi>μ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup><mrow><mn>2</mn><msup><mi>σ</mi><mn>2</mn></msup></mrow></mfrac><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">f(y \mid \mu, \sigma^2) = \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left( - \frac{(y - \mu)^2}{2\sigma^2} \right)</annotation></semantics></math></p>
 <p><br></p>
 
 <img data-src="01-intro-glm_files/figure-revealjs/unnamed-chunk-5-1.svg" class="quarto-figure quarto-figure-center r-stretch"></section>
-<section id="the-normal-distribution-1" class="slide level2">
-<h2>The Normal distribution</h2>
-<p>The Normal distribution has parameters <span class="math inline">\(\mu\)</span> (mean) and <span class="math inline">\(\sigma^2\)</span> (variance):</p>
-<p><span class="math inline">\(f(y \mid \mu, \sigma^2) = \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left( - \frac{(y - \mu)^2}{2\sigma^2} \right)\)</span></p>
+<section id="normal-distribution-1" class="slide level2">
+<h2>Normal distribution</h2>
+<p>A Normal distribution has parameters <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>μ</mi><annotation encoding="application/x-tex">\mu</annotation></semantics></math> (mean) and <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>σ</mi><mn>2</mn></msup><annotation encoding="application/x-tex">\sigma^2</annotation></semantics></math> (variance):</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>y</mi><mo>∣</mo><mi>μ</mi><mo>,</mo><msup><mi>σ</mi><mn>2</mn></msup><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mfrac><mn>1</mn><msqrt><mrow><mn>2</mn><mi>π</mi><msup><mi>σ</mi><mn>2</mn></msup></mrow></msqrt></mfrac><mo>exp</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>−</mi><mfrac><msup><mrow><mo stretchy="true" form="prefix">(</mo><mi>y</mi><mo>−</mo><mi>μ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup><mrow><mn>2</mn><msup><mi>σ</mi><mn>2</mn></msup></mrow></mfrac><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">f(y \mid \mu, \sigma^2) = \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left( - \frac{(y - \mu)^2}{2\sigma^2} \right)</annotation></semantics></math></p>
 <p><br></p>
 
 <img data-src="01-intro-glm_files/figure-revealjs/unnamed-chunk-6-1.svg" class="quarto-figure quarto-figure-center r-stretch"></section>
-<section id="the-normal-distribution-2" class="slide level2">
-<h2>The Normal distribution</h2>
-<p>The Normal distribution has parameters <span class="math inline">\(\mu\)</span> (mean) and <span class="math inline">\(\sigma^2\)</span> (variance):</p>
-<p><span class="math inline">\(f(y \mid \mu, \sigma^2) = \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left( - \frac{(y - \mu)^2}{2\sigma^2} \right)\)</span></p>
+<section id="normal-distribution-2" class="slide level2">
+<h2>Normal distribution</h2>
+<p>A Normal distribution has parameters <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>μ</mi><annotation encoding="application/x-tex">\mu</annotation></semantics></math> (mean) and <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>σ</mi><mn>2</mn></msup><annotation encoding="application/x-tex">\sigma^2</annotation></semantics></math> (variance):</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>y</mi><mo>∣</mo><mi>μ</mi><mo>,</mo><msup><mi>σ</mi><mn>2</mn></msup><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mfrac><mn>1</mn><msqrt><mrow><mn>2</mn><mi>π</mi><msup><mi>σ</mi><mn>2</mn></msup></mrow></msqrt></mfrac><mo>exp</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>−</mi><mfrac><msup><mrow><mo stretchy="true" form="prefix">(</mo><mi>y</mi><mo>−</mo><mi>μ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup><mrow><mn>2</mn><msup><mi>σ</mi><mn>2</mn></msup></mrow></mfrac><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">f(y \mid \mu, \sigma^2) = \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left( - \frac{(y - \mu)^2}{2\sigma^2} \right)</annotation></semantics></math></p>
 <p><br></p>
 
 <img data-src="01-intro-glm_files/figure-revealjs/unnamed-chunk-7-1.svg" class="quarto-figure quarto-figure-center r-stretch"></section>
-<section id="y_i-sim-mathcalnbeta_0-beta_1-x_i-sigma2" class="slide level2">
-<h2><span class="math display">\[y_i \sim \mathcal{N}(\beta_0 + \beta_1 x_i, \sigma^2)\]</span></h2>
-
-<img data-src="01-intro-glm_files/figure-revealjs/unnamed-chunk-8-1.svg" class="quarto-figure quarto-figure-center r-stretch"><p>Conditional on <span class="math inline">\(x\)</span>, the variable <span class="math inline">\(y\)</span> follows a Normal distribution centered at the regression line, with fixed spread (<span class="math inline">\(\sigma^2\)</span>)</p>
+<section id="normal-linear-regression" class="slide level2">
+<h2>Normal linear regression</h2>
+<div class="columns">
+<div class="column">
+<p><br>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>y</mi><mi>i</mi></msub><mo>∣</mo><msub><mi>x</mi><mi>i</mi></msub><mo>∼</mo><mi>𝒩</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>μ</mi><mi>i</mi></msub><mo>,</mo><msup><mi>σ</mi><mn>2</mn></msup><mo stretchy="true" form="postfix">)</mo></mrow><mo>,</mo><mspace width="2.0em"></mspace><msub><mi>μ</mi><mi>i</mi></msub><mo>=</mo><msub><mi>β</mi><mn>0</mn></msub><mo>+</mo><msub><mi>β</mi><mn>1</mn></msub><msub><mi>x</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">y_i \mid x_i \sim \mathcal{N}(\mu_i,\sigma^2), \qquad \mu_i = \beta_0 + \beta_1 x_i</annotation></semantics></math></p>
+</div><div class="column">
+<div class="cell" data-layout-align="left">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-left">
+<figure>
+<p><img data-src="01-intro-glm_files/figure-revealjs/unnamed-chunk-8-1.svg" class="quarto-figure quarto-figure-left"></p>
+</figure>
+</div>
+</div>
+</div>
+</div></div>
+<div class="fragment">
+<div class="cell" data-layout-align="left">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-left">
+<figure>
+<p><img data-src="01-intro-glm_files/figure-revealjs/unnamed-chunk-9-1.svg" class="quarto-figure quarto-figure-left"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
 </section>
-<section id="y-sim-mathcalnmu-sigma2" class="slide level2">
-<h2><span class="math display">\[y \sim \mathcal{N}(\mu, \sigma^2)\]</span></h2>
-
-<img data-src="01-intro-glm_files/figure-revealjs/unnamed-chunk-9-1.svg" class="quarto-figure quarto-figure-center r-stretch"><ul>
-<li><strong>Support</strong>: <span class="math inline">\((-\infty, +\infty)\)</span></li>
-<li><strong>Mean</strong> (expected value): <span class="math inline">\(\mu\)</span></li>
-<li><strong>Variance</strong>: <span class="math inline">\(\sigma^2\)</span></li>
-<li><strong>Independence:</strong> <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma^2\)</span> are separate; changing the mean does <em>not</em> change the variance!</li>
+<section id="normal-distribution-3" class="slide level2">
+<h2>Normal distribution</h2>
+<ul>
+<li><strong>Support</strong>: <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>−</mi><mi>∞</mi><mo>,</mo><mi>+</mi><mi>∞</mi></mrow><annotation encoding="application/x-tex">-\infty, +\infty</annotation></semantics></math></li>
+<li><strong>Mean</strong> (expected value): <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>μ</mi><annotation encoding="application/x-tex">\mu</annotation></semantics></math></li>
+<li><strong>Variance</strong>: <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>σ</mi><mn>2</mn></msup><annotation encoding="application/x-tex">\sigma^2</annotation></semantics></math></li>
+<li><strong>Independence:</strong> changing the mean does <em>not</em> change the variance!</li>
 </ul>
 </section>
 <section id="why-do-these-matter-for-regression" class="slide level2">
@@ -326,97 +356,202 @@
 <h2>Where the Normal model breaks down</h2>
 <h3 id="number-of-errors-in-a-task">Number of errors in a task</h3>
 
-<img data-src="01-intro-glm_files/figure-revealjs/unnamed-chunk-12-1.svg" class="r-stretch"></section>
-<section id="probability-distributions" class="slide level2">
-<h2>Probability distributions</h2>
-<p>A probability distribution of a random variable <span class="math inline">\(Y\)</span> describes the <strong>probabilities assigned to each possible value</strong> <span class="math inline">\(y\)</span>, given certain parameters values.</p>
-<p><br></p>
-<div class="fragment">
-<p>For a normally distributed random varible…</p>
-<p><span class="math display">\[f(y \mid \mu, \sigma^2) = \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left( - \frac{(y - \mu)^2}{2\sigma^2} \right)\]</span></p>
-</div>
+<img data-src="01-intro-glm_files/figure-revealjs/unnamed-chunk-12-1.svg" class="r-stretch"></section></section>
+<section>
+<section id="probability-distributions" class="title-slide slide level1 section center">
+<h1>Probability distributions</h1>
+
 </section>
-<section id="parameters-and-variables" class="slide level2">
-<h2>Parameters and variables</h2>
-<p>Any probability function has <strong>parameters</strong> and <strong>variables</strong>:</p>
-<p><span class="math display">\[f(y \mid \boldsymbol{\theta})\]</span></p>
+<section id="understanding-distributions" class="slide level2">
+<h2>Understanding distributions</h2>
+<p>A probability distribution of a random variable <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Y</mi><annotation encoding="application/x-tex">Y</annotation></semantics></math> describes the <strong>probabilities assigned to each possible value</strong> <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>y</mi><annotation encoding="application/x-tex">y</annotation></semantics></math>, given certain parameters values.</p>
+<p><br>
+</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>y</mi><mo>∣</mo><mi>𝛉</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">f(y \mid \boldsymbol{\theta})</annotation></semantics></math></p>
+<p><br>
+</p>
 <ul>
-<li><span class="math inline">\(y\)</span> is a specific observed value</li>
-<li><span class="math inline">\(\boldsymbol{\theta}\)</span> is a vector of parameters that define the distribution’s shape</li>
-<li><span class="math inline">\(f(\cdot)\)</span> is the function itself</li>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>y</mi><annotation encoding="application/x-tex">y</annotation></semantics></math> is a specific value</li>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>𝛉</mi><annotation encoding="application/x-tex">\boldsymbol{\theta}</annotation></semantics></math> is a vector of variables (parameters)</li>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>⋅</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">f(\cdot)</annotation></semantics></math> is the function itself</li>
 </ul>
 </section>
-<section id="section" class="slide level2">
-<h2></h2>
+<section id="understanding-distributions-1" class="slide level2">
+<h2>Understanding distributions</h2>
+<ul>
+<li><strong>Discrete</strong> random variables: counts, binary, etc.</li>
+</ul>
+<p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\rightarrow</annotation></semantics></math> <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>Y</mi><mo>∣</mo><mi>𝛉</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">f(Y\mid \boldsymbol{\theta})</annotation></semantics></math> becomes <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>Y</mi><mo>=</mo><mi>y</mi><mo>∣</mo><mi>𝛉</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">f(Y = y\mid \boldsymbol{\theta})</annotation></semantics></math> because we are assigning a certain probability to a <strong>discrete</strong> variables. The function is called probability <strong>mass</strong> function (PMF).</p>
+<div class="fragment">
+<ul>
+<li><strong>Continuous</strong> random variables: time, weight, etc.</li>
+</ul>
+<p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\rightarrow</annotation></semantics></math> <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>Y</mi><mo>∣</mo><mi>𝛉</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">f(Y\mid \boldsymbol{\theta})</annotation></semantics></math> and the function is called probability <strong>density</strong> function (PDF).</p>
+</div>
+<p><br>
+</p>
+<div class="fragment">
+<p>The <strong>PMF</strong> return the probability associated with a certain value of <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>y</mi><annotation encoding="application/x-tex">y</annotation></semantics></math> while the <strong>PDF</strong> returns the probability density of a certain value of <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>y</mi><annotation encoding="application/x-tex">y</annotation></semantics></math></p>
+</div>
+</section>
+<section id="moments-of-the-distributions" class="slide level2">
+<h2>Moments of the distributions</h2>
+<p>When we use the distributions, we are usually interested in some properties describing the distribution:</p>
+<ul>
+<li class="fragment"><strong>First moment</strong>: is the expected value (i.e., the <strong>mean</strong>) of the distribution</li>
+<li class="fragment"><strong>Second moment</strong>: is the <strong>variance</strong> of the distribution</li>
+<li class="fragment">Third moment: is the skewness</li>
+<li class="fragment">Fourth moment: is the kurtosis</li>
+</ul>
+</section>
+<section id="why-is-it-important" class="slide level2">
+<h2>Why is it important?</h2>
+<p>Moments are always the same but the way we actual compute them could change according to the distribution.</p>
+<p>In normal linear and generalized linear models we generally include <strong>predictors</strong> on the <strong>mean</strong> of the distribution.</p>
+<p>In the case of <strong><em>Normal</em></strong> distribution the <strong>mean</strong> and the <strong>variance</strong> are the <strong>same as the parameters</strong> defining the distribution.</p>
+</section>
+<section id="why-is-important" class="slide level2">
+<h2>Why is important?</h2>
 <table class="caption-top">
 <colgroup>
 <col style="width: 24%">
-<col style="width: 23%">
-<col style="width: 23%">
-<col style="width: 28%">
+<col style="width: 24%">
+<col style="width: 24%">
+<col style="width: 27%">
 </colgroup>
 <thead>
 <tr class="header">
 <th>Distribution</th>
 <th>Support</th>
-<th style="text-align: right;"><span class="math inline">\(E[Y]\)</span></th>
-<th style="text-align: right;"><span class="math inline">\(\mathrm{Var}(Y)\)</span></th>
+<th style="text-align: center;">mean: <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mrow><mo stretchy="true" form="prefix">[</mo><mi>Y</mi><mo stretchy="true" form="postfix">]</mo></mrow></mrow><annotation encoding="application/x-tex">E[Y]</annotation></semantics></math></th>
+<th style="text-align: center;">variance: <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">V</mi><mi mathvariant="normal">a</mi><mi mathvariant="normal">r</mi></mrow><mrow><mo stretchy="true" form="prefix">(</mo><mi>Y</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\mathrm{Var}(Y)</annotation></semantics></math></th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><strong>Normal</strong>: <span class="math inline">\(f(y \text{ | } \mu,\sigma^2)\)</span></td>
-<td><span class="math inline">\(y \in \mathbb{R}\)</span></td>
-<td style="text-align: right;"><span class="math inline">\(\mu\)</span></td>
-<td style="text-align: right;"><span class="math inline">\(\sigma^2\)</span></td>
+<td><strong>Normal</strong>: <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>y</mi><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> | </mtext><mspace width="0.333em"></mspace></mrow><mi>μ</mi><mo>,</mo><msup><mi>σ</mi><mn>2</mn></msup><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">f(y \text{ | } \mu,\sigma^2)</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>y</mi><mo>∈</mo><mi>ℝ</mi></mrow><annotation encoding="application/x-tex">y \in \mathbb{R}</annotation></semantics></math></td>
+<td style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>μ</mi><annotation encoding="application/x-tex">\mu</annotation></semantics></math></td>
+<td style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>σ</mi><mn>2</mn></msup><annotation encoding="application/x-tex">\sigma^2</annotation></semantics></math></td>
 </tr>
 <tr class="even">
-<td><strong>Gamma</strong>: <span class="math inline">\(f(y \text{ | } \alpha,\beta)\)</span></td>
-<td><span class="math inline">\(y \in (0,\infty)\)</span></td>
-<td style="text-align: right;"><span class="math inline">\(\alpha/\beta\)</span></td>
-<td style="text-align: right;"><span class="math inline">\(\alpha/\beta^2\)</span></td>
+<td><strong>Gamma</strong>: <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>y</mi><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> | </mtext><mspace width="0.333em"></mspace></mrow><mi>α</mi><mo>,</mo><mi>β</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">f(y \text{ | } \alpha,\beta)</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>y</mi><mo>∈</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>0</mn><mo>,</mo><mi>∞</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">y \in (0,\infty)</annotation></semantics></math></td>
+<td style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi><mi>/</mi><mi>β</mi></mrow><annotation encoding="application/x-tex">\alpha/\beta</annotation></semantics></math></td>
+<td style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi><mi>/</mi><msup><mi>β</mi><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">\alpha/\beta^2</annotation></semantics></math></td>
 </tr>
 <tr class="odd">
-<td><strong>Binomial</strong>: <span class="math inline">\(f(y \text{ | } n,p)\)</span></td>
-<td><span class="math inline">\(y \in \{0,1,\dots,n\}\)</span></td>
-<td style="text-align: right;"><span class="math inline">\(np\)</span></td>
-<td style="text-align: right;"><span class="math inline">\(np(1-p)\)</span></td>
+<td><strong>Binomial</strong>: <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>y</mi><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> | </mtext><mspace width="0.333em"></mspace></mrow><mi>n</mi><mo>,</mo><mi>p</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">f(y \text{ | } n,p)</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>y</mi><mo>∈</mo><mo stretchy="false" form="prefix">{</mo><mn>0</mn><mo>,</mo><mn>1</mn><mo>,</mo><mi>…</mi><mo>,</mo><mi>n</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">y \in \{0,1,\dots,n\}</annotation></semantics></math></td>
+<td style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mi>p</mi></mrow><annotation encoding="application/x-tex">np</annotation></semantics></math></td>
+<td style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mi>p</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>p</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">np(1-p)</annotation></semantics></math></td>
 </tr>
 <tr class="even">
-<td><strong>Poisson</strong>: <span class="math inline">\(f(y \text{ | } \lambda)\)</span></td>
-<td><span class="math inline">\(y \in \{0,1,2,\dots\}\)</span></td>
-<td style="text-align: right;"><span class="math inline">\(\lambda\)</span></td>
-<td style="text-align: right;"><span class="math inline">\(\lambda\)</span></td>
+<td><strong>Poisson</strong>: <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>y</mi><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> | </mtext><mspace width="0.333em"></mspace></mrow><mi>λ</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">f(y \text{ | } \lambda)</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>y</mi><mo>∈</mo><mo stretchy="false" form="prefix">{</mo><mn>0</mn><mo>,</mo><mn>1</mn><mo>,</mo><mn>2</mn><mo>,</mo><mi>…</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">y \in \{0,1,2,\dots\}</annotation></semantics></math></td>
+<td style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>λ</mi><annotation encoding="application/x-tex">\lambda</annotation></semantics></math></td>
+<td style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>λ</mi><annotation encoding="application/x-tex">\lambda</annotation></semantics></math></td>
 </tr>
 </tbody>
 </table>
 </section>
-<section id="generalized-linear-models-glms" class="slide level2">
-<h2>Generalized Linear Models (GLMs)</h2>
-<ul>
-<li class="fragment"><p><strong>Right distribution</strong>: Match the outcome’s support</p></li>
-<li class="fragment"><p><strong>Mean-dependent variance</strong>: Variance changes with the mean, not constant</p></li>
-<li class="fragment"><p><strong>Link function</strong>: Transform the mean <span class="math inline">\(\rightarrow\)</span> Ensures predictions respect the outcome’s constraints</p></li>
-</ul>
-</section>
 <section id="example-passing-the-exam" class="slide level2">
 <h2>Example: Passing the exam</h2>
-<p>Does studying more increase the probability of passing?</p>
-
-<img data-src="01-intro-glm_files/figure-revealjs/unnamed-chunk-13-1.svg" class="quarto-figure quarto-figure-left r-stretch"></section>
-<section id="fitting-a-normal-linear-model" class="slide level2">
-<h2>Fitting a Normal Linear Model</h2>
+<p>Probability of passing the exam as a function of how many hours students study:</p>
+<div class="columns">
+<div class="column" style="width:30%;">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a aria-hidden="true" tabindex="-1"></a>fit_lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(passed <span class="sc">~</span> study_hours, <span class="at">data =</span> dat_exam)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   id studyh passed
+1   1     29      0
+2   2     79      1
+3   3     41      1
+4   4     88      1
+5   5     94      1
+6   6      5      0
+7   7     53      0
+8   8     89      1
+9   9     55      1
+10 10     46      0
+11 11     96      1
+12 12     45      0
+13 13     68      1
+14 14     57      0
+15 15     10      0
+16 16     90      1
+17 17     25      0
+18 18      4      0
+19 19     33      1
+20 20     95      1
+21 21     89      1
+22 22     69      0
+23 23     64      0
+24 24     99      1
+25 25     66      1
+26 26     71      1
+27 27     54      0
+28 28     59      1
+29 29     29      0
+30 30     15      0
+31 31     96      1
+32 32     90      1
+33 33     69      1
+34 34     80      0
+35 35      2      0
+36 36     48      0
+37 37     76      0
+38 38     22      1
+39 39     32      1
+40 40     23      0
+41 41     14      0
+42 42     41      0
+43 43     41      0
+44 44     37      0
+45 45     15      0
+46 46     14      0
+47 47     23      0
+48 48     47      0
+49 49     27      0
+50 50     86      1</code></pre>
 </div>
+</div>
+</div><div class="column" style="width:70%;">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># number of students that have passed the exam</span></span>
+<span id="cb2-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(dat_exam<span class="sc">$</span>passed) </span>
+<span id="cb2-3"><a aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 22</span></span>
+<span id="cb2-4"><a aria-hidden="true" tabindex="-1"></a><span class="co"># proportion of students that have passed the exam</span></span>
+<span id="cb2-5"><a aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(dat_exam<span class="sc">$</span>passed) </span>
+<span id="cb2-6"><a aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.44</span></span>
+<span id="cb2-7"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a aria-hidden="true" tabindex="-1"></a><span class="co"># study hours and passing the exam</span></span>
+<span id="cb2-9"><a aria-hidden="true" tabindex="-1"></a><span class="fu">tapply</span>(dat_exam<span class="sc">$</span>studyh, dat_exam<span class="sc">$</span>passed, mean)</span>
+<span id="cb2-10"><a aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;        0        1 </span></span>
+<span id="cb2-11"><a aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 35.46429 73.04545</span></span>
+<span id="cb2-12"><a aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb2-13"><a aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(dat_exam<span class="sc">$</span>passed, <span class="fu">cut</span>(dat_exam<span class="sc">$</span>studyh, <span class="at">breaks =</span> <span class="dv">4</span>))</span>
+<span id="cb2-14"><a aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    (1.9,26.2] (26.2,50.5] (50.5,74.8] (74.8,99.1]</span></span>
+<span id="cb2-15"><a aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  0         11          10           5           2</span></span>
+<span id="cb2-16"><a aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  1          1           3           6          12</span></span>
+<span id="cb2-17"><a aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  </span></span>
+<span id="cb2-18"><a aria-hidden="true" tabindex="-1"></a><span class="fu">tapply</span>(dat_exam<span class="sc">$</span>passed, <span class="fu">cut</span>(dat_exam<span class="sc">$</span>studyh, <span class="at">breaks =</span> <span class="dv">4</span>), mean)</span>
+<span id="cb2-19"><a aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   (1.9,26.2] (26.2,50.5] (50.5,74.8] (74.8,99.1] </span></span>
+<span id="cb2-20"><a aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   0.08333333  0.23076923  0.54545455  0.85714286</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div></div>
+</section>
+<section id="example-passing-the-exam-1" class="slide level2">
+<h2>Example: Passing the exam</h2>
 
 <img data-src="01-intro-glm_files/figure-revealjs/unnamed-chunk-15-1.svg" class="quarto-figure quarto-figure-left r-stretch"></section>
+<section id="fitting-a-normal-linear-model" class="slide level2">
+<h2>Fitting a Normal Linear Model</h2>
+
+<img data-src="01-intro-glm_files/figure-revealjs/unnamed-chunk-16-1.svg" class="quarto-figure quarto-figure-left r-stretch"><p><strong>Do you see something strange?</strong></p>
+</section>
 <section id="fitting-a-generalized-linear-model" class="slide level2">
 <h2>Fitting a Generalized Linear Model</h2>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a aria-hidden="true" tabindex="-1"></a>fit_glm <span class="ot">&lt;-</span> <span class="fu">glm</span>(passed <span class="sc">~</span> study_hours, <span class="at">data =</span> dat_exam, </span>
-<span id="cb2-2"><a aria-hidden="true" tabindex="-1"></a>               <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
+<p>The model should consider both the <strong>support</strong> of the <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>y</mi><annotation encoding="application/x-tex">y</annotation></semantics></math> variable and the <strong>non-linear pattern</strong>!</p>
 
 <img data-src="01-intro-glm_files/figure-revealjs/unnamed-chunk-17-1.svg" class="quarto-figure quarto-figure-left r-stretch"></section></section>
 <section>
@@ -424,186 +559,205 @@
 <h1>Generalized Linear Models (GLM)</h1>
 
 </section>
+<section id="general-idea" class="slide level2">
+<h2>General idea</h2>
+<ul>
+<li class="fragment">using distributions beyond the Gaussian</li>
+<li class="fragment">modeling non linear functions on the response scale</li>
+<li class="fragment">taking into account mean-variance relationships</li>
+</ul>
+</section>
 <section id="the-three-ingredients-of-a-glm" class="slide level2">
 <h2>The three ingredients of a GLM</h2>
 <ol type="1">
-<li class="fragment"><p><strong>Random Component</strong>: Choose a distribution &nbsp;</p></li>
-<li class="fragment"><p><strong>Systematic Component</strong>: Linear predictor</p>
-<p><span class="math inline">\(\eta_i = \beta_0 + \beta_1 x_i + …\)</span> &nbsp;</p></li>
-<li class="fragment"><p><strong>Link Function</strong>: Connect mean to predictor</p>
-<p><span class="math inline">\(g(\mu_i) = \eta_i\)</span></p></li>
+<li class="fragment"><p><strong>Random Component</strong>: Choose a distribution</p></li>
+<li class="fragment"><p><strong>Systematic Component</strong>: Linear predictor <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>η</mi><mi>i</mi></msub><mo>=</mo><msub><mi>β</mi><mn>0</mn></msub><mo>+</mo><msub><mi>β</mi><mn>1</mn></msub><msub><mi>x</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">\eta_i = \beta_0 + \beta_1 x_i</annotation></semantics></math></p></li>
+<li class="fragment"><p><strong>Link Function</strong>: Transform the mean <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>g</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>μ</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><msub><mi>η</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">g(\mu_i) = \eta_i</annotation></semantics></math></p></li>
 </ol>
 </section>
 <section id="random-component" class="slide level2">
-<h2>1. Random Component</h2>
-<p>The <strong>random component</strong> specifies the probability distribution of the outcome <span class="math inline">\(y\)</span>:</p>
-<p><span class="math display">\[
-y \sim \text{Distribution}(\text{parameters})
-\]</span></p>
-<p>&nbsp;</p>
+<h2>1. Random component</h2>
+<p>The <strong>random component</strong> specifies a probability model for <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>y</mi><mi>i</mi></msub><annotation encoding="application/x-tex">y_i</annotation></semantics></math>:</p>
+<p><br></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>y</mi><mi>i</mi></msub><mo>∣</mo><msub><mi>x</mi><mi>i</mi></msub><mo>∼</mo><mtext mathvariant="normal">Distribution</mtext><mrow><mo stretchy="true" form="prefix">(</mo><mtext mathvariant="normal">parameters</mtext><mo stretchy="true" form="postfix">)</mo></mrow><mi>.</mi></mrow><annotation encoding="application/x-tex">
+y_i \mid x_i \sim \text{Distribution}(\text{parameters}).
+</annotation></semantics></math></p>
+<p><br></p>
 <div class="fragment" data-fragment-index="1">
-<p>What <strong>support</strong> does your outcome have?</p>
+<p>What <strong>support</strong>?</p>
 <ul>
-<li>Binary: <span class="math inline">\(\{0, 1\}\)</span> → <span class="math inline">\(\text{Binomial}(n, p)\)</span></li>
-<li>Counts: <span class="math inline">\(\{0, 1, 2, \ldots\}\)</span> → <span class="math inline">\(\text{Poisson}(\lambda)\)</span></li>
-<li>Any real number: <span class="math inline">\((-\infty, \infty)\)</span> → <span class="math inline">\(\text{Gaussian}(\mu, \sigma)\)</span></li>
+<li>Binary: <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mn>0</mn><mo>,</mo><mn>1</mn><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{0,1\}</annotation></semantics></math> <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\rightarrow</annotation></semantics></math> <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">Bernoulli</mtext><mrow><mo stretchy="true" form="prefix">(</mo><mi>p</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\text{Bernoulli}(p)</annotation></semantics></math> (or <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">Binomial</mtext><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>,</mo><mi>p</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\text{Binomial}(1,p)</annotation></semantics></math>)</li>
+<li>Counts: <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mn>0</mn><mo>,</mo><mn>1</mn><mo>,</mo><mn>2</mn><mo>,</mo><mi>…</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{0,1,2,\ldots\}</annotation></semantics></math> <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\rightarrow</annotation></semantics></math> <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">Poisson</mtext><mrow><mo stretchy="true" form="prefix">(</mo><mi>λ</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\text{Poisson}(\lambda)</annotation></semantics></math></li>
+<li>Any real number: <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">(</mo><mi>−</mi><mi>∞</mi><mo>,</mo><mi>∞</mi><mo stretchy="true" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(-\infty,\infty)</annotation></semantics></math> <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\rightarrow</annotation></semantics></math> <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">Normal</mtext><mrow><mo stretchy="true" form="prefix">(</mo><mi>μ</mi><mo>,</mo><msup><mi>σ</mi><mn>2</mn></msup><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\text{Normal}(\mu,\sigma^2)</annotation></semantics></math></li>
 </ul>
 </div>
 </section>
-<section id="random-component-1" class="slide level2">
-<h2>1. Random Component</h2>
+<section id="random-component-meanvariance" class="slide level2">
+<h2>1. Random component (mean–variance)</h2>
 <p>Choosing a distribution specifies not only the mean, but also how the variance depends on the mean:</p>
 <p><br>
 </p>
-<p><span class="math display">\[
-\mathrm{Var}(Y \mid \mathbf{X}) = V(\mu),
-\qquad \mu = E(Y \mid \mathbf{X}).
-\]</span></p>
-<p>&nbsp;</p>
-<p><em>Examples</em>:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">V</mi><mi mathvariant="normal">a</mi><mi mathvariant="normal">r</mi></mrow><mrow><mo stretchy="true" form="prefix">(</mo><mi>Y</mi><mo>∣</mo><mi>X</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mi>ϕ</mi><mspace width="0.167em"></mspace><mi>V</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>μ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>,</mo><mspace width="2.0em"></mspace><mi>μ</mi><mo>=</mo><mi>E</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>Y</mi><mo>∣</mo><mi>X</mi><mo stretchy="true" form="postfix">)</mo></mrow><mi>.</mi></mrow><annotation encoding="application/x-tex">
+\mathrm{Var}(Y \mid X) = \phi \, V(\mu), \qquad \mu = E(Y \mid X).
+</annotation></semantics></math></p>
+<p><br>
+</p>
+<p>where <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>μ</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">V(\mu)</annotation></semantics></math> is the <strong>variance function</strong> (determined by the family) and <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ϕ</mi><annotation encoding="application/x-tex">\phi</annotation></semantics></math> is a constant scale factor.</p>
 <ul>
-<li>Normal: <span class="math inline">\(V(\mu)=\text{constant}\)</span>;</li>
-<li>Binomial: <span class="math inline">\(V(\mu)=\mu(1-\mu)\)</span>;</li>
-<li>Poisson: <span class="math inline">\(V(\mu)=\mu\)</span>.</li>
+<li><strong>Normal</strong>: <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>μ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">V(\mu) = 1</annotation></semantics></math> (constant variance, <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϕ</mi><mo>=</mo><msup><mi>σ</mi><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">\phi = \sigma^2</annotation></semantics></math>)</li>
+<li><strong>Bernoulli</strong>: <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>μ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mi>μ</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>μ</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">V(\mu) = \mu(1-\mu)</annotation></semantics></math> (typically <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϕ</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\phi = 1</annotation></semantics></math>)</li>
+<li><strong>Poisson</strong>: <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>μ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mi>μ</mi></mrow><annotation encoding="application/x-tex">V(\mu) = \mu</annotation></semantics></math> (typically <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϕ</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\phi = 1</annotation></semantics></math>)</li>
 </ul>
 </section>
 <section id="systematic-component" class="slide level2">
 <h2>2. Systematic Component</h2>
 <p>The <strong>systematic component</strong> is <em>exactly the same</em> as in <em>normal</em> linear regression: we predict a linear combination of predictors.</p>
 <p><br></p>
-<p><span class="math display">\[
-\eta_i = \beta_0 + \beta_1 x_{1i} + \beta_2 x_{2i} + \cdots + \beta_k x_{ki}
-\]</span></p>
-<p><br></p>
-<p>where <span class="math inline">\(k\)</span> denotes the total number of predictors.</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>η</mi><mi>i</mi></msub><mo>=</mo><msub><mi>β</mi><mn>0</mn></msub><mo>+</mo><msub><mi>β</mi><mn>1</mn></msub><msub><mi>x</mi><mrow><mi>i</mi><mn>1</mn></mrow></msub><mo>+</mo><msub><mi>β</mi><mn>2</mn></msub><msub><mi>x</mi><mrow><mi>i</mi><mn>2</mn></mrow></msub><mo>+</mo><mi>⋯</mi><mo>+</mo><msub><mi>β</mi><mi>k</mi></msub><msub><mi>x</mi><mrow><mi>i</mi><mi>k</mi></mrow></msub><mi>.</mi></mrow><annotation encoding="application/x-tex">
+\eta_i = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \cdots + \beta_k x_{ik}.
+</annotation></semantics></math> <br></p>
+<p>Basically it describes how the expected value (i.e., the mean, the first moment) of the chosen distribution (the random component) varies according to the predictors.</p>
 </section>
 <section id="link-function" class="slide level2">
 <h2>3. Link Function</h2>
-<p>The <strong>link function</strong> <span class="math inline">\(g(\cdot)\)</span> connects the expected value (mean) <span class="math inline">\(\mu_i\)</span> of the distribution to the linear predictor <span class="math inline">\(\eta\)</span>:</p>
+<p>The <strong>link function</strong> <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>g</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>⋅</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">g(\cdot)</annotation></semantics></math> connects the expected value (mean) <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>μ</mi><mi>i</mi></msub><annotation encoding="application/x-tex">\mu_i</annotation></semantics></math> of the distribution to the linear predictor <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>η</mi><mi>i</mi></msub><annotation encoding="application/x-tex">\eta_i</annotation></semantics></math>:</p>
 <p><br>
 </p>
-<p><span class="math display">\[
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>g</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>μ</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><msub><mi>η</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">
 g(\mu_i) = \eta_i
-\]</span></p>
+</annotation></semantics></math></p>
 <p><br>
 </p>
 <ul>
-<li>The linear predictor <span class="math inline">\(\eta_i\)</span> can be any real number: <span class="math inline">\((-\infty, +\infty)\)</span></li>
-<li>But <span class="math inline">\(\mu_i\)</span> (the mean) is <strong>constrained</strong> by the distribution’s support</li>
-<li>The link function <strong>transforms</strong> <span class="math inline">\(\mu\)</span> to be unbounded</li>
+<li>The linear predictor <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>η</mi><mi>i</mi></msub><annotation encoding="application/x-tex">\eta_i</annotation></semantics></math> can be any real number: <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">(</mo><mi>−</mi><mi>∞</mi><mo>,</mo><mi>+</mi><mi>∞</mi><mo stretchy="true" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(-\infty, +\infty)</annotation></semantics></math></li>
+<li>But <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>μ</mi><mi>i</mi></msub><annotation encoding="application/x-tex">\mu_i</annotation></semantics></math> (the mean) is <strong>constrained</strong> by the distribution’s support</li>
+<li>The link function <strong>transforms</strong> <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>μ</mi><mi>i</mi></msub><annotation encoding="application/x-tex">\mu_i</annotation></semantics></math> to be unbounded</li>
 </ul>
 </section>
 <section id="common-link-functions" class="slide level2">
 <h2>Common link functions</h2>
 <table class="caption-top">
 <colgroup>
-<col style="width: 18%">
-<col style="width: 18%">
-<col style="width: 18%">
-<col style="width: 45%">
+<col style="width: 21%">
+<col style="width: 21%">
+<col style="width: 35%">
+<col style="width: 21%">
 </colgroup>
 <thead>
 <tr class="header">
 <th>Distribution</th>
-<th>Support</th>
-<th>Link Function</th>
+<th>Support of <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>y</mi><annotation encoding="application/x-tex">y</annotation></semantics></math></th>
+<th>Link</th>
 <th>Purpose</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td>Normal</td>
-<td><span class="math inline">\((-\infty, +\infty)\)</span></td>
-<td><strong>Identity</strong>: <span class="math inline">\(\text{ }\)</span> <span class="math inline">\(g(\mu) = \mu\)</span></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">(</mo><mi>−</mi><mi>∞</mi><mo>,</mo><mi>∞</mi><mo stretchy="true" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(-\infty,\infty)</annotation></semantics></math></td>
+<td>Identity: <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>g</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>μ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mi>μ</mi></mrow><annotation encoding="application/x-tex">g(\mu)=\mu</annotation></semantics></math></td>
 <td>No transformation</td>
 </tr>
 <tr class="even">
 <td>Binomial</td>
-<td><span class="math inline">\([0, 1]\)</span></td>
-<td><strong>Logit</strong>: <span class="math inline">\(g(\mu) = \log\!\left(\frac{\mu}{1-\mu}\right)\)</span></td>
-<td>Probability to <span class="math inline">\(\mathbb{R}\)</span></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mn>0</mn><mo>,</mo><mn>1</mn><mo>,</mo><mi>…</mi><mo>,</mo><mi>n</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{0,1,\ldots,n\}</annotation></semantics></math></td>
+<td>Logit on <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>: <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>g</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>p</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mo>log</mo><mspace width="-0.167em"></mspace><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mi>p</mi><mrow><mn>1</mn><mo>−</mo><mi>p</mi></mrow></mfrac><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">g(p_i)=\log\!\left(\frac{p}{1-p}\right)</annotation></semantics></math>, where <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>=</mo><mi>μ</mi><mi>/</mi><mi>n</mi></mrow><annotation encoding="application/x-tex">p=\mu/n</annotation></semantics></math></td>
+<td>Probability <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo><mi>ℝ</mi></mrow><annotation encoding="application/x-tex">\to \mathbb{R}</annotation></semantics></math></td>
 </tr>
 <tr class="odd">
+<td>Poisson</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mn>0</mn><mo>,</mo><mn>1</mn><mo>,</mo><mn>2</mn><mo>,</mo><mi>…</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{0,1,2,\ldots\}</annotation></semantics></math></td>
+<td>Log: <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>g</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>μ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>μ</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">g(\mu)=\log(\mu)</annotation></semantics></math></td>
+<td>Positive <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo><mi>ℝ</mi></mrow><annotation encoding="application/x-tex">\to \mathbb{R}</annotation></semantics></math></td>
+</tr>
+<tr class="even">
 <td>Gamma</td>
-<td><span class="math inline">\((0, \infty)\)</span></td>
-<td><strong>Log</strong>: <span class="math inline">\(g(\mu) = \log(\mu)\)</span></td>
-<td>Positive to <span class="math inline">\(\mathbb{R}\)</span></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">(</mo><mn>0</mn><mo>,</mo><mi>∞</mi><mo stretchy="true" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(0,\infty)</annotation></semantics></math></td>
+<td>Log: <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>g</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>μ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>μ</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">g(\mu)=\log(\mu)</annotation></semantics></math></td>
+<td>Positive <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo><mi>ℝ</mi></mrow><annotation encoding="application/x-tex">\to \mathbb{R}</annotation></semantics></math></td>
 </tr>
 </tbody>
 </table>
 </section>
-<section id="putting-it-together" class="slide level2">
-<h2>Putting it together</h2>
-<p>For example, a Generalized Linear Model with the <strong>Gaussian</strong> family and <strong>identity link</strong> could be written as:</p>
+<section id="normal-identity" class="slide level2">
+<h2>Normal + identity</h2>
+<p>For example, a Generalized Linear Model with the <strong>Normal</strong> family and <strong>identity link</strong> can be written as:</p>
 <p><br></p>
-<p><span class="math display">\[
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right"><msub><mi>y</mi><mi>i</mi></msub></mtd><mtd columnalign="left" style="text-align: left"><mo>∼</mo><mi>𝒩</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>μ</mi><mi>i</mi></msub><mo>,</mo><msup><mi>σ</mi><mn>2</mn></msup><mo stretchy="true" form="postfix">)</mo></mrow></mtd><mtd columnalign="right" style="text-align: right"></mtd><mtd columnalign="left" style="text-align: left"><mtext mathvariant="normal">Random component</mtext></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"><msub><mi>μ</mi><mi>i</mi></msub></mtd><mtd columnalign="left" style="text-align: left"><mo>=</mo><msub><mi>η</mi><mi>i</mi></msub></mtd><mtd columnalign="right" style="text-align: right"></mtd><mtd columnalign="left" style="text-align: left"><mtext mathvariant="normal">Link (identity)</mtext></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"><msub><mi>η</mi><mi>i</mi></msub></mtd><mtd columnalign="left" style="text-align: left"><mo>=</mo><msub><mi>β</mi><mn>0</mn></msub><mo>+</mo><msub><mi>β</mi><mn>1</mn></msub><msub><mi>x</mi><mrow><mi>i</mi><mn>1</mn></mrow></msub><mo>+</mo><mi>⋯</mi><mo>+</mo><msub><mi>β</mi><mi>k</mi></msub><msub><mi>x</mi><mrow><mi>i</mi><mi>k</mi></mrow></msub></mtd><mtd columnalign="right" style="text-align: right"></mtd><mtd columnalign="left" style="text-align: left"><mtext mathvariant="normal">Systematic component</mtext></mtd></mtr></mtable><annotation encoding="application/x-tex">
 \begin{aligned}
-y_i &amp;\sim \text{Gaussian}(\mu_i, \sigma) \quad &amp;&amp; \text{Random component} \\ \\
-g(\mu_i) &amp;= \eta_i \quad &amp;&amp; \text{Identity link} \\ \\
-\eta_i &amp;= \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} \quad &amp;&amp; \text{Systematic component}
+y_i &amp;\sim \mathcal{N}(\mu_i, \sigma^2) &amp;&amp; \text{Random component} \\
+\mu_i &amp;= \eta_i &amp;&amp; \text{Link (identity)} \\
+\eta_i &amp;= \beta_0 + \beta_1 x_{i1} + \cdots + \beta_k x_{ik} &amp;&amp; \text{Systematic component}
 \end{aligned}
-\]</span></p>
+</annotation></semantics></math></p>
 </section>
-<section id="putting-it-together-1" class="slide level2">
-<h2>Putting it together</h2>
-<p>For example, a Generalized Linear Model with the <strong>Binomial</strong> family and <strong>logit link</strong> could be written as:</p>
+<section id="binomial-logit" class="slide level2">
+<h2>Binomial + logit</h2>
+<p>For example, a Generalized Linear Model with the <strong>Binomial</strong> family and <strong>logit link</strong> can be written as:</p>
 <p><br></p>
-<p><span class="math display">\[
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right"><msub><mi>y</mi><mi>i</mi></msub><mo>∣</mo><msub><mi>x</mi><mi>i</mi></msub></mtd><mtd columnalign="left" style="text-align: left"><mo>∼</mo><mtext mathvariant="normal">Binomial</mtext><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>n</mi><mi>i</mi></msub><mo>,</mo><msub><mi>p</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow></mtd><mtd columnalign="right" style="text-align: right"></mtd><mtd columnalign="left" style="text-align: left"><mtext mathvariant="normal">Random component</mtext></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"><mtext mathvariant="normal">logit</mtext><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>p</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow></mtd><mtd columnalign="left" style="text-align: left"><mo>=</mo><mo>log</mo><mspace width="-0.167em"></mspace><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><msub><mi>p</mi><mi>i</mi></msub><mrow><mn>1</mn><mo>−</mo><msub><mi>p</mi><mi>i</mi></msub></mrow></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><msub><mi>η</mi><mi>i</mi></msub></mtd><mtd columnalign="right" style="text-align: right"></mtd><mtd columnalign="left" style="text-align: left"><mtext mathvariant="normal">Link (logit)</mtext></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"><msub><mi>η</mi><mi>i</mi></msub></mtd><mtd columnalign="left" style="text-align: left"><mo>=</mo><msub><mi>β</mi><mn>0</mn></msub><mo>+</mo><msub><mi>β</mi><mn>1</mn></msub><msub><mi>x</mi><mrow><mi>i</mi><mn>1</mn></mrow></msub><mo>+</mo><mi>⋯</mi><mo>+</mo><msub><mi>β</mi><mi>k</mi></msub><msub><mi>x</mi><mrow><mi>i</mi><mi>k</mi></mrow></msub></mtd><mtd columnalign="right" style="text-align: right"></mtd><mtd columnalign="left" style="text-align: left"><mtext mathvariant="normal">Systematic component</mtext></mtd></mtr></mtable><annotation encoding="application/x-tex">
 \begin{aligned}
-y_i &amp;\sim \text{Binomial}(n, p_i) &amp;&amp; \text{Random component} \\ \\
-\log\left(\frac{p_i}{1-p_i}\right) &amp;= \eta_i &amp;&amp; \text{Logit link} \\ \\
-\eta_i &amp;= \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} &amp;&amp; \text{Systematic component}
+y_i \mid x_i &amp;\sim \text{Binomial}(n_i, p_i) &amp;&amp; \text{Random component} \\
+\text{logit}(p_i) &amp;= \log\!\left(\frac{p_i}{1-p_i}\right)=\eta_i &amp;&amp; \text{Link (logit)} \\
+\eta_i &amp;= \beta_0 + \beta_1 x_{i1} + \cdots + \beta_k x_{ik} &amp;&amp; \text{Systematic component}
 \end{aligned}
-\]</span></p>
+</annotation></semantics></math></p>
 </section></section>
 <section>
 <section id="binomial-logistic-regression" class="title-slide slide level1 section center">
 <h1>Binomial Logistic Regression</h1>
 
 </section>
-<section id="bernoulli-and-binomial-distributions" class="slide level2">
-<h2>Bernoulli and Binomial distributions</h2>
+<section id="binary-outcomes-and-counts" class="slide level2">
+<h2>Binary outcomes and counts</h2>
+<p>The <strong><em>Bernoulli</em></strong> or the <strong><em>Binomial</em></strong> distributions can be used as <strong>random component</strong> when we have a binary dependent variable or the number of successes over the total number of trials.</p>
+<p><br>
+</p>
 <ul>
-<li>Number of items correct on a test (out of <span class="math inline">\(n\)</span>)</li>
-<li>Number of people who improve after treatment (out of <span class="math inline">\(n\)</span> patients)</li>
-<li>Accuracy on a task (successes / total trials)</li>
+<li><strong>Binary</strong> (pass/fail), one trial per person; or</li>
+<li><strong>Counts of successes</strong> out of <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math> trials (e.g., items correct out of <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>).</li>
 </ul>
 </section>
-<section id="bernoulli-distribution" class="slide level2">
-<h2>Bernoulli distribution</h2>
-<p>A single binary trial with two outcomes (success/failure):</p>
+<section id="bernoulli-one-student" class="slide level2">
+<h2>Bernoulli (one student)</h2>
+<p>Let <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>∈</mo><mo stretchy="false" form="prefix">{</mo><mn>0</mn><mo>,</mo><mn>1</mn><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">k \in \{0,1\}</annotation></semantics></math> indicate whether a student passes the exam:</p>
 <p><br>
 </p>
-<p><span class="math display">\[
-P(Y = y \mid p) = p^y(1-p)^{1-y}, \quad y \in \{0, 1\}
-\]</span></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo>;</mo><mi>p</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mrow><mo stretchy="true" form="prefix">{</mo><mtable><mtr><mtd columnalign="left" style="text-align: left"><mi>p</mi></mtd><mtd columnalign="left" style="text-align: left"><mrow><mtext mathvariant="normal">if </mtext><mspace width="0.333em"></mspace></mrow><mi>k</mi><mo>=</mo><mn>1</mn><mo>,</mo></mtd></mtr><mtr><mtd columnalign="left" style="text-align: left"><mi>q</mi><mo>=</mo><mn>1</mn><mo>−</mo><mi>p</mi></mtd><mtd columnalign="left" style="text-align: left"><mrow><mtext mathvariant="normal">if </mtext><mspace width="0.333em"></mspace></mrow><mi>k</mi><mo>=</mo><mn>0</mn><mi>.</mi></mtd></mtr></mtable></mrow></mrow><annotation encoding="application/x-tex">
+f(k; p) =
+\begin{cases}
+p       &amp; \text{if } k = 1, \\
+q = 1-p &amp; \text{if } k = 0.
+\end{cases}
+</annotation></semantics></math></p>
 <p><br>
 </p>
-<p>where <span class="math inline">\(p\)</span> is the probability of success.</p>
+<p>The probability mass function <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>f</mi><annotation encoding="application/x-tex">{\displaystyle f}</annotation></semantics></math> of the Bernoulli distribution, over possible outcomes <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>, is <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo>,</mo><mi>p</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><msup><mi>p</mi><mi>k</mi></msup><msup><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>p</mi><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mn>1</mn><mo>−</mo><mi>k</mi></mrow></msup></mrow><annotation encoding="application/x-tex">f(k,p) = p^k(1-p)^{1-k}</annotation></semantics></math></p>
 <p><br>
 </p>
-<p><strong>Mean:</strong> <span class="math inline">\(E(Y) = p\)</span></p>
-<p><strong>Variance:</strong> <span class="math inline">\(\text{Var}(Y) = p(1-p)\)</span></p>
+<p>Where <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math> is the probability of success and <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math> the two possible results 0 and 1. The mean is <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math> and the variance is <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>p</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">p(1-p)</annotation></semantics></math></p>
 </section>
-<section id="flip-one-coin-heads-with-probability-0.7" class="slide level2">
-<h2>Flip one coin (heads with probability 0.7)</h2>
+<section id="one-student-takes-the-exam" class="slide level2">
+<h2>One student takes the exam</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a aria-hidden="true" tabindex="-1"></a>one <span class="ot">=</span> <span class="fu">rbinom</span>(<span class="at">n =</span> <span class="dv">1</span>, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">prob =</span> <span class="fl">0.7</span>);one</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">rbinom</span>(<span class="at">n =</span> <span class="dv">1</span>, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">prob =</span> <span class="fl">0.7</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0</code></pre>
 </div>
 </div>
-<p>Over 10,000 flips, what’s the estimated probability of heads?</p>
+<div class="fragment">
+<p>Over 10,000 students?</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a aria-hidden="true" tabindex="-1"></a>many <span class="ot">=</span> <span class="fu">rbinom</span>(<span class="at">n =</span> <span class="dv">100000</span>, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">prob =</span> <span class="fl">0.7</span>); <span class="fu">head</span>(many)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1 1 1 0 1 1</code></pre>
 </div>
 </div>
+</div>
 <div class="fragment">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Mean: E(Y) = p </span></span>
-<span id="cb7-2"><a aria-hidden="true" tabindex="-1"></a>p <span class="ot">=</span> <span class="fu">mean</span>(many); p</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Mean</span></span>
+<span id="cb7-2"><a aria-hidden="true" tabindex="-1"></a>(<span class="at">p =</span> <span class="fu">mean</span>(many))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.70085</code></pre>
 </div>
@@ -611,34 +765,36 @@ P(Y = y \mid p) = p^y(1-p)^{1-y}, \quad y \in \{0, 1\}
 </div>
 <div class="fragment">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Variance: Var(Y) = p(1-p)</span></span>
-<span id="cb9-2"><a aria-hidden="true" tabindex="-1"></a>p<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>p)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Variance</span></span>
+<span id="cb9-2"><a aria-hidden="true" tabindex="-1"></a>(p<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>p))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.2096593</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(many)<span class="sc">^</span><span class="dv">2</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a aria-hidden="true" tabindex="-1"></a>(<span class="fu">sd</span>(many)<span class="sc">^</span><span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.2096614</code></pre>
 </div>
 </div>
 </div>
 </section>
-<section id="binomial-distribution" class="slide level2">
-<h2>Binomial distribution</h2>
-<p>The probability of getting exactly <strong>k</strong> successes in <strong>n</strong> independent <em>Bernoulli</em> trials:</p>
+<section id="binomial-a-class-of-students" class="slide level2">
+<h2>Binomial (a class of students)</h2>
+<p>Now let <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math> be the number of students who pass out of <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math> students who take the same exam.</p>
 <p><br>
 </p>
-<p><span class="math display">\[
-P(Y = k \mid n, p) = \binom{n}{k} p^k (1-p)^{n-k}, \quad k \in \{0, 1, \ldots, n\}.
-\]</span></p>
+<p>The probability of having <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math> success (e.g., 0, 1, 2, etc.), out of <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math> trials with a probability of success <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math> (and failing <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi><mo>=</mo><mn>1</mn><mo>−</mo><mi>p</mi></mrow><annotation encoding="application/x-tex">q = 1 - p</annotation></semantics></math>) is:</p>
 <p><br>
 </p>
-<p><strong>Mean:</strong> <span class="math inline">\(E(Y) = np\)</span></p>
-<p><strong>Variance:</strong> <span class="math inline">\(\text{Var}(Y) = np(1-p)\)</span></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>n</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>p</mi><mo stretchy="true" form="postfix">)</mo></mrow><mspace width="0.278em"></mspace><mo>=</mo><mspace width="0.278em"></mspace><mrow><mo stretchy="true" form="prefix">(</mo><mfrac linethickness="0"><mi>n</mi><mi>k</mi></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mspace width="0.167em"></mspace><msup><mi>p</mi><mi>k</mi></msup><mspace width="0.167em"></mspace><msup><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>p</mi><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mspace width="0.167em"></mspace><mi>n</mi><mo>−</mo><mi>k</mi></mrow></msup></mrow><annotation encoding="application/x-tex">
+f(n, k, p) \;=\; \binom{n}{k}\, p^{k}\,(1-p)^{\,n-k}
+</annotation></semantics></math></p>
+<p><br>
+</p>
+<p>The <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mi>p</mi></mrow><annotation encoding="application/x-tex">np</annotation></semantics></math> is the mean of the binomial distribution and <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mi>p</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>p</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">np(1-p)</annotation></semantics></math> is the variance. The binomial distribution is just the repetition of <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math> independent Bernoulli trials.</p>
 </section>
-<section id="flip-one-coin-10-times" class="slide level2">
-<h2>Flip one coin 10 times</h2>
-<p>How many heads you get?</p>
+<section id="ten-students-take-the-exam" class="slide level2">
+<h2>Ten students take the exam</h2>
+<p>How many pass?</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a aria-hidden="true" tabindex="-1"></a>n <span class="ot">=</span> <span class="dv">10</span>; p <span class="ot">=</span> <span class="fl">0.7</span></span>
 <span id="cb13-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">rbinom</span>(<span class="at">n =</span> <span class="dv">1</span>, <span class="at">size =</span> n, <span class="at">prob =</span> <span class="fl">0.7</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -646,11 +802,13 @@ P(Y = k \mid n, p) = \binom{n}{k} p^k (1-p)^{n-k}, \quad k \in \{0, 1, \ldots, n
 <pre><code>[1] 7</code></pre>
 </div>
 </div>
+<div class="fragment">
 <p>Over 10,000 repetition …</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a aria-hidden="true" tabindex="-1"></a>many <span class="ot">=</span> <span class="fu">rbinom</span>(<span class="at">n =</span> <span class="dv">100000</span>, <span class="at">size =</span> n, <span class="at">prob =</span> p); <span class="fu">head</span>(many)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 7 8 8 8 8 9</code></pre>
+</div>
 </div>
 </div>
 <div class="fragment">
@@ -663,7 +821,7 @@ P(Y = k \mid n, p) = \binom{n}{k} p^k (1-p)^{n-k}, \quad k \in \{0, 1, \ldots, n
 </div>
 <div class="fragment">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a aria-hidden="true" tabindex="-1"></a>n<span class="sc">*</span>p<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>p) <span class="co"># Variance count: Var(Y) = np(1-p)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a aria-hidden="true" tabindex="-1"></a>n<span class="sc">*</span>p<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>p) <span class="co"># Variance count: Var(y) = np(1-p)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 2.1</code></pre>
 </div>
@@ -675,48 +833,41 @@ P(Y = k \mid n, p) = \binom{n}{k} p^k (1-p)^{n-k}, \quad k \in \{0, 1, \ldots, n
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.700083</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a aria-hidden="true" tabindex="-1"></a>p<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>p)<span class="sc">/</span>n    <span class="co"># Var(Y/n) = p(1-p)/n (variance of proportion)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.021</code></pre>
-</div>
 </div>
 </div>
 </section>
 <section id="binomial-distribution-n-20-p-0.9" class="slide level2">
-<h2>Binomial distribution: <span class="math inline">\(n = 20\)</span>, <span class="math inline">\(p = 0.9\)</span></h2>
+<h2>Binomial distribution: <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>=</mo><mn>20</mn></mrow><annotation encoding="application/x-tex">n = 20</annotation></semantics></math>, <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>=</mo><mn>0.9</mn></mrow><annotation encoding="application/x-tex">p = 0.9</annotation></semantics></math></h2>
 
 <img data-src="01-intro-glm_files/figure-revealjs/unnamed-chunk-27-1.svg" class="r-stretch"></section>
 <section id="binomial-distribution-n-20-p-0.5" class="slide level2">
-<h2>Binomial distribution: <span class="math inline">\(n = 20\)</span>, <span class="math inline">\(p = 0.5\)</span></h2>
+<h2>Binomial distribution: <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>=</mo><mn>20</mn></mrow><annotation encoding="application/x-tex">n = 20</annotation></semantics></math>, <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>=</mo><mn>0.5</mn></mrow><annotation encoding="application/x-tex">p = 0.5</annotation></semantics></math></h2>
 
 <img data-src="01-intro-glm_files/figure-revealjs/unnamed-chunk-28-1.svg" class="r-stretch"></section>
 <section id="meanvariance-relationship" class="slide level2">
 <h2>Mean–variance relationship</h2>
-<p><span class="math display">\[E[Y] = np \quad \text{and} \quad \mathrm{Var}(Y) = np(1-p)\]</span></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mrow><mo stretchy="true" form="prefix">[</mo><mi>Y</mi><mo stretchy="true" form="postfix">]</mo></mrow><mo>=</mo><mi>n</mi><mi>p</mi><mspace width="1.0em"></mspace><mtext mathvariant="normal">and</mtext><mspace width="1.0em"></mspace><mrow><mi mathvariant="normal">V</mi><mi mathvariant="normal">a</mi><mi mathvariant="normal">r</mi></mrow><mrow><mo stretchy="true" form="prefix">(</mo><mi>Y</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mi>n</mi><mi>p</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>p</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">E[Y] = np \quad \text{and} \quad \mathrm{Var}(Y) = np(1-p)</annotation></semantics></math></p>
 
-<img data-src="01-intro-glm_files/figure-revealjs/unnamed-chunk-29-1.svg" class="r-stretch"></section>
-<section id="meanvariance-relationship-1" class="slide level2">
-<h2>Mean–variance relationship</h2>
-
-<img data-src="01-intro-glm_files/figure-revealjs/unnamed-chunk-30-1.svg" class="r-stretch"><p><strong>Variance is not constant!</strong> We model both the mean and the variance!</p>
+<img data-src="01-intro-glm_files/figure-revealjs/unnamed-chunk-29-1.svg" class="r-stretch"><p><strong>Variance is not constant!</strong></p>
 </section></section>
 <section>
-<section id="odds-logit-link-odds-ratios" class="title-slide slide level1 section center">
-<h1>Odds, Logit Link, Odds Ratios</h1>
+<section id="odds-and-logit-link" class="title-slide slide level1 section center">
+<h1>Odds and Logit Link</h1>
 
 </section>
 <section id="odds" class="slide level2">
 <h2>Odds</h2>
-<p>Let <span class="math inline">\(\mu = P(\text{Pass}=1)\)</span>. The <em>odds</em> of passing compare “pass” to “fail”:</p>
+<p>Because probabilities must stay between 0 and 1, we work with <strong>odds</strong>.</p>
+<p>Let <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>=</mo><mi>P</mi><mrow><mo stretchy="true" form="prefix">(</mo><mtext mathvariant="normal">Pass</mtext><mo>=</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">p = P(\text{Pass}=1)</annotation></semantics></math>, then the <em>odds</em> of passing compare “pass” to “fail”:</p>
 <p><br>
 </p>
-<p><span class="math display">\[
-\text{odds} = \frac{\mu}{1-\mu}.
-\]</span></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">odds</mtext><mo>=</mo><mfrac><mi>p</mi><mrow><mn>1</mn><mo>−</mo><mi>p</mi></mrow></mfrac><mo>,</mo><mspace width="2.0em"></mspace><mtext mathvariant="normal">p</mtext><mo>=</mo><mfrac><mrow><mi>o</mi><mi>d</mi><mi>d</mi><mi>s</mi></mrow><mrow><mi>o</mi><mi>d</mi><mi>d</mi><mi>s</mi><mo>+</mo><mn>1</mn></mrow></mfrac></mrow><annotation encoding="application/x-tex">
+\text{odds} = \frac{p}{1-p}, \qquad \text{p} = \frac{odds}{odds+1}
+</annotation></semantics></math></p>
 <p><br>
 </p>
 <div class="fragment">
-<p>If <span class="math inline">\(\mu=0.80\)</span>, then <span class="math inline">\(\text{odds}=\frac{0.80}{0.20}=4\)</span>.</p>
+<p>If <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>=</mo><mn>0.80</mn></mrow><annotation encoding="application/x-tex">p=0.80</annotation></semantics></math>, then <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">odds</mtext><mo>=</mo><mfrac><mn>0.80</mn><mn>0.20</mn></mfrac><mo>=</mo><mn>4</mn></mrow><annotation encoding="application/x-tex">\text{odds}=\frac{0.80}{0.20}=4</annotation></semantics></math>.</p>
 </div>
 <p><br>
 </p>
@@ -726,79 +877,88 @@ P(Y = k \mid n, p) = \binom{n}{k} p^k (1-p)^{n-k}, \quad k \in \{0, 1, \ldots, n
 </section>
 <section id="logit-link-log-odds" class="slide level2">
 <h2>Logit link (log-odds)</h2>
-<p>The logit link takes probabilities <span class="math inline">\((0,1)\)</span> to the real line:</p>
+<p>The <em>logit</em> is the log-odds:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">logit</mtext><mrow><mo stretchy="true" form="prefix">(</mo><mi>p</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mo>log</mo><mspace width="-0.167em"></mspace><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mi>p</mi><mrow><mn>1</mn><mo>−</mo><mi>p</mi></mrow></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mi>η</mi><mi>.</mi></mrow><annotation encoding="application/x-tex">
+\text{logit}(p)=\log\!\left(\frac{p}{1-p}\right)=\eta.
+</annotation></semantics></math></p>
 <p><br>
 </p>
-<p><span class="math display">\[
-\eta_i = \log\!\left(\frac{\mu_i}{1-\mu_i}\right).
-\]</span></p>
-<p><br>
-</p>
-<p>In a logistic regression we assume the log-odds are linear in predictors:</p>
-<p><br>
-</p>
-<p><span class="math display">\[
-\eta_i = \beta_0 + \beta_1 x_i.
-\]</span></p>
+<p>This maps <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>∈</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>0</mn><mo>,</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">p \in (0,1)</annotation></semantics></math> to any real number, which makes it easier to model with a linear predictor.</p>
 </section>
-<section id="linear-on-log-odds" class="slide level2">
-<h2>Linear on log-odds</h2>
-<p>A +1 increase in <span class="math inline">\(x\)</span> changes <span class="math inline">\(\eta\)</span> by a constant amount: <span class="math inline">\(\eta(x+1)-\eta(x)=\beta_1\)</span>. (So equal increases in <span class="math inline">\(x\)</span> correspond to equal increases in log-odds.)</p>
+<section id="why" class="slide level2">
+<h2>Why ?</h2>
+<p>The odds have an interesting property when taking the logarithm. We can express a probability <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math> sing a scale ranging <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">[</mo><mi>+</mi><mi>∞</mi><mo>,</mo><mi>−</mi><mi>∞</mi><mo stretchy="true" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">[+\infty,-\infty]</annotation></semantics></math>.</p>
 
-<img data-src="01-intro-glm_files/figure-revealjs/unnamed-chunk-31-1.svg" class="quarto-figure quarto-figure-center r-stretch"></section>
-<section id="inverse-link-back-to-probability" class="slide level2">
-<h2>Inverse link (back to probability)</h2>
-<p>To go back to probability we apply the inverse-logit:</p>
-<p><span class="math display">\[
-\mu_i = \frac{e^{\eta_i}}{1+e^{\eta_i}}.
-\]</span></p>
-
-<img data-src="01-intro-glm_files/figure-revealjs/unnamed-chunk-32-1.svg" class="quarto-figure quarto-figure-left r-stretch"></section>
-<section id="not-linear-in-probability" class="slide level2">
-<h2>Not linear in probability</h2>
-<p>Equal increases in <span class="math inline">\(x\)</span> generally <strong>do not</strong> correspond to equal increases in <span class="math inline">\(\mu\)</span>, because <span class="math inline">\(\mu=\text{logit}^{-1}(\eta)\)</span> is nonlinear.</p>
-
-<img data-src="01-intro-glm_files/figure-revealjs/unnamed-chunk-33-1.svg" class="quarto-figure quarto-figure-center r-stretch"></section>
+<img data-src="01-intro-glm_files/figure-revealjs/unnamed-chunk-30-1.svg" class="quarto-figure quarto-figure-left r-stretch"></section>
+<section id="odds-1" class="slide level2">
+<h2>Odds</h2>
+<p>With <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>p</mi><mi>i</mi></msub><mo>=</mo><mi>P</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mtext mathvariant="normal">Pass</mtext><mi>i</mi></msub><mo>=</mo><mn>1</mn><mo>∣</mo><msub><mi>x</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">p_i = P(\text{Pass}_i = 1 \mid x_i)</annotation></semantics></math> and <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>x</mi><mi>i</mi></msub><annotation encoding="application/x-tex">x_i</annotation></semantics></math> hours studied, the model assumes:</p>
+<p><br>
+</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right"><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><msub><mi>p</mi><mi>i</mi></msub><mrow><mn>1</mn><mo>−</mo><msub><mi>p</mi><mi>i</mi></msub></mrow></mfrac><mo stretchy="true" form="postfix">)</mo></mrow></mtd><mtd columnalign="left" style="text-align: left"><mo>=</mo><msub><mi>η</mi><mi>i</mi></msub></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"><msub><mi>η</mi><mi>i</mi></msub></mtd><mtd columnalign="left" style="text-align: left"><mo>=</mo><msub><mi>β</mi><mn>0</mn></msub><mo>+</mo><msub><mi>β</mi><mn>1</mn></msub><msub><mi>x</mi><mi>i</mi></msub></mtd></mtr></mtable><annotation encoding="application/x-tex">
+\begin{aligned}
+\log\left(\frac{p_i}{1-p_i}\right) &amp;= \eta_i \\
+\eta_i &amp;= \beta_0 + \beta_1 x_i
+\end{aligned}
+</annotation></semantics></math></p>
+<p>Then the odds:</p>
+<p><br>
+</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><msub><mi>p</mi><mi>i</mi></msub><mrow><mn>1</mn><mo>−</mo><msub><mi>p</mi><mi>i</mi></msub></mrow></mfrac><mo>=</mo><mo>exp</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>β</mi><mn>0</mn></msub><mo>+</mo><msub><mi>β</mi><mn>1</mn></msub><msub><mi>x</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mi>.</mi></mrow><annotation encoding="application/x-tex">
+\frac{p_i}{1-p_i}=\exp(\beta_0+\beta_1 x_i).
+</annotation></semantics></math><br>
+</p>
+</section>
 <section id="odds-ratios" class="slide level2">
 <h2>Odds ratios</h2>
-<p>From the model <span class="math inline">\(\eta_i=\beta_0+\beta_1 x_i\)</span>, the odds are</p>
+<p>Then the odds:<br>
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><msub><mi>p</mi><mi>i</mi></msub><mrow><mn>1</mn><mo>−</mo><msub><mi>p</mi><mi>i</mi></msub></mrow></mfrac><mo>=</mo><mo>exp</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>β</mi><mn>0</mn></msub><mo>+</mo><msub><mi>β</mi><mn>1</mn></msub><msub><mi>x</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mi>.</mi></mrow><annotation encoding="application/x-tex">
+\frac{p_i}{1-p_i}=\exp(\beta_0+\beta_1 x_i).
+</annotation></semantics></math></p>
 <p><br>
 </p>
-<p><span class="math display">\[
-\frac{\mu_i}{1-\mu_i}=\exp(\beta_0+\beta_1 x_i).
-\]</span><br>
+<p>When <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">x = 0</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><msub><mi>p</mi><mi>i</mi></msub><mrow><mn>1</mn><mo>−</mo><msub><mi>p</mi><mi>i</mi></msub></mrow></mfrac><mo>=</mo><mo>exp</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>β</mi><mn>0</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mi>.</mi></mrow><annotation encoding="application/x-tex">
+\frac{p_i}{1-p_i} = \exp(\beta_0).
+</annotation></semantics></math></p>
+<p><br>
 </p>
-<ul>
-<li class="fragment">The odds of passing when study hours <span class="math inline">\(x = 0\)</span> is <span class="math inline">\(\exp(\beta_0)\)</span></li>
-<li class="fragment">The odds of passing when study hours <span class="math inline">\(x = 1\)</span> is<br>
-<span class="math display">\[\exp(\beta_0 + \beta_1) = \exp(\beta_0) \exp(\beta_1)\]</span></li>
-</ul>
+<p>When <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">x = 1</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><msub><mi>p</mi><mi>i</mi></msub><mrow><mn>1</mn><mo>−</mo><msub><mi>p</mi><mi>i</mi></msub></mrow></mfrac><mo>=</mo><mo>exp</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>β</mi><mn>0</mn></msub><mo>+</mo><msub><mi>β</mi><mn>1</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mo>exp</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>β</mi><mn>0</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>exp</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>β</mi><mn>1</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mi>.</mi></mrow><annotation encoding="application/x-tex">
+\frac{p_i}{1-p_i} =  \exp(\beta_0 + \beta_1) = \exp(\beta_0)\exp(\beta_1).
+</annotation></semantics></math></p>
 </section>
 <section id="odds-ratios-1" class="slide level2">
 <h2>Odds Ratios</h2>
 <p>Then the ratio of these two odds is:</p>
 <p><br>
 </p>
-<p><span class="math display">\[\frac{\exp(\beta_0)\exp(\beta_1)}{\exp(\beta_0)} = \exp(\beta_1)\]</span></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mrow><mo>exp</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>β</mi><mn>0</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>exp</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>β</mi><mn>1</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><mo>exp</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>β</mi><mn>0</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow></mfrac><mo>=</mo><mo>exp</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>β</mi><mn>1</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\frac{\exp(\beta_0)\exp(\beta_1)}{\exp(\beta_0)} = \exp(\beta_1)</annotation></semantics></math></p>
 <p><br>
 </p>
-<p>This means that the odds of passing when increasing study hours by 1 is <span class="math inline">\(\exp(\beta_1)\)</span> times greater than at the baseline (i.e., when <span class="math inline">\(x = 0\)</span>).</p>
+<p>This means that the odds of passing when increasing study hours by 1 is <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>exp</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>β</mi><mn>1</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\exp(\beta_1)</annotation></semantics></math> times greater than at the baseline (i.e., when <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">x = 0</annotation></semantics></math>).</p>
 </section>
-<section id="section-1" class="slide level2">
-<h2></h2>
-<p>If we increase <span class="math inline">\(x\)</span> by 1 unit, the odds ratio is</p>
-<p><br>
-</p>
-<p><span class="math display">\[
-\text{OR}=\frac{\text{odds}(x+1)}{\text{odds}(x)}=\exp(\beta_1).
-\]</span></p>
-<p><br>
-</p>
-<p>So each +1 unit in study hours multiplies the odds of passing by <span class="math inline">\(\exp(\beta_1)\)</span>.</p>
-</section>
+<section id="linear-on-log-odds" class="slide level2">
+<h2>Linear on log-odds</h2>
+<p>A +1 increase in <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>x</mi><annotation encoding="application/x-tex">x</annotation></semantics></math> changes <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>η</mi><annotation encoding="application/x-tex">\eta</annotation></semantics></math> by a constant amount <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>β</mi><mn>1</mn></msub><annotation encoding="application/x-tex">\beta_1</annotation></semantics></math>. So equal increases in <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>x</mi><annotation encoding="application/x-tex">x</annotation></semantics></math> correspond to equal increases in log-odds.</p>
+
+<img data-src="01-intro-glm_files/figure-revealjs/unnamed-chunk-31-1.svg" class="quarto-figure quarto-figure-left r-stretch"></section>
+<section id="inverse-link-back-to-probability" class="slide level2">
+<h2>Inverse link (back to probability)</h2>
+<p>To go back to probability we apply the inverse-logit:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>p</mi><mi>i</mi></msub><mo>=</mo><mfrac><msup><mi>e</mi><msub><mi>η</mi><mi>i</mi></msub></msup><mrow><mn>1</mn><mo>+</mo><msup><mi>e</mi><msub><mi>η</mi><mi>i</mi></msub></msup></mrow></mfrac><mi>.</mi></mrow><annotation encoding="application/x-tex">
+p_i = \frac{e^{\eta_i}}{1+e^{\eta_i}}.
+</annotation></semantics></math></p>
+
+<img data-src="01-intro-glm_files/figure-revealjs/unnamed-chunk-32-1.svg" class="quarto-figure quarto-figure-left r-stretch"></section>
+<section id="not-linear-in-probability" class="slide level2">
+<h2>Not linear in probability</h2>
+<p>Equal increases in <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>x</mi><annotation encoding="application/x-tex">x</annotation></semantics></math> generally <strong>do not</strong> correspond to equal increases in <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>, because <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>=</mo><msup><mtext mathvariant="normal">logit</mtext><mrow><mi>−</mi><mn>1</mn></mrow></msup><mrow><mo stretchy="true" form="prefix">(</mo><mi>η</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">p=\text{logit}^{-1}(\eta)</annotation></semantics></math> is nonlinear.</p>
+
+<img data-src="01-intro-glm_files/figure-revealjs/unnamed-chunk-33-1.svg" class="quarto-figure quarto-figure-left r-stretch"></section>
 <section id="numerical-example-beta_10.8" class="slide level2">
-<h2>Numerical example (<span class="math inline">\(\beta_1=0.8\)</span>)</h2>
-<p>Here <span class="math inline">\(\exp(0.8)\approx 2.23\)</span>, so each +1 hour multiplies the odds by ~2.23.</p>
+<h2>Numerical example (<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>β</mi><mn>1</mn></msub><mo>=</mo><mn>0.8</mn></mrow><annotation encoding="application/x-tex">\beta_1=0.8</annotation></semantics></math>)</h2>
+<p>Here <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>exp</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>0.8</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo>≈</mo><mn>2.23</mn></mrow><annotation encoding="application/x-tex">\exp(0.8)\approx 2.23</annotation></semantics></math>, so each +1 hour multiplies the odds by ~2.23.</p>
 <table class="caption-top">
 <colgroup>
 <col style="width: 20%">
@@ -810,10 +970,10 @@ P(Y = k \mid n, p) = \binom{n}{k} p^k (1-p)^{n-k}, \quad k \in \{0, 1, \ldots, n
 <thead>
 <tr class="header">
 <th style="text-align: right;">Baseline <strong>p</strong></th>
-<th style="text-align: right;">Baseline odds <span class="math inline">\(p/(1-p)\)</span></th>
-<th style="text-align: right;">New odds <span class="math inline">\(=2.23\times\)</span> odds</th>
+<th style="text-align: right;">Baseline odds <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mi>/</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>p</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">p/(1-p)</annotation></semantics></math></th>
+<th style="text-align: right;">New odds <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mn>2.23</mn><mo>×</mo></mrow><annotation encoding="application/x-tex">=2.23\times</annotation></semantics></math> odds</th>
 <th style="text-align: right;">New <strong>p</strong></th>
-<th style="text-align: right;"><span class="math inline">\(\Delta\)</span> <strong>p</strong></th>
+<th style="text-align: right;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Δ</mi><annotation encoding="application/x-tex">\Delta</annotation></semantics></math> <strong>p</strong></th>
 </tr>
 </thead>
 <tbody>
@@ -862,10 +1022,13 @@ P(Y = k \mid n, p) = \binom{n}{k} p^k (1-p)^{n-k}, \quad k \in \{0, 1, \ldots, n
 </tbody>
 </table>
 </section>
-<section id="section-2" class="slide level2">
+<section id="section" class="slide level2">
 <h2></h2>
 
 <img data-src="../img/coffe.png" class="quarto-figure quarto-figure-center r-stretch" width="500"><p><a href="https://www.vecteezy.com/free-png/funny">Vecteezy</a></p>
+</section>
+<section id="references" class="slide level2">
+<h2>References</h2>
 
 
 </section></section>
@@ -891,7 +1054,6 @@ P(Y = k \mid n, p) = \binom{n}{k} p^k (1-p)^{n-k}, \quad k \in \{0, 1, \ldots, n
   <script src="../site_libs/revealjs/plugin/notes/notes.js"></script>
   <script src="../site_libs/revealjs/plugin/search/search.js"></script>
   <script src="../site_libs/revealjs/plugin/zoom/zoom.js"></script>
-  <script src="../site_libs/revealjs/plugin/math/math.js"></script>
   <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
 
   <script>
@@ -927,7 +1089,7 @@ P(Y = k \mid n, p) = \binom{n}{k} p^k (1-p)^{n-k}, \quad k \in \{0, 1, \ldots, n
         progress: true,
 
         // Display the page number of the current slide
-        slideNumber: 'c/t',
+        slideNumber: false,
 
         // 'all', 'print', or 'speaker'
         showSlideNumber: 'all',
@@ -1059,27 +1221,9 @@ P(Y = k \mid n, p) = \binom{n}{k} p^k (1-p)^{n-k}, \quad k \in \{0, 1, \ldots, n
         // Factor of the display size that should remain empty around the content
         margin: 0.1,
 
-        math: {
-          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
-          config: 'TeX-AMS_HTML-full',
-          tex2jax: {
-            inlineMath: [['\\(','\\)']],
-            displayMath: [['\\[','\\]']],
-            balanceBraces: true,
-            processEscapes: false,
-            processRefs: true,
-            processEnvironments: true,
-            preview: 'TeX',
-            skipTags: ['script','noscript','style','textarea','pre','code'],
-            ignoreClass: 'tex2jax_ignore',
-            processClass: 'tex2jax_process'
-          },
-        },
-
         // reveal.js plugins
         plugins: [QuartoLineHighlight, PdfExport, RevealMenu, QuartoSupport,
 
-          RevealMath,
           RevealNotes,
           RevealSearch,
           RevealZoom
@@ -1172,13 +1316,14 @@ P(Y = k \mid n, p) = \binom{n}{k} p^k (1-p)^{n-k}, \quad k \in \{0, 1, \ldots, n
           e.clearSelection();
         }
         const getTextToCopy = function(trigger) {
-            const codeEl = trigger.previousElementSibling.cloneNode(true);
-            for (const childEl of codeEl.children) {
-              if (isCodeAnnotation(childEl)) {
-                childEl.remove();
-              }
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
             }
-            return codeEl.innerText;
+          }
+          return codeEl.innerText;
         }
         const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
           text: getTextToCopy
