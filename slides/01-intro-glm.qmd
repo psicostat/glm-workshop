@@ -9,6 +9,9 @@ date-format: "*[Last modified:] DD-MM-YYYY*"
 toc: true
 html-math-method: mathml
 fig-dpi: 300
+editor: 
+  markdown: 
+    wrap: 72
 ---
 
 ```{r}
@@ -52,9 +55,9 @@ theme_clean <- function(base_size = 14) {
 
 ```
 
-# Linear Regression  {.section}
+# Linear Regression {.section}
 
-## Linear Regression 
+## Linear Regression
 
 Estimate the expected (average) outcome given predictors.
 
@@ -94,7 +97,9 @@ p
 
 ```
 
-> The [expected value](https://en.wikipedia.org/wiki/Expected_value) of a random variable with a finite number of outcomes is a weighted average of all possible outcomes.
+> The [expected value](https://en.wikipedia.org/wiki/Expected_value) of
+> a random variable with a finite number of outcomes is a weighted
+> average of all possible outcomes.
 
 ## Linear Regression
 
@@ -124,14 +129,13 @@ p +  geom_segment(data = dd_step,
 
 ```
 
-
 ## Normal linear regression: `lm(y~x)`
 
-For a fixed $x_i$, the model describes the **distribution of possible outcomes** around the mean $\mu_i$.
+For a fixed $x_i$, the model describes the **distribution of possible outcomes** around the expected value.
 
 ```{r}
 #| echo: false
-#| fig-height: 6
+#| fig-height: 7
 #| fig-width: 14
 #| fig-align: left
 
@@ -154,8 +158,8 @@ dd_points$y <- rnorm(100, 0.1 + 0.2 * dd_points$x, 0.05)
 
 pn = ggplot(dd, aes(x = x, y = mean)) +
   stat_slab(aes(ydist = dist), alpha = 0.5) +
-  geom_line() +
-  geom_point(aes(y = mean), size = 5, col = my_cols[2]) +
+  geom_line(lwd = 2) +
+  geom_point(aes(y = mean), size = 6, col = my_cols[2]) +
   xlab("x") +
   ylab("y") +
   ylim(0,0.4)+
@@ -170,17 +174,18 @@ pn
 
 ```
 
-> The [expected value](https://en.wikipedia.org/wiki/Expected_value) of a random variable with a finite number of outcomes is a weighted average of all possible outcomes.
 
 # The Normal distribution {.section}
 
 ## Normal distribution
 
-A Normal distribution has parameters $\mu$ (mean) and $\sigma^2$ (variance):
+A Normal distribution has parameters $\mu$ (mean) and $\sigma^2$
+(variance):
 
 $$f(y \mid \mu, \sigma^2) = \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left( - \frac{(y - \mu)^2}{2\sigma^2} \right)$$
 
 <br/>
+
 
 ```{r}
 #| echo: false
@@ -201,32 +206,33 @@ ggplot(subset(dat,parameters == "Normal(0, 1)"), aes(x=x, fill = parameters))+
         legend.title=element_blank())
 ```
 
+
 ## Normal distribution
 
-A Normal distribution has parameters $\mu$ (mean) and $\sigma^2$ (variance):
+A Normal distribution has parameters $\mu$ (mean) and $\sigma^2$
+(variance):
 
 $$f(y \mid \mu, \sigma^2) = \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left( - \frac{(y - \mu)^2}{2\sigma^2} \right)$$
 
 <br/>
-
 ```{r}
 #| echo: false
 #| fig-width: 14
 #| fig-align: center
-
-
-ggplot(subset(dat,parameters != "Normal(2, 1)"), aes(x=x, fill = parameters))+
-  geom_density(alpha = 0.8)+
-  scale_fill_manual(values = my_cols)+
-  xlab("")+xlim(-8,8)+
-  theme_clean(base_size = 24)+
-  theme(legend.position = "right",
-        legend.title=element_blank())
+ggplot(subset(dat, parameters != "Normal(2, 1)"), aes(x = x, fill = parameters)) +
+  geom_density(alpha = 0.8) +
+  scale_fill_manual(values = my_cols) +
+  xlab("") + xlim(-8, 8) +
+  theme_clean(base_size = 24) +
+  theme(legend.position = "right", legend.title = element_blank())
 ```
+  
+
 
 ## Normal distribution
 
-A Normal distribution has parameters $\mu$ (mean) and $\sigma^2$ (variance):
+A Normal distribution has parameters $\mu$ (mean) and $\sigma^2$
+(variance):
 
 $$f(y \mid \mu, \sigma^2) = \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left( - \frac{(y - \mu)^2}{2\sigma^2} \right)$$
 
@@ -248,56 +254,83 @@ ggplot(dat, aes(x=x, fill = parameters))+
 ```
 
 
+
 ## Normal linear regression
 
-:::: columns 
-:::column
-\
-$y_i \mid x_i \sim \mathcal{N}(\mu_i,\sigma^2), \qquad \mu_i = \beta_0 + \beta_1 x_i$
-:::
-::: column
-```{r}
-#| echo: false
-#| fig-height: 2
-#| fig-width: 5
-#| fig-align: left
+:::: columns
+::: column 
+$\mu_i = \beta_0 + \beta_1 x_i,$ 
 
-dat = data.frame(x = rbind(gen_norm(0,.25),gen_norm(1,.25), 
-                           gen_norm(2,.25), gen_norm(3,.25),
-                           gen_norm(4,.25)),
-                 parameters = rep(c("Normal(0, 0.25)",
-                                    "Normal(1, 0.25)",
-                                    "Normal(2, 0.25)",
-                                    "Normal(3, 0.25)",
-                                    "Normal(4, 0.25)"), each = nrow(gen_norm(0,1))))
-ggplot(dat, aes(x=x, fill = parameters))+
-  geom_density(alpha = 0.6, color = "black", size = 1,show.legend = FALSE)+
-  annotate("point", y = 0, x = 0, colour = my_cols[2],size = 5)+
-  annotate("point", y = 0, x = 1, colour = my_cols[2],size = 5)+
-  annotate("point", y = 0, x = 2, colour = my_cols[2],size = 5)+
-  annotate("point", y = 0, x = 3, colour = my_cols[2],size = 5)+
-  annotate("point", y = 0, x = 4, colour = my_cols[2],size = 5)+
-  scale_fill_manual(values = rep("grey",5))+
-  xlim(-2.5,5.5)+
-  labs(y = "",
-    x = expression(mu[i]))+
-  scale_x_continuous(breaks = NULL)+
-  scale_y_continuous(breaks = NULL)+
-  theme_clean(base_size = 24)+
-  theme(legend.position = "right",
-        legend.title=element_blank())
+$Y_i \mid x_i \sim \mathcal{N}(\mu_i,\sigma^2)$
 
-```
-:::
-:::::
-::: fragment
 ```{r, echo=FALSE}
-#| fig-height: 5.5
-#| fig-width: 14
 #| fig-align: left
+#| fig-width: 10
+#| fig-height: 7
+
 pn
+
+```
+
+:::
+
+::: column 
+::: fragment
+$\quad Y_i = \beta_0 + \beta_1 x_i + \varepsilon_i,$
+
+$\quad \varepsilon_i \sim \mathcal{N}(0,\sigma^2)$
+
+
+```{r, echo=FALSE}
+#| fig-align: left
+#| fig-width: 10
+#| fig-height: 7
+
+
+# 1) Compute fitted values and errors for the simulated points
+dd_points <- dd_points %>%
+  mutate(
+    y_hat = 0.1 + 0.2 * x,
+    eps   = y - y_hat
+  )
+
+# 2) Build the "error distribution" object over x (mean 0, sd = error sd)
+# Choose sd = 0.05 to match how you simulated y (rnorm(..., sd = 0.05))
+dd_err <- data.frame(
+  x    = x,
+  mean = 0,
+  sd   = 0.05
+)
+dd_err$dist <- dist_normal(dd_err$mean, dd_err$sd)
+
+# 3) Residual-style plot with the same grammar as pn
+pe <- ggplot(dd_err, aes(x = x, y = mean)) +
+  stat_slab(aes(ydist = dist), alpha = 0.5) +
+  geom_line(lwd = 2) +
+  geom_point(aes(y = mean), size = 6, col = my_cols[2]) +
+  geom_point(data = dd_points, aes(x = x, y = eps), size = 3, alpha = 0.5) +
+  xlab("x") +
+  ylab(expression(epsilon == y - hat(y))) +
+  ylim(-0.2, 0.2) +
+  theme_clean(base_size = 24) +
+  guides(
+    x = guide_axis(cap = "both"),
+    y = guide_axis(cap = "both")
+  )
+
+pe
+
+
 ```
 :::
+:::
+
+:::::
+
+::: fragment
+“The distribution of the errors” and “the distribution of the data given x” are two equivalent ways of expressing the same modeling assumption.
+:::
+
 
 ## Normal distribution
 
@@ -306,19 +339,17 @@ pn
 -   **Variance**: $\sigma^2$
 -   **Independence:** changing the mean does *not* change the variance!
 
+## Why does it matter?
 
-## Why do these matter for regression?
-
-When building a model, we need to know:
+Real-world measurements are not automatically Normal, **Normality** is a **modeling choice**.
 
 -   **Support**: what range of values is possible
 -   **Mean** (expected value): what value to predict on average
 -   **Variance**: how much variation around the mean
 -   **Mean–variance relationship**: does variance change with the mean?
 
-## Where the Normal model breaks down
 
-### Reaction Times
+## Reaction Times
 
 ```{r}
 #| echo: false
@@ -342,9 +373,8 @@ dat_rt |>
 
 ```
 
-## Where the Normal model breaks down
+## Exam pass/fail
 
-### Exam pass/fail
 
 ```{r}
 #| echo: false
@@ -361,9 +391,8 @@ dat_exam |>
   scale_fill_manual(values = my_cols)
 ```
 
-## Where the Normal model breaks down
 
-### Number of errors in a task
+## Number of errors in a task
 
 ```{r}
 #| echo: false
@@ -385,11 +414,32 @@ dat_count |>
 
 ```
 
-# Probability distributions {.section}
 
-## Understanding distributions
+# Probability Distributions and Random Variables {.section}
 
-A probability distribution of a random variable $Y$ describes the **probabilities assigned to each possible value** $y$, given certain parameters values.
+## Why probability distributions?
+
+Our models do not fit our data exactly ...
+
+::: incremental
+1.  **Predict the average** value of the outcome given the predictors
+2.  **Summarize the variation** in this prediction
+:::
+
+::: fragment
+Probability distributions help us **characterize** the **variation** that remains ***after*** predicting the average.
+
+$\rightarrow$ Quantify **uncertainty in the estimated parameters** of the model!
+:::
+
+::: footer
+@gelman2021regression
+:::
+
+
+## Probability Distributions
+
+A **probability distribution** describes all possible values a random variable $Y$ can take and their associated probabilities, given certain parameters.
 
 \
 
@@ -397,71 +447,156 @@ $$f(y \mid \boldsymbol{\theta})$$
 
 \
 
--   $y$ is a specific value
--   $\boldsymbol{\theta}$ is a vector of variables (parameters) 
--   $f(\cdot)$ is the function itself
+Where:
 
-## Understanding distributions
+- $Y$ is the random variable (uppercase)
+- $y$ is a specific value it can take (lowercase)
+- $\boldsymbol{\theta}$ is a vector of parameters (e.g., mean, variance)
+- $f(\cdot)$ is the probability function
 
+## Discrete vs. Continuous Variables
 
-- **Discrete** random variables: counts, binary, etc.
+:::: columns
+::: column
+**Discrete** random variables (counts, binary outcomes, etc.)
 
-$\rightarrow$ $f(Y\mid \boldsymbol{\theta})$ becomes $f(Y = y\mid \boldsymbol{\theta})$ because we are assigning a certain probability to a **discrete** variables. The function is called probability **mass** function (PMF). 
-
-::: fragment
-
-- **Continuous** random variables: time, weight, etc.
-
-$\rightarrow$ $f(Y\mid \boldsymbol{\theta})$ and the function is called probability **density** function (PDF).
+- **Probability Mass Function (PMF)**
+- $P(Y = y \mid \boldsymbol{\theta})$ 
+- The **probability** of observing exactly $y$
+- $P(Y = 3) = 0.25$ means 25% chance of getting 3
 
 :::
+::: column
+```{r, echo=FALSE}
+#| fig-height: 11
+#| fig-width: 9
+# Parameters
+mu <- 0; sigma <- 1
+shape <- 2; rate <- 1
+lambda <- 3
+n <- 10; p <- 0.4   # <-- binomial params
 
-\
+# Normal PDF via stat_function()
+p1 <- ggplot(data.frame(x = c(mu - 4*sigma, mu + 4*sigma)), aes(x)) +
+  stat_function(fun = dnorm, args = list(mean = mu, sd = sigma),
+                linewidth = 1.2) +
+  labs(title = "Normal (PDF)", x = "y", y = "Density") +
+  theme_clean(base_size = 24)
 
-::: fragment
+# Gamma PDF via stat_function()
+x_max <- qgamma(0.995, shape = shape, rate = rate)
+p2 <- ggplot(data.frame(x = c(0, x_max)), aes(x)) +
+  stat_function(fun = dgamma, 
+                args = list(shape = shape, rate = rate),
+                linewidth = 1.2) +
+  labs(title = "Gamma (PDF)", x = "y", y = "Density") +
+  theme_clean(base_size = 28)
 
-The **PMF** return the probability associated with a certain value of $y$
-while the **PDF** returns the probability density of a certain value of  $y$
- 
+# Poisson PMF (discrete -> compute points/bars explicitly)
+k_max <- qpois(0.999, lambda = lambda)
+k <- 0:k_max
+df_pois <- data.frame(k = k, prob = dpois(k, lambda = lambda))
+
+p3 <- ggplot(df_pois, aes(k, prob)) +
+  geom_col(width = 0.7, fill = my_cols[1]) +
+  labs(title = "Poisson (PMF)", x = "y", y = "Probability") +
+  scale_x_continuous(breaks = k)+
+  theme_clean(base_size = 28)
+
+# Binomial
+k2 <- 0:n
+df_binom <- data.frame(k = k2, prob = dbinom(k2, size = n, prob = p))
+
+p4 <- ggplot(df_binom, aes(k, prob)) +
+  geom_col(width = 0.7, fill = my_cols[2]) +
+  scale_x_continuous(breaks = k2) +
+  labs(title = "Binomial (PMF)", x = "y (out of n)", y = "Probability") +
+  theme_clean(base_size = 28)
+
+(p3 / p4)
+
+```
 :::
+:::::
 
-## Moments of the distributions
+## Discrete vs. Continuous Variables
 
-When we use the distributions, we are usually interested in some properties describing the distribution:
+:::: columns
+::: column
+**Continuous** random variables (time, weight, temperature, etc.)
+
+- **Probability Density Function (PDF)**
+- $f(y \mid \boldsymbol{\theta})$
+- The **probability density** at $y$ (not a probability!)
+- $P(Y = y) = 0$ for any specific value
+:::
+::: column
+```{r, echo=FALSE}
+#| fig-height: 11
+#| fig-width: 9
+
+(p1 / p2)
+
+```
+
+:::
+:::::
+
+## Distributions and linear regression
+
+Predict the **average value of $Y$** and quantify the remaining variation:
 
 ::: incremental
-- **First moment**: is the expected value (i.e., the **mean**) of the distribution
-- **Second moment**: is the **variance** of the distribution
-- Third moment: is the skewness
-- Fourth moment: is the kurtosis
+- **Expected value (mean)**: $E[Y]=\mu$.  
+  The long-run average of $Y$ under its distribution.
+
+- **Conditional expected value**: $E[Y\mid X]=\mu(X)$.  
+  The long-run average outcome **for a fixed predictor value** $X=x$.
+
+- **Variance**: $\mathrm{Var}(Y)$ (or, in regression, $\mathrm{Var}(Y\mid X)$).  
+  How much outcomes vary around the mean (overall or at a given $x$).
+
 :::
+
+::: fragment
+In normal linear and generalized linear models we generally include **predictors** on the **mean** of the distribution.
+:::
+
 
 ## Why is it important?
 
-Moments are always the same but the way we actual compute them could change according to the distribution.
+The **definitions** of expected value and variance are universal,
+but how we compute them (and what they equal) depends on the distribution’s parameters. 
 
-In normal linear and generalized linear models we generally include **predictors** on the **mean** of the distribution. 
+::: fragment
+For a **Normal** distribution $Y \sim \mathcal{N}(\mu,\sigma^2)$,
+the parameters are exactly the mean and variance.
 
-In the case of ***Normal*** distribution the **mean** and the **variance** are the **same as the parameters** defining the distribution.
+::: incremental
+- **Expected value (mean):** $E[Y]=\mu$. 
+- **Variance:** $\mathrm{Var}(Y)=\sigma^2$. 
+:::
+:::
 
 
-## Why is important?
+## 
 
 | Distribution | Support | mean: $E[Y]$ | variance: $\mathrm{Var}(Y)$ |
-|------------------|------------------|:----------------:|:------------------:|
+|------------------|------------------|:----------------:|:-----------------:|
 | **Normal**: $f(y \text{ | } \mu,\sigma^2)$ | $y \in \mathbb{R}$ | $\mu$ | $\sigma^2$ |
 | **Gamma**: $f(y \text{ | } \alpha,\beta)$ | $y \in (0,\infty)$ | $\alpha/\beta$ | $\alpha/\beta^2$ |
 | **Binomial**: $f(y \text{ | } n,p)$ | $y \in \{0,1,\dots,n\}$ | $np$ | $np(1-p)$ |
 | **Poisson**: $f(y \text{ | } \lambda)$ | $y \in \{0,1,2,\dots\}$ | $\lambda$ | $\lambda$ |
 
 
+
 ## Example: Passing the exam
 
-Probability of passing the exam as a function of how many hours students study:
+Probability of passing the exam as a function of how many hours students
+study.
 
-:::: columns 
+::::: columns
 ::: {.column width="30%"}
-
 ```{r, echo=FALSE}
 set.seed(123)
 n <- 50
@@ -473,7 +608,6 @@ y <- rbinom(length(x), 1, plogis(b0 + b1*x))
 dat_exam <- data.frame(id = 1:n, studyh = x, passed = y)
 dat_exam
 ```
-
 :::
 
 ::: {.column width="70%"}
@@ -500,11 +634,9 @@ tapply(dat_exam$passed, cut(dat_exam$studyh, breaks = 4), mean)
 #>   0.08333333  0.23076923  0.54545455  0.85714286
 ```
 :::
-::::
+:::::
 
-
-## Example: Passing the exam
-
+## Visualize data
 
 ```{r}
 #| echo: false
@@ -519,7 +651,7 @@ exam_plot <- dat_exam |>
              col = "red", alpha = 0.5) +
   geom_point(size = 5, alpha = 0.5, 
              position = position_jitter(height = 0.03, width = 1)) +
-  labs(x = "Study Hours", y = "Passed (0 = No, 1 = Yes)",
+  labs(x = "hours", y = "Passed (0 = No, 1 = Yes)",
        title = "") +
   theme_clean(base_size = 24) +
   scale_y_continuous(limits = c(-0.2, 1.2), breaks = c(0,0.2,0.4,0.6,0.8,1))
@@ -541,13 +673,12 @@ exam_plot +
 
 ```
 
-
 **Do you see something strange?**
-
 
 ## Fitting a Generalized Linear Model
 
-The model should consider both the **support** of the $y$ variable and the **non-linear pattern**! 
+The model should consider both the **support** of the $y$ variable and
+the **non-linear pattern**!
 
 ```{r}
 #| echo: false
@@ -560,28 +691,129 @@ exam_plot +
     ggtitle(" ")
 ```
 
+## Example: Reaction times
+
+Reaction times on two-choice questions as a function of hours studied.
+
+::::: columns
+::: {.column width="35%"}
+```{r, echo=FALSE}
+set.seed(123)
+n <- 50
+x <- round(runif(n, 0, 100))
+
+# Data-generating process (Gamma): mean RT changes with x
+# Use log link so mean is always positive: mu = exp(a0 + a1*x)
+a0 <- log(80)   # baseline mean RT in seconds
+a1 <- -0.03    # effect of x on log-mean RT
+
+mu <- exp(a0 + a1*x)
+
+shape <- 5       # Gamma shape (k); larger => less skew
+scale <- mu/shape
+
+rt <- rgamma(n, shape = shape, scale = scale)
+
+dat_rt <- data.frame(id = 1:n, studyh = x, rt = rt)
+dat_rt
+```
+:::
+
+::: {.column width="65%"}
+```{r, eval=FALSE}
+range(dat_rt$rt)
+#>  [1]   1.489239 149.169447
+
+# mean RT as a function of studyh
+tapply(dat_rt$rt, cut(dat_rt$studyh, breaks = 4), mean)
+#>  (1.9,26.2] (26.2,50.5] (50.5,74.8] (74.8,99.1] 
+#>   49.628342   24.855683   11.468186    4.628276 
+
+# variance RT as a function of studyh
+tapply(dat_rt$rt, cut(dat_rt$studyh, breaks = 4), var)
+#> (1.9,26.2] (26.2,50.5] (50.5,74.8] (74.8,99.1] 
+#> 1303.176485  265.296600   24.566131    3.790422
+
+```
+:::
+:::::
+
+## Visualize data
+
+```{r}
+#| echo: false
+#| cache: true
+#| fig-width: 16
+#| fig-height: 8
+#| fig-align: left
+
+rt_plot <- dat_rt |>
+  ggplot(aes(x = studyh, y = rt)) +
+  geom_point(size = 5, alpha = 0.6) +
+  labs(x = "hours", y = "rt", 
+       title = "") +
+  theme_clean(base_size = 24)+
+  scale_y_continuous(limits = c(-10,160))
+
+rt_plot
+
+```
+
+## Fitting a Normal Linear Model
+
+```{r}
+#| echo: false
+#| fig-width: 16
+#| fig-height: 8
+#| fig-align: left
+rt_plot +
+    geom_smooth(method = "lm", se = FALSE, color = my_cols[2], linewidth = 2.5) +
+    ggtitle(" ")+
+  geom_hline(yintercept = 0)
+
+```
+
+**Do you see something strange?**
+
+## Fitting a Generalized Linear Model
+
+The model should consider both the **support** of the $y$ variable and
+the **non-linear pattern**!
+
+```{r}
+#| echo: false
+#| fig-width: 16
+#| fig-height: 8
+#| fig-align: left
+rt_plot +
+    stat_smooth(method = "glm", se = FALSE, method.args = list(family = Gamma),
+                color = my_cols[2], linewidth = 2.5) +
+    ggtitle(" ")+
+  geom_hline(yintercept = 0)
+```
 
 # Generalized Linear Models (GLM) {.section}
 
-## General idea
+## General ideas
 
 ::: incremental
-- using distributions beyond the Gaussian
-- modeling non linear functions on the response scale
-- taking into account mean-variance relationships
+-   using distributions beyond the Normal
+-   modeling non linear functions on the response scale
+-   taking into account mean-variance relationships
 :::
+
 ## The three ingredients of a GLM
 
 ::: incremental
-1.  **Random Component**: Choose a distribution 
+1.  **Random Component**: Choose a distribution
 
-2.  **Systematic Component**: Linear predictor $\eta_i = \beta_0 + \beta_1 x_i$
+2.  **Systematic Component**: Linear predictor
+    $\eta_i = \beta_0 + \beta_1 x_i$
 
 3.  **Link Function**: Transform the mean $g(\mu_i) = \eta_i$
-
 :::
 
-## 1. Random component
+## Random component
 
 The **random component** specifies a probability model for $y_i$:
 
@@ -596,49 +828,53 @@ $$
 ::: {.fragment fragment-index="1"}
 What **support**?
 
-- Binary: $\{0,1\}$ $\rightarrow$ $\text{Bernoulli}(p)$ (or $\text{Binomial}(1,p)$)
-- Counts: $\{0,1,2,\ldots\}$ $\rightarrow$ $\text{Poisson}(\lambda)$
-- Any real number: $(-\infty,\infty)$ $\rightarrow$ $\text{Normal}(\mu,\sigma^2)$
+-   Binary: $\{0,1\}$ $\rightarrow$ $\text{Bernoulli}(p)$ (or
+    $\text{Binomial}(1,p)$)
+-   Counts: $\{0,1,2,\ldots\}$ $\rightarrow$ $\text{Poisson}(\lambda)$
+-   Any real number: $(-\infty,\infty)$ $\rightarrow$
+    $\text{Normal}(\mu,\sigma^2)$
 :::
 
-## 1. Random component (mean–variance)
+## Random component (mean–variance)
 
 Choosing a distribution specifies not only the mean, but also how the variance depends on the mean:
 
-\
-
 $$
-\mathrm{Var}(Y \mid X) = \phi \, V(\mu), \qquad \mu = E(Y \mid X).
+\mathrm{Var}(Y \mid X) = \phi \, V(\mu), \qquad \mu = E(Y \mid X),
 $$
 
-\
 
-where $V(\mu)$ is the **variance function** (determined by the family) and $\phi$ is a constant scale factor.
+where $V(\mu)$ is the **variance function** (determined by the family) and $\phi$ is the dispersion parameter.
 
-- **Normal**: $V(\mu) = 1$ (constant variance, $\phi = \sigma^2$)
-- **Bernoulli**: $V(\mu) = \mu(1-\mu)$ (typically $\phi = 1$)
-- **Poisson**: $V(\mu) = \mu$ (typically $\phi = 1$)
+::: fragment
+-   **Normal**: $V(\mu) = 1$ (constant variance, $\phi = \sigma^2$)
+-   **Bernoulli**: $V(\mu) = \mu(1-\mu)$ (typically $\phi = 1$)
+-   **Poisson**: $V(\mu) = \mu$ (typically $\phi = 1$)
 
+:::callout-note
+If $\phi>1$ but you fit a Poisson/Bernoulli model with $\phi=1$, the coefficient estimates $\hat\beta$ may look similar, but the **standard errors are smaller**.
+:::
 
+:::
 
-## 2. Systematic Component
+## Systematic Component
 
-The **systematic component** is *exactly the same* as in *normal* linear regression: we predict a linear combination of predictors.
+The **systematic component** is *exactly the same* as in *normal* linear
+regression: we predict a linear combination of predictors.
 
 <br/>
 
 $$
 \eta_i = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \cdots + \beta_k x_{ik}.
-$$
-<br/>
+$$ <br/>
 
-Basically it describes how the expected value (i.e., the mean, the first moment) 
-of the chosen distribution (the random component) varies according to the predictors.
+Basically it describes how the expected value (i.e., the mean) of the chosen distribution (the random component) varies
+according to the predictors.
 
+## Link Function
 
-## 3. Link Function
-
-The **link function** $g(\cdot)$ connects the expected value (mean) $\mu_i$ of the distribution to the linear predictor $\eta_i$:
+The **link function** $g(\cdot)$ connects the expected value (mean)
+$\mu_i$ of the distribution to the linear predictor $\eta_i$:
 
 \
 
@@ -648,25 +884,25 @@ $$
 
 \
 
--   The linear predictor $\eta_i$ can be any real number: $(-\infty, +\infty)$
--   But $\mu_i$ (the mean) is **constrained** by the distribution's support
+-   The linear predictor $\eta_i$ can be any real number:
+    $(-\infty, +\infty)$
+-   But $\mu_i$ (the mean) is **constrained** by the distribution's
+    support
 -   The link function **transforms** $\mu_i$ to be unbounded
 
 ## Common link functions
 
 | Distribution | Support of $y$ | Link | Purpose |
-|---|---|-----|---|
+|----------------|----------------|------------------------|----------------|
 | Normal | $(-\infty,\infty)$ | Identity: $g(\mu)=\mu$ | No transformation |
 | Binomial | $\{0,1,\ldots,n\}$ | Logit on $p$: $g(p_i)=\log\!\left(\frac{p}{1-p}\right)$, where $p=\mu/n$ | Probability $\to \mathbb{R}$ |
 | Poisson | $\{0,1,2,\ldots\}$ | Log: $g(\mu)=\log(\mu)$ | Positive $\to \mathbb{R}$ |
 | Gamma | $(0,\infty)$ | Log: $g(\mu)=\log(\mu)$ | Positive $\to \mathbb{R}$ |
 
-
-
-
 ## Normal + identity
 
-For example, a Generalized Linear Model with the **Normal** family and **identity link** can be written as:
+For example, a Generalized Linear Model with the **Normal** family and
+**identity link** can be written as:
 
 <br/>
 
@@ -678,32 +914,34 @@ y_i &\sim \mathcal{N}(\mu_i, \sigma^2) && \text{Random component} \\
 \end{aligned}
 $$
 
-## Binomial + logit
+## Bernoulli + logit
 
-For example, a Generalized Linear Model with the **Binomial** family and **logit link** can be written as:
+For example, a Generalized Linear Model with the **Bernoulli** family
+and **logit link** can be written as:
 
 <br/>
 
 $$
 \begin{aligned}
-y_i \mid x_i &\sim \text{Binomial}(n_i, p_i) && \text{Random component} \\
+y_i \mid x_i &\sim \text{Bernoulli}(p_i) && \text{Random component} \\
 \text{logit}(p_i) &= \log\!\left(\frac{p_i}{1-p_i}\right)=\eta_i && \text{Link (logit)} \\
 \eta_i &= \beta_0 + \beta_1 x_{i1} + \cdots + \beta_k x_{ik} && \text{Systematic component}
 \end{aligned}
 $$
 
-
 # Binomial Logistic Regression {.section}
 
 ## Binary outcomes and counts
 
-The ***Bernoulli*** or the ***Binomial*** distributions can be used as **random component** when we have a binary dependent variable or the number of successes over the total number of trials.
+The ***Bernoulli*** or the ***Binomial*** distributions can be used as
+**random component** when we have a binary dependent variable or the
+number of successes over the total number of trials.
 
 \
 
 -   **Binary** (pass/fail), one trial per person; or
--   **Counts of successes** out of $n$ trials (e.g., items correct out of $n$).
-
+-   **Counts of successes** out of $n$ trials (e.g., items correct out
+    of $n$).
 
 ## Bernoulli (one student)
 
@@ -721,13 +959,13 @@ $$
 
 \
 
-The probability mass function ${\displaystyle f}$ of the Bernoulli distribution, over possible outcomes $k$, is $f(k,p) = p^k(1-p)^{1-k}$
+The probability mass function ${\displaystyle f}$ of the Bernoulli
+distribution, over possible outcomes $k$, is $f(k,p) = p^k(1-p)^{1-k}$
 
 \
 
-Where $p$ is the probability of success and $k$ the two possible results 
+Where $p$ is the probability of success and $k$ the two possible results
 0 and 1. The mean is $p$ and the variance is $p(1-p)$
-
 
 ## One student takes the exam
 
@@ -770,17 +1008,18 @@ many = rbinom(n = 100000, size = 1, prob = 0.7); head(many)
 
 # Variance
 (p*(1-p))
-(sd(many)^2)
+var(many)
 ```
 
 ## Binomial (a class of students)
 
-Now let $k$ be the number of students who pass out of $n$ students who take the same exam.
+Now let $k$ be the number of students who pass out of $n$ students who
+take the same exam.
 
 \
 
-The probability of having $k$ success (e.g., 0, 1, 2, etc.), out of $n$ trials with a
-probability of success $p$ (and failing $q = 1 - p$) is:
+The probability of having $k$ success (e.g., 0, 1, 2, etc.), out of $n$
+trials with a probability of success $p$ (and failing $q = 1 - p$) is:
 
 \
 
@@ -790,8 +1029,9 @@ $$
 
 \
 
-The $np$ is the mean of the binomial distribution and $np(1-p)$ is the variance. The
-binomial distribution is just the repetition of $n$ independent Bernoulli trials.
+The $np$ is the mean of the binomial distribution and $np(1-p)$ is the
+variance. The binomial distribution is just the repetition of $n$
+independent Bernoulli trials.
 
 ## Ten students take the exam
 
@@ -820,6 +1060,7 @@ many = rbinom(n = 100000, size = n, prob = p); head(many)
 #| echo: true
 #| eval: true
 n*p # Mean count: E(Y) = np 
+mean(many)
 ```
 
 . . .
@@ -828,6 +1069,7 @@ n*p # Mean count: E(Y) = np
 #| echo: true
 #| eval: true
 n*p*(1-p) # Variance count: Var(y) = np(1-p)
+var(many)
 ```
 
 . . .
@@ -900,7 +1142,7 @@ p05
 
 ## Mean–variance relationship
 
-$$E[Y] = np \quad \text{and} \quad \mathrm{Var}(Y) = np(1-p)$$
+$E[Y] = np \quad \text{and} \quad \mathrm{Var}(Y) = np(1-p)$
 
 ```{r}
 #| echo: false
@@ -932,54 +1174,72 @@ ggplot(df_mv, aes(x = p, y = variance)) +
 
 ```
 
-**Variance is not constant!** 
+**Variance is not constant!**
 
 # Odds and Logit Link {.section}
 
+## Why not model probability directly?
+
+\
+
+**Problem for binary outcomes:**
+\
+\
+\
+
+**Solution:**  
+
+
+## Why not model probability directly?
+
+\
+
+**Problem for binary outcomes:** 
+A linear model can predict values outside [0,1], but probabilities must stay between 0 and 1.
+
+\
+
+**Solution:** 
+Transform the probability to a scale that ranges from $-\infty$ to $+\infty$, then model *that* with a linear predictor. 
+
+
 ## Odds
 
-Because probabilities must stay between 0 and 1, we work with **odds**.
-
-Let $p = P(\text{Pass}=1)$, then the *odds* of passing compare “pass” to “fail”:
-
+The **odds** compare the probability of success to the probability of failure: 
 \
 
 $$
-\text{odds} = \frac{p}{1-p}, \qquad \text{p} = \frac{odds}{odds+1}
-$$
+\text{odds} = \frac{p}{1-p}, \qquad p = \frac{\text{odds}}{\text{odds}+1}
+$$ 
 
 \
-
 
 ::: fragment
-If $p=0.80$, then $\text{odds}=\frac{0.80}{0.20}=4$.
+**Example:** If $p=0.80$ (80% chance of passing), then 
+\
+
+$$
+\text{odds}=\frac{0.80}{0.20}=4.
+$$ 
+
+\
+We say the odds are **4-to-1** in favor of passing (expect 4 passes for every 1 failure, on average). 
 :::
 
 \
 
 ::: fragment
-So passing is **4-to-1** relative to failing (4 expected passes for 1 fail, on average).
+**Range:** Odds go from 0 to $+\infty$, but still can't be negative. 
 :::
 
-## Logit link (log-odds)
 
-The *logit* is the log-odds:
+## Logit link
 
-$$
-\text{logit}(p)=\log\!\left(\frac{p}{1-p}\right)=\eta.
-$$
-
-\
-
-This maps $p \in (0,1)$ to any real number, which makes it easier to model with a linear predictor.
-
-
-## Why ? 
-The odds have an interesting property when taking the logarithm. We can express a probability $p$ sing a scale ranging $[+\infty,-\infty]$.
+Taking the **logarithm** of the odds gives us a scale from $-\infty$ to $+\infty$:
 
 ```{r, echo=FALSE}
-#| fig-width: 10
-#| fig-height: 6
+#| fig-width: 14
+#| fig-height: 8
 #| fig-align: left
 
 p <- seq(0.0001, 1-0.0001, length.out = 5000)
@@ -1011,132 +1271,20 @@ ggplot(df, aes(x = p, y = log_odds)) +
 ```
 
 
-## Odds
 
-With $p_i = P(\text{Pass}_i = 1 \mid x_i)$ and $x_i$ hours studied, the model assumes:
+## Inverse logit link 
 
-\
 
 $$
-\begin{aligned}
-\log\left(\frac{p_i}{1-p_i}\right) &= \eta_i \\
-\eta_i &= \beta_0 + \beta_1 x_i
-\end{aligned}
+\text{logit}(p)=\log\!\left(\frac{p}{1-p}\right)=\eta, \qquad p = \frac{\exp(\eta)}{1+\exp(\eta)}.
 $$
 
-Then the odds:
-
-\
-
-$$
-\frac{p_i}{1-p_i}=\exp(\beta_0+\beta_1 x_i).
-$$\
-
-
-
-
-## Odds ratios
-
-Then the odds:
-\
-$$
-\frac{p_i}{1-p_i}=\exp(\beta_0+\beta_1 x_i).
-$$
-
-\
-
-
-When $x = 0$ 
-
-$$
-\frac{p_i}{1-p_i} = \exp(\beta_0).
-$$
-
-\
-
-When $x = 1$  
-
-$$
-\frac{p_i}{1-p_i} =  \exp(\beta_0 + \beta_1) = \exp(\beta_0)\exp(\beta_1).
-$$
-
-
-## Odds Ratios
-
-Then the ratio of these two odds is:
-
-\
-
-$$\frac{\exp(\beta_0)\exp(\beta_1)}{\exp(\beta_0)} = \exp(\beta_1)$$
-
-\
-
-This means that the odds of passing when increasing study hours by 1 is $\exp(\beta_1)$ times greater than at the baseline (i.e., when $x = 0$).
-
-
-
-## Linear on log-odds
-
-A +1 increase in $x$ changes $\eta$ by a constant amount $\beta_1$. So equal increases in $x$ correspond to equal increases in log-odds.
 
 ```{r}
 #| echo: false
-#| message: false
-#| warning: false
-#| fig-align: left
-#| fig-height: 10
-#| fig-width: 18
-
-## log odds (logit) as a function of predictor x: eta = b0 + b1*x
-b0 <- 0
-b1 <- 0.8  # <--- so +1 in x gives +0.6 in log-odds (not +1)
-
-# Generate data for plotting
-x_vals <- seq(-10, 10, length.out = 300)
-eta_vals <- b0 + b1 * x_vals
-p_vals <- plogis(eta_vals)
-Y_LogOdds <- log(p_vals/(1 - p_vals))  # equals eta_vals 
-
-data <- data.frame(x = x_vals, Y_LogOdds = Y_LogOdds)
-
-# Define x positions for vertical lines (equal intervals in x)
-x_positions <- seq(-4, 4, 1)
-
-# Corresponding log-odds values at those x's
-y_LogOdds <- b0 + b1 * x_positions
-
-# PLOT
-ggplot(data, aes(x = x, y = Y_LogOdds)) +
-  geom_line(color = my_cols[2], linewidth = 3) +
-  geom_vline(xintercept = x_positions, linetype = "dashed",
-             color = "red", linewidth = .8) +
-  geom_hline(yintercept = y_LogOdds, linetype = 1,
-             color = "#777777", linewidth = 1) +
-  theme_clean(base_size = 26) +
-  labs(
-    x = expression(x),
-    y = expression(eta)
-  ) +
-  scale_y_continuous(breaks = y_LogOdds)+
-  scale_x_continuous(breaks = -10:10) +
-  coord_cartesian(ylim = c(-3, 3), xlim = c(-4, 4.3))
-
-
-```
-
-## Inverse link (back to probability)
-
-To go back to probability we apply the inverse-logit:
-
-$$
-p_i = \frac{e^{\eta_i}}{1+e^{\eta_i}}.
-$$
-
-```{r}
-#| echo: false
-#| fig-align: left
-#| fig-height: 10
-#| fig-width: 18
+#| fig-align: center
+#| fig-height: 6
+#| fig-width: 14
 x_vals <- seq(-4, 4, 0.01)
 p_vals <- plogis(x_vals)
 
@@ -1162,9 +1310,148 @@ ggplot(df_logit, aes(x = eta)) +
 
 ```
 
+**This is what we model linearly:** $\eta = \beta_0 + \beta_1 x$.
+
+## Example
+
+Let $Y_i \in \{0,1\}$ (Pass), and
+$p_i = P(Y_i=1 \mid x_i)$ where $x_i$ = hours studied. 
+
+\
+
+::: columns
+::: {.column width="52%"}
+**Odds**: $o_i = \dfrac{p_i}{1-p_i}$  (how much more likely pass than fail). 
+
+\
+
+\
+**Log-odds (logit)**:
+$\text{logit}(p_i)=\log\!\left(\dfrac{p_i}{1-p_i}\right)$.
+:::
+
+::: {.column width="48%"}
+\
+\
+\
+**Model**:
+$$
+\text{logit}(p_i) = \eta_i,\quad
+\eta_i = \beta_0 + \beta_1 x_i .
+$$
+:::
+:::
+
+\
+
+::: fragment
+
+We model the **log-odds** as linear in $x$. What does this mean for the **odds** and **probabilities**?
+:::
+
+## Odds ratios
+
+Our model: $\text{logit}(p_i) = \beta_0 + \beta_1 x_i$ 
+
+\
+
+Exponentiating both sides gives the **odds**: 
+
+\
+
+$$
+o(x) = \frac{p(x)}{1-p(x)} = \exp(\beta_0 + \beta_1 x).
+$$ 
+
+\
+
+**At $x=0$:** $o(0)=\exp(\beta_0)$.
+
+\
+
+**At $x=1$:** $o(1)=\exp(\beta_0+\beta_1)=\exp(\beta_0)\exp(\beta_1)$. 
+
+\
+
+## Odds ratios
+
+**Odds ratio** for +1 hour:
+
+\
+
+$$
+\frac{o(1)}{o(0)}=\frac{\exp(\beta_0)\exp(\beta_1)}{\exp(\beta_0)}
+=\exp(\beta_1).
+$$ 
+
+\
+
+so $\exp(\beta_1)$ is the multiplicative change in odds for each additional study hour. 
+
+## Linear on log-odds
+
+Equal changes in $x$  $\rightarrow$ equal changes in $\eta$
+(because $\eta$ is linear in $x$), but not in odds. Each +1 increase in $x$ multiplies the odds by $\exp(\beta_1)$. 
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+#| fig-align: left
+#| fig-height: 9
+#| fig-width: 18
+
+b0 <- 0
+b1 <- 0.8  # <--- so +1 in x gives +0.6 in log-odds (not +1)
+
+# Generate data for plotting
+x_vals <- seq(-10, 10, length.out = 300)
+eta_vals <- b0 + b1 * x_vals
+p_vals <- plogis(eta_vals)
+Y_LogOdds <- log(p_vals/(1 - p_vals))  # equals eta_vals 
+
+data <- data.frame(x = x_vals, Y_LogOdds = Y_LogOdds)
+
+# Define x positions for vertical lines (equal intervals in x)
+x_positions <- seq(-4, 4, 1)
+
+# Corresponding log-odds values at those x's
+y_LogOdds <- b0 + b1 * x_positions
+
+# PLOT
+ggplot(data, aes(x = x, y = Y_LogOdds)) +
+  geom_line(color = my_cols[2], linewidth = 3) +
+  geom_vline(xintercept = x_positions, linetype = "dashed",
+             color = "red", linewidth = 1) +
+  geom_hline(yintercept = y_LogOdds, linetype = 1,
+             color = "#777777", linewidth = 1) +
+  theme_clean(base_size = 26) +
+  labs(x = expression(x), y = expression(eta)) +
+  scale_y_continuous(breaks = y_LogOdds) +
+  scale_x_continuous(breaks = -4:4) +
+  coord_cartesian(ylim = c(-3, 3), 
+                  xlim = c(-4, 4.3))+
+  theme(plot.margin = margin(10, 80, 10, 10)) +                    
+  geom_text(
+    data = data.frame(
+      x = 4.35,  # put just to the right of the panel
+      y = y_LogOdds,
+      label = paste0("odds = ", round(exp(y_LogOdds), 2))
+    ),
+    aes(x = x, y = y, label = label),
+    inherit.aes = FALSE,
+    color = "black", hjust = .8, vjust = -0.2, size = 10, 
+    fontface = "bold"
+  )
+
+
+
+```
+
 ## Not linear in probability
 
-Equal increases in $x$ generally **do not** correspond to equal increases in $p$, because $p=\text{logit}^{-1}(\eta)$ is nonlinear.
+Equal changes in $x$ generally **do not** correspond to equal
+changes in $p$.
 
 ```{r}
 #| echo: false
@@ -1195,7 +1482,7 @@ y_logis <- plogis(b0 + b1 * x_positions)  # [web:227]
 ggplot(data, aes(x = x, y = Y_Logit)) +
   geom_line(color = my_cols[2], linewidth = 3) +
   geom_vline(xintercept = x_positions, linetype = "dashed",
-             color = "red", linewidth = .8) +
+             color = "red", linewidth = 1) +
   geom_hline(yintercept = y_logis, linetype = 1,
              color = "#777777", linewidth = 1) +
   labs(
@@ -1214,23 +1501,9 @@ ggplot(data, aes(x = x, y = Y_Logit)) +
   geom_text(
     data = data.frame(x = -5, y = y_logis, label = paste0("p = ", round(y_logis, 2))),
     aes(x = x, y = y, label = label),
-    color = "black", hjust = 0, vjust = -.2, size = 7, fontface = "bold"
+    color = "black", hjust = 0, vjust = -.2, size = 8, fontface = "bold"
   )
 ```
-
-
-## Numerical example ($\beta_1=0.8$)
-
-Here $\exp(0.8)\approx 2.23$, so each +1 hour multiplies the odds by \~2.23.
-
-| Baseline **p** | Baseline odds $p/(1-p)$ | New odds $=2.23\times$ odds | New **p** | $\Delta$ **p** |
-|--------------:|--------------:|--------------:|--------------:|--------------:|
-| 0.10 | 0.11 | 0.25 | 0.20 | +0.10 |
-| 0.20 | 0.25 | 0.55 | 0.36 | +0.16 |
-| 0.36 | 0.55 | 1.22 | 0.55 | +0.20 |
-| 0.55 | 1.22 | 2.73 | 0.73 | +0.18 |
-| 0.73 | 2.73 | 6.07 | 0.86 | +0.13 |
-| 0.86 | 6.07 | 13.51 | 0.93 | +0.07 |
 
 ## 
 
