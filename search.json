@@ -1019,7 +1019,7 @@
     "href": "slides/01-intro-glm.html#why-probability-distributions",
     "title": "Introduction to Generalized Linear Models for Psychology",
     "section": "Why probability distributions?",
-    "text": "Why probability distributions?\nOur models do not fit our data exactly …\n\nPredict the average value of the outcome given the predictors\nSummarize the variation in this prediction\n\n\nProbability distributions help us characterize the variation that remains after predicting the average.\n→\\rightarrow Quantify uncertainty in the estimated parameters of the model!\n\n\nGelman et al. (2020)"
+    "text": "Why probability distributions?\nOur models do not fit our data exactly …\n\nPredict the average value of the outcome given the predictors\nSummarize the variation in this prediction\n\n\nProbability distributions help us characterize the variation that remains after predicting the average.\n→\\rightarrow Quantify uncertainty in the estimated parameters of the model!"
   },
   {
     "objectID": "slides/01-intro-glm.html#probability-distributions",
@@ -1320,6 +1320,6 @@
     "href": "slides/01-intro-glm.html#references",
     "title": "Introduction to Generalized Linear Models for Psychology",
     "section": "References",
-    "text": "References\n\n\n\n\nGelman, A., Hill, J., & Vehtari, A. (2020). Regression and Other Stories. Cambridge University Press. https://doi.org/10.1017/9781139161879"
+    "text": "References"
   }
 ]
