@@ -112,7 +112,6 @@ Then we can load some packages:
 ```{r}
 #| eval: false
 
-library(lme4)      # for mixed-models
 library(tidyverse) # for data manipulation
 library(ggplot2)   # plotting
 ```
