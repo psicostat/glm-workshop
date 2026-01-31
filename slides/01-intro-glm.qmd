@@ -432,9 +432,7 @@ Probability distributions help us **characterize** the **variation** that remain
 $\rightarrow$ Quantify **uncertainty in the estimated parameters** of the model!
 :::
 
-::: footer
-@Gelman2020-tg
-:::
+
 
 
 ## Probability Distributions
