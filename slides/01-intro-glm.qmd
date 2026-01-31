@@ -175,6 +175,166 @@ pn
 ```
 
 
+# Probability Distributions and Random Variables {.section}
+
+## Why probability distributions?
+
+Our models do not fit our data exactly ...
+
+::: incremental
+1.  **Predict the average** value of the outcome given the predictors
+2.  **Summarize the variation** in this prediction
+:::
+
+::: fragment
+Probability distributions help us **characterize** the **variation** that remains ***after*** predicting the average.
+
+$\rightarrow$ Quantify **uncertainty in the estimated parameters** of the model!
+:::
+
+
+## Probability Distributions
+
+A **probability distribution** describes all possible values a random variable $Y$ can take and their associated probabilities, given certain parameters.
+
+\
+
+$$f(y \mid \boldsymbol{\theta})$$
+
+\
+
+Where:
+
+- $Y$ is the random variable (uppercase)
+- $y$ is a specific value it can take (lowercase)
+- $\boldsymbol{\theta}$ is a vector of parameters (e.g., mean, variance)
+- $f(\cdot)$ is the probability function
+
+
+
+## Discrete vs. Continuous Variables
+
+:::: columns
+::: column
+**Continuous** random variables (time, weight, temperature, etc.)
+
+- **Probability Density Function (PDF)**
+- $f(y \mid \boldsymbol{\theta})$
+- The **probability density** at $y$ (not a probability!)
+- $P(Y = y) = 0$ for any specific value
+:::
+::: column
+```{r, echo=FALSE}
+#| fig-height: 11
+#| fig-width: 9
+# Parameters
+mu <- 0; sigma <- 1
+shape <- 2; rate <- 1
+lambda <- 3
+n <- 10; p <- 0.4   # <-- binomial params
+
+# Normal PDF via stat_function()
+p1 <- ggplot(data.frame(x = c(mu - 4*sigma, mu + 4*sigma)), aes(x)) +
+  stat_function(fun = dnorm, args = list(mean = mu, sd = sigma),
+                linewidth = 1.2) +
+  labs(title = "Normal (PDF)", x = "y", y = "Density") +
+  theme_clean(base_size = 24)
+
+# Gamma PDF via stat_function()
+x_max <- qgamma(0.995, shape = shape, rate = rate)
+p2 <- ggplot(data.frame(x = c(0, x_max)), aes(x)) +
+  stat_function(fun = dgamma, 
+                args = list(shape = shape, rate = rate),
+                linewidth = 1.2) +
+  labs(title = "Gamma (PDF)", x = "y", y = "Density") +
+  theme_clean(base_size = 28)
+
+# Poisson PMF (discrete -> compute points/bars explicitly)
+k_max <- qpois(0.999, lambda = lambda)
+k <- 0:k_max
+df_pois <- data.frame(k = k, prob = dpois(k, lambda = lambda))
+
+p3 <- ggplot(df_pois, aes(k, prob)) +
+  geom_col(width = 0.7, fill = my_cols[1]) +
+  labs(title = "Poisson (PMF)", x = "y", y = "Probability") +
+  scale_x_continuous(breaks = k)+
+  theme_clean(base_size = 28)
+
+# Binomial
+k2 <- 0:n
+df_binom <- data.frame(k = k2, prob = dbinom(k2, size = n, prob = p))
+
+p4 <- ggplot(df_binom, aes(k, prob)) +
+  geom_col(width = 0.7, fill = my_cols[2]) +
+  scale_x_continuous(breaks = k2) +
+  labs(title = "Binomial (PMF)", x = "y (out of n)", y = "Probability") +
+  theme_clean(base_size = 28)
+(p1 / p2)
+
+```
+
+:::
+:::::
+
+## Discrete vs. Continuous Variables
+
+:::: columns
+::: column
+**Discrete** random variables (counts, binary outcomes, etc.)
+
+- **Probability Mass Function (PMF)**
+- $P(Y = y \mid \boldsymbol{\theta})$ 
+- The **probability** of observing exactly $y$
+- $P(Y = 3) = 0.25$ means 25% chance of getting 3
+
+:::
+::: column
+```{r, echo=FALSE}
+#| fig-height: 11
+#| fig-width: 9
+(p3 / p4)
+
+```
+:::
+:::::
+
+## Distributions and linear regression
+
+Predict the **average value of $Y$** and quantify the remaining variation:
+
+::: incremental
+- **Expected value (mean)**: $E[Y]=\mu$.  
+  The long-run average of $Y$ under its distribution.
+
+- **Conditional expected value**: $E[Y\mid X]=\mu(X)$.  
+  The long-run average outcome **for a fixed predictor value** $X=x$.
+
+- **Variance**: $\mathrm{Var}(Y)$ (or, in regression, $\mathrm{Var}(Y\mid X)$).  
+  How much outcomes vary around the mean (overall or at a given $x$).
+
+:::
+
+::: fragment
+In normal linear and generalized linear models we generally include **predictors** on the **mean** of the distribution.
+:::
+
+
+## Why is it important?
+
+The **definitions** of expected value and variance are universal,
+but how we compute them (and what they equal) depends on the distribution’s parameters. 
+
+::: fragment
+For a **Normal** distribution $Y \sim \mathcal{N}(\mu,\sigma^2)$,
+the parameters are exactly the mean and variance.
+
+::: incremental
+- **Expected value (mean):** $E[Y]=\mu$. 
+- **Variance:** $\mathrm{Var}(Y)=\sigma^2$. 
+:::
+:::
+
+
 # The Normal distribution {.section}
 
 ## Normal distribution
@@ -265,7 +425,7 @@ $Y_i \mid x_i \sim \mathcal{N}(\mu_i,\sigma^2)$
 
 ```{r, echo=FALSE}
 #| fig-align: left
-#| fig-width: 10
+#| fig-width: 12
 #| fig-height: 7
 
 pn
@@ -283,7 +443,7 @@ $\quad \varepsilon_i \sim \mathcal{N}(0,\sigma^2)$
 
 ```{r, echo=FALSE}
 #| fig-align: left
-#| fig-width: 10
+#| fig-width: 12
 #| fig-height: 7
 
 
@@ -414,167 +574,6 @@ dat_count |>
 
 ```
 
-
-# Probability Distributions and Random Variables {.section}
-
-## Why probability distributions?
-
-Our models do not fit our data exactly ...
-
-::: incremental
-1.  **Predict the average** value of the outcome given the predictors
-2.  **Summarize the variation** in this prediction
-:::
-
-::: fragment
-Probability distributions help us **characterize** the **variation** that remains ***after*** predicting the average.
-
-$\rightarrow$ Quantify **uncertainty in the estimated parameters** of the model!
-:::
-
-
-
-
-## Probability Distributions
-
-A **probability distribution** describes all possible values a random variable $Y$ can take and their associated probabilities, given certain parameters.
-
-\
-
-$$f(y \mid \boldsymbol{\theta})$$
-
-\
-
-Where:
-
-- $Y$ is the random variable (uppercase)
-- $y$ is a specific value it can take (lowercase)
-- $\boldsymbol{\theta}$ is a vector of parameters (e.g., mean, variance)
-- $f(\cdot)$ is the probability function
-
-## Discrete vs. Continuous Variables
-
-:::: columns
-::: column
-**Discrete** random variables (counts, binary outcomes, etc.)
-
-- **Probability Mass Function (PMF)**
-- $P(Y = y \mid \boldsymbol{\theta})$ 
-- The **probability** of observing exactly $y$
-- $P(Y = 3) = 0.25$ means 25% chance of getting 3
-
-:::
-::: column
-```{r, echo=FALSE}
-#| fig-height: 11
-#| fig-width: 9
-# Parameters
-mu <- 0; sigma <- 1
-shape <- 2; rate <- 1
-lambda <- 3
-n <- 10; p <- 0.4   # <-- binomial params
-
-# Normal PDF via stat_function()
-p1 <- ggplot(data.frame(x = c(mu - 4*sigma, mu + 4*sigma)), aes(x)) +
-  stat_function(fun = dnorm, args = list(mean = mu, sd = sigma),
-                linewidth = 1.2) +
-  labs(title = "Normal (PDF)", x = "y", y = "Density") +
-  theme_clean(base_size = 24)
-
-# Gamma PDF via stat_function()
-x_max <- qgamma(0.995, shape = shape, rate = rate)
-p2 <- ggplot(data.frame(x = c(0, x_max)), aes(x)) +
-  stat_function(fun = dgamma, 
-                args = list(shape = shape, rate = rate),
-                linewidth = 1.2) +
-  labs(title = "Gamma (PDF)", x = "y", y = "Density") +
-  theme_clean(base_size = 28)
-
-# Poisson PMF (discrete -> compute points/bars explicitly)
-k_max <- qpois(0.999, lambda = lambda)
-k <- 0:k_max
-df_pois <- data.frame(k = k, prob = dpois(k, lambda = lambda))
-
-p3 <- ggplot(df_pois, aes(k, prob)) +
-  geom_col(width = 0.7, fill = my_cols[1]) +
-  labs(title = "Poisson (PMF)", x = "y", y = "Probability") +
-  scale_x_continuous(breaks = k)+
-  theme_clean(base_size = 28)
-
-# Binomial
-k2 <- 0:n
-df_binom <- data.frame(k = k2, prob = dbinom(k2, size = n, prob = p))
-
-p4 <- ggplot(df_binom, aes(k, prob)) +
-  geom_col(width = 0.7, fill = my_cols[2]) +
-  scale_x_continuous(breaks = k2) +
-  labs(title = "Binomial (PMF)", x = "y (out of n)", y = "Probability") +
-  theme_clean(base_size = 28)
-
-(p3 / p4)
-
-```
-:::
-:::::
-
-## Discrete vs. Continuous Variables
-
-:::: columns
-::: column
-**Continuous** random variables (time, weight, temperature, etc.)
-
-- **Probability Density Function (PDF)**
-- $f(y \mid \boldsymbol{\theta})$
-- The **probability density** at $y$ (not a probability!)
-- $P(Y = y) = 0$ for any specific value
-:::
-::: column
-```{r, echo=FALSE}
-#| fig-height: 11
-#| fig-width: 9
-
-(p1 / p2)
-
-```
-
-:::
-:::::
-
-## Distributions and linear regression
-
-Predict the **average value of $Y$** and quantify the remaining variation:
-
-::: incremental
-- **Expected value (mean)**: $E[Y]=\mu$.  
-  The long-run average of $Y$ under its distribution.
-
-- **Conditional expected value**: $E[Y\mid X]=\mu(X)$.  
-  The long-run average outcome **for a fixed predictor value** $X=x$.
-
-- **Variance**: $\mathrm{Var}(Y)$ (or, in regression, $\mathrm{Var}(Y\mid X)$).  
-  How much outcomes vary around the mean (overall or at a given $x$).
-
-:::
-
-::: fragment
-In normal linear and generalized linear models we generally include **predictors** on the **mean** of the distribution.
-:::
-
-
-## Why is it important?
-
-The **definitions** of expected value and variance are universal,
-but how we compute them (and what they equal) depends on the distribution’s parameters. 
-
-::: fragment
-For a **Normal** distribution $Y \sim \mathcal{N}(\mu,\sigma^2)$,
-the parameters are exactly the mean and variance.
-
-::: incremental
-- **Expected value (mean):** $E[Y]=\mu$. 
-- **Variance:** $\mathrm{Var}(Y)=\sigma^2$. 
-:::
-:::
 
 
 ## 
