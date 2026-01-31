@@ -233,8 +233,8 @@
 <h2 id="toc-title">Contents</h2>
 <ul>
 <li><a href="#/linear-regression" id="/toc-linear-regression">Linear Regression</a></li>
-<li><a href="#/the-normal-distribution" id="/toc-the-normal-distribution">The Normal distribution</a></li>
 <li><a href="#/probability-distributions-and-random-variables" id="/toc-probability-distributions-and-random-variables">Probability Distributions and Random Variables</a></li>
+<li><a href="#/the-normal-distribution" id="/toc-the-normal-distribution">The Normal distribution</a></li>
 <li><a href="#/generalized-linear-models-glm" id="/toc-generalized-linear-models-glm">Generalized Linear Models (GLM)</a></li>
 <li><a href="#/binomial-logistic-regression" id="/toc-binomial-logistic-regression">Binomial Logistic Regression</a></li>
 <li><a href="#/odds-and-logit-link" id="/toc-odds-and-logit-link">Odds and Logit Link</a></li>
@@ -265,97 +265,6 @@
 <p>For a fixed <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>x</mi><mi>i</mi></msub><annotation encoding="application/x-tex">x_i</annotation></semantics></math>, the model describes the <strong>distribution of possible outcomes</strong> around the expected value.</p>
 
 <img data-src="01-intro-glm_files/figure-revealjs/unnamed-chunk-4-1.svg" class="quarto-figure quarto-figure-left r-stretch"></section></section>
-<section>
-<section id="the-normal-distribution" class="title-slide slide level1 section center">
-<h1>The Normal distribution</h1>
-
-</section>
-<section id="normal-distribution" class="slide level2">
-<h2>Normal distribution</h2>
-<p>A Normal distribution has parameters <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>μ</mi><annotation encoding="application/x-tex">\mu</annotation></semantics></math> (mean) and <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>σ</mi><mn>2</mn></msup><annotation encoding="application/x-tex">\sigma^2</annotation></semantics></math> (variance):</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>y</mi><mo>∣</mo><mi>μ</mi><mo>,</mo><msup><mi>σ</mi><mn>2</mn></msup><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mfrac><mn>1</mn><msqrt><mrow><mn>2</mn><mi>π</mi><msup><mi>σ</mi><mn>2</mn></msup></mrow></msqrt></mfrac><mo>exp</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>−</mi><mfrac><msup><mrow><mo stretchy="true" form="prefix">(</mo><mi>y</mi><mo>−</mo><mi>μ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup><mrow><mn>2</mn><msup><mi>σ</mi><mn>2</mn></msup></mrow></mfrac><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">f(y \mid \mu, \sigma^2) = \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left( - \frac{(y - \mu)^2}{2\sigma^2} \right)</annotation></semantics></math></p>
-<p><br></p>
-
-<img data-src="01-intro-glm_files/figure-revealjs/unnamed-chunk-5-1.svg" class="quarto-figure quarto-figure-center r-stretch"></section>
-<section id="normal-distribution-1" class="slide level2">
-<h2>Normal distribution</h2>
-<p>A Normal distribution has parameters <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>μ</mi><annotation encoding="application/x-tex">\mu</annotation></semantics></math> (mean) and <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>σ</mi><mn>2</mn></msup><annotation encoding="application/x-tex">\sigma^2</annotation></semantics></math> (variance):</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>y</mi><mo>∣</mo><mi>μ</mi><mo>,</mo><msup><mi>σ</mi><mn>2</mn></msup><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mfrac><mn>1</mn><msqrt><mrow><mn>2</mn><mi>π</mi><msup><mi>σ</mi><mn>2</mn></msup></mrow></msqrt></mfrac><mo>exp</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>−</mi><mfrac><msup><mrow><mo stretchy="true" form="prefix">(</mo><mi>y</mi><mo>−</mo><mi>μ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup><mrow><mn>2</mn><msup><mi>σ</mi><mn>2</mn></msup></mrow></mfrac><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">f(y \mid \mu, \sigma^2) = \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left( - \frac{(y - \mu)^2}{2\sigma^2} \right)</annotation></semantics></math></p>
-<p><br></p>
-
-<img data-src="01-intro-glm_files/figure-revealjs/unnamed-chunk-6-1.svg" class="quarto-figure quarto-figure-center r-stretch"></section>
-<section id="normal-distribution-2" class="slide level2">
-<h2>Normal distribution</h2>
-<p>A Normal distribution has parameters <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>μ</mi><annotation encoding="application/x-tex">\mu</annotation></semantics></math> (mean) and <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>σ</mi><mn>2</mn></msup><annotation encoding="application/x-tex">\sigma^2</annotation></semantics></math> (variance):</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>y</mi><mo>∣</mo><mi>μ</mi><mo>,</mo><msup><mi>σ</mi><mn>2</mn></msup><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mfrac><mn>1</mn><msqrt><mrow><mn>2</mn><mi>π</mi><msup><mi>σ</mi><mn>2</mn></msup></mrow></msqrt></mfrac><mo>exp</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>−</mi><mfrac><msup><mrow><mo stretchy="true" form="prefix">(</mo><mi>y</mi><mo>−</mo><mi>μ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup><mrow><mn>2</mn><msup><mi>σ</mi><mn>2</mn></msup></mrow></mfrac><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">f(y \mid \mu, \sigma^2) = \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left( - \frac{(y - \mu)^2}{2\sigma^2} \right)</annotation></semantics></math></p>
-<p><br></p>
-
-<img data-src="01-intro-glm_files/figure-revealjs/unnamed-chunk-7-1.svg" class="quarto-figure quarto-figure-center r-stretch"></section>
-<section id="normal-linear-regression" class="slide level2">
-<h2>Normal linear regression</h2>
-<div class="columns">
-<div class="column">
-<p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>μ</mi><mi>i</mi></msub><mo>=</mo><msub><mi>β</mi><mn>0</mn></msub><mo>+</mo><msub><mi>β</mi><mn>1</mn></msub><msub><mi>x</mi><mi>i</mi></msub><mo>,</mo></mrow><annotation encoding="application/x-tex">\mu_i = \beta_0 + \beta_1 x_i,</annotation></semantics></math></p>
-<p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>Y</mi><mi>i</mi></msub><mo>∣</mo><msub><mi>x</mi><mi>i</mi></msub><mo>∼</mo><mi>𝒩</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>μ</mi><mi>i</mi></msub><mo>,</mo><msup><mi>σ</mi><mn>2</mn></msup><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">Y_i \mid x_i \sim \mathcal{N}(\mu_i,\sigma^2)</annotation></semantics></math></p>
-<div class="cell" data-layout-align="left">
-<div class="cell-output-display">
-<div class="quarto-figure quarto-figure-left">
-<figure>
-<p><img data-src="01-intro-glm_files/figure-revealjs/unnamed-chunk-8-1.svg" class="quarto-figure quarto-figure-left"></p>
-</figure>
-</div>
-</div>
-</div>
-</div><div class="column">
-<div class="fragment">
-<p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mspace width="1.0em"></mspace><msub><mi>Y</mi><mi>i</mi></msub><mo>=</mo><msub><mi>β</mi><mn>0</mn></msub><mo>+</mo><msub><mi>β</mi><mn>1</mn></msub><msub><mi>x</mi><mi>i</mi></msub><mo>+</mo><msub><mi>ε</mi><mi>i</mi></msub><mo>,</mo></mrow><annotation encoding="application/x-tex">\quad Y_i = \beta_0 + \beta_1 x_i + \varepsilon_i,</annotation></semantics></math></p>
-<p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mspace width="1.0em"></mspace><msub><mi>ε</mi><mi>i</mi></msub><mo>∼</mo><mi>𝒩</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>0</mn><mo>,</mo><msup><mi>σ</mi><mn>2</mn></msup><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\quad \varepsilon_i \sim \mathcal{N}(0,\sigma^2)</annotation></semantics></math></p>
-<div class="cell" data-layout-align="left">
-<div class="cell-output-display">
-<div class="quarto-figure quarto-figure-left">
-<figure>
-<p><img data-src="01-intro-glm_files/figure-revealjs/unnamed-chunk-9-1.svg" class="quarto-figure quarto-figure-left"></p>
-</figure>
-</div>
-</div>
-</div>
-</div>
-</div></div>
-<div class="fragment">
-<p>“The distribution of the errors” and “the distribution of the data given x” are two equivalent ways of expressing the same modeling assumption.</p>
-</div>
-</section>
-<section id="normal-distribution-3" class="slide level2">
-<h2>Normal distribution</h2>
-<ul>
-<li><strong>Support</strong>: <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>−</mi><mi>∞</mi><mo>,</mo><mi>+</mi><mi>∞</mi></mrow><annotation encoding="application/x-tex">-\infty, +\infty</annotation></semantics></math></li>
-<li><strong>Mean</strong> (expected value): <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>μ</mi><annotation encoding="application/x-tex">\mu</annotation></semantics></math></li>
-<li><strong>Variance</strong>: <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>σ</mi><mn>2</mn></msup><annotation encoding="application/x-tex">\sigma^2</annotation></semantics></math></li>
-<li><strong>Independence:</strong> changing the mean does <em>not</em> change the variance!</li>
-</ul>
-</section>
-<section id="why-does-it-matter" class="slide level2">
-<h2>Why does it matter?</h2>
-<p>Real-world measurements are not automatically Normal, <strong>Normality</strong> is a <strong>modeling choice</strong>.</p>
-<ul>
-<li><strong>Support</strong>: what range of values is possible</li>
-<li><strong>Mean</strong> (expected value): what value to predict on average</li>
-<li><strong>Variance</strong>: how much variation around the mean</li>
-<li><strong>Mean–variance relationship</strong>: does variance change with the mean?</li>
-</ul>
-</section>
-<section id="reaction-times" class="slide level2">
-<h2>Reaction Times</h2>
-
-<img data-src="01-intro-glm_files/figure-revealjs/unnamed-chunk-10-1.svg" class="r-stretch"></section>
-<section id="exam-passfail" class="slide level2">
-<h2>Exam pass/fail</h2>
-
-<img data-src="01-intro-glm_files/figure-revealjs/unnamed-chunk-11-1.svg" class="r-stretch"></section>
-<section id="number-of-errors-in-a-task" class="slide level2">
-<h2>Number of errors in a task</h2>
-
-<img data-src="01-intro-glm_files/figure-revealjs/unnamed-chunk-12-1.svg" class="r-stretch"></section></section>
 <section>
 <section id="probability-distributions-and-random-variables" class="title-slide slide level1 section center">
 <h1>Probability Distributions and Random Variables</h1>
@@ -393,29 +302,6 @@
 <h2>Discrete vs.&nbsp;Continuous Variables</h2>
 <div class="columns">
 <div class="column">
-<p><strong>Discrete</strong> random variables (counts, binary outcomes, etc.)</p>
-<ul>
-<li><strong>Probability Mass Function (PMF)</strong></li>
-<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>Y</mi><mo>=</mo><mi>y</mi><mo>∣</mo><mi>𝛉</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">P(Y = y \mid \boldsymbol{\theta})</annotation></semantics></math></li>
-<li>The <strong>probability</strong> of observing exactly <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>y</mi><annotation encoding="application/x-tex">y</annotation></semantics></math></li>
-<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>Y</mi><mo>=</mo><mn>3</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mn>0.25</mn></mrow><annotation encoding="application/x-tex">P(Y = 3) = 0.25</annotation></semantics></math> means 25% chance of getting 3</li>
-</ul>
-</div><div class="column">
-<div class="cell">
-<div class="cell-output-display">
-<div>
-<figure>
-<p><img data-src="01-intro-glm_files/figure-revealjs/unnamed-chunk-13-1.svg"></p>
-</figure>
-</div>
-</div>
-</div>
-</div></div>
-</section>
-<section id="discrete-vs.-continuous-variables-1" class="slide level2">
-<h2>Discrete vs.&nbsp;Continuous Variables</h2>
-<div class="columns">
-<div class="column">
 <p><strong>Continuous</strong> random variables (time, weight, temperature, etc.)</p>
 <ul>
 <li><strong>Probability Density Function (PDF)</strong></li>
@@ -428,7 +314,30 @@
 <div class="cell-output-display">
 <div>
 <figure>
-<p><img data-src="01-intro-glm_files/figure-revealjs/unnamed-chunk-14-1.svg"></p>
+<p><img data-src="01-intro-glm_files/figure-revealjs/unnamed-chunk-5-1.svg"></p>
+</figure>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="discrete-vs.-continuous-variables-1" class="slide level2">
+<h2>Discrete vs.&nbsp;Continuous Variables</h2>
+<div class="columns">
+<div class="column">
+<p><strong>Discrete</strong> random variables (counts, binary outcomes, etc.)</p>
+<ul>
+<li><strong>Probability Mass Function (PMF)</strong></li>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>Y</mi><mo>=</mo><mi>y</mi><mo>∣</mo><mi>𝛉</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">P(Y = y \mid \boldsymbol{\theta})</annotation></semantics></math></li>
+<li>The <strong>probability</strong> of observing exactly <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>y</mi><annotation encoding="application/x-tex">y</annotation></semantics></math></li>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>Y</mi><mo>=</mo><mn>3</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mn>0.25</mn></mrow><annotation encoding="application/x-tex">P(Y = 3) = 0.25</annotation></semantics></math> means 25% chance of getting 3</li>
+</ul>
+</div><div class="column">
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="01-intro-glm_files/figure-revealjs/unnamed-chunk-6-1.svg"></p>
 </figure>
 </div>
 </div>
@@ -460,7 +369,98 @@ How much outcomes vary around the mean (overall or at a given <math display="inl
 <li class="fragment"><strong>Variance:</strong> <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">V</mi><mi mathvariant="normal">a</mi><mi mathvariant="normal">r</mi></mrow><mrow><mo stretchy="true" form="prefix">(</mo><mi>Y</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><msup><mi>σ</mi><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">\mathrm{Var}(Y)=\sigma^2</annotation></semantics></math>.</li>
 </ul>
 </div>
+</section></section>
+<section>
+<section id="the-normal-distribution" class="title-slide slide level1 section center">
+<h1>The Normal distribution</h1>
+
 </section>
+<section id="normal-distribution" class="slide level2">
+<h2>Normal distribution</h2>
+<p>A Normal distribution has parameters <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>μ</mi><annotation encoding="application/x-tex">\mu</annotation></semantics></math> (mean) and <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>σ</mi><mn>2</mn></msup><annotation encoding="application/x-tex">\sigma^2</annotation></semantics></math> (variance):</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>y</mi><mo>∣</mo><mi>μ</mi><mo>,</mo><msup><mi>σ</mi><mn>2</mn></msup><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mfrac><mn>1</mn><msqrt><mrow><mn>2</mn><mi>π</mi><msup><mi>σ</mi><mn>2</mn></msup></mrow></msqrt></mfrac><mo>exp</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>−</mi><mfrac><msup><mrow><mo stretchy="true" form="prefix">(</mo><mi>y</mi><mo>−</mo><mi>μ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup><mrow><mn>2</mn><msup><mi>σ</mi><mn>2</mn></msup></mrow></mfrac><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">f(y \mid \mu, \sigma^2) = \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left( - \frac{(y - \mu)^2}{2\sigma^2} \right)</annotation></semantics></math></p>
+<p><br></p>
+
+<img data-src="01-intro-glm_files/figure-revealjs/unnamed-chunk-7-1.svg" class="quarto-figure quarto-figure-center r-stretch"></section>
+<section id="normal-distribution-1" class="slide level2">
+<h2>Normal distribution</h2>
+<p>A Normal distribution has parameters <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>μ</mi><annotation encoding="application/x-tex">\mu</annotation></semantics></math> (mean) and <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>σ</mi><mn>2</mn></msup><annotation encoding="application/x-tex">\sigma^2</annotation></semantics></math> (variance):</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>y</mi><mo>∣</mo><mi>μ</mi><mo>,</mo><msup><mi>σ</mi><mn>2</mn></msup><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mfrac><mn>1</mn><msqrt><mrow><mn>2</mn><mi>π</mi><msup><mi>σ</mi><mn>2</mn></msup></mrow></msqrt></mfrac><mo>exp</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>−</mi><mfrac><msup><mrow><mo stretchy="true" form="prefix">(</mo><mi>y</mi><mo>−</mo><mi>μ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup><mrow><mn>2</mn><msup><mi>σ</mi><mn>2</mn></msup></mrow></mfrac><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">f(y \mid \mu, \sigma^2) = \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left( - \frac{(y - \mu)^2}{2\sigma^2} \right)</annotation></semantics></math></p>
+<p><br></p>
+
+<img data-src="01-intro-glm_files/figure-revealjs/unnamed-chunk-8-1.svg" class="quarto-figure quarto-figure-center r-stretch"></section>
+<section id="normal-distribution-2" class="slide level2">
+<h2>Normal distribution</h2>
+<p>A Normal distribution has parameters <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>μ</mi><annotation encoding="application/x-tex">\mu</annotation></semantics></math> (mean) and <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>σ</mi><mn>2</mn></msup><annotation encoding="application/x-tex">\sigma^2</annotation></semantics></math> (variance):</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>y</mi><mo>∣</mo><mi>μ</mi><mo>,</mo><msup><mi>σ</mi><mn>2</mn></msup><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mfrac><mn>1</mn><msqrt><mrow><mn>2</mn><mi>π</mi><msup><mi>σ</mi><mn>2</mn></msup></mrow></msqrt></mfrac><mo>exp</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>−</mi><mfrac><msup><mrow><mo stretchy="true" form="prefix">(</mo><mi>y</mi><mo>−</mo><mi>μ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup><mrow><mn>2</mn><msup><mi>σ</mi><mn>2</mn></msup></mrow></mfrac><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">f(y \mid \mu, \sigma^2) = \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left( - \frac{(y - \mu)^2}{2\sigma^2} \right)</annotation></semantics></math></p>
+<p><br></p>
+
+<img data-src="01-intro-glm_files/figure-revealjs/unnamed-chunk-9-1.svg" class="quarto-figure quarto-figure-center r-stretch"></section>
+<section id="normal-linear-regression" class="slide level2">
+<h2>Normal linear regression</h2>
+<div class="columns">
+<div class="column">
+<p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>μ</mi><mi>i</mi></msub><mo>=</mo><msub><mi>β</mi><mn>0</mn></msub><mo>+</mo><msub><mi>β</mi><mn>1</mn></msub><msub><mi>x</mi><mi>i</mi></msub><mo>,</mo></mrow><annotation encoding="application/x-tex">\mu_i = \beta_0 + \beta_1 x_i,</annotation></semantics></math></p>
+<p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>Y</mi><mi>i</mi></msub><mo>∣</mo><msub><mi>x</mi><mi>i</mi></msub><mo>∼</mo><mi>𝒩</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>μ</mi><mi>i</mi></msub><mo>,</mo><msup><mi>σ</mi><mn>2</mn></msup><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">Y_i \mid x_i \sim \mathcal{N}(\mu_i,\sigma^2)</annotation></semantics></math></p>
+<div class="cell" data-layout-align="left">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-left">
+<figure>
+<p><img data-src="01-intro-glm_files/figure-revealjs/unnamed-chunk-10-1.svg" class="quarto-figure quarto-figure-left"></p>
+</figure>
+</div>
+</div>
+</div>
+</div><div class="column">
+<div class="fragment">
+<p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mspace width="1.0em"></mspace><msub><mi>Y</mi><mi>i</mi></msub><mo>=</mo><msub><mi>β</mi><mn>0</mn></msub><mo>+</mo><msub><mi>β</mi><mn>1</mn></msub><msub><mi>x</mi><mi>i</mi></msub><mo>+</mo><msub><mi>ε</mi><mi>i</mi></msub><mo>,</mo></mrow><annotation encoding="application/x-tex">\quad Y_i = \beta_0 + \beta_1 x_i + \varepsilon_i,</annotation></semantics></math></p>
+<p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mspace width="1.0em"></mspace><msub><mi>ε</mi><mi>i</mi></msub><mo>∼</mo><mi>𝒩</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>0</mn><mo>,</mo><msup><mi>σ</mi><mn>2</mn></msup><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\quad \varepsilon_i \sim \mathcal{N}(0,\sigma^2)</annotation></semantics></math></p>
+<div class="cell" data-layout-align="left">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-left">
+<figure>
+<p><img data-src="01-intro-glm_files/figure-revealjs/unnamed-chunk-11-1.svg" class="quarto-figure quarto-figure-left"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div></div>
+<div class="fragment">
+<p>“The distribution of the errors” and “the distribution of the data given x” are two equivalent ways of expressing the same modeling assumption.</p>
+</div>
+</section>
+<section id="normal-distribution-3" class="slide level2">
+<h2>Normal distribution</h2>
+<ul>
+<li><strong>Support</strong>: <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>−</mi><mi>∞</mi><mo>,</mo><mi>+</mi><mi>∞</mi></mrow><annotation encoding="application/x-tex">-\infty, +\infty</annotation></semantics></math></li>
+<li><strong>Mean</strong> (expected value): <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>μ</mi><annotation encoding="application/x-tex">\mu</annotation></semantics></math></li>
+<li><strong>Variance</strong>: <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>σ</mi><mn>2</mn></msup><annotation encoding="application/x-tex">\sigma^2</annotation></semantics></math></li>
+<li><strong>Independence:</strong> changing the mean does <em>not</em> change the variance!</li>
+</ul>
+</section>
+<section id="why-does-it-matter" class="slide level2">
+<h2>Why does it matter?</h2>
+<p>Real-world measurements are not automatically Normal, <strong>Normality</strong> is a <strong>modeling choice</strong>.</p>
+<ul>
+<li><strong>Support</strong>: what range of values is possible</li>
+<li><strong>Mean</strong> (expected value): what value to predict on average</li>
+<li><strong>Variance</strong>: how much variation around the mean</li>
+<li><strong>Mean–variance relationship</strong>: does variance change with the mean?</li>
+</ul>
+</section>
+<section id="reaction-times" class="slide level2">
+<h2>Reaction Times</h2>
+
+<img data-src="01-intro-glm_files/figure-revealjs/unnamed-chunk-12-1.svg" class="r-stretch"></section>
+<section id="exam-passfail" class="slide level2">
+<h2>Exam pass/fail</h2>
+
+<img data-src="01-intro-glm_files/figure-revealjs/unnamed-chunk-13-1.svg" class="r-stretch"></section>
+<section id="number-of-errors-in-a-task" class="slide level2">
+<h2>Number of errors in a task</h2>
+
+<img data-src="01-intro-glm_files/figure-revealjs/unnamed-chunk-14-1.svg" class="r-stretch"></section>
 <section id="section" class="slide level2">
 <h2></h2>
 <table class="caption-top">

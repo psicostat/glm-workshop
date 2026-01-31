@@ -952,6 +952,48 @@
     "text": "Normal linear regression: lm(y~x)\nFor a fixed xix_i, the model describes the distribution of possible outcomes around the expected value."
   },
   {
+    "objectID": "slides/01-intro-glm.html#why-probability-distributions",
+    "href": "slides/01-intro-glm.html#why-probability-distributions",
+    "title": "Introduction to Generalized Linear Models for Psychology",
+    "section": "Why probability distributions?",
+    "text": "Why probability distributions?\nOur models do not fit our data exactly …\n\nPredict the average value of the outcome given the predictors\nSummarize the variation in this prediction\n\n\nProbability distributions help us characterize the variation that remains after predicting the average.\n→\\rightarrow Quantify uncertainty in the estimated parameters of the model!"
+  },
+  {
+    "objectID": "slides/01-intro-glm.html#probability-distributions",
+    "href": "slides/01-intro-glm.html#probability-distributions",
+    "title": "Introduction to Generalized Linear Models for Psychology",
+    "section": "Probability Distributions",
+    "text": "Probability Distributions\nA probability distribution describes all possible values a random variable YY can take and their associated probabilities, given certain parameters.\n\n\nf(y∣𝛉)f(y \\mid \\boldsymbol{\\theta})\n\n\nWhere:\n\nYY is the random variable (uppercase)\nyy is a specific value it can take (lowercase)\n𝛉\\boldsymbol{\\theta} is a vector of parameters (e.g., mean, variance)\nf(⋅)f(\\cdot) is the probability function"
+  },
+  {
+    "objectID": "slides/01-intro-glm.html#discrete-vs.-continuous-variables",
+    "href": "slides/01-intro-glm.html#discrete-vs.-continuous-variables",
+    "title": "Introduction to Generalized Linear Models for Psychology",
+    "section": "Discrete vs. Continuous Variables",
+    "text": "Discrete vs. Continuous Variables\n\n\nContinuous random variables (time, weight, temperature, etc.)\n\nProbability Density Function (PDF)\nf(y∣𝛉)f(y \\mid \\boldsymbol{\\theta})\nThe probability density at yy (not a probability!)\nP(Y=y)=0P(Y = y) = 0 for any specific value"
+  },
+  {
+    "objectID": "slides/01-intro-glm.html#discrete-vs.-continuous-variables-1",
+    "href": "slides/01-intro-glm.html#discrete-vs.-continuous-variables-1",
+    "title": "Introduction to Generalized Linear Models for Psychology",
+    "section": "Discrete vs. Continuous Variables",
+    "text": "Discrete vs. Continuous Variables\n\n\nDiscrete random variables (counts, binary outcomes, etc.)\n\nProbability Mass Function (PMF)\nP(Y=y∣𝛉)P(Y = y \\mid \\boldsymbol{\\theta})\nThe probability of observing exactly yy\nP(Y=3)=0.25P(Y = 3) = 0.25 means 25% chance of getting 3"
+  },
+  {
+    "objectID": "slides/01-intro-glm.html#distributions-and-linear-regression",
+    "href": "slides/01-intro-glm.html#distributions-and-linear-regression",
+    "title": "Introduction to Generalized Linear Models for Psychology",
+    "section": "Distributions and linear regression",
+    "text": "Distributions and linear regression\nPredict the average value of YY and quantify the remaining variation:\n\nExpected value (mean): E[Y]=μE[Y]=\\mu.\nThe long-run average of YY under its distribution.\nConditional expected value: E[Y∣X]=μ(X)E[Y\\mid X]=\\mu(X).\nThe long-run average outcome for a fixed predictor value X=xX=x.\nVariance: Var(Y)\\mathrm{Var}(Y) (or, in regression, Var(Y∣X)\\mathrm{Var}(Y\\mid X)).\nHow much outcomes vary around the mean (overall or at a given xx).\n\n\nIn normal linear and generalized linear models we generally include predictors on the mean of the distribution."
+  },
+  {
+    "objectID": "slides/01-intro-glm.html#why-is-it-important",
+    "href": "slides/01-intro-glm.html#why-is-it-important",
+    "title": "Introduction to Generalized Linear Models for Psychology",
+    "section": "Why is it important?",
+    "text": "Why is it important?\nThe definitions of expected value and variance are universal, but how we compute them (and what they equal) depends on the distribution’s parameters.\n\nFor a Normal distribution Y∼𝒩(μ,σ2)Y \\sim \\mathcal{N}(\\mu,\\sigma^2), the parameters are exactly the mean and variance.\n\nExpected value (mean): E[Y]=μE[Y]=\\mu.\nVariance: Var(Y)=σ2\\mathrm{Var}(Y)=\\sigma^2."
+  },
+  {
     "objectID": "slides/01-intro-glm.html#normal-distribution",
     "href": "slides/01-intro-glm.html#normal-distribution",
     "title": "Introduction to Generalized Linear Models for Psychology",
@@ -1013,48 +1055,6 @@
     "title": "Introduction to Generalized Linear Models for Psychology",
     "section": "Number of errors in a task",
     "text": "Number of errors in a task"
-  },
-  {
-    "objectID": "slides/01-intro-glm.html#why-probability-distributions",
-    "href": "slides/01-intro-glm.html#why-probability-distributions",
-    "title": "Introduction to Generalized Linear Models for Psychology",
-    "section": "Why probability distributions?",
-    "text": "Why probability distributions?\nOur models do not fit our data exactly …\n\nPredict the average value of the outcome given the predictors\nSummarize the variation in this prediction\n\n\nProbability distributions help us characterize the variation that remains after predicting the average.\n→\\rightarrow Quantify uncertainty in the estimated parameters of the model!"
-  },
-  {
-    "objectID": "slides/01-intro-glm.html#probability-distributions",
-    "href": "slides/01-intro-glm.html#probability-distributions",
-    "title": "Introduction to Generalized Linear Models for Psychology",
-    "section": "Probability Distributions",
-    "text": "Probability Distributions\nA probability distribution describes all possible values a random variable YY can take and their associated probabilities, given certain parameters.\n\n\nf(y∣𝛉)f(y \\mid \\boldsymbol{\\theta})\n\n\nWhere:\n\nYY is the random variable (uppercase)\nyy is a specific value it can take (lowercase)\n𝛉\\boldsymbol{\\theta} is a vector of parameters (e.g., mean, variance)\nf(⋅)f(\\cdot) is the probability function"
-  },
-  {
-    "objectID": "slides/01-intro-glm.html#discrete-vs.-continuous-variables",
-    "href": "slides/01-intro-glm.html#discrete-vs.-continuous-variables",
-    "title": "Introduction to Generalized Linear Models for Psychology",
-    "section": "Discrete vs. Continuous Variables",
-    "text": "Discrete vs. Continuous Variables\n\n\nDiscrete random variables (counts, binary outcomes, etc.)\n\nProbability Mass Function (PMF)\nP(Y=y∣𝛉)P(Y = y \\mid \\boldsymbol{\\theta})\nThe probability of observing exactly yy\nP(Y=3)=0.25P(Y = 3) = 0.25 means 25% chance of getting 3"
-  },
-  {
-    "objectID": "slides/01-intro-glm.html#discrete-vs.-continuous-variables-1",
-    "href": "slides/01-intro-glm.html#discrete-vs.-continuous-variables-1",
-    "title": "Introduction to Generalized Linear Models for Psychology",
-    "section": "Discrete vs. Continuous Variables",
-    "text": "Discrete vs. Continuous Variables\n\n\nContinuous random variables (time, weight, temperature, etc.)\n\nProbability Density Function (PDF)\nf(y∣𝛉)f(y \\mid \\boldsymbol{\\theta})\nThe probability density at yy (not a probability!)\nP(Y=y)=0P(Y = y) = 0 for any specific value"
-  },
-  {
-    "objectID": "slides/01-intro-glm.html#distributions-and-linear-regression",
-    "href": "slides/01-intro-glm.html#distributions-and-linear-regression",
-    "title": "Introduction to Generalized Linear Models for Psychology",
-    "section": "Distributions and linear regression",
-    "text": "Distributions and linear regression\nPredict the average value of YY and quantify the remaining variation:\n\nExpected value (mean): E[Y]=μE[Y]=\\mu.\nThe long-run average of YY under its distribution.\nConditional expected value: E[Y∣X]=μ(X)E[Y\\mid X]=\\mu(X).\nThe long-run average outcome for a fixed predictor value X=xX=x.\nVariance: Var(Y)\\mathrm{Var}(Y) (or, in regression, Var(Y∣X)\\mathrm{Var}(Y\\mid X)).\nHow much outcomes vary around the mean (overall or at a given xx).\n\n\nIn normal linear and generalized linear models we generally include predictors on the mean of the distribution."
-  },
-  {
-    "objectID": "slides/01-intro-glm.html#why-is-it-important",
-    "href": "slides/01-intro-glm.html#why-is-it-important",
-    "title": "Introduction to Generalized Linear Models for Psychology",
-    "section": "Why is it important?",
-    "text": "Why is it important?\nThe definitions of expected value and variance are universal, but how we compute them (and what they equal) depends on the distribution’s parameters.\n\nFor a Normal distribution Y∼𝒩(μ,σ2)Y \\sim \\mathcal{N}(\\mu,\\sigma^2), the parameters are exactly the mean and variance.\n\nExpected value (mean): E[Y]=μE[Y]=\\mu.\nVariance: Var(Y)=σ2\\mathrm{Var}(Y)=\\sigma^2."
   },
   {
     "objectID": "slides/01-intro-glm.html#section",
