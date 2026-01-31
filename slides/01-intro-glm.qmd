@@ -433,7 +433,7 @@ $\rightarrow$ Quantify **uncertainty in the estimated parameters** of the model!
 :::
 
 ::: footer
-@gelman2021regression
+@Gelman2020-tg
 :::
 
 
