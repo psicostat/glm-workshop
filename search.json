@@ -928,7 +928,7 @@
     "href": "index.html",
     "title": "Introduction to Generalized Linear Models",
     "section": "",
-    "text": "Introduction\nIntroductory workshop about Generalized Linear Models starting from the general theory, model fitting, parameters interpretation and data simulation.\n\n\nSlides\n\n\n   \n    \n    \n      Order By\n      Default\n      \n        Date - Oldest\n      \n      \n        Date - Newest\n      \n      \n        Title\n      \n    \n  \n    \n      \n      \n    \n\n\n\n\n\n\nTitle\n\n\n\nDate\n\n\n\n\n\n\n\n\nIntroduction to Generalized Linear Models for Psychology\n\n\nLast modified: 29-01-2026\n\n\n\n\n\n\nBinomial GLM example\n\n\nLast modified: 29-01-2026\n\n\n\n\n\n\nNo matching items\n\n\n\nMaterials\n\nGLMphd is a complete course on GLM part of the PhD Course in Psychological Sciences (University of Padova).\nGeneral workflow for Monte Carlo Simulations: a short blog post about a general framework to create MCS in R.\n\n\n\nBooks\nSome books about Generalized Linear Models:\n\nGelman, A., Hill, J., & Vehtari, A. (2020). Regression and Other Stories. Cambridge University Press. https://doi.org/10.1017/9781139161879\nAgresti, A. (2018). An Introduction to Categorical Data Analysis. John Wiley & Sons.\nAgresti, A. (2015). Foundations of Linear and Generalized Linear Models. John Wiley & Sons.\nDunn, P. K., & Smyth, G. K. (2018). Generalized Linear Models With Examples in R. Springer.\nFox, J. (2015). Applied Regression Analysis and Generalized Linear Models. SAGE Publications.\nFaraway, J. J. (2016). Extending the linear model with R: Generalized linear, mixed effects and nonparametric regression models, second edition. Chapman; Hall/CRC. https://doi.org/10.1201/9781315382722\nMcCullagh, P., & Nelder, J. A. (1989). Generalized Linear Models (2nd ed.). Chapman & Hall/CRC. https://doi.org/10.1007/978-1-4899-3242-6"
+    "text": "Introduction\nIntroductory workshop about Generalized Linear Models starting from the general theory, model fitting, parameters interpretation and data simulation.\n\n\nSlides\n\n\n   \n    \n    \n      Order By\n      Default\n      \n        Date - Oldest\n      \n      \n        Date - Newest\n      \n      \n        Title\n      \n    \n  \n    \n      \n      \n    \n\n\n\n\n\n\nTitle\n\n\n\nDate\n\n\n\n\n\n\n\n\nIntroduction to Generalized Linear Models for Psychology\n\n\nLast modified: 31-01-2026\n\n\n\n\n\n\nBinomial GLM example\n\n\nLast modified: 31-01-2026\n\n\n\n\n\n\nNo matching items\n\n\n\nMaterials\n\nGLMphd is a complete course on GLM part of the PhD Course in Psychological Sciences (University of Padova).\nGeneral workflow for Monte Carlo Simulations: a short blog post about a general framework to create MCS in R.\n\n\n\nBooks\nSome books about Generalized Linear Models:\n\nGelman, A., Hill, J., & Vehtari, A. (2020). Regression and Other Stories. Cambridge University Press. https://doi.org/10.1017/9781139161879\nAgresti, A. (2018). An Introduction to Categorical Data Analysis. John Wiley & Sons.\nAgresti, A. (2015). Foundations of Linear and Generalized Linear Models. John Wiley & Sons.\nDunn, P. K., & Smyth, G. K. (2018). Generalized Linear Models With Examples in R. Springer.\nFox, J. (2015). Applied Regression Analysis and Generalized Linear Models. SAGE Publications.\nFaraway, J. J. (2016). Extending the linear model with R: Generalized linear, mixed effects and nonparametric regression models, second edition. Chapman; Hall/CRC. https://doi.org/10.1201/9781315382722\nMcCullagh, P., & Nelder, J. A. (1989). Generalized Linear Models (2nd ed.). Chapman & Hall/CRC. https://doi.org/10.1007/978-1-4899-3242-6"
   },
   {
     "objectID": "slides/01-intro-glm.html#linear-regression-1",
@@ -949,7 +949,7 @@
     "href": "slides/01-intro-glm.html#normal-linear-regression-lmyx",
     "title": "Introduction to Generalized Linear Models for Psychology",
     "section": "Normal linear regression: lm(y~x)",
-    "text": "Normal linear regression: lm(y~x)\nFor a fixed xix_i, the model describes the distribution of possible outcomes around the mean μi\\mu_i.\n\n\nThe expected value of a random variable with a finite number of outcomes is a weighted average of all possible outcomes."
+    "text": "Normal linear regression: lm(y~x)\nFor a fixed xix_i, the model describes the distribution of possible outcomes around the expected value."
   },
   {
     "objectID": "slides/01-intro-glm.html#normal-distribution",
@@ -977,7 +977,7 @@
     "href": "slides/01-intro-glm.html#normal-linear-regression",
     "title": "Introduction to Generalized Linear Models for Psychology",
     "section": "Normal linear regression",
-    "text": "Normal linear regression\n\n\n\nyi∣xi∼𝒩(μi,σ2),μi=β0+β1xiy_i \\mid x_i \\sim \\mathcal{N}(\\mu_i,\\sigma^2), \\qquad \\mu_i = \\beta_0 + \\beta_1 x_i"
+    "text": "Normal linear regression\n\n\nμi=β0+β1xi,\\mu_i = \\beta_0 + \\beta_1 x_i,\nYi∣xi∼𝒩(μi,σ2)Y_i \\mid x_i \\sim \\mathcal{N}(\\mu_i,\\sigma^2)\n\n\n\n\n\n\n\n\n\n\n\nYi=β0+β1xi+εi,\\quad Y_i = \\beta_0 + \\beta_1 x_i + \\varepsilon_i,\nεi∼𝒩(0,σ2)\\quad \\varepsilon_i \\sim \\mathcal{N}(0,\\sigma^2)\n\n\n\n\n\n\n\n\n\n\n\n\n“The distribution of the errors” and “the distribution of the data given x” are two equivalent ways of expressing the same modeling assumption."
   },
   {
     "objectID": "slides/01-intro-glm.html#normal-distribution-3",
@@ -987,81 +987,95 @@
     "text": "Normal distribution\n\nSupport: −∞,+∞-\\infty, +\\infty\nMean (expected value): μ\\mu\nVariance: σ2\\sigma^2\nIndependence: changing the mean does not change the variance!"
   },
   {
-    "objectID": "slides/01-intro-glm.html#why-do-these-matter-for-regression",
-    "href": "slides/01-intro-glm.html#why-do-these-matter-for-regression",
+    "objectID": "slides/01-intro-glm.html#why-does-it-matter",
+    "href": "slides/01-intro-glm.html#why-does-it-matter",
     "title": "Introduction to Generalized Linear Models for Psychology",
-    "section": "Why do these matter for regression?",
-    "text": "Why do these matter for regression?\nWhen building a model, we need to know:\n\nSupport: what range of values is possible\nMean (expected value): what value to predict on average\nVariance: how much variation around the mean\nMean–variance relationship: does variance change with the mean?"
+    "section": "Why does it matter?",
+    "text": "Why does it matter?\nReal-world measurements are not automatically Normal, Normality is a modeling choice.\n\nSupport: what range of values is possible\nMean (expected value): what value to predict on average\nVariance: how much variation around the mean\nMean–variance relationship: does variance change with the mean?"
   },
   {
-    "objectID": "slides/01-intro-glm.html#where-the-normal-model-breaks-down",
-    "href": "slides/01-intro-glm.html#where-the-normal-model-breaks-down",
+    "objectID": "slides/01-intro-glm.html#reaction-times",
+    "href": "slides/01-intro-glm.html#reaction-times",
     "title": "Introduction to Generalized Linear Models for Psychology",
-    "section": "Where the Normal model breaks down",
-    "text": "Where the Normal model breaks down\nReaction Times"
+    "section": "Reaction Times",
+    "text": "Reaction Times"
   },
   {
-    "objectID": "slides/01-intro-glm.html#where-the-normal-model-breaks-down-1",
-    "href": "slides/01-intro-glm.html#where-the-normal-model-breaks-down-1",
+    "objectID": "slides/01-intro-glm.html#exam-passfail",
+    "href": "slides/01-intro-glm.html#exam-passfail",
     "title": "Introduction to Generalized Linear Models for Psychology",
-    "section": "Where the Normal model breaks down",
-    "text": "Where the Normal model breaks down\nExam pass/fail"
+    "section": "Exam pass/fail",
+    "text": "Exam pass/fail"
   },
   {
-    "objectID": "slides/01-intro-glm.html#where-the-normal-model-breaks-down-2",
-    "href": "slides/01-intro-glm.html#where-the-normal-model-breaks-down-2",
+    "objectID": "slides/01-intro-glm.html#number-of-errors-in-a-task",
+    "href": "slides/01-intro-glm.html#number-of-errors-in-a-task",
     "title": "Introduction to Generalized Linear Models for Psychology",
-    "section": "Where the Normal model breaks down",
-    "text": "Where the Normal model breaks down\nNumber of errors in a task"
+    "section": "Number of errors in a task",
+    "text": "Number of errors in a task"
   },
   {
-    "objectID": "slides/01-intro-glm.html#understanding-distributions",
-    "href": "slides/01-intro-glm.html#understanding-distributions",
+    "objectID": "slides/01-intro-glm.html#why-probability-distributions",
+    "href": "slides/01-intro-glm.html#why-probability-distributions",
     "title": "Introduction to Generalized Linear Models for Psychology",
-    "section": "Understanding distributions",
-    "text": "Understanding distributions\nA probability distribution of a random variable YY describes the probabilities assigned to each possible value yy, given certain parameters values.\n\n\nf(y∣𝛉)f(y \\mid \\boldsymbol{\\theta})\n\n\n\nyy is a specific value\n𝛉\\boldsymbol{\\theta} is a vector of variables (parameters)\nf(⋅)f(\\cdot) is the function itself"
+    "section": "Why probability distributions?",
+    "text": "Why probability distributions?\nOur models do not fit our data exactly …\n\nPredict the average value of the outcome given the predictors\nSummarize the variation in this prediction\n\n\nProbability distributions help us characterize the variation that remains after predicting the average.\n→\\rightarrow Quantify uncertainty in the estimated parameters of the model!\n\n\n(gelman2021regression?)"
   },
   {
-    "objectID": "slides/01-intro-glm.html#understanding-distributions-1",
-    "href": "slides/01-intro-glm.html#understanding-distributions-1",
+    "objectID": "slides/01-intro-glm.html#probability-distributions",
+    "href": "slides/01-intro-glm.html#probability-distributions",
     "title": "Introduction to Generalized Linear Models for Psychology",
-    "section": "Understanding distributions",
-    "text": "Understanding distributions\n\nDiscrete random variables: counts, binary, etc.\n\n→\\rightarrow f(Y∣𝛉)f(Y\\mid \\boldsymbol{\\theta}) becomes f(Y=y∣𝛉)f(Y = y\\mid \\boldsymbol{\\theta}) because we are assigning a certain probability to a discrete variables. The function is called probability mass function (PMF).\n\n\nContinuous random variables: time, weight, etc.\n\n→\\rightarrow f(Y∣𝛉)f(Y\\mid \\boldsymbol{\\theta}) and the function is called probability density function (PDF).\n\n\n\n\nThe PMF return the probability associated with a certain value of yy while the PDF returns the probability density of a certain value of yy"
+    "section": "Probability Distributions",
+    "text": "Probability Distributions\nA probability distribution describes all possible values a random variable YY can take and their associated probabilities, given certain parameters.\n\n\nf(y∣𝛉)f(y \\mid \\boldsymbol{\\theta})\n\n\nWhere:\n\nYY is the random variable (uppercase)\nyy is a specific value it can take (lowercase)\n𝛉\\boldsymbol{\\theta} is a vector of parameters (e.g., mean, variance)\nf(⋅)f(\\cdot) is the probability function"
   },
   {
-    "objectID": "slides/01-intro-glm.html#moments-of-the-distributions",
-    "href": "slides/01-intro-glm.html#moments-of-the-distributions",
+    "objectID": "slides/01-intro-glm.html#discrete-vs.-continuous-variables",
+    "href": "slides/01-intro-glm.html#discrete-vs.-continuous-variables",
     "title": "Introduction to Generalized Linear Models for Psychology",
-    "section": "Moments of the distributions",
-    "text": "Moments of the distributions\nWhen we use the distributions, we are usually interested in some properties describing the distribution:\n\nFirst moment: is the expected value (i.e., the mean) of the distribution\nSecond moment: is the variance of the distribution\nThird moment: is the skewness\nFourth moment: is the kurtosis"
+    "section": "Discrete vs. Continuous Variables",
+    "text": "Discrete vs. Continuous Variables\n\n\nDiscrete random variables (counts, binary outcomes, etc.)\n\nProbability Mass Function (PMF)\nP(Y=y∣𝛉)P(Y = y \\mid \\boldsymbol{\\theta})\nThe probability of observing exactly yy\nP(Y=3)=0.25P(Y = 3) = 0.25 means 25% chance of getting 3"
+  },
+  {
+    "objectID": "slides/01-intro-glm.html#discrete-vs.-continuous-variables-1",
+    "href": "slides/01-intro-glm.html#discrete-vs.-continuous-variables-1",
+    "title": "Introduction to Generalized Linear Models for Psychology",
+    "section": "Discrete vs. Continuous Variables",
+    "text": "Discrete vs. Continuous Variables\n\n\nContinuous random variables (time, weight, temperature, etc.)\n\nProbability Density Function (PDF)\nf(y∣𝛉)f(y \\mid \\boldsymbol{\\theta})\nThe probability density at yy (not a probability!)\nP(Y=y)=0P(Y = y) = 0 for any specific value"
+  },
+  {
+    "objectID": "slides/01-intro-glm.html#distributions-and-linear-regression",
+    "href": "slides/01-intro-glm.html#distributions-and-linear-regression",
+    "title": "Introduction to Generalized Linear Models for Psychology",
+    "section": "Distributions and linear regression",
+    "text": "Distributions and linear regression\nPredict the average value of YY and quantify the remaining variation:\n\nExpected value (mean): E[Y]=μE[Y]=\\mu.\nThe long-run average of YY under its distribution.\nConditional expected value: E[Y∣X]=μ(X)E[Y\\mid X]=\\mu(X).\nThe long-run average outcome for a fixed predictor value X=xX=x.\nVariance: Var(Y)\\mathrm{Var}(Y) (or, in regression, Var(Y∣X)\\mathrm{Var}(Y\\mid X)).\nHow much outcomes vary around the mean (overall or at a given xx).\n\n\nIn normal linear and generalized linear models we generally include predictors on the mean of the distribution."
   },
   {
     "objectID": "slides/01-intro-glm.html#why-is-it-important",
     "href": "slides/01-intro-glm.html#why-is-it-important",
     "title": "Introduction to Generalized Linear Models for Psychology",
     "section": "Why is it important?",
-    "text": "Why is it important?\nMoments are always the same but the way we actual compute them could change according to the distribution.\nIn normal linear and generalized linear models we generally include predictors on the mean of the distribution.\nIn the case of Normal distribution the mean and the variance are the same as the parameters defining the distribution."
+    "text": "Why is it important?\nThe definitions of expected value and variance are universal, but how we compute them (and what they equal) depends on the distribution’s parameters.\n\nFor a Normal distribution Y∼𝒩(μ,σ2)Y \\sim \\mathcal{N}(\\mu,\\sigma^2), the parameters are exactly the mean and variance.\n\nExpected value (mean): E[Y]=μE[Y]=\\mu.\nVariance: Var(Y)=σ2\\mathrm{Var}(Y)=\\sigma^2."
   },
   {
-    "objectID": "slides/01-intro-glm.html#why-is-important",
-    "href": "slides/01-intro-glm.html#why-is-important",
+    "objectID": "slides/01-intro-glm.html#section",
+    "href": "slides/01-intro-glm.html#section",
     "title": "Introduction to Generalized Linear Models for Psychology",
-    "section": "Why is important?",
-    "text": "Why is important?\n\n\n\n\n\n\n\n\n\nDistribution\nSupport\nmean: E[Y]E[Y]\nvariance: Var(Y)\\mathrm{Var}(Y)\n\n\n\n\nNormal: f(y | μ,σ2)f(y \\text{ | } \\mu,\\sigma^2)\ny∈ℝy \\in \\mathbb{R}\nμ\\mu\nσ2\\sigma^2\n\n\nGamma: f(y | α,β)f(y \\text{ | } \\alpha,\\beta)\ny∈(0,∞)y \\in (0,\\infty)\nα/β\\alpha/\\beta\nα/β2\\alpha/\\beta^2\n\n\nBinomial: f(y | n,p)f(y \\text{ | } n,p)\ny∈{0,1,…,n}y \\in \\{0,1,\\dots,n\\}\nnpnp\nnp(1−p)np(1-p)\n\n\nPoisson: f(y | λ)f(y \\text{ | } \\lambda)\ny∈{0,1,2,…}y \\in \\{0,1,2,\\dots\\}\nλ\\lambda\nλ\\lambda"
+    "section": "",
+    "text": "Distribution\nSupport\nmean: E[Y]E[Y]\nvariance: Var(Y)\\mathrm{Var}(Y)\n\n\n\n\nNormal: f(y | μ,σ2)f(y \\text{ | } \\mu,\\sigma^2)\ny∈ℝy \\in \\mathbb{R}\nμ\\mu\nσ2\\sigma^2\n\n\nGamma: f(y | α,β)f(y \\text{ | } \\alpha,\\beta)\ny∈(0,∞)y \\in (0,\\infty)\nα/β\\alpha/\\beta\nα/β2\\alpha/\\beta^2\n\n\nBinomial: f(y | n,p)f(y \\text{ | } n,p)\ny∈{0,1,…,n}y \\in \\{0,1,\\dots,n\\}\nnpnp\nnp(1−p)np(1-p)\n\n\nPoisson: f(y | λ)f(y \\text{ | } \\lambda)\ny∈{0,1,2,…}y \\in \\{0,1,2,\\dots\\}\nλ\\lambda\nλ\\lambda"
   },
   {
     "objectID": "slides/01-intro-glm.html#example-passing-the-exam",
     "href": "slides/01-intro-glm.html#example-passing-the-exam",
     "title": "Introduction to Generalized Linear Models for Psychology",
     "section": "Example: Passing the exam",
-    "text": "Example: Passing the exam\nProbability of passing the exam as a function of how many hours students study:\n\n\n\n\n   id studyh passed\n1   1     29      0\n2   2     79      1\n3   3     41      1\n4   4     88      1\n5   5     94      1\n6   6      5      0\n7   7     53      0\n8   8     89      1\n9   9     55      1\n10 10     46      0\n11 11     96      1\n12 12     45      0\n13 13     68      1\n14 14     57      0\n15 15     10      0\n16 16     90      1\n17 17     25      0\n18 18      4      0\n19 19     33      1\n20 20     95      1\n21 21     89      1\n22 22     69      0\n23 23     64      0\n24 24     99      1\n25 25     66      1\n26 26     71      1\n27 27     54      0\n28 28     59      1\n29 29     29      0\n30 30     15      0\n31 31     96      1\n32 32     90      1\n33 33     69      1\n34 34     80      0\n35 35      2      0\n36 36     48      0\n37 37     76      0\n38 38     22      1\n39 39     32      1\n40 40     23      0\n41 41     14      0\n42 42     41      0\n43 43     41      0\n44 44     37      0\n45 45     15      0\n46 46     14      0\n47 47     23      0\n48 48     47      0\n49 49     27      0\n50 50     86      1\n\n\n\n\n# number of students that have passed the exam\nsum(dat_exam$passed) \n#&gt; [1] 22\n# proportion of students that have passed the exam\nmean(dat_exam$passed) \n#&gt; [1] 0.44\n\n# study hours and passing the exam\ntapply(dat_exam$studyh, dat_exam$passed, mean)\n#&gt;        0        1 \n#&gt; 35.46429 73.04545\n#&gt; \ntable(dat_exam$passed, cut(dat_exam$studyh, breaks = 4))\n#&gt;    (1.9,26.2] (26.2,50.5] (50.5,74.8] (74.8,99.1]\n#&gt;  0         11          10           5           2\n#&gt;  1          1           3           6          12\n#&gt;  \ntapply(dat_exam$passed, cut(dat_exam$studyh, breaks = 4), mean)\n#&gt;   (1.9,26.2] (26.2,50.5] (50.5,74.8] (74.8,99.1] \n#&gt;   0.08333333  0.23076923  0.54545455  0.85714286"
+    "text": "Example: Passing the exam\nProbability of passing the exam as a function of how many hours students study.\n\n\n\n\n   id studyh passed\n1   1     29      0\n2   2     79      1\n3   3     41      1\n4   4     88      1\n5   5     94      1\n6   6      5      0\n7   7     53      0\n8   8     89      1\n9   9     55      1\n10 10     46      0\n11 11     96      1\n12 12     45      0\n13 13     68      1\n14 14     57      0\n15 15     10      0\n16 16     90      1\n17 17     25      0\n18 18      4      0\n19 19     33      1\n20 20     95      1\n21 21     89      1\n22 22     69      0\n23 23     64      0\n24 24     99      1\n25 25     66      1\n26 26     71      1\n27 27     54      0\n28 28     59      1\n29 29     29      0\n30 30     15      0\n31 31     96      1\n32 32     90      1\n33 33     69      1\n34 34     80      0\n35 35      2      0\n36 36     48      0\n37 37     76      0\n38 38     22      1\n39 39     32      1\n40 40     23      0\n41 41     14      0\n42 42     41      0\n43 43     41      0\n44 44     37      0\n45 45     15      0\n46 46     14      0\n47 47     23      0\n48 48     47      0\n49 49     27      0\n50 50     86      1\n\n\n\n\n# number of students that have passed the exam\nsum(dat_exam$passed) \n#&gt; [1] 22\n# proportion of students that have passed the exam\nmean(dat_exam$passed) \n#&gt; [1] 0.44\n\n# study hours and passing the exam\ntapply(dat_exam$studyh, dat_exam$passed, mean)\n#&gt;        0        1 \n#&gt; 35.46429 73.04545\n#&gt; \ntable(dat_exam$passed, cut(dat_exam$studyh, breaks = 4))\n#&gt;    (1.9,26.2] (26.2,50.5] (50.5,74.8] (74.8,99.1]\n#&gt;  0         11          10           5           2\n#&gt;  1          1           3           6          12\n#&gt;  \ntapply(dat_exam$passed, cut(dat_exam$studyh, breaks = 4), mean)\n#&gt;   (1.9,26.2] (26.2,50.5] (50.5,74.8] (74.8,99.1] \n#&gt;   0.08333333  0.23076923  0.54545455  0.85714286"
   },
   {
-    "objectID": "slides/01-intro-glm.html#example-passing-the-exam-1",
-    "href": "slides/01-intro-glm.html#example-passing-the-exam-1",
+    "objectID": "slides/01-intro-glm.html#visualize-data",
+    "href": "slides/01-intro-glm.html#visualize-data",
     "title": "Introduction to Generalized Linear Models for Psychology",
-    "section": "Example: Passing the exam",
-    "text": "Example: Passing the exam"
+    "section": "Visualize data",
+    "text": "Visualize data"
   },
   {
     "objectID": "slides/01-intro-glm.html#fitting-a-normal-linear-model",
@@ -1078,11 +1092,39 @@
     "text": "Fitting a Generalized Linear Model\nThe model should consider both the support of the yy variable and the non-linear pattern!"
   },
   {
-    "objectID": "slides/01-intro-glm.html#general-idea",
-    "href": "slides/01-intro-glm.html#general-idea",
+    "objectID": "slides/01-intro-glm.html#example-reaction-times",
+    "href": "slides/01-intro-glm.html#example-reaction-times",
     "title": "Introduction to Generalized Linear Models for Psychology",
-    "section": "General idea",
-    "text": "General idea\n\nusing distributions beyond the Gaussian\nmodeling non linear functions on the response scale\ntaking into account mean-variance relationships"
+    "section": "Example: Reaction times",
+    "text": "Example: Reaction times\nReaction times on two-choice questions as a function of hours studied.\n\n\n\n\n   id studyh         rt\n1   1     29  10.947819\n2   2     79   3.540496\n3   3     41  11.268397\n4   4     88   4.392048\n5   5     94   3.715430\n6   6      5  58.248106\n7   7     53  20.919784\n8   8     89   6.736173\n9   9     55  17.673947\n10 10     46  17.588858\n11 11     96   4.606094\n12 12     45   9.470837\n13 13     68   8.466946\n14 14     57  12.035441\n15 15     10  88.036080\n16 16     90   2.616037\n17 17     25  40.789503\n18 18      4  39.961460\n19 19     33  25.712424\n20 20     95   3.359597\n21 21     89   4.885902\n22 22     69  10.306010\n23 23     64   5.981269\n24 24     99   1.489239\n25 25     66   5.558787\n26 26     71   9.449445\n27 27     54  16.912798\n28 28     59   9.531816\n29 29     29  68.481525\n30 30     15  21.572576\n31 31     96   4.640696\n32 32     90   5.915181\n33 33     69   9.313805\n34 34     80   9.680069\n35 35      2 149.169447\n36 36     48  13.338629\n37 37     76   4.569221\n38 38     22  25.811964\n39 39     32  36.203759\n40 40     23  36.008034\n41 41     14  24.000655\n42 42     41  13.996114\n43 43     41  21.102289\n44 44     37  28.233519\n45 45     15  38.237882\n46 46     14  31.721792\n47 47     23  41.982604\n48 48     47  27.842142\n49 49     27  38.937573\n50 50     86   4.649678\n\n\n\n\nrange(dat_rt$rt)\n#&gt;  [1]   1.489239 149.169447\n\n# mean RT as a function of studyh\ntapply(dat_rt$rt, cut(dat_rt$studyh, breaks = 4), mean)\n#&gt;  (1.9,26.2] (26.2,50.5] (50.5,74.8] (74.8,99.1] \n#&gt;   49.628342   24.855683   11.468186    4.628276 \n\n# variance RT as a function of studyh\ntapply(dat_rt$rt, cut(dat_rt$studyh, breaks = 4), var)\n#&gt; (1.9,26.2] (26.2,50.5] (50.5,74.8] (74.8,99.1] \n#&gt; 1303.176485  265.296600   24.566131    3.790422"
+  },
+  {
+    "objectID": "slides/01-intro-glm.html#visualize-data-1",
+    "href": "slides/01-intro-glm.html#visualize-data-1",
+    "title": "Introduction to Generalized Linear Models for Psychology",
+    "section": "Visualize data",
+    "text": "Visualize data"
+  },
+  {
+    "objectID": "slides/01-intro-glm.html#fitting-a-normal-linear-model-1",
+    "href": "slides/01-intro-glm.html#fitting-a-normal-linear-model-1",
+    "title": "Introduction to Generalized Linear Models for Psychology",
+    "section": "Fitting a Normal Linear Model",
+    "text": "Fitting a Normal Linear Model\n\nDo you see something strange?"
+  },
+  {
+    "objectID": "slides/01-intro-glm.html#fitting-a-generalized-linear-model-1",
+    "href": "slides/01-intro-glm.html#fitting-a-generalized-linear-model-1",
+    "title": "Introduction to Generalized Linear Models for Psychology",
+    "section": "Fitting a Generalized Linear Model",
+    "text": "Fitting a Generalized Linear Model\nThe model should consider both the support of the yy variable and the non-linear pattern!"
+  },
+  {
+    "objectID": "slides/01-intro-glm.html#general-ideas",
+    "href": "slides/01-intro-glm.html#general-ideas",
+    "title": "Introduction to Generalized Linear Models for Psychology",
+    "section": "General ideas",
+    "text": "General ideas\n\nusing distributions beyond the Normal\nmodeling non linear functions on the response scale\ntaking into account mean-variance relationships"
   },
   {
     "objectID": "slides/01-intro-glm.html#the-three-ingredients-of-a-glm",
@@ -1095,29 +1137,29 @@
     "objectID": "slides/01-intro-glm.html#random-component",
     "href": "slides/01-intro-glm.html#random-component",
     "title": "Introduction to Generalized Linear Models for Psychology",
-    "section": "1. Random component",
-    "text": "1. Random component\nThe random component specifies a probability model for yiy_i:\n\nyi∣xi∼Distribution(parameters).\ny_i \\mid x_i \\sim \\text{Distribution}(\\text{parameters}).\n\n\n\nWhat support?\n\nBinary: {0,1}\\{0,1\\} →\\rightarrow Bernoulli(p)\\text{Bernoulli}(p) (or Binomial(1,p)\\text{Binomial}(1,p))\nCounts: {0,1,2,…}\\{0,1,2,\\ldots\\} →\\rightarrow Poisson(λ)\\text{Poisson}(\\lambda)\nAny real number: (−∞,∞)(-\\infty,\\infty) →\\rightarrow Normal(μ,σ2)\\text{Normal}(\\mu,\\sigma^2)"
+    "section": "Random component",
+    "text": "Random component\nThe random component specifies a probability model for yiy_i:\n\nyi∣xi∼Distribution(parameters).\ny_i \\mid x_i \\sim \\text{Distribution}(\\text{parameters}).\n\n\n\nWhat support?\n\nBinary: {0,1}\\{0,1\\} →\\rightarrow Bernoulli(p)\\text{Bernoulli}(p) (or Binomial(1,p)\\text{Binomial}(1,p))\nCounts: {0,1,2,…}\\{0,1,2,\\ldots\\} →\\rightarrow Poisson(λ)\\text{Poisson}(\\lambda)\nAny real number: (−∞,∞)(-\\infty,\\infty) →\\rightarrow Normal(μ,σ2)\\text{Normal}(\\mu,\\sigma^2)"
   },
   {
     "objectID": "slides/01-intro-glm.html#random-component-meanvariance",
     "href": "slides/01-intro-glm.html#random-component-meanvariance",
     "title": "Introduction to Generalized Linear Models for Psychology",
-    "section": "1. Random component (mean–variance)",
-    "text": "1. Random component (mean–variance)\nChoosing a distribution specifies not only the mean, but also how the variance depends on the mean:\n\n\nVar(Y∣X)=ϕV(μ),μ=E(Y∣X).\n\\mathrm{Var}(Y \\mid X) = \\phi \\, V(\\mu), \\qquad \\mu = E(Y \\mid X).\n\n\n\nwhere V(μ)V(\\mu) is the variance function (determined by the family) and ϕ\\phi is a constant scale factor.\n\nNormal: V(μ)=1V(\\mu) = 1 (constant variance, ϕ=σ2\\phi = \\sigma^2)\nBernoulli: V(μ)=μ(1−μ)V(\\mu) = \\mu(1-\\mu) (typically ϕ=1\\phi = 1)\nPoisson: V(μ)=μV(\\mu) = \\mu (typically ϕ=1\\phi = 1)"
+    "section": "Random component (mean–variance)",
+    "text": "Random component (mean–variance)\nChoosing a distribution specifies not only the mean, but also how the variance depends on the mean:\nVar(Y∣X)=ϕV(μ),μ=E(Y∣X),\n\\mathrm{Var}(Y \\mid X) = \\phi \\, V(\\mu), \\qquad \\mu = E(Y \\mid X),\n\nwhere V(μ)V(\\mu) is the variance function (determined by the family) and ϕ\\phi is the dispersion parameter.\n\n\nNormal: V(μ)=1V(\\mu) = 1 (constant variance, ϕ=σ2\\phi = \\sigma^2)\nBernoulli: V(μ)=μ(1−μ)V(\\mu) = \\mu(1-\\mu) (typically ϕ=1\\phi = 1)\nPoisson: V(μ)=μV(\\mu) = \\mu (typically ϕ=1\\phi = 1)\n\n\n\n\n\n\n\nNote\n\n\nIf ϕ&gt;1\\phi&gt;1 but you fit a Poisson/Bernoulli model with ϕ=1\\phi=1, the coefficient estimates β̂\\hat\\beta may look similar, but the standard errors are smaller."
   },
   {
     "objectID": "slides/01-intro-glm.html#systematic-component",
     "href": "slides/01-intro-glm.html#systematic-component",
     "title": "Introduction to Generalized Linear Models for Psychology",
-    "section": "2. Systematic Component",
-    "text": "2. Systematic Component\nThe systematic component is exactly the same as in normal linear regression: we predict a linear combination of predictors.\n\nηi=β0+β1xi1+β2xi2+⋯+βkxik.\n\\eta_i = \\beta_0 + \\beta_1 x_{i1} + \\beta_2 x_{i2} + \\cdots + \\beta_k x_{ik}.\n \nBasically it describes how the expected value (i.e., the mean, the first moment) of the chosen distribution (the random component) varies according to the predictors."
+    "section": "Systematic Component",
+    "text": "Systematic Component\nThe systematic component is exactly the same as in normal linear regression: we predict a linear combination of predictors.\n\nηi=β0+β1xi1+β2xi2+⋯+βkxik.\n\\eta_i = \\beta_0 + \\beta_1 x_{i1} + \\beta_2 x_{i2} + \\cdots + \\beta_k x_{ik}.\n \nBasically it describes how the expected value (i.e., the mean) of the chosen distribution (the random component) varies according to the predictors."
   },
   {
     "objectID": "slides/01-intro-glm.html#link-function",
     "href": "slides/01-intro-glm.html#link-function",
     "title": "Introduction to Generalized Linear Models for Psychology",
-    "section": "3. Link Function",
-    "text": "3. Link Function\nThe link function g(⋅)g(\\cdot) connects the expected value (mean) μi\\mu_i of the distribution to the linear predictor ηi\\eta_i:\n\n\ng(μi)=ηi\ng(\\mu_i) = \\eta_i\n\n\n\n\nThe linear predictor ηi\\eta_i can be any real number: (−∞,+∞)(-\\infty, +\\infty)\nBut μi\\mu_i (the mean) is constrained by the distribution’s support\nThe link function transforms μi\\mu_i to be unbounded"
+    "section": "Link Function",
+    "text": "Link Function\nThe link function g(⋅)g(\\cdot) connects the expected value (mean) μi\\mu_i of the distribution to the linear predictor ηi\\eta_i:\n\n\ng(μi)=ηi\ng(\\mu_i) = \\eta_i\n\n\n\n\nThe linear predictor ηi\\eta_i can be any real number: (−∞,+∞)(-\\infty, +\\infty)\nBut μi\\mu_i (the mean) is constrained by the distribution’s support\nThe link function transforms μi\\mu_i to be unbounded"
   },
   {
     "objectID": "slides/01-intro-glm.html#common-link-functions",
@@ -1134,11 +1176,11 @@
     "text": "Normal + identity\nFor example, a Generalized Linear Model with the Normal family and identity link can be written as:\n\nyi∼𝒩(μi,σ2)Random componentμi=ηiLink (identity)ηi=β0+β1xi1+⋯+βkxikSystematic component\n\\begin{aligned}\ny_i &\\sim \\mathcal{N}(\\mu_i, \\sigma^2) && \\text{Random component} \\\\\n\\mu_i &= \\eta_i && \\text{Link (identity)} \\\\\n\\eta_i &= \\beta_0 + \\beta_1 x_{i1} + \\cdots + \\beta_k x_{ik} && \\text{Systematic component}\n\\end{aligned}"
   },
   {
-    "objectID": "slides/01-intro-glm.html#binomial-logit",
-    "href": "slides/01-intro-glm.html#binomial-logit",
+    "objectID": "slides/01-intro-glm.html#bernoulli-logit",
+    "href": "slides/01-intro-glm.html#bernoulli-logit",
     "title": "Introduction to Generalized Linear Models for Psychology",
-    "section": "Binomial + logit",
-    "text": "Binomial + logit\nFor example, a Generalized Linear Model with the Binomial family and logit link can be written as:\n\nyi∣xi∼Binomial(ni,pi)Random componentlogit(pi)=log(pi1−pi)=ηiLink (logit)ηi=β0+β1xi1+⋯+βkxikSystematic component\n\\begin{aligned}\ny_i \\mid x_i &\\sim \\text{Binomial}(n_i, p_i) && \\text{Random component} \\\\\n\\text{logit}(p_i) &= \\log\\!\\left(\\frac{p_i}{1-p_i}\\right)=\\eta_i && \\text{Link (logit)} \\\\\n\\eta_i &= \\beta_0 + \\beta_1 x_{i1} + \\cdots + \\beta_k x_{ik} && \\text{Systematic component}\n\\end{aligned}"
+    "section": "Bernoulli + logit",
+    "text": "Bernoulli + logit\nFor example, a Generalized Linear Model with the Bernoulli family and logit link can be written as:\n\nyi∣xi∼Bernoulli(pi)Random componentlogit(pi)=log(pi1−pi)=ηiLink (logit)ηi=β0+β1xi1+⋯+βkxikSystematic component\n\\begin{aligned}\ny_i \\mid x_i &\\sim \\text{Bernoulli}(p_i) && \\text{Random component} \\\\\n\\text{logit}(p_i) &= \\log\\!\\left(\\frac{p_i}{1-p_i}\\right)=\\eta_i && \\text{Link (logit)} \\\\\n\\eta_i &= \\beta_0 + \\beta_1 x_{i1} + \\cdots + \\beta_k x_{ik} && \\text{Systematic component}\n\\end{aligned}"
   },
   {
     "objectID": "slides/01-intro-glm.html#binary-outcomes-and-counts",
@@ -1159,7 +1201,7 @@
     "href": "slides/01-intro-glm.html#one-student-takes-the-exam",
     "title": "Introduction to Generalized Linear Models for Psychology",
     "section": "One student takes the exam",
-    "text": "One student takes the exam\n\nrbinom(n = 1, size = 1, prob = 0.7)\n\n[1] 0\n\n\n\nOver 10,000 students?\n\nmany = rbinom(n = 100000, size = 1, prob = 0.7); head(many)\n\n[1] 1 1 1 0 1 1\n\n\n\n\n\n# Mean\n(p = mean(many))\n\n[1] 0.70085\n\n\n\n\n\n# Variance\n(p*(1-p))\n\n[1] 0.2096593\n\n(sd(many)^2)\n\n[1] 0.2096614"
+    "text": "One student takes the exam\n\nrbinom(n = 1, size = 1, prob = 0.7)\n\n[1] 1\n\n\n\nOver 10,000 students?\n\nmany = rbinom(n = 100000, size = 1, prob = 0.7); head(many)\n\n[1] 0 1 0 1 1 1\n\n\n\n\n\n# Mean\n(p = mean(many))\n\n[1] 0.70083\n\n\n\n\n\n# Variance\n(p*(1-p))\n\n[1] 0.2096673\n\nvar(many)\n\n[1] 0.2096694"
   },
   {
     "objectID": "slides/01-intro-glm.html#binomial-a-class-of-students",
@@ -1173,7 +1215,7 @@
     "href": "slides/01-intro-glm.html#ten-students-take-the-exam",
     "title": "Introduction to Generalized Linear Models for Psychology",
     "section": "Ten students take the exam",
-    "text": "Ten students take the exam\nHow many pass?\n\nn = 10; p = 0.7\nrbinom(n = 1, size = n, prob = 0.7)\n\n[1] 7\n\n\n\nOver 10,000 repetition …\n\nmany = rbinom(n = 100000, size = n, prob = p); head(many)\n\n[1] 7 8 8 8 8 9\n\n\n\n\n\nn*p # Mean count: E(Y) = np \n\n[1] 7\n\n\n\n\n\nn*p*(1-p) # Variance count: Var(y) = np(1-p)\n\n[1] 2.1\n\n\n\n\n\nmean(many/n) # Mean proportion = p\n\n[1] 0.700083"
+    "text": "Ten students take the exam\nHow many pass?\n\nn = 10; p = 0.7\nrbinom(n = 1, size = n, prob = 0.7)\n\n[1] 9\n\n\n\nOver 10,000 repetition …\n\nmany = rbinom(n = 100000, size = n, prob = p); head(many)\n\n[1] 5 8 6 6 8 8\n\n\n\n\n\nn*p # Mean count: E(Y) = np \n\n[1] 7\n\nmean(many)\n\n[1] 7.00082\n\n\n\n\n\nn*p*(1-p) # Variance count: Var(y) = np(1-p)\n\n[1] 2.1\n\nvar(many)\n\n[1] 2.1049\n\n\n\n\n\nmean(many/n) # Mean proportion = p\n\n[1] 0.700082"
   },
   {
     "objectID": "slides/01-intro-glm.html#binomial-distribution-n-20-p-0.9",
@@ -1197,78 +1239,78 @@
     "text": "Mean–variance relationship\nE[Y]=npandVar(Y)=np(1−p)E[Y] = np \\quad \\text{and} \\quad \\mathrm{Var}(Y) = np(1-p)\n\nVariance is not constant!"
   },
   {
+    "objectID": "slides/01-intro-glm.html#why-not-model-probability-directly",
+    "href": "slides/01-intro-glm.html#why-not-model-probability-directly",
+    "title": "Introduction to Generalized Linear Models for Psychology",
+    "section": "Why not model probability directly?",
+    "text": "Why not model probability directly?\n\n\nProblem for binary outcomes:\n\n\n\nSolution:"
+  },
+  {
+    "objectID": "slides/01-intro-glm.html#why-not-model-probability-directly-1",
+    "href": "slides/01-intro-glm.html#why-not-model-probability-directly-1",
+    "title": "Introduction to Generalized Linear Models for Psychology",
+    "section": "Why not model probability directly?",
+    "text": "Why not model probability directly?\n\n\nProblem for binary outcomes: A linear model can predict values outside [0,1], but probabilities must stay between 0 and 1.\n\n\nSolution: Transform the probability to a scale that ranges from −∞-\\infty to +∞+\\infty, then model that with a linear predictor."
+  },
+  {
     "objectID": "slides/01-intro-glm.html#odds",
     "href": "slides/01-intro-glm.html#odds",
     "title": "Introduction to Generalized Linear Models for Psychology",
     "section": "Odds",
-    "text": "Odds\nBecause probabilities must stay between 0 and 1, we work with odds.\nLet p=P(Pass=1)p = P(\\text{Pass}=1), then the odds of passing compare “pass” to “fail”:\n\n\nodds=p1−p,p=oddsodds+1\n\\text{odds} = \\frac{p}{1-p}, \\qquad \\text{p} = \\frac{odds}{odds+1}\n\n\n\n\nIf p=0.80p=0.80, then odds=0.800.20=4\\text{odds}=\\frac{0.80}{0.20}=4.\n\n\n\n\nSo passing is 4-to-1 relative to failing (4 expected passes for 1 fail, on average)."
+    "text": "Odds\nThe odds compare the probability of success to the probability of failure:\n\nodds=p1−p,p=oddsodds+1\n\\text{odds} = \\frac{p}{1-p}, \\qquad p = \\frac{\\text{odds}}{\\text{odds}+1}\n\n\n\n\nExample: If p=0.80p=0.80 (80% chance of passing), then\n\nodds=0.800.20=4.\n\\text{odds}=\\frac{0.80}{0.20}=4.\n\n\nWe say the odds are 4-to-1 in favor of passing (expect 4 passes for every 1 failure, on average).\n\n\n\n\nRange: Odds go from 0 to +∞+\\infty, but still can’t be negative."
   },
   {
-    "objectID": "slides/01-intro-glm.html#logit-link-log-odds",
-    "href": "slides/01-intro-glm.html#logit-link-log-odds",
+    "objectID": "slides/01-intro-glm.html#logit-link",
+    "href": "slides/01-intro-glm.html#logit-link",
     "title": "Introduction to Generalized Linear Models for Psychology",
-    "section": "Logit link (log-odds)",
-    "text": "Logit link (log-odds)\nThe logit is the log-odds:\nlogit(p)=log(p1−p)=η.\n\\text{logit}(p)=\\log\\!\\left(\\frac{p}{1-p}\\right)=\\eta.\n\n\n\nThis maps p∈(0,1)p \\in (0,1) to any real number, which makes it easier to model with a linear predictor."
+    "section": "Logit link",
+    "text": "Logit link\nTaking the logarithm of the odds gives us a scale from −∞-\\infty to +∞+\\infty:"
   },
   {
-    "objectID": "slides/01-intro-glm.html#why",
-    "href": "slides/01-intro-glm.html#why",
+    "objectID": "slides/01-intro-glm.html#inverse-logit-link",
+    "href": "slides/01-intro-glm.html#inverse-logit-link",
     "title": "Introduction to Generalized Linear Models for Psychology",
-    "section": "Why ?",
-    "text": "Why ?\nThe odds have an interesting property when taking the logarithm. We can express a probability pp sing a scale ranging [+∞,−∞][+\\infty,-\\infty]."
+    "section": "Inverse logit link",
+    "text": "Inverse logit link\nlogit(p)=log(p1−p)=η,p=exp(η)1+exp(η).\n\\text{logit}(p)=\\log\\!\\left(\\frac{p}{1-p}\\right)=\\eta, \\qquad p = \\frac{\\exp(\\eta)}{1+\\exp(\\eta)}.\n\n\nThis is what we model linearly: η=β0+β1x\\eta = \\beta_0 + \\beta_1 x."
   },
   {
-    "objectID": "slides/01-intro-glm.html#odds-1",
-    "href": "slides/01-intro-glm.html#odds-1",
+    "objectID": "slides/01-intro-glm.html#example",
+    "href": "slides/01-intro-glm.html#example",
     "title": "Introduction to Generalized Linear Models for Psychology",
-    "section": "Odds",
-    "text": "Odds\nWith pi=P(Passi=1∣xi)p_i = P(\\text{Pass}_i = 1 \\mid x_i) and xix_i hours studied, the model assumes:\n\n\nlog(pi1−pi)=ηiηi=β0+β1xi\n\\begin{aligned}\n\\log\\left(\\frac{p_i}{1-p_i}\\right) &= \\eta_i \\\\\n\\eta_i &= \\beta_0 + \\beta_1 x_i\n\\end{aligned}\n\nThen the odds:\n\n\npi1−pi=exp(β0+β1xi).\n\\frac{p_i}{1-p_i}=\\exp(\\beta_0+\\beta_1 x_i)."
+    "section": "Example",
+    "text": "Example\nLet Yi∈{0,1}Y_i \\in \\{0,1\\} (Pass), and pi=P(Yi=1∣xi)p_i = P(Y_i=1 \\mid x_i) where xix_i = hours studied.\n\n\n\n\nOdds: oi=pi1−pio_i = \\dfrac{p_i}{1-p_i} (how much more likely pass than fail).\n\n\n\nLog-odds (logit): logit(pi)=log(pi1−pi)\\text{logit}(p_i)=\\log\\!\\left(\\dfrac{p_i}{1-p_i}\\right).\n\n\n\n\nModel: logit(pi)=ηi,ηi=β0+β1xi.\n\\text{logit}(p_i) = \\eta_i,\\quad\n\\eta_i = \\beta_0 + \\beta_1 x_i .\n\n\n\n\n\nWe model the log-odds as linear in xx. What does this mean for the odds and probabilities?"
   },
   {
     "objectID": "slides/01-intro-glm.html#odds-ratios",
     "href": "slides/01-intro-glm.html#odds-ratios",
     "title": "Introduction to Generalized Linear Models for Psychology",
     "section": "Odds ratios",
-    "text": "Odds ratios\nThen the odds:\npi1−pi=exp(β0+β1xi).\n\\frac{p_i}{1-p_i}=\\exp(\\beta_0+\\beta_1 x_i).\n\n\n\nWhen x=0x = 0\npi1−pi=exp(β0).\n\\frac{p_i}{1-p_i} = \\exp(\\beta_0).\n\n\n\nWhen x=1x = 1\npi1−pi=exp(β0+β1)=exp(β0)exp(β1).\n\\frac{p_i}{1-p_i} =  \\exp(\\beta_0 + \\beta_1) = \\exp(\\beta_0)\\exp(\\beta_1)."
+    "text": "Odds ratios\nOur model: logit(pi)=β0+β1xi\\text{logit}(p_i) = \\beta_0 + \\beta_1 x_i\n\n\nExponentiating both sides gives the odds:\n\n\no(x)=p(x)1−p(x)=exp(β0+β1x).\no(x) = \\frac{p(x)}{1-p(x)} = \\exp(\\beta_0 + \\beta_1 x).\n\n\n\nAt x=0x=0: o(0)=exp(β0)o(0)=\\exp(\\beta_0).\n\n\nAt x=1x=1: o(1)=exp(β0+β1)=exp(β0)exp(β1)o(1)=\\exp(\\beta_0+\\beta_1)=\\exp(\\beta_0)\\exp(\\beta_1)."
   },
   {
     "objectID": "slides/01-intro-glm.html#odds-ratios-1",
     "href": "slides/01-intro-glm.html#odds-ratios-1",
     "title": "Introduction to Generalized Linear Models for Psychology",
-    "section": "Odds Ratios",
-    "text": "Odds Ratios\nThen the ratio of these two odds is:\n\n\nexp(β0)exp(β1)exp(β0)=exp(β1)\\frac{\\exp(\\beta_0)\\exp(\\beta_1)}{\\exp(\\beta_0)} = \\exp(\\beta_1)\n\n\nThis means that the odds of passing when increasing study hours by 1 is exp(β1)\\exp(\\beta_1) times greater than at the baseline (i.e., when x=0x = 0)."
+    "section": "Odds ratios",
+    "text": "Odds ratios\nOdds ratio for +1 hour:\n\n\no(1)o(0)=exp(β0)exp(β1)exp(β0)=exp(β1).\n\\frac{o(1)}{o(0)}=\\frac{\\exp(\\beta_0)\\exp(\\beta_1)}{\\exp(\\beta_0)}\n=\\exp(\\beta_1).\n\n\n\nso exp(β1)\\exp(\\beta_1) is the multiplicative change in odds for each additional study hour."
   },
   {
     "objectID": "slides/01-intro-glm.html#linear-on-log-odds",
     "href": "slides/01-intro-glm.html#linear-on-log-odds",
     "title": "Introduction to Generalized Linear Models for Psychology",
     "section": "Linear on log-odds",
-    "text": "Linear on log-odds\nA +1 increase in xx changes η\\eta by a constant amount β1\\beta_1. So equal increases in xx correspond to equal increases in log-odds."
-  },
-  {
-    "objectID": "slides/01-intro-glm.html#inverse-link-back-to-probability",
-    "href": "slides/01-intro-glm.html#inverse-link-back-to-probability",
-    "title": "Introduction to Generalized Linear Models for Psychology",
-    "section": "Inverse link (back to probability)",
-    "text": "Inverse link (back to probability)\nTo go back to probability we apply the inverse-logit:\npi=eηi1+eηi.\np_i = \\frac{e^{\\eta_i}}{1+e^{\\eta_i}}."
+    "text": "Linear on log-odds\nEqual changes in xx →\\rightarrow equal changes in η\\eta (because η\\eta is linear in xx), but not in odds. Each +1 increase in xx multiplies the odds by exp(β1)\\exp(\\beta_1)."
   },
   {
     "objectID": "slides/01-intro-glm.html#not-linear-in-probability",
     "href": "slides/01-intro-glm.html#not-linear-in-probability",
     "title": "Introduction to Generalized Linear Models for Psychology",
     "section": "Not linear in probability",
-    "text": "Not linear in probability\nEqual increases in xx generally do not correspond to equal increases in pp, because p=logit−1(η)p=\\text{logit}^{-1}(\\eta) is nonlinear."
+    "text": "Not linear in probability\nEqual changes in xx generally do not correspond to equal changes in pp."
   },
   {
-    "objectID": "slides/01-intro-glm.html#numerical-example-beta_10.8",
-    "href": "slides/01-intro-glm.html#numerical-example-beta_10.8",
-    "title": "Introduction to Generalized Linear Models for Psychology",
-    "section": "Numerical example (β1=0.8\\beta_1=0.8)",
-    "text": "Numerical example (β1=0.8\\beta_1=0.8)\nHere exp(0.8)≈2.23\\exp(0.8)\\approx 2.23, so each +1 hour multiplies the odds by ~2.23.\n\n\n\n\n\n\n\n\n\n\nBaseline p\nBaseline odds p/(1−p)p/(1-p)\nNew odds =2.23×=2.23\\times odds\nNew p\nΔ\\Delta p\n\n\n\n\n0.10\n0.11\n0.25\n0.20\n+0.10\n\n\n0.20\n0.25\n0.55\n0.36\n+0.16\n\n\n0.36\n0.55\n1.22\n0.55\n+0.20\n\n\n0.55\n1.22\n2.73\n0.73\n+0.18\n\n\n0.73\n2.73\n6.07\n0.86\n+0.13\n\n\n0.86\n6.07\n13.51\n0.93\n+0.07"
-  },
-  {
-    "objectID": "slides/01-intro-glm.html#section",
-    "href": "slides/01-intro-glm.html#section",
+    "objectID": "slides/01-intro-glm.html#section-1",
+    "href": "slides/01-intro-glm.html#section-1",
     "title": "Introduction to Generalized Linear Models for Psychology",
     "section": "",
     "text": "Vecteezy"
