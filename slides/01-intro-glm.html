@@ -95,7 +95,27 @@
     code span.va { color: #111111; } /* Variable */
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
-  </style>
+    /* CSS for citations */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+      margin-bottom: 0em;
+    }
+    .hanging-indent div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }  </style>
   <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-51960a963d6d583612fbaf38d0bed135.css">
 
 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
@@ -373,7 +393,7 @@
 <p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\rightarrow</annotation></semantics></math> Quantify <strong>uncertainty in the estimated parameters</strong> of the model!</p>
 </div>
 <div class="footer">
-<p><span class="citation" data-cites="gelman2021regression">(<a href="" role="doc-biblioref" onclick="return false;"><strong>gelman2021regression?</strong></a>)</span></p>
+<p><span class="citation" data-cites="Gelman2020-tg">Gelman et al. (<a href="#/references" role="doc-biblioref" onclick="">2020</a>)</span></p>
 </div>
 </section>
 <section id="probability-distributions" class="slide level2">
@@ -1150,10 +1170,15 @@ o(x) = \frac{p(x)}{1-p(x)} = \exp(\beta_0 + \beta_1 x).
 
 <img data-src="../img/coffe.png" class="quarto-figure quarto-figure-center r-stretch" width="500"><p><a href="https://www.vecteezy.com/free-png/funny">Vecteezy</a></p>
 </section>
-<section id="references" class="slide level2">
+<section id="references" class="slide level2 smaller scrollable">
 <h2>References</h2>
 
 
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list">
+<div id="ref-Gelman2020-tg" class="csl-entry" role="listitem">
+Gelman, A., Hill, J., &amp; Vehtari, A. (2020). <em><span class="nocase">Regression and Other Stories</span></em>. Cambridge University Press. <a href="https://doi.org/10.1017/9781139161879">https://doi.org/10.1017/9781139161879</a>
+</div>
+</div>
 </section></section>
 
 
