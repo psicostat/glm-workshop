@@ -385,7 +385,7 @@
 </section>
 <section id="exploring-plots" class="slide level2">
 <h2>Exploring, plots</h2>
-<div class="cell" data-layout-align="center">
+<div class="cell" data-layout-align="center" data-out-heigth="100%">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a aria-hidden="true" tabindex="-1"></a>dat <span class="sc">|&gt;</span> </span>
 <span id="cb10-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(emotion_lbl) <span class="sc">|&gt;</span> </span>
 <span id="cb10-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">p =</span> <span class="fu">mean</span>(acc),</span>
@@ -400,11 +400,11 @@
 </div>
 
 </section>
-<section id="exploring-plots-output" class="slide level2 output-location-slide"><h2>Exploring, plots</h2><div class="cell output-location-slide" data-layout-align="center">
+<section id="exploring-plots-output" class="slide level2 output-location-slide"><h2>Exploring, plots</h2><div class="cell output-location-slide" data-layout-align="center" data-out-heigth="100%">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="02-binomial-glm_files/figure-revealjs/unnamed-chunk-7-1.svg" class="quarto-figure quarto-figure-center"></p>
+<p><img data-src="02-binomial-glm_files/figure-revealjs/unnamed-chunk-7-1.svg" class="quarto-figure quarto-figure-center" style="width:100.0%"></p>
 </figure>
 </div>
 </div>
@@ -1053,10 +1053,10 @@ Tests are performed on the log odds ratio scale </code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code> contrast            estimate    SE  df z.ratio p.value
  disgust - anger       0.0741 0.440 Inf   0.168  0.9999
- fear - disgust       -2.3254 0.755 Inf  -3.079  0.0094
+ fear - disgust       -2.3254 0.755 Inf  -3.079  0.0092
  happiness - fear      3.7246 0.770 Inf   4.839  &lt;.0001
  sadness - happiness  -0.7135 0.365 Inf  -1.956  0.1971
- surprise - sadness    1.3196 0.395 Inf   3.341  0.0036
+ surprise - sadness    1.3196 0.395 Inf   3.341  0.0035
 
 Results are given on the log odds ratio (not the response) scale. 
 P value adjustment: mvt method for 5 tests </code></pre>
@@ -1739,8 +1739,8 @@ D_{\mbox{resid}} = 2 -(log(\mathcal{L}_{\mbox{current}}) - log(\mathcal{L}_{\mbo
 <span id="cb132-2"><a aria-hidden="true" tabindex="-1"></a><span class="co"># with mu = 10 and sigma = 5</span></span>
 <span id="cb132-3"><a aria-hidden="true" tabindex="-1"></a><span class="fu">rnorm</span>(<span class="at">n =</span> <span class="dv">10</span>, <span class="at">mean =</span> <span class="dv">10</span>, <span class="at">sd =</span> <span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1] 13.7863465  8.9669530 10.4112348 10.9262608 10.9930151 15.8937564
- [7] -0.7809371 12.7500943  5.2622322 12.1762161</code></pre>
+<pre><code> [1]  9.918264 15.016948 11.060860  6.825588 10.757884  4.822425  1.900137
+ [8]  6.058531 18.140008  6.573363</code></pre>
 </div>
 </div>
 </section>
@@ -1753,15 +1753,15 @@ D_{\mbox{resid}} = 2 -(log(\mathcal{L}_{\mbox{current}}) - log(\mathcal{L}_{\mbo
 <span id="cb134-3"><a aria-hidden="true" tabindex="-1"></a><span class="co"># p = probability of success in each trial</span></span>
 <span id="cb134-4"><a aria-hidden="true" tabindex="-1"></a><span class="fu">rbinom</span>(<span class="at">n =</span> <span class="dv">1</span>, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">prob =</span> <span class="fl">0.5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 1</code></pre>
+<pre><code>[1] 0</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb136"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb136-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">rbinom</span>(<span class="at">n =</span> <span class="dv">5</span>, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">prob =</span> <span class="fl">0.5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 1 1 0 0 0</code></pre>
+<pre><code>[1] 0 0 1 0 0</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb138"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb138-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">rbinom</span>(<span class="at">n =</span> <span class="dv">5</span>, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">prob =</span> <span class="fl">0.5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 6 5 8 6 6</code></pre>
+<pre><code>[1] 5 6 4 3 5</code></pre>
 </div>
 </div>
 </section>
@@ -1772,7 +1772,7 @@ D_{\mbox{resid}} = 2 -(log(\mathcal{L}_{\mbox{current}}) - log(\mathcal{L}_{\mbo
 <div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb140"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb140-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">rbinom</span>(<span class="dv">10</span>, <span class="dv">1</span>, <span class="fl">0.5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1] 0 0 0 1 0 0 0 1 0 1</code></pre>
+<pre><code> [1] 0 0 0 1 1 0 1 1 0 1</code></pre>
 </div>
 </div>
 <p>This is the same but aggregating:</p>
@@ -1802,7 +1802,7 @@ D_{\mbox{resid}} = 2 -(log(\mathcal{L}_{\mbox{current}}) - log(\mathcal{L}_{\mbo
 <div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb146"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb146-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">rbinom</span>(<span class="at">n =</span> <span class="dv">20</span>, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">prob =</span> p)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1] 0 0 0 0 1 1 0 1 0 0 0 1 0 0 0 0 1 1 1 1</code></pre>
+<pre><code> [1] 0 0 0 1 1 0 0 0 0 0 0 0 0 1 1 1 0 1 1 1</code></pre>
 </div>
 </div>
 </section>
@@ -1820,12 +1820,12 @@ D_{\mbox{resid}} = 2 -(log(\mathcal{L}_{\mbox{current}}) - log(\mathcal{L}_{\mbo
 <span id="cb148-7"><a aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dat) <span class="co"># first 6 rows</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  intensity
-1        20
-2        40
-3        20
-4        70
-5        40
-6        70</code></pre>
+1        80
+2        20
+3        80
+4        20
+5       100
+6        50</code></pre>
 </div>
 </div>
 </section>
@@ -1890,13 +1890,13 @@ y_i \sim \mathrm{Bernoulli}(p_i) \qquad y_i \in \{0,1\}
 <span id="cb151-5"><a aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>p <span class="ot">&lt;-</span> <span class="fu">plogis</span>(dat<span class="sc">$</span>eta) <span class="co"># inverse link (probability)</span></span>
 <span id="cb151-6"><a aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dat)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  intensity intensity10        eta         p
-1        20           1 -1.1972246 0.2319693
-2        40           3  0.8027754 0.6905679
-3        20           1 -1.1972246 0.2319693
-4        70           6  3.8027754 0.9781781
-5        40           3  0.8027754 0.6905679
-6        70           6  3.8027754 0.9781781</code></pre>
+<pre><code>  intensity intensity10       eta         p
+1        80           7  4.802775 0.9918599
+2        20           1 -1.197225 0.2319693
+3        80           7  4.802775 0.9918599
+4        20           1 -1.197225 0.2319693
+5       100           9  6.802775 0.9988905
+6        50           4  1.802775 0.8584864</code></pre>
 </div>
 </div>
 </section>
@@ -1907,13 +1907,13 @@ y_i \sim \mathrm{Bernoulli}(p_i) \qquad y_i \in \{0,1\}
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb153"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb153-1"><a aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>acc <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="fu">nrow</span>(dat), <span class="dv">1</span>, dat<span class="sc">$</span>p)</span>
 <span id="cb153-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dat)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  intensity intensity10        eta         p acc
-1        20           1 -1.1972246 0.2319693   0
-2        40           3  0.8027754 0.6905679   1
-3        20           1 -1.1972246 0.2319693   0
-4        70           6  3.8027754 0.9781781   1
-5        40           3  0.8027754 0.6905679   1
-6        70           6  3.8027754 0.9781781   1</code></pre>
+<pre><code>  intensity intensity10       eta         p acc
+1        80           7  4.802775 0.9918599   1
+2        20           1 -1.197225 0.2319693   1
+3        80           7  4.802775 0.9918599   1
+4        20           1 -1.197225 0.2319693   0
+5       100           9  6.802775 0.9988905   1
+6        50           4  1.802775 0.8584864   0</code></pre>
 </div>
 </div>
 <p>For each row/trial, <code>p</code> is the true accuracy according to <code>intensity</code> and <code>acc</code> is the actual simulated response.</p>
@@ -1937,18 +1937,18 @@ glm(formula = acc ~ intensity10, family = binomial(link = "logit"),
 
 Coefficients:
             Estimate Std. Error z value Pr(&gt;|z|)    
-(Intercept)  -2.7316     0.8008  -3.411 0.000647 ***
-intensity10   1.2463     0.2886   4.318 1.58e-05 ***
+(Intercept)  -2.5753     0.6814  -3.779 0.000157 ***
+intensity10   0.9973     0.2009   4.964  6.9e-07 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 (Dispersion parameter for binomial family taken to be 1)
 
-    Null deviance: 105.382  on 99  degrees of freedom
-Residual deviance:  43.598  on 98  degrees of freedom
-AIC: 47.598
+    Null deviance: 116.652  on 99  degrees of freedom
+Residual deviance:  51.769  on 98  degrees of freedom
+AIC: 55.769
 
-Number of Fisher Scoring iterations: 7</code></pre>
+Number of Fisher Scoring iterations: 6</code></pre>
 </div>
 </div>
 </section>
@@ -1995,12 +1995,12 @@ Number of Fisher Scoring iterations: 7</code></pre>
 <span id="cb158-12"><a aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb158-13"><a aria-hidden="true" tabindex="-1"></a><span class="fu">do_sim</span>(<span class="dv">5</span>, <span class="dv">100</span>, b0, b1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>         b        se        z            p
-1 1.180064 0.2722786 4.334034 1.464018e-05
-2 1.085013 0.2235379 4.853824 1.211032e-06
-3 1.239423 0.2857715 4.337112 1.443668e-05
-4 1.019135 0.2124223 4.797684 1.605106e-06
-5 1.274610 0.2722421 4.681899 2.842300e-06</code></pre>
+<pre><code>          b        se        z            p
+1 0.9781017 0.2092784 4.673687 2.958395e-06
+2 1.4112677 0.3069165 4.598213 4.261299e-06
+3 1.1078670 0.2299599 4.817653 1.452565e-06
+4 0.9994001 0.2174366 4.596283 4.300936e-06
+5 1.1179605 0.2462373 4.540175 5.620766e-06</code></pre>
 </div>
 </div>
 </section>
@@ -2012,7 +2012,7 @@ Number of Fisher Scoring iterations: 7</code></pre>
 <span id="cb160-2"><a aria-hidden="true" tabindex="-1"></a>sim <span class="ot">&lt;-</span> <span class="fu">do_sim</span>(<span class="dv">1000</span>, <span class="at">nt =</span> <span class="dv">50</span>, <span class="at">b0 =</span> <span class="fu">qlogis</span>(<span class="fl">0.1</span>), <span class="at">b1 =</span> <span class="fl">0.5</span>)</span>
 <span id="cb160-3"><a aria-hidden="true" tabindex="-1"></a>tictoc<span class="sc">::</span><span class="fu">toc</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>0.892 sec elapsed</code></pre>
+<pre><code>0.86 sec elapsed</code></pre>
 </div>
 </div>
 <p>In this case we are lucky, running 1000 simulations only takes ~ 1.5 seconds. Sometimes can also takes hours, days or weeks.</p>
@@ -2024,16 +2024,16 @@ Number of Fisher Scoring iterations: 7</code></pre>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb162"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb162-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(sim)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>          b        se        z            p
-1 0.5719229 0.1528442 3.741868 0.0001826576
-2 0.4571058 0.1492039 3.063633 0.0021866717
-3 0.6044157 0.1715814 3.522617 0.0004273081
-4 0.4825532 0.1496826 3.223843 0.0012648278
-5 0.5841935 0.1569377 3.722454 0.0001972957
-6 0.5192171 0.1381860 3.757380 0.0001717019</code></pre>
+1 0.5077444 0.1506646 3.370031 7.515975e-04
+2 0.3752387 0.1393189 2.693379 7.073181e-03
+3 0.3735505 0.1338811 2.790167 5.268081e-03
+4 0.4693851 0.1428370 3.286159 1.015635e-03
+5 0.3582166 0.1288929 2.779181 5.449613e-03
+6 0.7744743 0.1933697 4.005147 6.197886e-05</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb164"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb164-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(sim<span class="sc">$</span>p <span class="sc">&lt;=</span> <span class="fl">0.05</span>) <span class="sc">/</span> <span class="dv">1000</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.988</code></pre>
+<pre><code>[1] 0.992</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb166"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb166-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># or mean(sum(sim$p &lt;= 0.05))</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>

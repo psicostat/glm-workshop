@@ -284,7 +284,7 @@
     "href": "slides/02-binomial-glm.html#custom-contrasts",
     "title": "Binomial GLM example",
     "section": "Custom contrasts",
-    "text": "Custom contrasts\nClearly you can also provide custom contrasts like contr.sum() or MASS::contr.sdiff() (for comparing the next level with the previous level). For an overview about contrasts coding see Granziol et al. (2025) and Schad et al. (2020).\n\ncontrast(mm, \"consec\") # consec ~ MASS::contr.sdif()\n\n contrast            estimate    SE  df z.ratio p.value\n disgust - anger       0.0741 0.440 Inf   0.168  0.9999\n fear - disgust       -2.3254 0.755 Inf  -3.079  0.0094\n happiness - fear      3.7246 0.770 Inf   4.839  &lt;.0001\n sadness - happiness  -0.7135 0.365 Inf  -1.956  0.1971\n surprise - sadness    1.3196 0.395 Inf   3.341  0.0036\n\nResults are given on the log odds ratio (not the response) scale. \nP value adjustment: mvt method for 5 tests \n\n# see ?emmeans::contrast\n\nHere we are comparing 2 vs 1, 2 vs 3, 3 vs 4, etc."
+    "text": "Custom contrasts\nClearly you can also provide custom contrasts like contr.sum() or MASS::contr.sdiff() (for comparing the next level with the previous level). For an overview about contrasts coding see Granziol et al. (2025) and Schad et al. (2020).\n\ncontrast(mm, \"consec\") # consec ~ MASS::contr.sdif()\n\n contrast            estimate    SE  df z.ratio p.value\n disgust - anger       0.0741 0.440 Inf   0.168  0.9999\n fear - disgust       -2.3254 0.755 Inf  -3.079  0.0092\n happiness - fear      3.7246 0.770 Inf   4.839  &lt;.0001\n sadness - happiness  -0.7135 0.365 Inf  -1.956  0.1971\n surprise - sadness    1.3196 0.395 Inf   3.341  0.0035\n\nResults are given on the log odds ratio (not the response) scale. \nP value adjustment: mvt method for 5 tests \n\n# see ?emmeans::contrast\n\nHere we are comparing 2 vs 1, 2 vs 3, 3 vs 4, etc."
   },
   {
     "objectID": "slides/02-binomial-glm.html#plotting",
@@ -620,35 +620,35 @@
     "href": "slides/02-binomial-glm.html#random-number-generation",
     "title": "Binomial GLM example",
     "section": "3. Random number generation",
-    "text": "3. Random number generation\nIn R, to simulate data you can use the r* function. Each implemented distribution in R has the associated r* function (as the p* and q* function we used before).\n\n# simulate 10 numbers from a gaussian distribution\n# with mu = 10 and sigma = 5\nrnorm(n = 10, mean = 10, sd = 5)\n\n [1] 13.7863465  8.9669530 10.4112348 10.9262608 10.9930151 15.8937564\n [7] -0.7809371 12.7500943  5.2622322 12.1762161"
+    "text": "3. Random number generation\nIn R, to simulate data you can use the r* function. Each implemented distribution in R has the associated r* function (as the p* and q* function we used before).\n\n# simulate 10 numbers from a gaussian distribution\n# with mu = 10 and sigma = 5\nrnorm(n = 10, mean = 10, sd = 5)\n\n [1]  9.918264 15.016948 11.060860  6.825588 10.757884  4.822425  1.900137\n [8]  6.058531 18.140008  6.573363"
   },
   {
     "objectID": "slides/02-binomial-glm.html#random-number-generation-1",
     "href": "slides/02-binomial-glm.html#random-number-generation-1",
     "title": "Binomial GLM example",
     "section": "3. Random number generation",
-    "text": "3. Random number generation\nFor the Binomial we have rbinom:\n\n# n = number of rows in our case\n# size = number of trials\n# p = probability of success in each trial\nrbinom(n = 1, size = 1, prob = 0.5)\n\n[1] 1\n\nrbinom(n = 5, size = 1, prob = 0.5)\n\n[1] 1 1 0 0 0\n\nrbinom(n = 5, size = 10, prob = 0.5)\n\n[1] 6 5 8 6 6"
+    "text": "3. Random number generation\nFor the Binomial we have rbinom:\n\n# n = number of rows in our case\n# size = number of trials\n# p = probability of success in each trial\nrbinom(n = 1, size = 1, prob = 0.5)\n\n[1] 0\n\nrbinom(n = 5, size = 1, prob = 0.5)\n\n[1] 0 0 1 0 0\n\nrbinom(n = 5, size = 10, prob = 0.5)\n\n[1] 5 6 4 3 5"
   },
   {
     "objectID": "slides/02-binomial-glm.html#random-number-generation-2",
     "href": "slides/02-binomial-glm.html#random-number-generation-2",
     "title": "Binomial GLM example",
     "section": "3. Random number generation",
-    "text": "3. Random number generation\nNotice that rbinom is not really intutive because it works both on the binary and the binomial form.\nThis means to generate \\(k\\) bernoulli trials with results 0 or 1\n\nrbinom(10, 1, 0.5)\n\n [1] 0 0 0 1 0 0 0 1 0 1\n\n\nThis is the same but aggregating:\n\n# the result is the number of successes over 10 \n# bernoulli trials\nrbinom(1, 10, 0.5)\n\n[1] 4\n\n\nDepending if you want to work with 0-1 values or number of successes/failures (aggregated) you should use one of the two strategies."
+    "text": "3. Random number generation\nNotice that rbinom is not really intutive because it works both on the binary and the binomial form.\nThis means to generate \\(k\\) bernoulli trials with results 0 or 1\n\nrbinom(10, 1, 0.5)\n\n [1] 0 0 0 1 1 0 1 1 0 1\n\n\nThis is the same but aggregating:\n\n# the result is the number of successes over 10 \n# bernoulli trials\nrbinom(1, 10, 0.5)\n\n[1] 4\n\n\nDepending if you want to work with 0-1 values or number of successes/failures (aggregated) you should use one of the two strategies."
   },
   {
     "objectID": "slides/02-binomial-glm.html#random-number-generation-3",
     "href": "slides/02-binomial-glm.html#random-number-generation-3",
     "title": "Binomial GLM example",
     "section": "3. Random number generation",
-    "text": "3. Random number generation\nThe crucial part of rbinom is that the prob = argument is vectorized. This means that if you simulate \\(n\\) trials you can provide \\(n\\) probabilities.\n\n# 20 different probabilities\n(p &lt;- seq(0.1, 0.9, length.out = 20))\n\n [1] 0.1000000 0.1421053 0.1842105 0.2263158 0.2684211 0.3105263 0.3526316\n [8] 0.3947368 0.4368421 0.4789474 0.5210526 0.5631579 0.6052632 0.6473684\n[15] 0.6894737 0.7315789 0.7736842 0.8157895 0.8578947 0.9000000\n\n\nThis means that for the last trials, the probability of success (1) is larger.\n\nrbinom(n = 20, size = 1, prob = p)\n\n [1] 0 0 0 0 1 1 0 1 0 0 0 1 0 0 0 0 1 1 1 1"
+    "text": "3. Random number generation\nThe crucial part of rbinom is that the prob = argument is vectorized. This means that if you simulate \\(n\\) trials you can provide \\(n\\) probabilities.\n\n# 20 different probabilities\n(p &lt;- seq(0.1, 0.9, length.out = 20))\n\n [1] 0.1000000 0.1421053 0.1842105 0.2263158 0.2684211 0.3105263 0.3526316\n [8] 0.3947368 0.4368421 0.4789474 0.5210526 0.5631579 0.6052632 0.6473684\n[15] 0.6894737 0.7315789 0.7736842 0.8157895 0.8578947 0.9000000\n\n\nThis means that for the last trials, the probability of success (1) is larger.\n\nrbinom(n = 20, size = 1, prob = p)\n\n [1] 0 0 0 1 1 0 0 0 0 0 0 0 0 1 1 1 0 1 1 1"
   },
   {
     "objectID": "slides/02-binomial-glm.html#dataset",
     "href": "slides/02-binomial-glm.html#dataset",
     "title": "Binomial GLM example",
     "section": "Dataset",
-    "text": "Dataset\nWe can start with the deterministic part of the simulation, the experiment.\nWe simulate an experiment with nt trials with random intensity values from 10 to 100. We could also create a balanced version.\n\nnt &lt;- 100 # number of trials\n\ndat &lt;- data.frame(\n  intensity = sample(intensity, nt, replace = TRUE)\n)\n\nhead(dat) # first 6 rows\n\n  intensity\n1        20\n2        40\n3        20\n4        70\n5        40\n6        70"
+    "text": "Dataset\nWe can start with the deterministic part of the simulation, the experiment.\nWe simulate an experiment with nt trials with random intensity values from 10 to 100. We could also create a balanced version.\n\nnt &lt;- 100 # number of trials\n\ndat &lt;- data.frame(\n  intensity = sample(intensity, nt, replace = TRUE)\n)\n\nhead(dat) # first 6 rows\n\n  intensity\n1        80\n2        20\n3        80\n4        20\n5       100\n6        50"
   },
   {
     "objectID": "slides/02-binomial-glm.html#systematic-component-and-random-component",
@@ -683,14 +683,14 @@
     "href": "slides/02-binomial-glm.html#systematic-component-and-random-component-3",
     "title": "Binomial GLM example",
     "section": "Systematic component and random component",
-    "text": "Systematic component and random component\nNow we can simply apply the same functions to the full dataset. Let’s stick with \\(\\beta_1 = 0.5\\) for the moment.\n\nb0 &lt;- qlogis(0.1)\nb1 &lt;- 1\ndat$intensity10 &lt;- with(dat, (intensity - 10)/10)\ndat$eta &lt;- with(dat, b0 + b1 * intensity10) # link function space\ndat$p &lt;- plogis(dat$eta) # inverse link (probability)\nhead(dat)\n\n  intensity intensity10        eta         p\n1        20           1 -1.1972246 0.2319693\n2        40           3  0.8027754 0.6905679\n3        20           1 -1.1972246 0.2319693\n4        70           6  3.8027754 0.9781781\n5        40           3  0.8027754 0.6905679\n6        70           6  3.8027754 0.9781781"
+    "text": "Systematic component and random component\nNow we can simply apply the same functions to the full dataset. Let’s stick with \\(\\beta_1 = 0.5\\) for the moment.\n\nb0 &lt;- qlogis(0.1)\nb1 &lt;- 1\ndat$intensity10 &lt;- with(dat, (intensity - 10)/10)\ndat$eta &lt;- with(dat, b0 + b1 * intensity10) # link function space\ndat$p &lt;- plogis(dat$eta) # inverse link (probability)\nhead(dat)\n\n  intensity intensity10       eta         p\n1        80           7  4.802775 0.9918599\n2        20           1 -1.197225 0.2319693\n3        80           7  4.802775 0.9918599\n4        20           1 -1.197225 0.2319693\n5       100           9  6.802775 0.9988905\n6        50           4  1.802775 0.8584864"
   },
   {
     "objectID": "slides/02-binomial-glm.html#simulate-the-0-1-response",
     "href": "slides/02-binomial-glm.html#simulate-the-0-1-response",
     "title": "Binomial GLM example",
     "section": "Simulate the 0-1 response",
-    "text": "Simulate the 0-1 response\nFinally we need to simulate the 0-1 response for each trial/observation:\n\ndat$acc &lt;- rbinom(nrow(dat), 1, dat$p)\nhead(dat)\n\n  intensity intensity10        eta         p acc\n1        20           1 -1.1972246 0.2319693   0\n2        40           3  0.8027754 0.6905679   1\n3        20           1 -1.1972246 0.2319693   0\n4        70           6  3.8027754 0.9781781   1\n5        40           3  0.8027754 0.6905679   1\n6        70           6  3.8027754 0.9781781   1\n\n\nFor each row/trial, p is the true accuracy according to intensity and acc is the actual simulated response."
+    "text": "Simulate the 0-1 response\nFinally we need to simulate the 0-1 response for each trial/observation:\n\ndat$acc &lt;- rbinom(nrow(dat), 1, dat$p)\nhead(dat)\n\n  intensity intensity10       eta         p acc\n1        80           7  4.802775 0.9918599   1\n2        20           1 -1.197225 0.2319693   1\n3        80           7  4.802775 0.9918599   1\n4        20           1 -1.197225 0.2319693   0\n5       100           9  6.802775 0.9988905   1\n6        50           4  1.802775 0.8584864   0\n\n\nFor each row/trial, p is the true accuracy according to intensity and acc is the actual simulated response."
   },
   {
     "objectID": "slides/02-binomial-glm.html#simulate-the-0-1-response-1",
@@ -704,7 +704,7 @@
     "href": "slides/02-binomial-glm.html#fit-the-target-model",
     "title": "Binomial GLM example",
     "section": "4. Fit the target model",
-    "text": "4. Fit the target model\nNow we can fit the desired model:\n\nfit &lt;- glm(acc ~ intensity10, data = dat, family = binomial(link = \"logit\"))\nsummary(fit)\n\n\nCall:\nglm(formula = acc ~ intensity10, family = binomial(link = \"logit\"), \n    data = dat)\n\nCoefficients:\n            Estimate Std. Error z value Pr(&gt;|z|)    \n(Intercept)  -2.7316     0.8008  -3.411 0.000647 ***\nintensity10   1.2463     0.2886   4.318 1.58e-05 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\n(Dispersion parameter for binomial family taken to be 1)\n\n    Null deviance: 105.382  on 99  degrees of freedom\nResidual deviance:  43.598  on 98  degrees of freedom\nAIC: 47.598\n\nNumber of Fisher Scoring iterations: 7"
+    "text": "4. Fit the target model\nNow we can fit the desired model:\n\nfit &lt;- glm(acc ~ intensity10, data = dat, family = binomial(link = \"logit\"))\nsummary(fit)\n\n\nCall:\nglm(formula = acc ~ intensity10, family = binomial(link = \"logit\"), \n    data = dat)\n\nCoefficients:\n            Estimate Std. Error z value Pr(&gt;|z|)    \n(Intercept)  -2.5753     0.6814  -3.779 0.000157 ***\nintensity10   0.9973     0.2009   4.964  6.9e-07 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\n(Dispersion parameter for binomial family taken to be 1)\n\n    Null deviance: 116.652  on 99  degrees of freedom\nResidual deviance:  51.769  on 98  degrees of freedom\nAIC: 55.769\n\nNumber of Fisher Scoring iterations: 6"
   },
   {
     "objectID": "slides/02-binomial-glm.html#repeat-the-process",
@@ -718,21 +718,21 @@
     "href": "slides/02-binomial-glm.html#repeat-the-process-1",
     "title": "Binomial GLM example",
     "section": "5. Repeat the process",
-    "text": "5. Repeat the process\nAnd a overall simulation function:\n\ndo_sim &lt;- function(nsim, nt, b0, b1){\n  res &lt;- replicate(nsim, {\n    dat &lt;- sim_data(nt, b0, b1)\n    fit &lt;- fit_model(dat)\n    summary_model(fit)\n  }, simplify = FALSE)\n  res &lt;- do.call(rbind, res)\n  rownames(res) &lt;- NULL\n  names(res) &lt;- c(\"b\", \"se\", \"z\", \"p\")\n  return(res)\n}\n\ndo_sim(5, 100, b0, b1)\n\n         b        se        z            p\n1 1.180064 0.2722786 4.334034 1.464018e-05\n2 1.085013 0.2235379 4.853824 1.211032e-06\n3 1.239423 0.2857715 4.337112 1.443668e-05\n4 1.019135 0.2124223 4.797684 1.605106e-06\n5 1.274610 0.2722421 4.681899 2.842300e-06"
+    "text": "5. Repeat the process\nAnd a overall simulation function:\n\ndo_sim &lt;- function(nsim, nt, b0, b1){\n  res &lt;- replicate(nsim, {\n    dat &lt;- sim_data(nt, b0, b1)\n    fit &lt;- fit_model(dat)\n    summary_model(fit)\n  }, simplify = FALSE)\n  res &lt;- do.call(rbind, res)\n  rownames(res) &lt;- NULL\n  names(res) &lt;- c(\"b\", \"se\", \"z\", \"p\")\n  return(res)\n}\n\ndo_sim(5, 100, b0, b1)\n\n          b        se        z            p\n1 0.9781017 0.2092784 4.673687 2.958395e-06\n2 1.4112677 0.3069165 4.598213 4.261299e-06\n3 1.1078670 0.2299599 4.817653 1.452565e-06\n4 0.9994001 0.2174366 4.596283 4.300936e-06\n5 1.1179605 0.2462373 4.540175 5.620766e-06"
   },
   {
     "objectID": "slides/02-binomial-glm.html#repeat-the-process-2",
     "href": "slides/02-binomial-glm.html#repeat-the-process-2",
     "title": "Binomial GLM example",
     "section": "5. Repeat the process",
-    "text": "5. Repeat the process\nnsim is the number of simulations. Usually larger is better considering computational constraints. If feasible, 5000 or 10000 is usually more than enough. For complex models where 5000 or 10000 is not an option, try never go below 1000. See Burton et al. (2006) and Koehler et al. (2009) for discussion about the number of simulations.\n\ntictoc::tic()\nsim &lt;- do_sim(1000, nt = 50, b0 = qlogis(0.1), b1 = 0.5)\ntictoc::toc()\n\n0.892 sec elapsed\n\n\nIn this case we are lucky, running 1000 simulations only takes ~ 1.5 seconds. Sometimes can also takes hours, days or weeks."
+    "text": "5. Repeat the process\nnsim is the number of simulations. Usually larger is better considering computational constraints. If feasible, 5000 or 10000 is usually more than enough. For complex models where 5000 or 10000 is not an option, try never go below 1000. See Burton et al. (2006) and Koehler et al. (2009) for discussion about the number of simulations.\n\ntictoc::tic()\nsim &lt;- do_sim(1000, nt = 50, b0 = qlogis(0.1), b1 = 0.5)\ntictoc::toc()\n\n0.86 sec elapsed\n\n\nIn this case we are lucky, running 1000 simulations only takes ~ 1.5 seconds. Sometimes can also takes hours, days or weeks."
   },
   {
     "objectID": "slides/02-binomial-glm.html#results",
     "href": "slides/02-binomial-glm.html#results",
     "title": "Binomial GLM example",
     "section": "6. Results",
-    "text": "6. Results\nEach row is the parameter estimated from a simulated dataset. The statistical power is the % of p values lower than \\(\\alpha\\) of the total number of simulations:\n\nhead(sim)\n\n          b        se        z            p\n1 0.5719229 0.1528442 3.741868 0.0001826576\n2 0.4571058 0.1492039 3.063633 0.0021866717\n3 0.6044157 0.1715814 3.522617 0.0004273081\n4 0.4825532 0.1496826 3.223843 0.0012648278\n5 0.5841935 0.1569377 3.722454 0.0001972957\n6 0.5192171 0.1381860 3.757380 0.0001717019\n\nsum(sim$p &lt;= 0.05) / 1000\n\n[1] 0.988\n\n# or mean(sum(sim$p &lt;= 0.05))\n\nThe power is pretty high with 50 trials. Let’s try a lower effect with different number of trials."
+    "text": "6. Results\nEach row is the parameter estimated from a simulated dataset. The statistical power is the % of p values lower than \\(\\alpha\\) of the total number of simulations:\n\nhead(sim)\n\n          b        se        z            p\n1 0.5077444 0.1506646 3.370031 7.515975e-04\n2 0.3752387 0.1393189 2.693379 7.073181e-03\n3 0.3735505 0.1338811 2.790167 5.268081e-03\n4 0.4693851 0.1428370 3.286159 1.015635e-03\n5 0.3582166 0.1288929 2.779181 5.449613e-03\n6 0.7744743 0.1933697 4.005147 6.197886e-05\n\nsum(sim$p &lt;= 0.05) / 1000\n\n[1] 0.992\n\n# or mean(sum(sim$p &lt;= 0.05))\n\nThe power is pretty high with 50 trials. Let’s try a lower effect with different number of trials."
   },
   {
     "objectID": "slides/02-binomial-glm.html#more-conditions",
