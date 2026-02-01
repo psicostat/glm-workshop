@@ -421,7 +421,7 @@ ggplot(dat, aes(x=x, fill = parameters))+
 ::: column 
 $\mu_i = \beta_0 + \beta_1 x_i,$ 
 
-$Y_i \mid x_i \sim \mathcal{N}(\mu_i,\sigma^2)$
+$Y_i \sim \mathcal{N}(\mu_i,\sigma^2)$
 
 ```{r, echo=FALSE}
 #| fig-align: left
@@ -508,6 +508,16 @@ Real-world measurements are not automatically Normal, **Normality** is a **model
 -   **Variance**: how much variation around the mean
 -   **Mean–variance relationship**: does variance change with the mean?
 
+## 
+
+| Distribution | Support | mean: $E[Y]$ | variance: $\mathrm{Var}(Y)$ |
+|------------------|------------------|:----------------:|:-----------------:|
+| **Normal**: $f(y \text{ | } \mu,\sigma^2)$ | $y \in \mathbb{R}$ | $\mu$ | $\sigma^2$ |
+| **Gamma**: $f(y \text{ | } \alpha,\beta)$ | $y \in (0,\infty)$ | $\alpha/\beta$ | $\alpha/\beta^2$ |
+| **Binomial**: $f(y \text{ | } n,p)$ | $y \in \{0,1,\dots,n\}$ | $np$ | $np(1-p)$ |
+| **Poisson**: $f(y \text{ | } \lambda)$ | $y \in \{0,1,2,\dots\}$ | $\lambda$ | $\lambda$ |
+
+
 
 ## Reaction Times
 
@@ -576,17 +586,6 @@ dat_count |>
 
 
 
-## 
-
-| Distribution | Support | mean: $E[Y]$ | variance: $\mathrm{Var}(Y)$ |
-|------------------|------------------|:----------------:|:-----------------:|
-| **Normal**: $f(y \text{ | } \mu,\sigma^2)$ | $y \in \mathbb{R}$ | $\mu$ | $\sigma^2$ |
-| **Gamma**: $f(y \text{ | } \alpha,\beta)$ | $y \in (0,\infty)$ | $\alpha/\beta$ | $\alpha/\beta^2$ |
-| **Binomial**: $f(y \text{ | } n,p)$ | $y \in \{0,1,\dots,n\}$ | $np$ | $np(1-p)$ |
-| **Poisson**: $f(y \text{ | } \lambda)$ | $y \in \{0,1,2,\dots\}$ | $\lambda$ | $\lambda$ |
-
-
-
 ## Example: Passing the exam
 
 Probability of passing the exam as a function of how many hours students
@@ -608,6 +607,7 @@ dat_exam
 :::
 
 ::: {.column width="70%"}
+::: fragment
 ```{r, eval=FALSE}
 # number of students that have passed the exam
 sum(dat_exam$passed) 
@@ -630,6 +630,7 @@ tapply(dat_exam$passed, cut(dat_exam$studyh, breaks = 4), mean)
 #>   (1.9,26.2] (26.2,50.5] (50.5,74.8] (74.8,99.1] 
 #>   0.08333333  0.23076923  0.54545455  0.85714286
 ```
+::: 
 :::
 :::::
 
@@ -717,6 +718,7 @@ dat_rt
 :::
 
 ::: {.column width="65%"}
+::: fragment
 ```{r, eval=FALSE}
 range(dat_rt$rt)
 #>  [1]   1.489239 149.169447
@@ -732,6 +734,7 @@ tapply(dat_rt$rt, cut(dat_rt$studyh, breaks = 4), var)
 #> 1303.176485  265.296600   24.566131    3.790422
 
 ```
+:::
 :::
 :::::
 
@@ -832,26 +835,45 @@ What **support**?
     $\text{Normal}(\mu,\sigma^2)$
 :::
 
-## Random component (mean–variance)
+## Random component 
 
 Choosing a distribution specifies not only the mean, but also how the variance depends on the mean:
+
+\
 
 $$
 \mathrm{Var}(Y \mid X) = \phi \, V(\mu), \qquad \mu = E(Y \mid X),
 $$
 
+\
 
 where $V(\mu)$ is the **variance function** (determined by the family) and $\phi$ is the dispersion parameter.
 
-::: fragment
--   **Normal**: $V(\mu) = 1$ (constant variance, $\phi = \sigma^2$)
--   **Bernoulli**: $V(\mu) = \mu(1-\mu)$ (typically $\phi = 1$)
--   **Poisson**: $V(\mu) = \mu$ (typically $\phi = 1$)
 
-:::callout-note
-If $\phi>1$ but you fit a Poisson/Bernoulli model with $\phi=1$, the coefficient estimates $\hat\beta$ may look similar, but the **standard errors are smaller**.
+## The GLM variance structure
+
+::: incremental
+
+- In GLMs, variance is **not constant** — it changes with the mean: $\mathrm{Var}(Y\mid X) = \phi V(\mu)$
+
+- The **variance function** $V(\mu)$ defines how variance depends on the mean (e.g., $V(\mu) = \mu$ for Poisson, $V(\mu) = \mu(1-\mu)$ for binomial)
+
+- Once you model $\mu(x)$, the variance is also determined **at each x** (up to the scale $\phi$).
+
+- **Heteroscedasticity** is implicit in GLMs
+
 :::
 
+## Dispersion ($\phi$) is fixed
+
+::: incremental
+- For **binomial** and **Poisson** families, the classical GLM assumes $\phi = 1$ because these distributions have no separate scale parameter beyond the mean. While for the **Normal** $\phi = \sigma^2$.
+
+- Fixing $\phi = 1$ means the **entire variance is determined by** $V(\mu)$ — no additional free parameter for "extra variability".
+
+- This keeps the model parsimonious, not estimating a separate variance at each observation.
+
+- When $\phi \neq 1$ is needed, we move to **quasi-likelihood** or overdispersed models (negative binomial, beta-binomial, etc.)
 :::
 
 ## Systematic Component
@@ -920,11 +942,26 @@ and **logit link** can be written as:
 
 $$
 \begin{aligned}
-y_i \mid x_i &\sim \text{Bernoulli}(p_i) && \text{Random component} \\
+y_i &\sim \text{Bernoulli}(p_i) && \text{Random component} \\
+p_i &= \frac{\exp(\eta_i)}{1+\exp(\eta_i)} && \text{Inverse link (logit)} \\
 \text{logit}(p_i) &= \log\!\left(\frac{p_i}{1-p_i}\right)=\eta_i && \text{Link (logit)} \\
 \eta_i &= \beta_0 + \beta_1 x_{i1} + \cdots + \beta_k x_{ik} && \text{Systematic component}
 \end{aligned}
 $$
+
+
+
+## Assumptions
+
+- **Lack of outliers**: All responses were generated from the same process, so that the same model is appropriate for all the observations.
+
+- **Link function**: The correct link functionis used.
+
+- **Linearity**: All important explanatory variables are included, and each explanatory variable is included in the linear predictor on the correct scale.
+
+- **Variance function**: The correct variance function  is used. This is the mean-variance relationship
+
+- **Dispersion parameter**: The dispersion parameter is constant. This is a subtle but important distinction. The variance is not constant in GLMs but the dispersion parameter is. 
 
 # Binomial Logistic Regression {.section}
 
@@ -937,32 +974,50 @@ number of successes over the total number of trials.
 \
 
 -   **Binary** (pass/fail), one trial per person; or
--   **Counts of successes** out of $n$ trials (e.g., items correct out
-    of $n$).
+-   **Counts of successes** out of $n$ trials (e.g., items correct out of $n$).
 
-## Bernoulli (one student)
 
-Let $k \in \{0,1\}$ indicate whether a student passes the exam:
+## Bernoulli Distribution 
 
-\
+Suppose one student takes an exam with probability $p$ of passing. Let $K \in \{0, 1\}$ indicate the outcome (0 = fail, 1 = pass).
+
+The probability mass function is:
 
 $$
-f(k; p) =
+P(K = k) = p^k(1-p)^{1-k}, \quad k \in \{0, 1\}
+$$
+
+Equivalently:
+
+$$
+P(K = k) =
 \begin{cases}
-p       & \text{if } k = 1, \\
-q = 1-p & \text{if } k = 0.
+p       & \text{if } k = 1 \text{ (pass)}, \\
+1-p & \text{if } k = 0 \text{ (fail)}.
 \end{cases}
 $$
 
-\
 
-The probability mass function ${\displaystyle f}$ of the Bernoulli
-distribution, over possible outcomes $k$, is $f(k,p) = p^k(1-p)^{1-k}$
+- Mean: $E[K] = p$
+- Variance: $\text{Var}(K) = p(1-p)$
 
-\
 
-Where $p$ is the probability of success and $k$ the two possible results
-0 and 1. The mean is $p$ and the variance is $p(1-p)$
+## Binomial Distribution 
+
+Suppose $n$ students take the same exam, each with probability $p$ of passing independently. Let $K$ be the (random) number who pass.
+
+The probability mass function is:
+
+$$
+P(K = k) \;=\; \binom{n}{k}\, p^{k}\,(1-p)^{n-k}, \quad k = 0, 1, \ldots, n
+$$
+
+
+- Mean: $E[K] = np$
+- Variance: $\text{Var}(K) = np(1-p)$
+- Sum of $n$ independent Bernoulli trials
+- Bernuolli special case of Binomial when $n = 1$
+
 
 ## One student takes the exam
 
@@ -974,8 +1029,6 @@ rbinom(n = 1, size = 1, prob = 0.7)
 ```
 
 . . .
-
-Over 10,000 students?
 
 ```{r}
 #| echo: true
@@ -1002,33 +1055,9 @@ many = rbinom(n = 100000, size = 1, prob = 0.7); head(many)
 #| echo: true
 #| eval: true
 #| cache: true
-
 # Variance
 (p*(1-p))
-var(many)
 ```
-
-## Binomial (a class of students)
-
-Now let $k$ be the number of students who pass out of $n$ students who
-take the same exam.
-
-\
-
-The probability of having $k$ success (e.g., 0, 1, 2, etc.), out of $n$
-trials with a probability of success $p$ (and failing $q = 1 - p$) is:
-
-\
-
-$$
-f(n, k, p) \;=\; \binom{n}{k}\, p^{k}\,(1-p)^{\,n-k}
-$$
-
-\
-
-The $np$ is the mean of the binomial distribution and $np(1-p)$ is the
-variance. The binomial distribution is just the repetition of $n$
-independent Bernoulli trials.
 
 ## Ten students take the exam
 
@@ -1043,8 +1072,6 @@ rbinom(n = 1, size = n, prob = 0.7)
 
 . . .
 
-Over 10,000 repetition ...
-
 ```{r}
 #| echo: true
 #| eval: true
@@ -1057,7 +1084,6 @@ many = rbinom(n = 100000, size = n, prob = p); head(many)
 #| echo: true
 #| eval: true
 n*p # Mean count: E(Y) = np 
-mean(many)
 ```
 
 . . .
@@ -1065,8 +1091,7 @@ mean(many)
 ```{r}
 #| echo: true
 #| eval: true
-n*p*(1-p) # Variance count: Var(y) = np(1-p)
-var(many)
+n*p*(1-p) # Variance count
 ```
 
 . . .
@@ -1077,7 +1102,48 @@ var(many)
 mean(many/n) # Mean proportion = p
 ```
 
+
+## Binomial distribution: $n = 20$, $p = 0.5$
+
+What is the expected number of students passing the exam?
+
+::: fragment
+
+```{r}
+#| echo: false
+#| fig-height: 8
+#| fig-width: 14
+
+n <- 20
+p <- 0.5
+dat_binom <- data.frame(k = 0:n)
+dat_binom$prob <- dbinom(x = dat_binom$k, size = n, prob = p)
+
+p05 = dat_binom |> 
+    ggplot(aes(x = k, y = prob)) +
+    geom_segment(aes(x = k, xend = k, y = 0, yend = prob), 
+                 color = my_cols[2], linewidth = 3) +
+   geom_point(size = 4, color = my_cols[2]) +
+    labs(x = "Number of Successes (k)", y = "Probability") +
+    theme_clean(base_size = 24)+
+  scale_x_continuous(breaks = round(seq(0,20,1)))+
+  scale_y_continuous(breaks = round(seq(0,.5,.05),2))+
+  guides(
+    x = guide_axis(cap = "both"),
+    y = guide_axis(cap = "both")
+  )
+
+p05
+
+```
+
+:::
+
 ## Binomial distribution: $n = 20$, $p = 0.9$
+
+What is the expected number of students passing the exam?
+
+::: fragment
 
 ```{r}
 #| echo: false
@@ -1107,35 +1173,7 @@ p09
 
 ```
 
-## Binomial distribution: $n = 20$, $p = 0.5$
-
-```{r}
-#| echo: false
-#| fig-height: 8
-#| fig-width: 14
-
-n <- 20
-p <- 0.5
-dat_binom <- data.frame(k = 0:n)
-dat_binom$prob <- dbinom(x = dat_binom$k, size = n, prob = p)
-
-p05 = dat_binom |> 
-    ggplot(aes(x = k, y = prob)) +
-    geom_segment(aes(x = k, xend = k, y = 0, yend = prob), 
-                 color = my_cols[2], linewidth = 3) +
-   geom_point(size = 4, color = my_cols[2]) +
-    labs(x = "Number of Successes (k)", y = "Probability") +
-    theme_clean(base_size = 24)+
-  scale_x_continuous(breaks = round(seq(0,20,1)))+
-  scale_y_continuous(breaks = round(seq(0,.5,.05),2))+
-  guides(
-    x = guide_axis(cap = "both"),
-    y = guide_axis(cap = "both")
-  )
-
-p05
-
-```
+::: 
 
 ## Mean–variance relationship
 
@@ -1178,61 +1216,91 @@ ggplot(df_mv, aes(x = p, y = variance)) +
 ## Why not model probability directly?
 
 \
-
-**Problem for binary outcomes:**
+**Problem for binary outcomes:**  
+\
+\
 \
 \
 \
 
 **Solution:**  
+\
+\
+
 
 
 ## Why not model probability directly?
 
 \
-
-**Problem for binary outcomes:** 
-A linear model can predict values outside [0,1], but probabilities must stay between 0 and 1.
-
+**Problem for binary outcomes:**  
+A linear model can predict values outside, but probabilities must stay between 0 and 1.
+\
+\
 \
 
-**Solution:** 
-Transform the probability to a scale that ranges from $-\infty$ to $+\infty$, then model *that* with a linear predictor. 
+**Solution:**  
+Transform $p$ using a **link function** that maps $[0,1]$ to $(-\infty, +\infty)$, then model *that* with a linear predictor.
 
 
 ## Odds
 
-The **odds** compare the probability of success to the probability of failure: 
+The **odds** compare the probability of success to the probability of failure:
+
 \
 
 $$
-\text{odds} = \frac{p}{1-p}, \qquad p = \frac{\text{odds}}{\text{odds}+1}
-$$ 
+\text{odds}(p) = \frac{p}{1-p}
+$$
 
 \
 
 ::: fragment
-**Example:** If $p=0.80$ (80% chance of passing), then 
+**Example:** If $p=0.80$ (80% chance of passing), then
 \
 
-$$
-\text{odds}=\frac{0.80}{0.20}=4.
-$$ 
-
+$$\text{odds}=\frac{0.80}{0.20}=4$$
 \
-We say the odds are **4-to-1** in favor of passing (expect 4 passes for every 1 failure, on average). 
+
+This means 4 successes per 1 failure, on average.
 :::
 
 \
 
 ::: fragment
-**Range:** Odds go from 0 to $+\infty$, but still can't be negative. 
+**Range:** Odds go from $0$ to $+\infty$, but cannot be negative.
 :::
 
 
-## Logit link
+## Log-odds (logit)
 
-Taking the **logarithm** of the odds gives us a scale from $-\infty$ to $+\infty$:
+Taking the **logarithm** of the odds gives the **logit**:
+
+\
+
+$$
+\text{logit}(p) = \log\!\left(\frac{p}{1-p}\right)
+$$
+
+::: fragment
+**Example:** If $p=0.80$, then $\text{odds}=4$ and
+
+\
+
+$$\text{logit}(0.80) = \log(4) \approx 1.39$$
+
+\
+:::
+
+::: fragment
+**Range:** Log-odds span $-\infty$ to $+\infty$ 
+
+\
+
+This can be modeled linearly: $\text{logit}(p_i) = \beta_0 + \beta_1 x_i$
+:::
+
+
+## Odds and Log-odds
 
 ```{r, echo=FALSE}
 #| fig-width: 14
@@ -1267,20 +1335,37 @@ ggplot(df, aes(x = p, y = log_odds)) +
   theme_clean(base_size = 24)
 ```
 
+**At $p=0.5$:** log-odds = 0 (equal odds of success/failure).
+
+
+## The logistic regression model
+
+**What we model linearly:**
+
+\
+
+$$
+\eta_i = \text{logit}(p_i) = \log\!\left(\frac{p_i}{1-p_i}\right) = \beta_0 + \beta_1 x_i
+$$
+
+\
+
+**Inverse transformation** (log-odds back to probability):
+
+\
+
+$$
+p_i = \frac{\exp(\eta_i)}{1+\exp(\eta_i)} = \frac{\exp(\beta_0+\beta_1 x_i)}{1+\exp(\beta_0+\beta_1 x_i)}
+$$
+
 
 
 ## Inverse logit link 
 
-
-$$
-\text{logit}(p)=\log\!\left(\frac{p}{1-p}\right)=\eta, \qquad p = \frac{\exp(\eta)}{1+\exp(\eta)}.
-$$
-
-
 ```{r}
 #| echo: false
-#| fig-align: center
-#| fig-height: 6
+#| fig-align: left
+#| fig-height: 9
 #| fig-width: 14
 x_vals <- seq(-4, 4, 0.01)
 p_vals <- plogis(x_vals)
@@ -1294,7 +1379,7 @@ ggplot(df_logit, aes(x = eta)) +
   geom_line(aes(y = p), linewidth = 2, color = my_cols[2]) +
   geom_hline(yintercept = c(0, 1), linetype = "dashed", alpha = 0.5) +
   labs(
-    x = expression(eta),
+    x = paste(expression(eta), "= logit(p)"),
     y = "p"
   ) +
   ylim(-0.1, 1.05) +
@@ -1307,7 +1392,6 @@ ggplot(df_logit, aes(x = eta)) +
 
 ```
 
-**This is what we model linearly:** $\eta = \beta_0 + \beta_1 x$.
 
 ## Example
 
@@ -1318,7 +1402,8 @@ $p_i = P(Y_i=1 \mid x_i)$ where $x_i$ = hours studied.
 
 ::: columns
 ::: {.column width="52%"}
-**Odds**: $o_i = \dfrac{p_i}{1-p_i}$  (how much more likely pass than fail). 
+**Odds**: $o_i = \dfrac{p_i}{1-p_i}$\
+(how much more likely pass than fail). 
 
 \
 
@@ -1328,68 +1413,128 @@ $\text{logit}(p_i)=\log\!\left(\dfrac{p_i}{1-p_i}\right)$.
 :::
 
 ::: {.column width="48%"}
+::: fragment
 \
 \
 \
-**Model**:
+**Linear predictor**:
 $$
 \text{logit}(p_i) = \eta_i,\quad
 \eta_i = \beta_0 + \beta_1 x_i .
 $$
 :::
 :::
+:::::
+
+\
+
+## From logit to odds
+
+**Linear predictor**: $\log\!\left(\dfrac{p_i}{1-p_i}\right) =  \beta_0 + \beta_1 x_i$ 
 
 \
 
 ::: fragment
-
-We model the **log-odds** as linear in $x$. What does this mean for the **odds** and **probabilities**?
-:::
-
-## Odds ratios
-
-Our model: $\text{logit}(p_i) = \beta_0 + \beta_1 x_i$ 
-
-\
-
 Exponentiating both sides gives the **odds**: 
 
 \
 
 $$
-o(x) = \frac{p(x)}{1-p(x)} = \exp(\beta_0 + \beta_1 x).
+\text{odds}(x) = \frac{p(x)}{1-p(x)} = \exp(\beta_0 + \beta_1 x)
 $$ 
 
 \
 
-**At $x=0$:** $o(0)=\exp(\beta_0)$.
+:::
+
+::: fragment
+**At $x=0$:** $\text{odds}(0)=\exp(\beta_0)$
 
 \
 
-**At $x=1$:** $o(1)=\exp(\beta_0+\beta_1)=\exp(\beta_0)\exp(\beta_1)$. 
+**At $x=1$:** $\text{odds}(1)=\exp(\beta_0+\beta_1)=\exp(\beta_0)\exp(\beta_1)$
+:::
 
-\
+## From odds to odds ratio
 
-## Odds ratios
-
-**Odds ratio** for +1 hour:
+The **odds ratio (OR)** comparing $x=1$ to $x=0$ is:
 
 \
 
 $$
-\frac{o(1)}{o(0)}=\frac{\exp(\beta_0)\exp(\beta_1)}{\exp(\beta_0)}
-=\exp(\beta_1).
+\text{OR} = \frac{\text{odds}(1)}{\text{odds}(0)}=\frac{\exp(\beta_0)\exp(\beta_1)}{\exp(\beta_0)}
+=\exp(\beta_1)
 $$ 
 
 \
 
-so $\exp(\beta_1)$ is the multiplicative change in odds for each additional study hour. 
+::: fragment
+$\rightarrow \exp(\beta_1)$ is the multiplicative change in odds.
+:::
+
+::: fragment
+If $\beta_1=0.8$, the *odds multipliers* relative to $x=0$ are:
+
+- $x=0$: multiplier $= \exp(0.8\times 0)=1$. 
+- $x=1$: multiplier $= \exp(0.8 \times 1)=\exp(0.8)\approx 2.23$.
+- $x=2$: multiplier $= \exp(0.8 \times 2)=\exp(1.6)\approx 4.95$.
+
+:::
+
+
+## From odds to odds ratio
+
+
+**Comparing any two values**: the odds ratio for $x_2$ vs $x_1$ is:
+
+\
+
+$$
+\frac{\text{odds}(x_2)}{\text{odds}(x_1)}
+= \frac{\exp(\beta_0 + \beta_1 x_2)}{\exp(\beta_0 + \beta_1 x_1)}
+= \exp\!\bigl(\beta_1(x_2-x_1)\bigr)
+$$
+
+
+\
+
+::: {.fragment}
+**Example** ($\beta_1=0.8$): comparing $x=6$ to $x=2$:
+
+\
+
+$$
+\frac{\text{odds}(6)}{\text{odds}(2)}
+= \exp\!\bigl(0.8(6-2)\bigr)
+= \exp(3.2) \approx 24.5
+$$
+
+\
+
+The odds at $x=6$ are about 24.5 times the odds at $x=2$.
+
+:::
+
+## From odds to odds ratio
+
+
+**For a 1-unit increase** ($x \to x+1$):
+
+\
+
+$$
+\frac{\text{odds}(x+1)}{\text{odds}(x)} = \exp(\beta_1) \approx 2.23
+$$
+
+\
+
+$\rightarrow$ The odds multiply by 2.23 for each +1 in $x$.
+
+
 
 ## Linear on log-odds
 
-Equal changes in $x$  $\rightarrow$ equal changes in $\eta$
-(because $\eta$ is linear in $x$), but not in odds. Each +1 increase in $x$ multiplies the odds by $\exp(\beta_1)$. 
-
+Equal changes in $x$ correspond to equal changes in $\eta$, **but not in odds**. 
 ```{r}
 #| echo: false
 #| message: false
@@ -1399,7 +1544,7 @@ Equal changes in $x$  $\rightarrow$ equal changes in $\eta$
 #| fig-width: 18
 
 b0 <- 0
-b1 <- 0.8  # <--- so +1 in x gives +0.6 in log-odds (not +1)
+b1 <- 0.8 
 
 # Generate data for plotting
 x_vals <- seq(-10, 10, length.out = 300)
@@ -1433,7 +1578,7 @@ ggplot(data, aes(x = x, y = Y_LogOdds)) +
     data = data.frame(
       x = 4.35,  # put just to the right of the panel
       y = y_LogOdds,
-      label = paste0("odds = ", round(exp(y_LogOdds), 2))
+      label = paste0("odds(x) = ", round(exp(y_LogOdds), 2))
     ),
     aes(x = x, y = y, label = label),
     inherit.aes = FALSE,
@@ -1444,6 +1589,8 @@ ggplot(data, aes(x = x, y = Y_LogOdds)) +
 
 
 ```
+
+With $\beta_0=0, \quad\beta_1=0.8, \quad \exp(0.8) \approx 2.23$.
 
 ## Not linear in probability
 
@@ -1502,10 +1649,12 @@ ggplot(data, aes(x = x, y = Y_Logit)) +
   )
 ```
 
-## 
+
+##
 
 ![](/img/coffe.png){fig-align="center" width="500"}
 
+
 [Vecteezy](https://www.vecteezy.com/free-png/funny)
 
-## References
+
