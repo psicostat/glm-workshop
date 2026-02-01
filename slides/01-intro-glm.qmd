@@ -1,13 +1,16 @@
 ---
 title: Introduction to Generalized Linear Models for Psychology
 subtitle: Generalized Linear Models Workshop 
-format: minimal-revealjs
+format: 
+  minimal-revealjs:
+    slide-number: true
+    html-math-method: mathjax
 execute: 
   echo: true
 date: last-modified
 date-format: "*[Last modified:] DD-MM-YYYY*"
 toc: true
-html-math-method: mathml
+#html-math-method: mathml
 fig-dpi: 300
 editor: 
   markdown: 

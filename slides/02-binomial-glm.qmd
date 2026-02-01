@@ -4,6 +4,7 @@ subtitle: Generalized Linear Models Workshop
 format: 
   minimal-revealjs:
     slide-number: true
+    html-math-method: mathjax
 execute: 
   echo: true
 date: last-modified
@@ -186,6 +187,8 @@ dat |>
 
 ```{r}
 #| output-location: slide
+#| out-width: 100%
+#| out-heigth: 100%
 
 dat |> 
   group_by(intensity) |> 
@@ -203,10 +206,12 @@ dat |>
 
 ## Exploring, plots
 
-We have few trials but we can also explore the interaction between emotion and intensity. There are some emotions where the rate of increase in accuracy as a function of the emotion is faster compared to others.
+We have few trials, but we can also explore the interaction between emotion and intensity. There are some emotions where the rate of increase in accuracy as a function of the emotion is faster compared to others.
 
 ```{r}
 #| output-location: slide
+#| out-width: 100%
+#| out-heigth: 100%
 
 dat |> 
   group_by(intensity, emotion_lbl) |> 
@@ -1099,6 +1104,8 @@ The `DHARMa` package has a nice [documentation](https://cran.r-project.org/web/p
 
 ```{r}
 #| output-location: slide 
+#| out-width: 100%
+#| out-heigth: 100%
 
 library(DHARMa)
 plot(simulateResiduals(fit_emo_x_int2))
@@ -1245,6 +1252,8 @@ $\beta_0$ is the (logit) probability of success for intensity 10%, centering the
 ```{r}
 #| output-location: slide
 #| code-fold: true
+#| out-width: 100%
+#| out-heigth: 100%
 
 b0 <- qlogis(0.1) # logit of success when intensity = 10%
 b1 <- 1
