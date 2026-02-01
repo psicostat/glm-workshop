@@ -169,6 +169,8 @@ dat |>
 
 ```{r}
 #| output-location: slide
+#| out-width: 100%
+#| out-heigth: 100%
 
 dat |> 
   group_by(emotion_lbl) |> 
