@@ -175,7 +175,7 @@ pn
 ```
 
 
-# Probability Distributions and Random Variables {.section}
+# Probability Distributions {.section}
 
 ## Why probability distributions?
 
@@ -207,7 +207,7 @@ Where:
 
 - $Y$ is the random variable (uppercase)
 - $y$ is a specific value it can take (lowercase)
-- $\boldsymbol{\theta}$ is a vector of parameters (e.g., mean, variance)
+- $\boldsymbol{\theta}$ is a vector of parameters (e.g., $\mu$, $\sigma^2$)
 - $f(\cdot)$ is the probability function
 
 
@@ -333,6 +333,15 @@ the parameters are exactly the mean and variance.
 - **Variance:** $\mathrm{Var}(Y)=\sigma^2$. 
 :::
 :::
+
+## 
+
+| Distribution | Support | mean: $E[Y]$ | variance: $\mathrm{Var}(Y)$ |
+|------------------|------------------|:----------------:|:-----------------:|
+| **Normal**: $f(y \text{ | } \mu,\sigma^2)$ | $y \in \mathbb{R}$ | $\mu$ | $\sigma^2$ |
+| **Gamma**: $f(y \text{ | } \alpha,\beta)$ | $y \in (0,\infty)$ | $\alpha/\beta$ | $\alpha/\beta^2$ |
+| **Binomial**: $f(y \text{ | } n,p)$ | $y \in \{0,1,\dots,n\}$ | $np$ | $np(1-p)$ |
+| **Poisson**: $f(y \text{ | } \lambda)$ | $y \in \{0,1,2,\dots\}$ | $\lambda$ | $\lambda$ |
 
 
 # The Normal distribution {.section}
@@ -508,14 +517,6 @@ Real-world measurements are not automatically Normal, **Normality** is a **model
 -   **Variance**: how much variation around the mean
 -   **Mean–variance relationship**: does variance change with the mean?
 
-## 
-
-| Distribution | Support | mean: $E[Y]$ | variance: $\mathrm{Var}(Y)$ |
-|------------------|------------------|:----------------:|:-----------------:|
-| **Normal**: $f(y \text{ | } \mu,\sigma^2)$ | $y \in \mathbb{R}$ | $\mu$ | $\sigma^2$ |
-| **Gamma**: $f(y \text{ | } \alpha,\beta)$ | $y \in (0,\infty)$ | $\alpha/\beta$ | $\alpha/\beta^2$ |
-| **Binomial**: $f(y \text{ | } n,p)$ | $y \in \{0,1,\dots,n\}$ | $np$ | $np(1-p)$ |
-| **Poisson**: $f(y \text{ | } \lambda)$ | $y \in \{0,1,2,\dots\}$ | $\lambda$ | $\lambda$ |
 
 
 
@@ -842,7 +843,7 @@ Choosing a distribution specifies not only the mean, but also how the variance d
 \
 
 $$
-\mathrm{Var}(Y \mid X) = \phi \, V(\mu), \qquad \mu = E(Y \mid X),
+\qquad \mu = E(Y \mid X), \qquad \mathrm{Var}(Y \mid X) = \phi \, V(\mu),
 $$
 
 \
@@ -864,17 +865,38 @@ where $V(\mu)$ is the **variance function** (determined by the family) and $\phi
 
 :::
 
+## What is dispersion?
+
+::: incremental
+
+- **Dispersion** quantifies how spread out the data are around the mean
+
+- In the **Normal distribution**: $Y \sim N(\mu, \sigma^2)$, the dispersion parameter is $\phi = \sigma^2$ (the variance)
+
+- $\sigma^2$ controls spread **independently** of $\mu$ — you can have any mean with any variance
+
+- This **separation** between location ($\mu$) and scale ($\sigma^2$) is a defining feature of the Normal family
+
+:::
+
 ## Dispersion ($\phi$) is fixed
 
 ::: incremental
-- For **binomial** and **Poisson** families, the classical GLM assumes $\phi = 1$ because these distributions have no separate scale parameter beyond the mean. While for the **Normal** $\phi = \sigma^2$.
+
+- Different families handle dispersion **differently**
+
+- **Normal**: $\text{Var}(Y) = \sigma^2$ (constant, independent of mean)
+
+- **Poisson**: $\text{Var}(Y) = \mu$ (variance **equals** the mean, $\phi = 1$ fixed)
+
+- **Binomial**: $\text{Var}(Y) = n\mu(1-\mu)$ (variance is a **function** of the mean, $\phi = 1$ fixed)
 
 - Fixing $\phi = 1$ means the **entire variance is determined by** $V(\mu)$ — no additional free parameter for "extra variability".
 
-- This keeps the model parsimonious, not estimating a separate variance at each observation.
-
 - When $\phi \neq 1$ is needed, we move to **quasi-likelihood** or overdispersed models (negative binomial, beta-binomial, etc.)
+
 :::
+
 
 ## Systematic Component
 
@@ -943,13 +965,25 @@ and **logit link** can be written as:
 $$
 \begin{aligned}
 y_i &\sim \text{Bernoulli}(p_i) && \text{Random component} \\
-p_i &= \frac{\exp(\eta_i)}{1+\exp(\eta_i)} && \text{Inverse link (logit)} \\
 \text{logit}(p_i) &= \log\!\left(\frac{p_i}{1-p_i}\right)=\eta_i && \text{Link (logit)} \\
 \eta_i &= \beta_0 + \beta_1 x_{i1} + \cdots + \beta_k x_{ik} && \text{Systematic component}
 \end{aligned}
 $$
 
+## Bernoulli + logit
 
+For example, a Generalized Linear Model with the **Bernoulli** family
+and **logit link** can be written as:
+
+<br/>
+
+$$
+\begin{aligned}
+y_i &\sim \text{Bernoulli}(p_i) && \text{Random component} \\
+p_i &= \frac{\exp(\eta_i)}{1+\exp(\eta_i)} && \text{Inverse link (logit)} \\
+\eta_i &= \beta_0 + \beta_1 x_{i1} + \cdots + \beta_k x_{ik} && \text{Systematic component}
+\end{aligned}
+$$
 
 ## Assumptions
 
@@ -1057,6 +1091,7 @@ many = rbinom(n = 100000, size = 1, prob = 0.7); head(many)
 #| cache: true
 # Variance
 (p*(1-p))
+var(many)
 ```
 
 ## Ten students take the exam
@@ -1084,6 +1119,7 @@ many = rbinom(n = 100000, size = n, prob = p); head(many)
 #| echo: true
 #| eval: true
 n*p # Mean count: E(Y) = np 
+mean(many)
 ```
 
 . . .
@@ -1092,6 +1128,7 @@ n*p # Mean count: E(Y) = np
 #| echo: true
 #| eval: true
 n*p*(1-p) # Variance count
+var(many)
 ```
 
 . . .
@@ -1211,7 +1248,7 @@ ggplot(df_mv, aes(x = p, y = variance)) +
 
 **Variance is not constant!**
 
-# Odds and Logit Link {.section}
+# Odds, Odds Ratio and Logit Link {.section}
 
 ## Why not model probability directly?
 
@@ -1359,62 +1396,25 @@ p_i = \frac{\exp(\eta_i)}{1+\exp(\eta_i)} = \frac{\exp(\beta_0+\beta_1 x_i)}{1+\
 $$
 
 
-
-## Inverse logit link 
-
-```{r}
-#| echo: false
-#| fig-align: left
-#| fig-height: 9
-#| fig-width: 14
-x_vals <- seq(-4, 4, 0.01)
-p_vals <- plogis(x_vals)
-
-df_logit <- data.frame(
-  eta      = x_vals,
-  p        = p_vals
-)
-
-ggplot(df_logit, aes(x = eta)) +
-  geom_line(aes(y = p), linewidth = 2, color = my_cols[2]) +
-  geom_hline(yintercept = c(0, 1), linetype = "dashed", alpha = 0.5) +
-  labs(
-    x = paste(expression(eta), "= logit(p)"),
-    y = "p"
-  ) +
-  ylim(-0.1, 1.05) +
-  theme_clean(28) +
-  guides(
-    x = guide_axis(cap = "both"),
-    y = guide_axis(cap = "both")
-  )
-
-
-```
-
-
 ## Example
 
 Let $Y_i \in \{0,1\}$ (Pass), and
 $p_i = P(Y_i=1 \mid x_i)$ where $x_i$ = hours studied. 
 
-\
+::: fragment
 
 ::: columns
 ::: {.column width="52%"}
-**Odds**: $o_i = \dfrac{p_i}{1-p_i}$\
-(how much more likely pass than fail). 
-
+**Odds**: $o_i = \dfrac{p_i}{1-p_i}$
+\
+\
 \
 
-\
 **Log-odds (logit)**:
 $\text{logit}(p_i)=\log\!\left(\dfrac{p_i}{1-p_i}\right)$.
 :::
 
 ::: {.column width="48%"}
-::: fragment
-\
 \
 \
 **Linear predictor**:
@@ -1423,124 +1423,120 @@ $$
 \eta_i = \beta_0 + \beta_1 x_i .
 $$
 :::
-:::
 :::::
+:::
 
 \
 
-## From logit to odds
+::: fragment
+**Interpretation challenge**: $\beta_1$ describes change in *log-odds*, not probability.
 
-**Linear predictor**: $\log\!\left(\dfrac{p_i}{1-p_i}\right) =  \beta_0 + \beta_1 x_i$ 
+$\rightarrow$ Need to transform back to something interpretable!
+:::
+
+
+
+## Step 1: From Log-Odds to Odds
+
+**Starting point**: $\log\!\left(\dfrac{p_i}{1-p_i}\right) =  \beta_0 + \beta_1 x_i$ 
 
 \
 
 ::: fragment
 Exponentiating both sides gives the **odds**: 
 
-\
-
 $$
 \text{odds}(x) = \frac{p(x)}{1-p(x)} = \exp(\beta_0 + \beta_1 x)
 $$ 
-
-\
-
 :::
-
-::: fragment
-**At $x=0$:** $\text{odds}(0)=\exp(\beta_0)$
-
-\
-
-**At $x=1$:** $\text{odds}(1)=\exp(\beta_0+\beta_1)=\exp(\beta_0)\exp(\beta_1)$
-:::
-
-## From odds to odds ratio
-
-The **odds ratio (OR)** comparing $x=1$ to $x=0$ is:
-
-\
-
-$$
-\text{OR} = \frac{\text{odds}(1)}{\text{odds}(0)}=\frac{\exp(\beta_0)\exp(\beta_1)}{\exp(\beta_0)}
-=\exp(\beta_1)
-$$ 
 
 \
 
 ::: fragment
-$\rightarrow \exp(\beta_1)$ is the multiplicative change in odds.
+Using properties of exponents: $\exp(\beta_0 + \beta_1 x) = \exp(\beta_0) \cdot \exp(\beta_1 x)$
 :::
+
+## Step 2: What Happens When $x$ Increases?
+
+From $\text{odds}(x) = \exp(\beta_0) \cdot \exp(\beta_1 x)$:
+
+\
+
+**If $x$ increases by 1** (from $x$ to $x+1$):
+
+$$
+\frac{\text{odds}(x+1)}{\text{odds}(x)}
+=
+\frac{\exp(\beta_0) \cdot \exp(\beta_1(x+1))}{\exp(\beta_0) \cdot \exp(\beta_1 x)}
+$$
+
+\
 
 ::: fragment
-If $\beta_1=0.8$, the *odds multipliers* relative to $x=0$ are:
+The $\exp(\beta_0)$ terms cancel:
 
-- $x=0$: multiplier $= \exp(0.8\times 0)=1$. 
-- $x=1$: multiplier $= \exp(0.8 \times 1)=\exp(0.8)\approx 2.23$.
-- $x=2$: multiplier $= \exp(0.8 \times 2)=\exp(1.6)\approx 4.95$.
+$$
+\frac{\text{odds}(x+1)}{\text{odds}(x)}
+=
+\frac{\exp(\beta_1(x+1))}{\exp(\beta_1 x)}
+= \exp(\beta_1)
+$$
+:::
+
+## Step 3: The Odds Ratio
+
+This ratio is constant **regardless of where you start**!
+
+\
+
+$$
+\frac{\text{odds}(x+1)}{\text{odds}(x)} = \exp(\beta_1)
+$$
+
+\
+
+::: fragment
+This constant multiplier is the **odds ratio (OR)**.
+
+\
+
+$\rightarrow$ $\exp(\beta_1)$ tells us how the odds multiply for each 1-unit increase in $x$.
+
+\
 
 :::
 
+## Concrete Example: One-Unit Change
 
-## From odds to odds ratio
-
-
-**Comparing any two values**: the odds ratio for $x_2$ vs $x_1$ is:
+With $\beta_1 = 0.8$, **for a 1-unit increase** ($x \to x+1$):
 
 \
 
 $$
-\frac{\text{odds}(x_2)}{\text{odds}(x_1)}
-= \frac{\exp(\beta_0 + \beta_1 x_2)}{\exp(\beta_0 + \beta_1 x_1)}
-= \exp\!\bigl(\beta_1(x_2-x_1)\bigr)
-$$
-
-
-\
-
-::: {.fragment}
-**Example** ($\beta_1=0.8$): comparing $x=6$ to $x=2$:
-
-\
-
-$$
-\frac{\text{odds}(6)}{\text{odds}(2)}
-= \exp\!\bigl(0.8(6-2)\bigr)
-= \exp(3.2) \approx 24.5
+\frac{\text{odds}(x+1)}{\text{odds}(x)} = \exp(\beta_1) = \exp(0.8) \approx 2.23
 $$
 
 \
 
-The odds at $x=6$ are about 24.5 times the odds at $x=2$.
+::: fragment
+**What this means**: 
 
+- Studying 1 more hour multiplies your odds of passing by 2.23
+- This is true whether you go from 2→3 hours, 5→6 hours, or 10→11 hours
 :::
-
-## From odds to odds ratio
-
-
-**For a 1-unit increase** ($x \to x+1$):
-
-\
-
-$$
-\frac{\text{odds}(x+1)}{\text{odds}(x)} = \exp(\beta_1) \approx 2.23
-$$
-
-\
-
-$\rightarrow$ The odds multiply by 2.23 for each +1 in $x$.
-
 
 
 ## Linear on log-odds
 
-Equal changes in $x$ correspond to equal changes in $\eta$, **but not in odds**. 
+Equal changes in $x$ $\rightarrow$ equal changes in log-odds  
+**BUT** odds multiply by constant factor $\exp(\beta_1)$
+
 ```{r}
 #| echo: false
 #| message: false
 #| warning: false
 #| fig-align: left
-#| fig-height: 9
+#| fig-height: 8
 #| fig-width: 18
 
 b0 <- 0
@@ -1568,7 +1564,7 @@ ggplot(data, aes(x = x, y = Y_LogOdds)) +
   geom_hline(yintercept = y_LogOdds, linetype = 1,
              color = "#777777", linewidth = 1) +
   theme_clean(base_size = 26) +
-  labs(x = expression(x), y = expression(eta)) +
+  labs(x = expression(x), y = expression(log(odds))) +
   scale_y_continuous(breaks = y_LogOdds) +
   scale_x_continuous(breaks = -4:4) +
   coord_cartesian(ylim = c(-3, 3), 
@@ -1590,12 +1586,68 @@ ggplot(data, aes(x = x, y = Y_LogOdds)) +
 
 ```
 
-With $\beta_0=0, \quad\beta_1=0.8, \quad \exp(0.8) \approx 2.23$.
+With $\beta_0=0, \beta_1=0.8$: each +1 step in $x$ adds $0.8$ to log-odds, multiplies odds by $\exp(0.8) \approx 2.23$
+
+## Generalizing: Any Two Values
+
+**For any difference** $\Delta x = x_2 - x_1$:
+\
+
+$$
+\frac{\text{odds}(x_2)}{\text{odds}(x_1)}
+= \frac{\exp(\beta_0 + \beta_1 x_2)}{\exp(\beta_0 + \beta_1 x_1)}
+= \exp\!\bigl(\beta_1(x_2-x_1)\bigr)
+$$
+
+\
+
+::: fragment
+**Example** ($\beta_1=0.8$): comparing $x=6$ to $x=2$ ($\Delta x = 4$):
+
+\
+
+$$
+\frac{\text{odds}(6)}{\text{odds}(2)}
+= \exp\!\bigl(0.8 \times 4\bigr)
+= \exp(3.2) \approx 24.5
+$$
+
+\
+
+Studying 4 more hours multiplies odds by 24.5!
+:::
+
+
+## What About Probability?
+
+We've been working with **odds** and **odds ratios**, but what about $p(x)$?
+
+\
+
+::: fragment
+**From odds back to probability**:
+
+$$
+p(x) = \frac{\text{odds}(x)}{1 + \text{odds}(x)} = \frac{\exp(\beta_0 + \beta_1 x)}{1 + \exp(\beta_0 + \beta_1 x)}
+$$
+
+:::
+
+\
+
+::: fragment
+Unlike odds, probability changes are **not constant**!
+
+- If $p = 0.1$, adding 1 hour might increase it to $p = 0.20$ (+0.10)
+- If $p = 0.5$, adding 1 hour might increase it to $p = 0.69$ (+0.19)
+- If $p = 0.9$, adding 1 hour might increase it to $p = 0.96$ (+0.06)
+
+:::
+
 
 ## Not linear in probability
 
-Equal changes in $x$ generally **do not** correspond to equal
-changes in $p$.
+$\rightarrow$ **Same $\beta_1$, same OR (2.23×), but different probability changes!**
 
 ```{r}
 #| echo: false
@@ -1648,6 +1700,8 @@ ggplot(data, aes(x = x, y = Y_Logit)) +
     color = "black", hjust = 0, vjust = -.2, size = 8, fontface = "bold"
   )
 ```
+
+
 
 
 ##
