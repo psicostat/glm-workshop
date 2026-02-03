@@ -1472,25 +1472,19 @@ $$
 Using properties of exponents: $\exp(\beta_0 + \beta_1 x) = \exp(\beta_0) \cdot \exp(\beta_1 x)$
 :::
 
-## Comparing Two Values of $x$: The Odds Ratio
+## From $x = 0$ to $x = 1$
 
-**When $x = 0$**: 
-
-$$
-\text{odds}(0) = \exp(\beta_0)
-$$
-
-\
+$$\text{odds}(x) = \exp(\beta_0 + \beta_1 x)$$
 
 ::: fragment
-**When $x = 1$**: 
-
-$$
-\text{odds}(1) = \exp(\beta_0 + \beta_1) = \exp(\beta_0) \cdot \exp(\beta_1)
-$$
+**When $x = 0$**: $\text{odds}(0) = \exp(\beta_0)$
 :::
 
-\
+
+::: fragment
+**When $x = 1$**: $\text{odds}(1) = \exp(\beta_0 + \beta_1) = \exp(\beta_0) \cdot \exp(\beta_1)$
+:::
+
 
 ::: fragment
 **The ratio**:
@@ -1536,7 +1530,7 @@ This constant multiplier is the **odds ratio (OR)**.
 $\rightarrow$ $\exp(\beta_1)$ tells us how the odds multiply for each 1-unit increase in $x$.
 :::
 
-## Concrete Example: One-Unit Change
+## Example
 
 With $\beta_1 = 0.8$, **for a 1-unit increase** ($x \to x+1$):
 
@@ -1618,7 +1612,7 @@ ggplot(data, aes(x = x, y = Y_LogOdds)) +
 
 With $\beta_0=0, \beta_1=0.8$: each +1 step in $x$ adds $0.8$ to log-odds, multiplies odds by $\exp(0.8) \approx 2.23$
 
-## Generalizing: Any Two Values
+## Any two values
 
 **For any difference** $\Delta x = x_2 - x_1$:
 \
