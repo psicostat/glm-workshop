@@ -1295,11 +1295,11 @@
     "text": "From Log-Odds to Odds\nStarting point: \\(\\log\\!\\left(\\dfrac{p(x)}{1-p(x)}\\right) =  \\beta_0 + \\beta_1 x\\)\n\n\n\nExponentiating both sides gives the odds:\n\\[\n\\text{odds}(x) = \\frac{p(x)}{1-p(x)} = \\exp(\\beta_0 + \\beta_1 x)\n\\]\n\n\n\n\nUsing properties of exponents: \\(\\exp(\\beta_0 + \\beta_1 x) = \\exp(\\beta_0) \\cdot \\exp(\\beta_1 x)\\)"
   },
   {
-    "objectID": "slides/01-intro-glm.html#comparing-two-values-of-x-the-odds-ratio",
-    "href": "slides/01-intro-glm.html#comparing-two-values-of-x-the-odds-ratio",
+    "objectID": "slides/01-intro-glm.html#from-x-0-to-x-1",
+    "href": "slides/01-intro-glm.html#from-x-0-to-x-1",
     "title": "Introduction to Generalized Linear Models for Psychology",
-    "section": "Comparing Two Values of \\(x\\): The Odds Ratio",
-    "text": "Comparing Two Values of \\(x\\): The Odds Ratio\nWhen \\(x = 0\\):\n\\[\n\\text{odds}(0) = \\exp(\\beta_0)\n\\]\n\n\n\nWhen \\(x = 1\\):\n\\[\n\\text{odds}(1) = \\exp(\\beta_0 + \\beta_1) = \\exp(\\beta_0) \\cdot \\exp(\\beta_1)\n\\]\n\n\n\n\nThe ratio:\n\\[\n\\frac{\\text{odds}(1)}{\\text{odds}(0)} = \\frac{\\exp(\\beta_0) \\cdot \\exp(\\beta_1)}{\\exp(\\beta_0)} = \\exp(\\beta_1)\n\\]"
+    "section": "From \\(x = 0\\) to \\(x = 1\\)",
+    "text": "From \\(x = 0\\) to \\(x = 1\\)\n\\[\\text{odds}(x) = \\exp(\\beta_0 + \\beta_1 x)\\]\n\nWhen \\(x = 0\\): \\(\\text{odds}(0) = \\exp(\\beta_0)\\)\n\n\nWhen \\(x = 1\\): \\(\\text{odds}(1) = \\exp(\\beta_0 + \\beta_1) = \\exp(\\beta_0) \\cdot \\exp(\\beta_1)\\)\n\n\nThe ratio:\n\\[\n\\frac{\\text{odds}(1)}{\\text{odds}(0)} = \\frac{\\exp(\\beta_0) \\cdot \\exp(\\beta_1)}{\\exp(\\beta_0)} = \\exp(\\beta_1)\n\\]"
   },
   {
     "objectID": "slides/01-intro-glm.html#the-odds-ratio",
@@ -1309,11 +1309,11 @@
     "text": "The Odds Ratio\nThis ratio is constant regardless of where you start!\n\n\nFor any 1-unit increase (from \\(x\\) to \\(x+1\\)):\n\\[\n\\frac{\\text{odds}(x+1)}{\\text{odds}(x)}\n=\n\\frac{\\exp(\\beta_0) \\cdot \\exp(\\beta_1(x+1))}{\\exp(\\beta_0) \\cdot \\exp(\\beta_1 x)}\n\\]\n\nThe \\(\\exp(\\beta_0)\\) terms cancel:\n\\[\n\\frac{\\text{odds}(x+1)}{\\text{odds}(x)}\n=\n\\frac{\\exp(\\beta_1(x+1))}{\\exp(\\beta_1 x)}\n= \\exp(\\beta_1)\n\\]\n\n\n\n\nThis constant multiplier is the odds ratio (OR).\n\n\n\\(\\rightarrow\\) \\(\\exp(\\beta_1)\\) tells us how the odds multiply for each 1-unit increase in \\(x\\)."
   },
   {
-    "objectID": "slides/01-intro-glm.html#concrete-example-one-unit-change",
-    "href": "slides/01-intro-glm.html#concrete-example-one-unit-change",
+    "objectID": "slides/01-intro-glm.html#example-1",
+    "href": "slides/01-intro-glm.html#example-1",
     "title": "Introduction to Generalized Linear Models for Psychology",
-    "section": "Concrete Example: One-Unit Change",
-    "text": "Concrete Example: One-Unit Change\nWith \\(\\beta_1 = 0.8\\), for a 1-unit increase (\\(x \\to x+1\\)):\n\n\n\\[\n\\frac{\\text{odds}(x+1)}{\\text{odds}(x)} = \\exp(\\beta_1) = \\exp(0.8) \\approx 2.23\n\\]\n\n\n\nWhat this means:\n\nStudying 1 more hour multiplies your odds of passing by 2.23 (not the probability!)\nThis is true whether you go from 2 to 3 hours, 5 to 6 hours, or 10 to 11 hours"
+    "section": "Example",
+    "text": "Example\nWith \\(\\beta_1 = 0.8\\), for a 1-unit increase (\\(x \\to x+1\\)):\n\n\n\\[\n\\frac{\\text{odds}(x+1)}{\\text{odds}(x)} = \\exp(\\beta_1) = \\exp(0.8) \\approx 2.23\n\\]\n\n\n\nWhat this means:\n\nStudying 1 more hour multiplies your odds of passing by 2.23 (not the probability!)\nThis is true whether you go from 2 to 3 hours, 5 to 6 hours, or 10 to 11 hours"
   },
   {
     "objectID": "slides/01-intro-glm.html#linear-on-log-odds",
@@ -1323,11 +1323,11 @@
     "text": "Linear on log-odds\nEqual changes in \\(x\\) \\(\\rightarrow\\) equal changes in log-odds\nBUT odds multiply by constant factor \\(\\exp(\\beta_1)\\)\n\nWith \\(\\beta_0=0, \\beta_1=0.8\\): each +1 step in \\(x\\) adds \\(0.8\\) to log-odds, multiplies odds by \\(\\exp(0.8) \\approx 2.23\\)"
   },
   {
-    "objectID": "slides/01-intro-glm.html#generalizing-any-two-values",
-    "href": "slides/01-intro-glm.html#generalizing-any-two-values",
+    "objectID": "slides/01-intro-glm.html#any-two-values",
+    "href": "slides/01-intro-glm.html#any-two-values",
     "title": "Introduction to Generalized Linear Models for Psychology",
-    "section": "Generalizing: Any Two Values",
-    "text": "Generalizing: Any Two Values\nFor any difference \\(\\Delta x = x_2 - x_1\\):\n\n\\[\n\\frac{\\text{odds}(x_2)}{\\text{odds}(x_1)}\n= \\frac{\\exp(\\beta_0 + \\beta_1 x_2)}{\\exp(\\beta_0 + \\beta_1 x_1)}\n= \\exp\\!\\bigl(\\beta_1(x_2-x_1)\\bigr)\n\\]\n\n\n\nExample (\\(\\beta_1=0.8\\)): comparing \\(x=6\\) to \\(x=2\\) (\\(\\Delta x = 4\\)):\n\n\n\\[\n\\frac{\\text{odds}(6)}{\\text{odds}(2)}\n= \\exp\\!\\bigl(0.8 \\times 4\\bigr)\n= \\exp(3.2) \\approx 24.5\n\\]\n\n\nStudying 4 more hours multiplies odds by 24.5!"
+    "section": "Any two values",
+    "text": "Any two values\nFor any difference \\(\\Delta x = x_2 - x_1\\):\n\n\\[\n\\frac{\\text{odds}(x_2)}{\\text{odds}(x_1)}\n= \\frac{\\exp(\\beta_0 + \\beta_1 x_2)}{\\exp(\\beta_0 + \\beta_1 x_1)}\n= \\exp\\!\\bigl(\\beta_1(x_2-x_1)\\bigr)\n\\]\n\n\n\nExample (\\(\\beta_1=0.8\\)): comparing \\(x=6\\) to \\(x=2\\) (\\(\\Delta x = 4\\)):\n\n\n\\[\n\\frac{\\text{odds}(6)}{\\text{odds}(2)}\n= \\exp\\!\\bigl(0.8 \\times 4\\bigr)\n= \\exp(3.2) \\approx 24.5\n\\]\n\n\nStudying 4 more hours multiplies odds by 24.5!"
   },
   {
     "objectID": "slides/01-intro-glm.html#what-about-probability",

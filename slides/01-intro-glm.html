@@ -1280,22 +1280,15 @@ Transform <span class="math inline">\(p\)</span> using a <strong>link function</
 <p>Using properties of exponents: <span class="math inline">\(\exp(\beta_0 + \beta_1 x) = \exp(\beta_0) \cdot \exp(\beta_1 x)\)</span></p>
 </div>
 </section>
-<section id="comparing-two-values-of-x-the-odds-ratio" class="slide level2">
-<h2>Comparing Two Values of <span class="math inline">\(x\)</span>: The Odds Ratio</h2>
-<p><strong>When <span class="math inline">\(x = 0\)</span></strong>:</p>
-<p><span class="math display">\[
-\text{odds}(0) = \exp(\beta_0)
-\]</span></p>
-<p><br>
-</p>
+<section id="from-x-0-to-x-1" class="slide level2">
+<h2>From <span class="math inline">\(x = 0\)</span> to <span class="math inline">\(x = 1\)</span></h2>
+<p><span class="math display">\[\text{odds}(x) = \exp(\beta_0 + \beta_1 x)\]</span></p>
 <div class="fragment">
-<p><strong>When <span class="math inline">\(x = 1\)</span></strong>:</p>
-<p><span class="math display">\[
-\text{odds}(1) = \exp(\beta_0 + \beta_1) = \exp(\beta_0) \cdot \exp(\beta_1)
-\]</span></p>
+<p><strong>When <span class="math inline">\(x = 0\)</span></strong>: <span class="math inline">\(\text{odds}(0) = \exp(\beta_0)\)</span></p>
 </div>
-<p><br>
-</p>
+<div class="fragment">
+<p><strong>When <span class="math inline">\(x = 1\)</span></strong>: <span class="math inline">\(\text{odds}(1) = \exp(\beta_0 + \beta_1) = \exp(\beta_0) \cdot \exp(\beta_1)\)</span></p>
+</div>
 <div class="fragment">
 <p><strong>The ratio</strong>:</p>
 <p><span class="math display">\[
@@ -1332,8 +1325,8 @@ Transform <span class="math inline">\(p\)</span> using a <strong>link function</
 <p><span class="math inline">\(\rightarrow\)</span> <span class="math inline">\(\exp(\beta_1)\)</span> tells us how the odds multiply for each 1-unit increase in <span class="math inline">\(x\)</span>.</p>
 </div>
 </section>
-<section id="concrete-example-one-unit-change" class="slide level2">
-<h2>Concrete Example: One-Unit Change</h2>
+<section id="example-1" class="slide level2">
+<h2>Example</h2>
 <p>With <span class="math inline">\(\beta_1 = 0.8\)</span>, <strong>for a 1-unit increase</strong> (<span class="math inline">\(x \to x+1\)</span>):</p>
 <p><br>
 </p>
@@ -1357,8 +1350,8 @@ Transform <span class="math inline">\(p\)</span> using a <strong>link function</
 
 <img data-src="01-intro-glm_files/figure-revealjs/unnamed-chunk-40-1.svg" class="quarto-figure quarto-figure-left r-stretch"><p>With <span class="math inline">\(\beta_0=0, \beta_1=0.8\)</span>: each +1 step in <span class="math inline">\(x\)</span> adds <span class="math inline">\(0.8\)</span> to log-odds, multiplies odds by <span class="math inline">\(\exp(0.8) \approx 2.23\)</span></p>
 </section>
-<section id="generalizing-any-two-values" class="slide level2">
-<h2>Generalizing: Any Two Values</h2>
+<section id="any-two-values" class="slide level2">
+<h2>Any two values</h2>
 <p><strong>For any difference</strong> <span class="math inline">\(\Delta x = x_2 - x_1\)</span>:<br>
 </p>
 <p><span class="math display">\[
