@@ -512,57 +512,107 @@ How much outcomes vary around the mean (overall or at a given <span class="math 
 <div class="column" style="width:30%;">
 <div class="cell">
 <div class="cell-output cell-output-stdout">
-<pre><code>   id studyh passed
-1   1     29      0
-2   2     79      1
-3   3     41      1
-4   4     88      1
-5   5     94      1
-6   6      5      0
-7   7     53      0
-8   8     89      1
-9   9     55      1
-10 10     46      0
-11 11     96      1
-12 12     45      0
-13 13     68      1
-14 14     57      0
-15 15     10      0
-16 16     90      1
-17 17     25      0
-18 18      4      0
-19 19     33      1
-20 20     95      1
-21 21     89      1
-22 22     69      0
-23 23     64      0
-24 24     99      1
-25 25     66      1
-26 26     71      1
-27 27     54      0
-28 28     59      1
-29 29     29      0
-30 30     15      0
-31 31     96      1
-32 32     90      1
-33 33     69      1
-34 34     80      0
-35 35      2      0
-36 36     48      0
-37 37     76      0
-38 38     22      1
-39 39     32      1
-40 40     23      0
-41 41     14      0
-42 42     41      0
-43 43     41      0
-44 44     37      0
-45 45     15      0
-46 46     14      0
-47 47     23      0
-48 48     47      0
-49 49     27      0
-50 50     86      1</code></pre>
+<pre><code>     id studyh passed
+1     1     29      1
+2     2     79      1
+3     3     41      1
+4     4     88      1
+5     5     94      1
+6     6      5      0
+7     7     53      0
+8     8     89      1
+9     9     55      1
+10   10     46      1
+11   11     96      1
+12   12     45      1
+13   13     68      1
+14   14     57      0
+15   15     10      0
+16   16     90      1
+17   17     25      0
+18   18      4      1
+19   19     33      0
+20   20     95      1
+21   21     89      1
+22   22     69      1
+23   23     64      1
+24   24     99      1
+25   25     66      1
+26   26     71      0
+27   27     54      1
+28   28     59      1
+29   29     29      0
+30   30     15      0
+31   31     96      1
+32   32     90      1
+33   33     69      1
+34   34     80      1
+35   35      2      0
+36   36     48      1
+37   37     76      1
+38   38     22      1
+39   39     32      0
+40   40     23      0
+41   41     14      0
+42   42     41      1
+43   43     41      1
+44   44     37      1
+45   45     15      1
+46   46     14      0
+47   47     23      0
+48   48     47      1
+49   49     27      0
+50   50     86      1
+51   51      5      0
+52   52     44      1
+53   53     80      1
+54   54     12      0
+55   55     56      1
+56   56     21      0
+57   57     13      0
+58   58     75      1
+59   59     90      1
+60   60     37      1
+61   61     67      1
+62   62      9      0
+63   63     38      1
+64   64     27      0
+65   65     81      1
+66   66     45      1
+67   67     81      1
+68   68     81      1
+69   69     79      1
+70   70     44      1
+71   71     75      1
+72   72     63      1
+73   73     71      1
+74   74      0      0
+75   75     48      1
+76   76     22      0
+77   77     38      1
+78   78     61      1
+79   79     35      0
+80   80     11      0
+81   81     24      1
+82   82     67      1
+83   83     42      1
+84   84     79      1
+85   85     10      0
+86   86     43      1
+87   87     98      1
+88   88     89      1
+89   89     89      1
+90   90     18      1
+91   91     13      0
+92   92     65      1
+93   93     34      0
+94   94     66      1
+95   95     32      0
+96   96     19      0
+97   97     78      1
+98   98      9      0
+99   99     47      1
+100 100     51      1</code></pre>
 </div>
 </div>
 </div><div class="column" style="width:70%;">
@@ -570,24 +620,24 @@ How much outcomes vary around the mean (overall or at a given <span class="math 
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># number of students that have passed the exam</span></span>
 <span id="cb2-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(dat_exam<span class="sc">$</span>passed) </span>
-<span id="cb2-3"><a aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 22</span></span>
+<span id="cb2-3"><a aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 39</span></span>
 <span id="cb2-4"><a aria-hidden="true" tabindex="-1"></a><span class="co"># proportion of students that have passed the exam</span></span>
 <span id="cb2-5"><a aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(dat_exam<span class="sc">$</span>passed) </span>
-<span id="cb2-6"><a aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.44</span></span>
+<span id="cb2-6"><a aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.39</span></span>
 <span id="cb2-7"><a aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-8"><a aria-hidden="true" tabindex="-1"></a><span class="co"># study hours and passing the exam</span></span>
 <span id="cb2-9"><a aria-hidden="true" tabindex="-1"></a><span class="fu">tapply</span>(dat_exam<span class="sc">$</span>studyh, dat_exam<span class="sc">$</span>passed, mean)</span>
 <span id="cb2-10"><a aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;        0        1 </span></span>
-<span id="cb2-11"><a aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 35.46429 73.04545</span></span>
+<span id="cb2-11"><a aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 37.52459 69.05128 </span></span>
 <span id="cb2-12"><a aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb2-13"><a aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(dat_exam<span class="sc">$</span>passed, <span class="fu">cut</span>(dat_exam<span class="sc">$</span>studyh, <span class="at">breaks =</span> <span class="dv">4</span>))</span>
 <span id="cb2-14"><a aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    (1.9,26.2] (26.2,50.5] (50.5,74.8] (74.8,99.1]</span></span>
-<span id="cb2-15"><a aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  0         11          10           5           2</span></span>
-<span id="cb2-16"><a aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  1          1           3           6          12</span></span>
+<span id="cb2-15"><a aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  0         23          22          10           6</span></span>
+<span id="cb2-16"><a aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  1          2           6          10          21</span></span>
 <span id="cb2-17"><a aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  </span></span>
 <span id="cb2-18"><a aria-hidden="true" tabindex="-1"></a><span class="fu">tapply</span>(dat_exam<span class="sc">$</span>passed, <span class="fu">cut</span>(dat_exam<span class="sc">$</span>studyh, <span class="at">breaks =</span> <span class="dv">4</span>), mean)</span>
-<span id="cb2-19"><a aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   (1.9,26.2] (26.2,50.5] (50.5,74.8] (74.8,99.1] </span></span>
-<span id="cb2-20"><a aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   0.08333333  0.23076923  0.54545455  0.85714286</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-19"><a aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   (0,24.8]   (24.8,49.5]   (49.5,74.2]   (74.2,99.1] </span></span>
+<span id="cb2-20"><a aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   0.0800000     0.2142857     0.5000000     0.7777778</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div></div>
@@ -739,7 +789,9 @@ How much outcomes vary around the mean (overall or at a given <span class="math 
 <section id="fitting-a-normal-linear-model-1" class="slide level2">
 <h2>Fitting a Normal Linear Model</h2>
 
-<img data-src="01-intro-glm_files/figure-revealjs/unnamed-chunk-23-1.svg" class="quarto-figure quarto-figure-left r-stretch"><p><strong>Do you see something strange?</strong></p>
+<img data-src="01-intro-glm_files/figure-revealjs/unnamed-chunk-23-1.svg" class="quarto-figure quarto-figure-left r-stretch"><div class="fragment">
+<p>How does this look to you?</p>
+</div>
 </section>
 <section id="fitting-a-generalized-linear-model-1" class="slide level2">
 <h2>Fitting a Generalized Linear Model</h2>
@@ -923,7 +975,18 @@ y_i &amp;\sim \text{Bernoulli}(p_i) &amp;&amp; \text{Random component} \\
 <section id="bernoulli-distribution" class="slide level2">
 <h2>Bernoulli Distribution</h2>
 <p>Suppose you collected data on whether each student passed the exam. Let <span class="math inline">\(K \in \{0, 1\}\)</span> denote the outcome, where 0 = fail and 1 = pass.</p>
-<p>The probability mass function is:</p>
+<div class="columns">
+<div class="column" style="width:30%;">
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="01-intro-glm_files/figure-revealjs/unnamed-chunk-25-1.svg"></p>
+</figure>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:70%;">
 <p><span class="math display">\[
 P(K = k) =
 \begin{cases}
@@ -931,28 +994,45 @@ p       &amp; \text{if } k = 1 \text{ (pass)}, \\
 1-p &amp; \text{if } k = 0 \text{ (fail)}.
 \end{cases}
 \]</span></p>
+<div class="fragment">
 <p>Equivalently:</p>
 <p><span class="math display">\[
 P(K = k) = p^k(1-p)^{1-k}, \quad k \in \{0, 1\}
 \]</span></p>
+</div>
+<div class="fragment">
 <ul>
 <li>Mean: <span class="math inline">\(E[K] = p\)</span></li>
 <li>Variance: <span class="math inline">\(\text{Var}(K) = p(1-p)\)</span></li>
 </ul>
+</div>
+</div></div>
 </section>
 <section id="binomial-distribution" class="slide level2">
 <h2>Binomial Distribution</h2>
 <p>Suppose <span class="math inline">\(n\)</span> students take the same exam and let <span class="math inline">\(k\)</span> be the number who pass.</p>
-<p>The probability mass function is:</p>
 <p><span class="math display">\[
 P(K = k) \;=\; \binom{n}{k}\, p^{k}\,(1-p)^{n-k}, \quad k = 0, 1, \ldots, n
 \]</span></p>
+<div class="columns">
+<div class="column" style="width:60%;">
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="01-intro-glm_files/figure-revealjs/unnamed-chunk-26-1.svg"></p>
+</figure>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:40%;">
 <ul>
 <li>Mean: <span class="math inline">\(E[K] = np\)</span></li>
 <li>Variance: <span class="math inline">\(\text{Var}(K) = np(1-p)\)</span></li>
 <li>Sum of <span class="math inline">\(n\)</span> independent Bernoulli trials</li>
 <li>Bernuolli special case of Binomial when <span class="math inline">\(n = 1\)</span></li>
 </ul>
+</div></div>
 </section>
 <section id="bernoulli" class="slide level2">
 <h2>Bernoulli</h2>
@@ -1051,7 +1131,7 @@ P(K = k) \;=\; \binom{n}{k}\, p^{k}\,(1-p)^{n-k}, \quad k = 0, 1, \ldots, n
 <div class="cell-output-display">
 <div>
 <figure>
-<p><img data-src="01-intro-glm_files/figure-revealjs/unnamed-chunk-34-1.svg"></p>
+<p><img data-src="01-intro-glm_files/figure-revealjs/unnamed-chunk-36-1.svg"></p>
 </figure>
 </div>
 </div>
@@ -1066,7 +1146,7 @@ P(K = k) \;=\; \binom{n}{k}\, p^{k}\,(1-p)^{n-k}, \quad k = 0, 1, \ldots, n
 <div class="cell-output-display">
 <div>
 <figure>
-<p><img data-src="01-intro-glm_files/figure-revealjs/unnamed-chunk-35-1.svg"></p>
+<p><img data-src="01-intro-glm_files/figure-revealjs/unnamed-chunk-37-1.svg"></p>
 </figure>
 </div>
 </div>
@@ -1077,7 +1157,7 @@ P(K = k) \;=\; \binom{n}{k}\, p^{k}\,(1-p)^{n-k}, \quad k = 0, 1, \ldots, n
 <h2>Mean–variance relationship</h2>
 <p><span class="math display">\[E[Y] = np \quad \text{and} \quad \mathrm{Var}(Y) = np(1-p)\]</span></p>
 
-<img data-src="01-intro-glm_files/figure-revealjs/unnamed-chunk-36-1.svg" class="quarto-figure quarto-figure-center r-stretch"></section>
+<img data-src="01-intro-glm_files/figure-revealjs/unnamed-chunk-38-1.svg" class="quarto-figure quarto-figure-center r-stretch"></section>
 <section id="why-not-model-probability-directly" class="slide level2">
 <h2>Why not model probability directly?</h2>
 <p><br>
@@ -1153,24 +1233,7 @@ Transform <span class="math inline">\(p\)</span> using a <strong>link function</
 <section id="odds-and-log-odds" class="slide level2">
 <h2>Odds and Log-odds</h2>
 
-<img data-src="01-intro-glm_files/figure-revealjs/unnamed-chunk-37-1.svg" class="quarto-figure quarto-figure-left r-stretch"><p><strong>At <span class="math inline">\(p=0.5\)</span>:</strong> log-odds = 0 (equal odds of success/failure).</p>
-</section>
-<section id="logistic-regression" class="slide level2">
-<h2>Logistic regression</h2>
-<p><strong>What we model linearly:</strong></p>
-<p><br>
-</p>
-<p><span class="math display">\[
-\eta_i = \text{logit}(p_i) = \log\!\left(\frac{p_i}{1-p_i}\right) = \beta_0 + \beta_1 x_i
-\]</span></p>
-<p><br>
-</p>
-<p><strong>Inverse transformation</strong> (log-odds back to probability):</p>
-<p><br>
-</p>
-<p><span class="math display">\[
-p_i = \frac{\exp(\eta_i)}{1+\exp(\eta_i)} = \frac{\exp(\beta_0+\beta_1 x_i)}{1+\exp(\beta_0+\beta_1 x_i)}
-\]</span></p>
+<img data-src="01-intro-glm_files/figure-revealjs/unnamed-chunk-39-1.svg" class="quarto-figure quarto-figure-left r-stretch"><p>Log-Odds: “Equally strong” probabilities on opposite sides of 0.5 become equal in magnitude but opposite in sign.</p>
 </section>
 <section id="example" class="slide level2">
 <h2>Example</h2>
@@ -1292,7 +1355,7 @@ p_i = \frac{\exp(\eta_i)}{1+\exp(\eta_i)} = \frac{\exp(\beta_0+\beta_1 x_i)}{1+\
 <p>Equal changes in <span class="math inline">\(x\)</span> <span class="math inline">\(\rightarrow\)</span> equal changes in log-odds<br>
 <strong>BUT</strong> odds multiply by constant factor <span class="math inline">\(\exp(\beta_1)\)</span></p>
 
-<img data-src="01-intro-glm_files/figure-revealjs/unnamed-chunk-38-1.svg" class="quarto-figure quarto-figure-left r-stretch"><p>With <span class="math inline">\(\beta_0=0, \beta_1=0.8\)</span>: each +1 step in <span class="math inline">\(x\)</span> adds <span class="math inline">\(0.8\)</span> to log-odds, multiplies odds by <span class="math inline">\(\exp(0.8) \approx 2.23\)</span></p>
+<img data-src="01-intro-glm_files/figure-revealjs/unnamed-chunk-40-1.svg" class="quarto-figure quarto-figure-left r-stretch"><p>With <span class="math inline">\(\beta_0=0, \beta_1=0.8\)</span>: each +1 step in <span class="math inline">\(x\)</span> adds <span class="math inline">\(0.8\)</span> to log-odds, multiplies odds by <span class="math inline">\(\exp(0.8) \approx 2.23\)</span></p>
 </section>
 <section id="generalizing-any-two-values" class="slide level2">
 <h2>Generalizing: Any Two Values</h2>
@@ -1341,6 +1404,11 @@ p(x) = \frac{\text{odds}(x)}{1 + \text{odds}(x)} = \frac{\exp(\beta_0 + \beta_1 
 </ul>
 </div>
 </section>
+<section id="not-linear-in-probability" class="slide level2">
+<h2>Not linear in probability</h2>
+<p><span class="math inline">\(\rightarrow\)</span> <strong>Same <span class="math inline">\(\beta_1\)</span>, same OR (2.23×), but different probability changes!</strong></p>
+
+<img data-src="01-intro-glm_files/figure-revealjs/unnamed-chunk-41-1.svg" class="quarto-figure quarto-figure-left r-stretch"></section>
 <section id="lets-try" class="slide level2">
 <h2>Let’s try</h2>
 <div class="cell">
@@ -1459,11 +1527,6 @@ p(x) = \frac{\text{odds}(x)}{1 + \text{odds}(x)} = \frac{\exp(\beta_0 + \beta_1 
 </div>
 </div>
 </section>
-<section id="not-linear-in-probability" class="slide level2">
-<h2>Not linear in probability</h2>
-<p><span class="math inline">\(\rightarrow\)</span> <strong>Same <span class="math inline">\(\beta_1\)</span>, same OR (2.23×), but different probability changes!</strong></p>
-
-<img data-src="01-intro-glm_files/figure-revealjs/unnamed-chunk-51-1.svg" class="quarto-figure quarto-figure-left r-stretch"></section>
 <section id="section-1" class="slide level2">
 <h2></h2>
 
