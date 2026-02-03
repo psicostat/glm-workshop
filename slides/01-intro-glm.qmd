@@ -595,10 +595,10 @@ study.
 ::: {.column width="30%"}
 ```{r, echo=FALSE}
 set.seed(123)
-n <- 50
+n <- 100
 x <- round(runif(n, 0, 100))
 b0 <- -3
-b1 <- 0.05
+b1 <- 0.1
 y <- rbinom(length(x), 1, plogis(b0 + b1*x))
 
 dat_exam <- data.frame(id = 1:n, studyh = x, passed = y)
@@ -611,24 +611,24 @@ dat_exam
 ```{r, eval=FALSE}
 # number of students that have passed the exam
 sum(dat_exam$passed) 
-#> [1] 22
+#> [1] 39
 # proportion of students that have passed the exam
 mean(dat_exam$passed) 
-#> [1] 0.44
+#> [1] 0.39
 
 # study hours and passing the exam
 tapply(dat_exam$studyh, dat_exam$passed, mean)
 #>        0        1 
-#> 35.46429 73.04545
+#> 37.52459 69.05128 
 #> 
 table(dat_exam$passed, cut(dat_exam$studyh, breaks = 4))
 #>    (1.9,26.2] (26.2,50.5] (50.5,74.8] (74.8,99.1]
-#>  0         11          10           5           2
-#>  1          1           3           6          12
+#>  0         23          22          10           6
+#>  1          2           6          10          21
 #>  
 tapply(dat_exam$passed, cut(dat_exam$studyh, breaks = 4), mean)
-#>   (1.9,26.2] (26.2,50.5] (50.5,74.8] (74.8,99.1] 
-#>   0.08333333  0.23076923  0.54545455  0.85714286
+#>   (0,24.8]   (24.8,49.5]   (49.5,74.2]   (74.2,99.1] 
+#>   0.0800000     0.2142857     0.5000000     0.7777778
 ```
 ::: 
 :::
@@ -667,7 +667,9 @@ exam_plot
 #| fig-align: left
 exam_plot +
     geom_smooth(method = "lm", se = FALSE, color = my_cols[2], linewidth = 2.5) +
-    ggtitle(" ")
+    ggtitle(" ")+
+   geom_hline(yintercept = 0.5, linetype = "dashed", size = 3,
+             col = "red4", alpha = 0.5)
 
 ```
 
@@ -769,12 +771,13 @@ rt_plot +
 
 ```
 
-**Do you see something strange?**
+::: fragment
+How does this look to you?
+::: 
 
 ## Fitting a Generalized Linear Model
 
-The model should consider both the **support** of the $y$ variable and
-the **non-linear pattern**!
+The model should consider both the **support** of the $y$ variable and the **non-linear pattern**!
 
 ```{r}
 #| echo: false
@@ -960,7 +963,57 @@ number of successes over the total number of trials.
 
 Suppose you collected data on whether each student passed the exam.  Let $K \in \{0, 1\}$ denote the outcome, where 0 = fail and 1 = pass.
 
-The probability mass function is:
+:::: columns
+::: {.column width="30%"}
+```{r}
+#| echo: false
+#| fig-height: 7
+#| fig-width: 4
+# parameters
+p <- 0.8
+n <- 20
+
+# data
+dat_bern <- tibble::tibble(
+  k = 0:1,
+  prob = dbinom(k, size = 1, prob = p)
+)
+
+dat_binom <- tibble::tibble(
+  k = 0:n,
+  prob = dbinom(k, size = n, prob = p)
+)
+
+# bernoulli plot
+p_bern <- dat_bern |>
+  ggplot(aes(x = k, y = prob)) +
+  geom_segment(aes(xend = k, yend = prob), y = 0,
+               color = my_cols[2], linewidth = 3) +
+  geom_point(size = 4, color = my_cols[2]) +
+  labs(title = "Bernoulli", x = "k", y = "Probability") +
+  theme_clean(base_size = 24) +
+  scale_x_continuous(breaks = 0:1) +
+  scale_y_continuous(limits = c(0, 0.8), breaks = round(seq(0, .8, .1), 2)) 
+
+
+# binomial plot (your style)
+p_binom <- dat_binom |>
+  ggplot(aes(x = k, y = prob)) +
+  geom_segment(aes(xend = k, yend = prob), y = 0,
+               color = my_cols[2], linewidth = 3) +
+  geom_point(size = 4, color = my_cols[2]) +
+  labs(title = "Binomial(n = 20, p = 0.80)",
+       x = "k", y = "Probability") +
+  theme_clean(base_size = 24) +
+  scale_x_continuous(breaks = 0:n) +
+  scale_y_continuous(limits = c(0, 0.8), breaks = round(seq(0, .8, .1), 2)) 
+
+p_bern
+```
+
+:::
+
+::: {.column width="70%"}
 
 $$
 P(K = k) =
@@ -970,32 +1023,54 @@ p       & \text{if } k = 1 \text{ (pass)}, \\
 \end{cases}
 $$
 
+:::fragment
+
 Equivalently:
 
 $$
 P(K = k) = p^k(1-p)^{1-k}, \quad k \in \{0, 1\}
 $$
+:::
 
+
+:::fragment
 
 - Mean: $E[K] = p$
 - Variance: $\text{Var}(K) = p(1-p)$
+
+:::
+:::
+:::::
 
 
 ## Binomial Distribution 
 
 Suppose $n$ students take the same exam and let $k$ be the number who pass.
 
-The probability mass function is:
-
 $$
 P(K = k) \;=\; \binom{n}{k}\, p^{k}\,(1-p)^{n-k}, \quad k = 0, 1, \ldots, n
 $$
+
+:::: columns
+::: {.column width="60%"}
+```{r}
+#| echo: false
+#| fig-height: 5.5
+#| fig-width: 9
+
+p_binom 
+```
+
+:::
+::: {.column width="40%"}
 
 
 - Mean: $E[K] = np$
 - Variance: $\text{Var}(K) = np(1-p)$
 - Sum of $n$ independent Bernoulli trials
 - Bernuolli special case of Binomial when $n = 1$
+:::
+:::::
 
 
 ## Bernoulli
@@ -1292,7 +1367,7 @@ df <- data.frame(p = p, log_odds = log_odds, odds = odds)
 
 podd = ggplot(df, aes(x = p, y = odds)) +
   geom_line(linewidth = 1.2) +
-  geom_hline(yintercept = 0, linetype = "dashed", color = "red", linewidth = 0.8) +
+  geom_hline(yintercept = 1, linetype = "dashed", color = "red", linewidth = 0.8) +
   scale_x_continuous(
     name = "p",
     breaks = seq(0, 1, 0.25),
@@ -1307,10 +1382,10 @@ podd = ggplot(df, aes(x = p, y = odds)) +
   ) +
   scale_y_continuous(
     name = expression(frac(p, 1-p)),
-    breaks = seq(0, 10000, 2500),
+    breaks = seq(0, 100, 25),
+    limits = c(0,100)
   )+
-  theme_clean(base_size = 24)+
-  geom_hline(yintercept = 1, linetype = "dashed", color = "red", linewidth = 0.8)
+  theme_clean(base_size = 24)
 
 plog = ggplot(df, aes(x = p, y = log_odds)) +
   geom_line(linewidth = 1.2) +
@@ -1335,28 +1410,8 @@ plog = ggplot(df, aes(x = p, y = log_odds)) +
 podd|plog
 ```
 
-**At $p=0.5$:** log-odds = 0 (equal odds of success/failure).
 
-
-## Logistic regression
-
-**What we model linearly:**
-
-\
-
-$$
-\eta_i = \text{logit}(p_i) = \log\!\left(\frac{p_i}{1-p_i}\right) = \beta_0 + \beta_1 x_i
-$$
-
-\
-
-**Inverse transformation** (log-odds back to probability):
-
-\
-
-$$
-p_i = \frac{\exp(\eta_i)}{1+\exp(\eta_i)} = \frac{\exp(\beta_0+\beta_1 x_i)}{1+\exp(\beta_0+\beta_1 x_i)}
-$$
+Log-Odds: “Equally strong” probabilities on opposite sides of 0.5 become equal in magnitude but opposite in sign.
 
 
 ## Example
@@ -1621,6 +1676,61 @@ Unlike odds, probability changes are **not constant**!
 
 :::
 
+## Not linear in probability
+
+$\rightarrow$ **Same $\beta_1$, same OR (2.23×), but different probability changes!**
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+#| fig-align: left
+#| fig-height: 10
+#| fig-width: 18
+
+# Choose coefficients so +1 in x gives +b1 in log-odds (not +1)
+b0 <- 0
+b1 <- 0.8
+
+# Generate data for plotting
+x_vals <- seq(-10, 10, length.out = 300)
+eta_vals <- b0 + b1 * x_vals
+Y_Logit  <- plogis(eta_vals)  # p = inverse-logit(eta) [web:227]
+
+data <- data.frame(x = x_vals, Y_Logit = Y_Logit)
+
+# Define x positions for vertical lines (equal intervals in x)
+x_positions <- seq(-4, 4, 1)
+
+# Compute corresponding y values (probabilities) at those x's
+y_logis <- plogis(b0 + b1 * x_positions)  # [web:227]
+
+# PLOT
+ggplot(data, aes(x = x, y = Y_Logit)) +
+  geom_line(color = my_cols[2], linewidth = 3) +
+  geom_vline(xintercept = x_positions, linetype = "dashed",
+             color = "red", linewidth = 1) +
+  geom_hline(yintercept = y_logis, linetype = 1,
+             color = "#777777", linewidth = 1) +
+  labs(
+    x = expression(x),
+    y = "p"
+  ) +
+  scale_x_continuous(breaks = -4:4) +
+  coord_cartesian(xlim = c(-5, 4), ylim = c(0, 1)) +
+  scale_y_continuous(breaks = seq(0, 1, .1)) +
+  theme_clean(base_size = 24) +
+  geom_text(
+    data = data.frame(x = x_positions, y = 0.05, label = paste0("x = ", x_positions)),
+    aes(x = x, y = y, label = label),
+    color = "black", vjust = 3, size = 7, fontface = "bold"
+  ) +
+  geom_text(
+    data = data.frame(x = -5, y = y_logis, label = paste0("p = ", round(y_logis, 2))),
+    aes(x = x, y = y, label = label),
+    color = "black", hjust = 0, vjust = -.2, size = 8, fontface = "bold"
+  )
+```
 
 
 ## Let's try
@@ -1710,62 +1820,6 @@ beta1 = 1
 ```
 :::
 
-
-## Not linear in probability
-
-$\rightarrow$ **Same $\beta_1$, same OR (2.23×), but different probability changes!**
-
-```{r}
-#| echo: false
-#| message: false
-#| warning: false
-#| fig-align: left
-#| fig-height: 10
-#| fig-width: 18
-
-# Choose coefficients so +1 in x gives +b1 in log-odds (not +1)
-b0 <- 0
-b1 <- 0.8
-
-# Generate data for plotting
-x_vals <- seq(-10, 10, length.out = 300)
-eta_vals <- b0 + b1 * x_vals
-Y_Logit  <- plogis(eta_vals)  # p = inverse-logit(eta) [web:227]
-
-data <- data.frame(x = x_vals, Y_Logit = Y_Logit)
-
-# Define x positions for vertical lines (equal intervals in x)
-x_positions <- seq(-4, 4, 1)
-
-# Compute corresponding y values (probabilities) at those x's
-y_logis <- plogis(b0 + b1 * x_positions)  # [web:227]
-
-# PLOT
-ggplot(data, aes(x = x, y = Y_Logit)) +
-  geom_line(color = my_cols[2], linewidth = 3) +
-  geom_vline(xintercept = x_positions, linetype = "dashed",
-             color = "red", linewidth = 1) +
-  geom_hline(yintercept = y_logis, linetype = 1,
-             color = "#777777", linewidth = 1) +
-  labs(
-    x = expression(x),
-    y = "p"
-  ) +
-  scale_x_continuous(breaks = -4:4) +
-  coord_cartesian(xlim = c(-5, 4), ylim = c(0, 1)) +
-  scale_y_continuous(breaks = seq(0, 1, .1)) +
-  theme_clean(base_size = 24) +
-  geom_text(
-    data = data.frame(x = x_positions, y = 0.05, label = paste0("x = ", x_positions)),
-    aes(x = x, y = y, label = label),
-    color = "black", vjust = 3, size = 7, fontface = "bold"
-  ) +
-  geom_text(
-    data = data.frame(x = -5, y = y_logis, label = paste0("p = ", round(y_logis, 2))),
-    aes(x = x, y = y, label = label),
-    color = "black", hjust = 0, vjust = -.2, size = 8, fontface = "bold"
-  )
-```
 
 ##
 
