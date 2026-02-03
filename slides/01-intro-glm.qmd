@@ -298,8 +298,6 @@ p4 <- ggplot(df_binom, aes(k, prob)) +
 
 ## Distributions and linear regression
 
-Predict the **average value of $Y$** and quantify the remaining variation:
-
 ::: incremental
 - **Expected value (mean)**: $E[Y]=\mu$.  
   The long-run average of $Y$ under its distribution.
