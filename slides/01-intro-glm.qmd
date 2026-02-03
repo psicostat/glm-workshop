@@ -182,17 +182,13 @@ pn
 
 ## Why probability distributions?
 
-Our models do not fit our data exactly ...
+Our models do not fit our data exactly, we predict **the average** value of the outcome given the predictors.
 
-::: incremental
-1.  **Predict the average** value of the outcome given the predictors
-2.  **Summarize the variation** in this prediction
-:::
 
 ::: fragment
-Probability distributions help us **characterize** the **variation** that remains ***after*** predicting the average.
+- Probability distributions help us **characterize** the **variation** that remains ***after*** predicting the average.
 
-$\rightarrow$ Quantify **uncertainty in the estimated parameters** of the model!
+- Quantify **uncertainty in the estimated parameters** of the model!
 :::
 
 
@@ -208,8 +204,7 @@ $$f(y \mid \boldsymbol{\theta})$$
 
 Where:
 
-- $Y$ is the random variable (uppercase)
-- $y$ is a specific value it can take (lowercase)
+- $y$ is a specific value 
 - $\boldsymbol{\theta}$ is a vector of parameters (e.g., $\mu$, $\sigma^2$)
 - $f(\cdot)$ is the probability function
 
@@ -342,7 +337,7 @@ the parameters are exactly the mean and variance.
 | Distribution | Support | mean: $E[Y]$ | variance: $\mathrm{Var}(Y)$ |
 |------------------|------------------|:----------------:|:-----------------:|
 | **Normal**: $f(y \text{ | } \mu,\sigma^2)$ | $y \in \mathbb{R}$ | $\mu$ | $\sigma^2$ |
-| **Gamma**: $f(y \text{ | } \alpha,\beta)$ | $y \in (0,\infty)$ | $\alpha/\beta$ | $\alpha/\beta^2$ |
+| **Gamma**: $f(y \text{ | } \alpha,\lambda)$ | $y \in (0,\infty)$ | $\alpha/\lambda$ | $\alpha/\lambda^2$ |
 | **Binomial**: $f(y \text{ | } n,p)$ | $y \in \{0,1,\dots,n\}$ | $np$ | $np(1-p)$ |
 | **Poisson**: $f(y \text{ | } \lambda)$ | $y \in \{0,1,2,\dots\}$ | $\lambda$ | $\lambda$ |
 
@@ -433,7 +428,7 @@ ggplot(dat, aes(x=x, fill = parameters))+
 ::: column 
 $\mu_i = \beta_0 + \beta_1 x_i,$ 
 
-$Y_i \sim \mathcal{N}(\mu_i,\sigma^2)$
+$y_i \sim \mathcal{N}(\mu_i,\sigma^2)$
 
 ```{r, echo=FALSE}
 #| fig-align: left
@@ -448,7 +443,7 @@ pn
 
 ::: column 
 ::: fragment
-$\quad Y_i = \beta_0 + \beta_1 x_i + \varepsilon_i,$
+$\quad y_i = \beta_0 + \beta_1 x_i + \varepsilon_i,$
 
 $\quad \varepsilon_i \sim \mathcal{N}(0,\sigma^2)$
 
@@ -500,13 +495,14 @@ pe
 :::::
 
 ::: fragment
-“The distribution of the errors” and “the distribution of the data given x” are two equivalent ways of expressing the same modeling assumption.
+Two equivalent ways of expressing the same modeling assumption.
 :::
 
 
 ## Normal distribution
 
 -   **Support**: $-\infty, +\infty$
+-   mean = mode = median
 -   **Mean** (expected value): $\mu$
 -   **Variance**: $\sigma^2$
 -   **Independence:** changing the mean does *not* change the variance!
@@ -675,12 +671,13 @@ exam_plot +
 
 ```
 
-**Do you see something strange?**
+::: fragment
+How does this look to you?
+::: 
 
 ## Fitting a Generalized Linear Model
 
-The model should consider both the **support** of the $y$ variable and
-the **non-linear pattern**!
+The model should consider both the **support** of the $y$ variable and the **non-linear pattern**!
 
 ```{r}
 #| echo: false
@@ -701,7 +698,7 @@ Reaction times on two-choice questions as a function of hours studied.
 ::: {.column width="35%"}
 ```{r, echo=FALSE}
 set.seed(123)
-n <- 50
+n <- 100
 x <- round(runif(n, 0, 100))
 
 # Data-generating process (Gamma): mean RT changes with x
@@ -725,17 +722,12 @@ dat_rt
 ::: fragment
 ```{r, eval=FALSE}
 range(dat_rt$rt)
-#>  [1]   1.489239 149.169447
+#>  1.341846 119.428719
 
 # mean RT as a function of studyh
 tapply(dat_rt$rt, cut(dat_rt$studyh, breaks = 4), mean)
-#>  (1.9,26.2] (26.2,50.5] (50.5,74.8] (74.8,99.1] 
-#>   49.628342   24.855683   11.468186    4.628276 
-
-# variance RT as a function of studyh
-tapply(dat_rt$rt, cut(dat_rt$studyh, breaks = 4), var)
-#> (1.9,26.2] (26.2,50.5] (50.5,74.8] (74.8,99.1] 
-#> 1303.176485  265.296600   24.566131    3.790422
+#>  (0,24.8]   (24.8,49.5]   (49.5,74.2]   (74.2,99.1] 
+#>      56.10084      26.73179      11.39825       6.46455 
 
 ```
 :::
@@ -841,70 +833,26 @@ What **support**?
 
 ## Random component 
 
-Choosing a distribution specifies not only the mean, but also how the variance depends on the mean:
-
-\
+Choosing a distribution specifies not only the mean, but also how the variance depends on the mean (**variance function** $V(\mu)$):
 
 $$
-\qquad \mu = E(Y \mid X), \qquad \mathrm{Var}(Y \mid X) = \phi \, V(\mu),
+\mu = E(Y \mid X), \qquad \mathrm{Var}(Y \mid X) = \phi \, V(\mu),
 $$
 
 \
 
-where $V(\mu)$ is the **variance function** (determined by the family) and $\phi$ is the dispersion parameter.
+Once you model $\mu(x)$, the variance is also determined **at each x**.
 
+Examples of **variance function** $V(\mu)$:
 
-## The GLM variance structure
-
-::: incremental
-
-- In GLMs, variance is **not constant** — it changes with the mean: $\mathrm{Var}(Y\mid X) = \phi V(\mu)$
-
-- The **variance function** $V(\mu)$ defines how variance depends on the mean (e.g., $V(\mu) = \mu$ for Poisson, $V(\mu) = \mu(1-\mu)$ for binomial)
-
-- Once you model $\mu(x)$, the variance is also determined **at each x** (up to the scale $\phi$).
-
-- **Heteroscedasticity** is implicit in GLMs
-
-:::
-
-## What is dispersion?
-
-::: incremental
-
-- **Dispersion** quantifies how spread out the data are around the mean
-
-- In the **Normal distribution**: $Y \sim N(\mu, \sigma^2)$, the dispersion parameter is $\phi = \sigma^2$ (the variance)
-
-- $\sigma^2$ controls spread **independently** of $\mu$ — you can have any mean with any variance
-
-- This **separation** between location ($\mu$) and scale ($\sigma^2$) is a defining feature of the Normal family
-
-:::
-
-## Dispersion ($\phi$) is fixed
-
-::: incremental
-
-- Different families handle dispersion **differently**
-
-- **Normal**: $\text{Var}(Y) = \sigma^2$ (constant, independent of mean)
-
-- **Poisson**: $\text{Var}(Y) = \mu$ (variance **equals** the mean, $\phi = 1$ fixed)
-
-- **Binomial**: $\text{Var}(Y) = n\mu(1-\mu)$ (variance is a **function** of the mean, $\phi = 1$ fixed)
-
-- Fixing $\phi = 1$ means the **entire variance is determined by** $V(\mu)$ — no additional free parameter for "extra variability".
-
-- When $\phi \neq 1$ is needed, we move to **quasi-likelihood** or overdispersed models (negative binomial, beta-binomial, etc.)
-
-:::
+- $V(\mu) = \mu$ for Poisson, 
+- $V(\mu) = \mu(1-\mu)$ for Bernoulli
 
 
 ## Systematic Component
 
 The **systematic component** is *exactly the same* as in *normal* linear
-regression: we predict a linear combination of predictors.
+regression: 
 
 <br/>
 
@@ -920,13 +868,16 @@ according to the predictors.
 The **link function** $g(\cdot)$ connects the expected value (mean)
 $\mu_i$ of the distribution to the linear predictor $\eta_i$:
 
-\
 
 $$
 g(\mu_i) = \eta_i
 $$
 
-\
+Inverse link:
+
+$$
+\mu_i = g^{-1}(\eta_i)
+$$
 
 -   The linear predictor $\eta_i$ can be any real number:
     $(-\infty, +\infty)$
@@ -968,7 +919,7 @@ and **logit link** can be written as:
 $$
 \begin{aligned}
 y_i &\sim \text{Bernoulli}(p_i) && \text{Random component} \\
-\text{logit}(p_i) &= \log\!\left(\frac{p_i}{1-p_i}\right)=\eta_i && \text{Link (logit)} \\
+p_i &= \frac{\exp(\eta_i)}{1+\exp(\eta_i)} && \text{Inverse link (logit)} \\
 \eta_i &= \beta_0 + \beta_1 x_{i1} + \cdots + \beta_k x_{ik} && \text{Systematic component}
 \end{aligned}
 $$
@@ -983,28 +934,19 @@ and **logit link** can be written as:
 $$
 \begin{aligned}
 y_i &\sim \text{Bernoulli}(p_i) && \text{Random component} \\
-p_i &= \frac{\exp(\eta_i)}{1+\exp(\eta_i)} && \text{Inverse link (logit)} \\
+\text{logit}(p_i) &= \log\!\left(\frac{p_i}{1-p_i}\right)=\eta_i && \text{Link (logit)} \\
 \eta_i &= \beta_0 + \beta_1 x_{i1} + \cdots + \beta_k x_{ik} && \text{Systematic component}
 \end{aligned}
 $$
 
-## Assumptions
 
-- **Lack of outliers**: All responses were generated from the same process, so that the same model is appropriate for all the observations.
 
-- **Link function**: The correct link functionis used.
-
-- **Linearity**: All important explanatory variables are included, and each explanatory variable is included in the linear predictor on the correct scale.
-
-- **Variance function**: The correct variance function  is used. This is the mean-variance relationship
-
-- **Dispersion parameter**: The dispersion parameter is constant. This is a subtle but important distinction. The variance is not constant in GLMs but the dispersion parameter is. 
 
 # Binomial Logistic Regression {.section}
 
-## Binary outcomes and counts
+## Random component
 
-The ***Bernoulli*** or the ***Binomial*** distributions can be used as
+The ***Bernoulli(p)*** or the ***Binomial(n,p)*** distributions can be used as
 **random component** when we have a binary dependent variable or the
 number of successes over the total number of trials.
 
@@ -1016,15 +958,9 @@ number of successes over the total number of trials.
 
 ## Bernoulli Distribution 
 
-Suppose one student takes an exam with probability $p$ of passing. Let $K \in \{0, 1\}$ indicate the outcome (0 = fail, 1 = pass).
+Suppose you collected data on whether each student passed the exam.  Let $K \in \{0, 1\}$ denote the outcome, where 0 = fail and 1 = pass.
 
 The probability mass function is:
-
-$$
-P(K = k) = p^k(1-p)^{1-k}, \quad k \in \{0, 1\}
-$$
-
-Equivalently:
 
 $$
 P(K = k) =
@@ -1034,6 +970,12 @@ p       & \text{if } k = 1 \text{ (pass)}, \\
 \end{cases}
 $$
 
+Equivalently:
+
+$$
+P(K = k) = p^k(1-p)^{1-k}, \quad k \in \{0, 1\}
+$$
+
 
 - Mean: $E[K] = p$
 - Variance: $\text{Var}(K) = p(1-p)$
@@ -1041,7 +983,7 @@ $$
 
 ## Binomial Distribution 
 
-Suppose $n$ students take the same exam, each with probability $p$ of passing independently. Let $K$ be the (random) number who pass.
+Suppose $n$ students take the same exam and let $k$ be the number who pass.
 
 The probability mass function is:
 
@@ -1056,7 +998,7 @@ $$
 - Bernuolli special case of Binomial when $n = 1$
 
 
-## One student takes the exam
+## Bernoulli
 
 ```{r}
 #| echo: true
@@ -1097,9 +1039,7 @@ many = rbinom(n = 100000, size = 1, prob = 0.7); head(many)
 var(many)
 ```
 
-## Ten students take the exam
-
-How many pass?
+## Binomial
 
 ```{r}
 #| echo: true
@@ -1217,12 +1157,13 @@ p09
 
 ## Mean–variance relationship
 
-$E[Y] = np \quad \text{and} \quad \mathrm{Var}(Y) = np(1-p)$
+$$E[Y] = np \quad \text{and} \quad \mathrm{Var}(Y) = np(1-p)$$
 
 ```{r}
 #| echo: false
 #| fig-width: 10
 #| fig-height: 6
+#| fig-align: center
 
 p <- seq(0, 1, 0.01)
 df_mv <- data.frame(
@@ -1249,9 +1190,7 @@ ggplot(df_mv, aes(x = p, y = variance)) +
 
 ```
 
-**Variance is not constant!**
 
-# Odds, Odds Ratio and Logit Link {.section}
 
 ## Why not model probability directly?
 
@@ -1282,11 +1221,11 @@ A linear model can predict values outside, but probabilities must stay between 0
 Transform $p$ using a **link function** that maps $[0,1]$ to $(-\infty, +\infty)$, then model *that* with a linear predictor.
 
 
+# Odds, Odds Ratio and Log-Odds {.section}
+
 ## Odds
 
 The **odds** compare the probability of success to the probability of failure:
-
-\
 
 $$
 \text{odds}(p) = \frac{p}{1-p}
@@ -1299,7 +1238,6 @@ $$
 \
 
 $$\text{odds}=\frac{0.80}{0.20}=4$$
-\
 
 This means 4 successes per 1 failure, on average.
 :::
@@ -1315,7 +1253,6 @@ This means 4 successes per 1 failure, on average.
 
 Taking the **logarithm** of the odds gives the **logit**:
 
-\
 
 $$
 \text{logit}(p) = \log\!\left(\frac{p}{1-p}\right)
@@ -1343,17 +1280,17 @@ This can be modeled linearly: $\text{logit}(p_i) = \beta_0 + \beta_1 x_i$
 ## Odds and Log-odds
 
 ```{r, echo=FALSE}
-#| fig-width: 14
-#| fig-height: 8
+#| fig-width: 18
+#| fig-height: 9
 #| fig-align: left
 
 p <- seq(0.0001, 1-0.0001, length.out = 5000)
+odds <- p / (1 - p)
 log_odds <- log(p / (1 - p))
 
-df <- data.frame(p = p, log_odds = log_odds)
+df <- data.frame(p = p, log_odds = log_odds, odds = odds)
 
-# Create the plot
-ggplot(df, aes(x = p, y = log_odds)) +
+podd = ggplot(df, aes(x = p, y = odds)) +
   geom_line(linewidth = 1.2) +
   geom_hline(yintercept = 0, linetype = "dashed", color = "red", linewidth = 0.8) +
   scale_x_continuous(
@@ -1369,16 +1306,39 @@ ggplot(df, aes(x = p, y = log_odds)) +
     )
   ) +
   scale_y_continuous(
+    name = expression(frac(p, 1-p)),
+    breaks = seq(0, 10000, 2500),
+  )+
+  theme_clean(base_size = 24)+
+  geom_hline(yintercept = 1, linetype = "dashed", color = "red", linewidth = 0.8)
+
+plog = ggplot(df, aes(x = p, y = log_odds)) +
+  geom_line(linewidth = 1.2) +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "red", linewidth = 0.8) +
+  theme_clean(base_size = 24)+
+  scale_x_continuous(
+    name = "p",
+    breaks = seq(0, 1, 0.25),
+    labels = c("0.00", "0.25", "0.50", "0.75", "1.00"),
+    sec.axis = sec_axis(
+      ~ .,
+      name = "1 − p",
+      breaks = seq(0, 1, 0.25),
+      labels = c("1.00", "0.75", "0.50", "0.25", "0.00"),
+      guide= guide_axis(cap = "both")
+    )
+  ) +
+  scale_y_continuous(
     name = expression(log(frac(p, 1-p))),
     breaks = seq(-15, 15, 5),
-  ) +
-  theme_clean(base_size = 24)
+  )
+podd|plog
 ```
 
 **At $p=0.5$:** log-odds = 0 (equal odds of success/failure).
 
 
-## The logistic regression model
+## Logistic regression
 
 **What we model linearly:**
 
@@ -1401,8 +1361,10 @@ $$
 
 ## Example
 
-Let $Y_i \in \{0,1\}$ (Pass), and
-$p_i = P(Y_i=1 \mid x_i)$ where $x_i$ = hours studied. 
+Let $y_i \in \{0,1\}$ (Pass), and
+$p_i = P(y_i=1 \mid x_i)$ where $x_i$ = hours studied. 
+
+\
 
 ::: fragment
 
@@ -1432,16 +1394,14 @@ $$
 \
 
 ::: fragment
-**Interpretation challenge**: $\beta_1$ describes change in *log-odds*, not probability.
-
-$\rightarrow$ Need to transform back to something interpretable!
+$\beta_1$ describes change in *log-odds*, not probability. What does that mean?
 :::
 
 
 
-## Step 1: From Log-Odds to Odds
+## From Log-Odds to Odds
 
-**Starting point**: $\log\!\left(\dfrac{p_i}{1-p_i}\right) =  \beta_0 + \beta_1 x_i$ 
+**Starting point**: $\log\!\left(\dfrac{p(x)}{1-p(x)}\right) =  \beta_0 + \beta_1 x$ 
 
 \
 
@@ -1459,21 +1419,47 @@ $$
 Using properties of exponents: $\exp(\beta_0 + \beta_1 x) = \exp(\beta_0) \cdot \exp(\beta_1 x)$
 :::
 
-## Step 2: What Happens When $x$ Increases?
+## Comparing Two Values of $x$: The Odds Ratio
 
-From $\text{odds}(x) = \exp(\beta_0) \cdot \exp(\beta_1 x)$:
+**When $x = 0$**: 
+
+$$
+\text{odds}(0) = \exp(\beta_0)
+$$
 
 \
 
-**If $x$ increases by 1** (from $x$ to $x+1$):
+::: fragment
+**When $x = 1$**: 
+
+$$
+\text{odds}(1) = \exp(\beta_0 + \beta_1) = \exp(\beta_0) \cdot \exp(\beta_1)
+$$
+:::
+
+\
+
+::: fragment
+**The ratio**:
+
+$$
+\frac{\text{odds}(1)}{\text{odds}(0)} = \frac{\exp(\beta_0) \cdot \exp(\beta_1)}{\exp(\beta_0)} = \exp(\beta_1)
+$$
+:::
+
+## The Odds Ratio
+
+This ratio is constant **regardless of where you start**!
+
+\
+
+**For any 1-unit increase** (from $x$ to $x+1$):
 
 $$
 \frac{\text{odds}(x+1)}{\text{odds}(x)}
 =
 \frac{\exp(\beta_0) \cdot \exp(\beta_1(x+1))}{\exp(\beta_0) \cdot \exp(\beta_1 x)}
 $$
-
-\
 
 ::: fragment
 The $\exp(\beta_0)$ terms cancel:
@@ -1486,15 +1472,6 @@ $$
 $$
 :::
 
-## Step 3: The Odds Ratio
-
-This ratio is constant **regardless of where you start**!
-
-\
-
-$$
-\frac{\text{odds}(x+1)}{\text{odds}(x)} = \exp(\beta_1)
-$$
 
 \
 
@@ -1504,9 +1481,6 @@ This constant multiplier is the **odds ratio (OR)**.
 \
 
 $\rightarrow$ $\exp(\beta_1)$ tells us how the odds multiply for each 1-unit increase in $x$.
-
-\
-
 :::
 
 ## Concrete Example: One-Unit Change
@@ -1524,8 +1498,8 @@ $$
 ::: fragment
 **What this means**: 
 
-- Studying 1 more hour multiplies your odds of passing by 2.23
-- This is true whether you go from 2→3 hours, 5→6 hours, or 10→11 hours
+- Studying 1 more hour multiplies your odds of passing by 2.23 (not the probability!)
+- This is true whether you go from 2 to 3 hours, 5 to 6 hours, or 10 to 11 hours
 :::
 
 
@@ -1648,6 +1622,95 @@ Unlike odds, probability changes are **not constant**!
 :::
 
 
+
+## Let's try
+
+```{r, echo=TRUE}
+beta0 = 0
+# odds?
+# p?
+```
+
+::: fragment
+```{r, echo=TRUE}
+(odds = exp(beta0))
+```
+:::
+
+::: fragment
+```{r, echo=TRUE}
+(p = odds/(1+odds))
+(p = exp(beta0)/(1+exp(beta0)))
+```
+:::
+
+## Let's try
+
+::: fragment
+```{r, echo=TRUE}
+beta1 = 1
+# what happen moving from x = 0 to x = 1?
+```
+:::
+
+::: fragment
+```{r, echo=TRUE}
+(odds1 = odds*exp(beta1))
+(odds1 = exp(beta0)*exp(beta1))
+```
+:::
+
+::: fragment
+```{r, echo=TRUE}
+(p1 = odds1 /(1+odds1))
+(p1 = exp(beta0 + beta1)/(1+exp(beta0+beta1)))
+```
+:::
+
+
+## Let's try
+
+```{r, echo=TRUE}
+beta0 = 3
+# odds?
+# p?
+```
+
+::: fragment
+```{r, echo=TRUE}
+(odds = exp(beta0))
+```
+:::
+
+::: fragment
+```{r, echo=TRUE}
+(p = odds/(1+odds))
+(p = exp(beta0)/(1+exp(beta0)))
+```
+:::
+
+## Let's try
+::: fragment
+```{r, echo=TRUE}
+beta1 = 1
+# what happen moving from x = 0 to x = 1?
+```
+:::
+
+::: fragment
+```{r, echo=TRUE}
+(odds1 = odds*exp(beta1))
+```
+:::
+
+::: fragment
+```{r, echo=TRUE}
+(p1 = odds1 /(1+odds1))
+(p1 = exp(beta0 + beta1)/(1+exp(beta0+beta1)))
+```
+:::
+
+
 ## Not linear in probability
 
 $\rightarrow$ **Same $\beta_1$, same OR (2.23×), but different probability changes!**
@@ -1704,10 +1767,8 @@ ggplot(data, aes(x = x, y = Y_Logit)) +
   )
 ```
 
-
-
-
 ##
+
 
 ![](/img/coffe.png){fig-align="center" width="500"}
 
@@ -1715,3 +1776,49 @@ ggplot(data, aes(x = x, y = Y_Logit)) +
 [Vecteezy](https://www.vecteezy.com/free-png/funny)
 
 
+# Extra slides 
+
+## The GLM variance structure
+
+::: incremental
+
+- In GLMs, variance is **not constant** — it changes with the mean: $\mathrm{Var}(Y\mid X) = \phi V(\mu)$
+
+- The **variance function** $V(\mu)$ defines how variance depends on the mean (e.g., $V(\mu) = \mu$ for Poisson, $V(\mu) = \mu(1-\mu)$ for binomial)
+
+- Once you model $\mu(x)$, the variance is also determined **at each x** (up to the scale $\phi$).
+
+- **Heteroscedasticity** is implicit in GLMs
+
+:::
+
+## What is dispersion?
+
+::: incremental
+
+- **Dispersion** quantifies how spread out the data are around the mean
+
+- In the **Normal distribution**: $Y \sim N(\mu, \sigma^2)$, the dispersion parameter is $\phi = \sigma^2$ (the variance)
+
+- $\sigma^2$ controls spread **independently** of $\mu$ — you can have any mean with any variance
+
+- This **separation** between location ($\mu$) and scale ($\sigma^2$) is a defining feature of the Normal family
+
+:::
+
+## Dispersion ($\phi$) is fixed
+
+::: incremental
+
+- Different families handle dispersion **differently**
+
+- **Normal**: $\text{Var}(Y) = \sigma^2$ (constant, independent of mean)
+
+- **Poisson**: $\text{Var}(Y) = \mu$ (variance **equals** the mean, $\phi = 1$ fixed)
+
+- **Binomial**: $\text{Var}(Y) = n\mu(1-\mu)$ (variance is a **function** of the mean, $\phi = 1$ fixed)
+
+- Fixing $\phi = 1$ means the **entire variance is determined by** $V(\mu)$ — no additional free parameter for "extra variability".
+
+
+:::
