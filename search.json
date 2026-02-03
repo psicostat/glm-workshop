@@ -984,7 +984,7 @@
     "href": "slides/01-intro-glm.html#distributions-and-linear-regression",
     "title": "Introduction to Generalized Linear Models for Psychology",
     "section": "Distributions and linear regression",
-    "text": "Distributions and linear regression\nPredict the average value of \\(Y\\) and quantify the remaining variation:\n\nExpected value (mean): \\(E[Y]=\\mu\\).\nThe long-run average of \\(Y\\) under its distribution.\nConditional expected value: \\(E[Y\\mid X]=\\mu(X)\\).\nThe long-run average outcome for a fixed predictor value \\(X=x\\).\nVariance: \\(\\mathrm{Var}(Y)\\) (or, in regression, \\(\\mathrm{Var}(Y\\mid X)\\)).\nHow much outcomes vary around the mean (overall or at a given \\(x\\)).\n\n\nIn normal linear and generalized linear models we generally include predictors on the mean of the distribution."
+    "text": "Distributions and linear regression\n\nExpected value (mean): \\(E[Y]=\\mu\\).\nThe long-run average of \\(Y\\) under its distribution.\nConditional expected value: \\(E[Y\\mid X]=\\mu(X)\\).\nThe long-run average outcome for a fixed predictor value \\(X=x\\).\nVariance: \\(\\mathrm{Var}(Y)\\) (or, in regression, \\(\\mathrm{Var}(Y\\mid X)\\)).\nHow much outcomes vary around the mean (overall or at a given \\(x\\)).\n\n\nIn normal linear and generalized linear models we generally include predictors on the mean of the distribution."
   },
   {
     "objectID": "slides/01-intro-glm.html#why-is-it-important",
