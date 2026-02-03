@@ -667,9 +667,7 @@ exam_plot
 #| fig-align: left
 exam_plot +
     geom_smooth(method = "lm", se = FALSE, color = my_cols[2], linewidth = 2.5) +
-    ggtitle(" ")+
-   geom_hline(yintercept = 0.5, linetype = "dashed", size = 3,
-             col = "red4", alpha = 0.5)
+    ggtitle(" ")
 
 ```
 
