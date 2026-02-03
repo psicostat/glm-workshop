@@ -226,7 +226,7 @@
     </div>
 </div>
 
-  <p class="date"><em>Last modified: 02-02-2026</em></p>
+  <p class="date"><em>Last modified: 03-02-2026</em></p>
 </section>
 <section id="TOC">
 <nav role="doc-toc"> 
@@ -237,7 +237,8 @@
 <li><a href="#/the-normal-distribution" id="/toc-the-normal-distribution">The Normal distribution</a></li>
 <li><a href="#/generalized-linear-models-glm" id="/toc-generalized-linear-models-glm">Generalized Linear Models (GLM)</a></li>
 <li><a href="#/binomial-logistic-regression" id="/toc-binomial-logistic-regression">Binomial Logistic Regression</a></li>
-<li><a href="#/odds-odds-ratio-and-logit-link" id="/toc-odds-odds-ratio-and-logit-link">Odds, Odds Ratio and Logit Link</a></li>
+<li><a href="#/odds-odds-ratio-and-log-odds" id="/toc-odds-odds-ratio-and-log-odds">Odds, Odds Ratio and Log-Odds</a></li>
+<li><a href="#/extra-slides" id="/toc-extra-slides">Extra slides</a></li>
 </ul>
 </nav>
 </section>
@@ -272,14 +273,12 @@
 </section>
 <section id="why-probability-distributions" class="slide level2">
 <h2>Why probability distributions?</h2>
-<p>Our models do not fit our data exactly …</p>
-<ol type="1">
-<li class="fragment"><strong>Predict the average</strong> value of the outcome given the predictors</li>
-<li class="fragment"><strong>Summarize the variation</strong> in this prediction</li>
-</ol>
+<p>Our models do not fit our data exactly, we predict <strong>the average</strong> value of the outcome given the predictors.</p>
 <div class="fragment">
-<p>Probability distributions help us <strong>characterize</strong> the <strong>variation</strong> that remains <strong><em>after</em></strong> predicting the average.</p>
-<p><span class="math inline">\(\rightarrow\)</span> Quantify <strong>uncertainty in the estimated parameters</strong> of the model!</p>
+<ul>
+<li><p>Probability distributions help us <strong>characterize</strong> the <strong>variation</strong> that remains <strong><em>after</em></strong> predicting the average.</p></li>
+<li><p>Quantify <strong>uncertainty in the estimated parameters</strong> of the model!</p></li>
+</ul>
 </div>
 </section>
 <section id="probability-distributions-1" class="slide level2">
@@ -292,8 +291,7 @@
 </p>
 <p>Where:</p>
 <ul>
-<li><span class="math inline">\(Y\)</span> is the random variable (uppercase)</li>
-<li><span class="math inline">\(y\)</span> is a specific value it can take (lowercase)</li>
+<li><span class="math inline">\(y\)</span> is a specific value</li>
 <li><span class="math inline">\(\boldsymbol{\theta}\)</span> is a vector of parameters (e.g., <span class="math inline">\(\mu\)</span>, <span class="math inline">\(\sigma^2\)</span>)</li>
 <li><span class="math inline">\(f(\cdot)\)</span> is the probability function</li>
 </ul>
@@ -395,10 +393,10 @@ How much outcomes vary around the mean (overall or at a given <span class="math 
 <td style="text-align: center;"><span class="math inline">\(\sigma^2\)</span></td>
 </tr>
 <tr class="even">
-<td><strong>Gamma</strong>: <span class="math inline">\(f(y \text{ | } \alpha,\beta)\)</span></td>
+<td><strong>Gamma</strong>: <span class="math inline">\(f(y \text{ | } \alpha,\lambda)\)</span></td>
 <td><span class="math inline">\(y \in (0,\infty)\)</span></td>
-<td style="text-align: center;"><span class="math inline">\(\alpha/\beta\)</span></td>
-<td style="text-align: center;"><span class="math inline">\(\alpha/\beta^2\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\alpha/\lambda\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\alpha/\lambda^2\)</span></td>
 </tr>
 <tr class="odd">
 <td><strong>Binomial</strong>: <span class="math inline">\(f(y \text{ | } n,p)\)</span></td>
@@ -446,7 +444,7 @@ How much outcomes vary around the mean (overall or at a given <span class="math 
 <div class="columns">
 <div class="column">
 <p><span class="math inline">\(\mu_i = \beta_0 + \beta_1 x_i,\)</span></p>
-<p><span class="math inline">\(Y_i \sim \mathcal{N}(\mu_i,\sigma^2)\)</span></p>
+<p><span class="math inline">\(y_i \sim \mathcal{N}(\mu_i,\sigma^2)\)</span></p>
 <div class="cell" data-layout-align="left">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-left">
@@ -458,7 +456,7 @@ How much outcomes vary around the mean (overall or at a given <span class="math 
 </div>
 </div><div class="column">
 <div class="fragment">
-<p><span class="math inline">\(\quad Y_i = \beta_0 + \beta_1 x_i + \varepsilon_i,\)</span></p>
+<p><span class="math inline">\(\quad y_i = \beta_0 + \beta_1 x_i + \varepsilon_i,\)</span></p>
 <p><span class="math inline">\(\quad \varepsilon_i \sim \mathcal{N}(0,\sigma^2)\)</span></p>
 <div class="cell" data-layout-align="left">
 <div class="cell-output-display">
@@ -472,13 +470,14 @@ How much outcomes vary around the mean (overall or at a given <span class="math 
 </div>
 </div></div>
 <div class="fragment">
-<p>“The distribution of the errors” and “the distribution of the data given x” are two equivalent ways of expressing the same modeling assumption.</p>
+<p>Two equivalent ways of expressing the same modeling assumption.</p>
 </div>
 </section>
 <section id="normal-distribution-3" class="slide level2">
 <h2>Normal distribution</h2>
 <ul>
 <li><strong>Support</strong>: <span class="math inline">\(-\infty, +\infty\)</span></li>
+<li>mean = mode = median</li>
 <li><strong>Mean</strong> (expected value): <span class="math inline">\(\mu\)</span></li>
 <li><strong>Variance</strong>: <span class="math inline">\(\sigma^2\)</span></li>
 <li><strong>Independence:</strong> changing the mean does <em>not</em> change the variance!</li>
@@ -600,7 +599,9 @@ How much outcomes vary around the mean (overall or at a given <span class="math 
 <section id="fitting-a-normal-linear-model" class="slide level2">
 <h2>Fitting a Normal Linear Model</h2>
 
-<img data-src="01-intro-glm_files/figure-revealjs/unnamed-chunk-18-1.svg" class="quarto-figure quarto-figure-left r-stretch"><p><strong>Do you see something strange?</strong></p>
+<img data-src="01-intro-glm_files/figure-revealjs/unnamed-chunk-18-1.svg" class="quarto-figure quarto-figure-left r-stretch"><div class="fragment">
+<p>How does this look to you?</p>
+</div>
 </section>
 <section id="fitting-a-generalized-linear-model" class="slide level2">
 <h2>Fitting a Generalized Linear Model</h2>
@@ -614,74 +615,119 @@ How much outcomes vary around the mean (overall or at a given <span class="math 
 <div class="column" style="width:35%;">
 <div class="cell">
 <div class="cell-output cell-output-stdout">
-<pre><code>   id studyh         rt
-1   1     29  10.947819
-2   2     79   3.540496
-3   3     41  11.268397
-4   4     88   4.392048
-5   5     94   3.715430
-6   6      5  58.248106
-7   7     53  20.919784
-8   8     89   6.736173
-9   9     55  17.673947
-10 10     46  17.588858
-11 11     96   4.606094
-12 12     45   9.470837
-13 13     68   8.466946
-14 14     57  12.035441
-15 15     10  88.036080
-16 16     90   2.616037
-17 17     25  40.789503
-18 18      4  39.961460
-19 19     33  25.712424
-20 20     95   3.359597
-21 21     89   4.885902
-22 22     69  10.306010
-23 23     64   5.981269
-24 24     99   1.489239
-25 25     66   5.558787
-26 26     71   9.449445
-27 27     54  16.912798
-28 28     59   9.531816
-29 29     29  68.481525
-30 30     15  21.572576
-31 31     96   4.640696
-32 32     90   5.915181
-33 33     69   9.313805
-34 34     80   9.680069
-35 35      2 149.169447
-36 36     48  13.338629
-37 37     76   4.569221
-38 38     22  25.811964
-39 39     32  36.203759
-40 40     23  36.008034
-41 41     14  24.000655
-42 42     41  13.996114
-43 43     41  21.102289
-44 44     37  28.233519
-45 45     15  38.237882
-46 46     14  31.721792
-47 47     23  41.982604
-48 48     47  27.842142
-49 49     27  38.937573
-50 50     86   4.649678</code></pre>
+<pre><code>     id studyh         rt
+1     1     29  33.874158
+2     2     79   6.640343
+3     3     41  34.995848
+4     4     88   5.828311
+5     5     94   2.431803
+6     6      5  24.984741
+7     7     53   8.210221
+8     8     89   5.506648
+9     9     55  16.412949
+10   10     46  14.078309
+11   11     96   9.175749
+12   12     45   8.770755
+13   13     68  10.749554
+14   14     57  15.919140
+15   15     10  54.679986
+16   16     90   7.171171
+17   17     25  74.819825
+18   18      4  49.932109
+19   19     33  16.599006
+20   20     95   2.888791
+21   21     89   6.548021
+22   22     69   9.058849
+23   23     64   5.355270
+24   24     99   2.456604
+25   25     66   9.968016
+26   26     71  10.180864
+27   27     54  11.867775
+28   28     59   8.223566
+29   29     29  35.066819
+30   30     15  72.715225
+31   31     96   4.913368
+32   32     90   4.123894
+33   33     69   9.990744
+34   34     80   5.113008
+35   35      2  75.652694
+36   36     48  12.383083
+37   37     76  12.534166
+38   38     22  29.525602
+39   39     32  51.083314
+40   40     23  32.212360
+41   41     14  51.492232
+42   42     41  42.390660
+43   43     41  21.420568
+44   44     37  38.708747
+45   45     15  34.617161
+46   46     14  46.308540
+47   47     23  44.218815
+48   48     47  22.215179
+49   49     27  28.647402
+50   50     86   4.076351
+51   51      5  76.968889
+52   52     44  16.899778
+53   53     80   8.228880
+54   54     12  57.617081
+55   55     56  14.095732
+56   56     21  27.639242
+57   57     13  73.355891
+58   58     75  10.950845
+59   59     90   5.841234
+60   60     37  27.683213
+61   61     67  12.550214
+62   62      9 114.145735
+63   63     38  30.036094
+64   64     27  21.505963
+65   65     81   6.573745
+66   66     45  11.161376
+67   67     81  10.117532
+68   68     81  10.373743
+69   69     79  12.968275
+70   70     44  21.023414
+71   71     75   6.249403
+72   72     63  17.451597
+73   73     71   3.678978
+74   74      0  94.914728
+75   75     48  16.388884
+76   76     22  50.542559
+77   77     38  20.268758
+78   78     61  10.157155
+79   79     35   9.763869
+80   80     11  25.284120
+81   81     24  47.332562
+82   82     67  21.561711
+83   83     42   9.911588
+84   84     79   1.341846
+85   85     10  62.018904
+86   86     43  11.517841
+87   87     98   3.771747
+88   88     89   6.397266
+89   89     89   4.149168
+90   90     18  29.031131
+91   91     13  75.940742
+92   92     65   5.803764
+93   93     34  71.641900
+94   94     66  11.387666
+95   95     32  36.461655
+96   96     19  31.961301
+97   97     78   8.170944
+98   98      9 119.428719
+99   99     47   9.172191
+100 100     51  15.341197</code></pre>
 </div>
 </div>
 </div><div class="column" style="width:65%;">
 <div class="fragment">
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">range</span>(dat_rt<span class="sc">$</span>rt)</span>
-<span id="cb4-2"><a aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1]   1.489239 149.169447</span></span>
+<span id="cb4-2"><a aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  1.341846 119.428719</span></span>
 <span id="cb4-3"><a aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-4"><a aria-hidden="true" tabindex="-1"></a><span class="co"># mean RT as a function of studyh</span></span>
 <span id="cb4-5"><a aria-hidden="true" tabindex="-1"></a><span class="fu">tapply</span>(dat_rt<span class="sc">$</span>rt, <span class="fu">cut</span>(dat_rt<span class="sc">$</span>studyh, <span class="at">breaks =</span> <span class="dv">4</span>), mean)</span>
-<span id="cb4-6"><a aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  (1.9,26.2] (26.2,50.5] (50.5,74.8] (74.8,99.1] </span></span>
-<span id="cb4-7"><a aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   49.628342   24.855683   11.468186    4.628276 </span></span>
-<span id="cb4-8"><a aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-9"><a aria-hidden="true" tabindex="-1"></a><span class="co"># variance RT as a function of studyh</span></span>
-<span id="cb4-10"><a aria-hidden="true" tabindex="-1"></a><span class="fu">tapply</span>(dat_rt<span class="sc">$</span>rt, <span class="fu">cut</span>(dat_rt<span class="sc">$</span>studyh, <span class="at">breaks =</span> <span class="dv">4</span>), var)</span>
-<span id="cb4-11"><a aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; (1.9,26.2] (26.2,50.5] (50.5,74.8] (74.8,99.1] </span></span>
-<span id="cb4-12"><a aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1303.176485  265.296600   24.566131    3.790422</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-6"><a aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  (0,24.8]   (24.8,49.5]   (49.5,74.2]   (74.2,99.1] </span></span>
+<span id="cb4-7"><a aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      56.10084      26.73179      11.39825       6.46455 </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div></div>
@@ -740,48 +786,22 @@ y_i \mid x_i \sim \text{Distribution}(\text{parameters}).
 </section>
 <section id="random-component-1" class="slide level2">
 <h2>Random component</h2>
-<p>Choosing a distribution specifies not only the mean, but also how the variance depends on the mean:</p>
-<p><br>
-</p>
+<p>Choosing a distribution specifies not only the mean, but also how the variance depends on the mean (<strong>variance function</strong> <span class="math inline">\(V(\mu)\)</span>):</p>
 <p><span class="math display">\[
-\qquad \mu = E(Y \mid X), \qquad \mathrm{Var}(Y \mid X) = \phi \, V(\mu),
+\mu = E(Y \mid X), \qquad \mathrm{Var}(Y \mid X) = \phi \, V(\mu),
 \]</span></p>
 <p><br>
 </p>
-<p>where <span class="math inline">\(V(\mu)\)</span> is the <strong>variance function</strong> (determined by the family) and <span class="math inline">\(\phi\)</span> is the dispersion parameter.</p>
-</section>
-<section id="the-glm-variance-structure" class="slide level2">
-<h2>The GLM variance structure</h2>
+<p>Once you model <span class="math inline">\(\mu(x)\)</span>, the variance is also determined <strong>at each x</strong>.</p>
+<p>Examples of <strong>variance function</strong> <span class="math inline">\(V(\mu)\)</span>:</p>
 <ul>
-<li class="fragment"><p>In GLMs, variance is <strong>not constant</strong> — it changes with the mean: <span class="math inline">\(\mathrm{Var}(Y\mid X) = \phi V(\mu)\)</span></p></li>
-<li class="fragment"><p>The <strong>variance function</strong> <span class="math inline">\(V(\mu)\)</span> defines how variance depends on the mean (e.g., <span class="math inline">\(V(\mu) = \mu\)</span> for Poisson, <span class="math inline">\(V(\mu) = \mu(1-\mu)\)</span> for binomial)</p></li>
-<li class="fragment"><p>Once you model <span class="math inline">\(\mu(x)\)</span>, the variance is also determined <strong>at each x</strong> (up to the scale <span class="math inline">\(\phi\)</span>).</p></li>
-<li class="fragment"><p><strong>Heteroscedasticity</strong> is implicit in GLMs</p></li>
-</ul>
-</section>
-<section id="what-is-dispersion" class="slide level2">
-<h2>What is dispersion?</h2>
-<ul>
-<li class="fragment"><p><strong>Dispersion</strong> quantifies how spread out the data are around the mean</p></li>
-<li class="fragment"><p>In the <strong>Normal distribution</strong>: <span class="math inline">\(Y \sim N(\mu, \sigma^2)\)</span>, the dispersion parameter is <span class="math inline">\(\phi = \sigma^2\)</span> (the variance)</p></li>
-<li class="fragment"><p><span class="math inline">\(\sigma^2\)</span> controls spread <strong>independently</strong> of <span class="math inline">\(\mu\)</span> — you can have any mean with any variance</p></li>
-<li class="fragment"><p>This <strong>separation</strong> between location (<span class="math inline">\(\mu\)</span>) and scale (<span class="math inline">\(\sigma^2\)</span>) is a defining feature of the Normal family</p></li>
-</ul>
-</section>
-<section id="dispersion-phi-is-fixed" class="slide level2">
-<h2>Dispersion (<span class="math inline">\(\phi\)</span>) is fixed</h2>
-<ul>
-<li class="fragment"><p>Different families handle dispersion <strong>differently</strong></p></li>
-<li class="fragment"><p><strong>Normal</strong>: <span class="math inline">\(\text{Var}(Y) = \sigma^2\)</span> (constant, independent of mean)</p></li>
-<li class="fragment"><p><strong>Poisson</strong>: <span class="math inline">\(\text{Var}(Y) = \mu\)</span> (variance <strong>equals</strong> the mean, <span class="math inline">\(\phi = 1\)</span> fixed)</p></li>
-<li class="fragment"><p><strong>Binomial</strong>: <span class="math inline">\(\text{Var}(Y) = n\mu(1-\mu)\)</span> (variance is a <strong>function</strong> of the mean, <span class="math inline">\(\phi = 1\)</span> fixed)</p></li>
-<li class="fragment"><p>Fixing <span class="math inline">\(\phi = 1\)</span> means the <strong>entire variance is determined by</strong> <span class="math inline">\(V(\mu)\)</span> — no additional free parameter for “extra variability”.</p></li>
-<li class="fragment"><p>When <span class="math inline">\(\phi \neq 1\)</span> is needed, we move to <strong>quasi-likelihood</strong> or overdispersed models (negative binomial, beta-binomial, etc.)</p></li>
+<li><span class="math inline">\(V(\mu) = \mu\)</span> for Poisson,</li>
+<li><span class="math inline">\(V(\mu) = \mu(1-\mu)\)</span> for Bernoulli</li>
 </ul>
 </section>
 <section id="systematic-component" class="slide level2">
 <h2>Systematic Component</h2>
-<p>The <strong>systematic component</strong> is <em>exactly the same</em> as in <em>normal</em> linear regression: we predict a linear combination of predictors.</p>
+<p>The <strong>systematic component</strong> is <em>exactly the same</em> as in <em>normal</em> linear regression:</p>
 <p><br></p>
 <p><span class="math display">\[
 \eta_i = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \cdots + \beta_k x_{ik}.
@@ -791,13 +811,13 @@ y_i \mid x_i \sim \text{Distribution}(\text{parameters}).
 <section id="link-function" class="slide level2">
 <h2>Link Function</h2>
 <p>The <strong>link function</strong> <span class="math inline">\(g(\cdot)\)</span> connects the expected value (mean) <span class="math inline">\(\mu_i\)</span> of the distribution to the linear predictor <span class="math inline">\(\eta_i\)</span>:</p>
-<p><br>
-</p>
 <p><span class="math display">\[
 g(\mu_i) = \eta_i
 \]</span></p>
-<p><br>
-</p>
+<p>Inverse link:</p>
+<p><span class="math display">\[
+\mu_i = g^{-1}(\eta_i)
+\]</span></p>
 <ul>
 <li>The linear predictor <span class="math inline">\(\eta_i\)</span> can be any real number: <span class="math inline">\((-\infty, +\infty)\)</span></li>
 <li>But <span class="math inline">\(\mu_i\)</span> (the mean) is <strong>constrained</strong> by the distribution’s support</li>
@@ -868,7 +888,7 @@ y_i &amp;\sim \mathcal{N}(\mu_i, \sigma^2) &amp;&amp; \text{Random component} \\
 <p><span class="math display">\[
 \begin{aligned}
 y_i &amp;\sim \text{Bernoulli}(p_i) &amp;&amp; \text{Random component} \\
-\text{logit}(p_i) &amp;= \log\!\left(\frac{p_i}{1-p_i}\right)=\eta_i &amp;&amp; \text{Link (logit)} \\
+p_i &amp;= \frac{\exp(\eta_i)}{1+\exp(\eta_i)} &amp;&amp; \text{Inverse link (logit)} \\
 \eta_i &amp;= \beta_0 + \beta_1 x_{i1} + \cdots + \beta_k x_{ik} &amp;&amp; \text{Systematic component}
 \end{aligned}
 \]</span></p>
@@ -880,29 +900,19 @@ y_i &amp;\sim \text{Bernoulli}(p_i) &amp;&amp; \text{Random component} \\
 <p><span class="math display">\[
 \begin{aligned}
 y_i &amp;\sim \text{Bernoulli}(p_i) &amp;&amp; \text{Random component} \\
-p_i &amp;= \frac{\exp(\eta_i)}{1+\exp(\eta_i)} &amp;&amp; \text{Inverse link (logit)} \\
+\text{logit}(p_i) &amp;= \log\!\left(\frac{p_i}{1-p_i}\right)=\eta_i &amp;&amp; \text{Link (logit)} \\
 \eta_i &amp;= \beta_0 + \beta_1 x_{i1} + \cdots + \beta_k x_{ik} &amp;&amp; \text{Systematic component}
 \end{aligned}
 \]</span></p>
-</section>
-<section id="assumptions" class="slide level2">
-<h2>Assumptions</h2>
-<ul>
-<li><p><strong>Lack of outliers</strong>: All responses were generated from the same process, so that the same model is appropriate for all the observations.</p></li>
-<li><p><strong>Link function</strong>: The correct link functionis used.</p></li>
-<li><p><strong>Linearity</strong>: All important explanatory variables are included, and each explanatory variable is included in the linear predictor on the correct scale.</p></li>
-<li><p><strong>Variance function</strong>: The correct variance function is used. This is the mean-variance relationship</p></li>
-<li><p><strong>Dispersion parameter</strong>: The dispersion parameter is constant. This is a subtle but important distinction. The variance is not constant in GLMs but the dispersion parameter is.</p></li>
-</ul>
 </section></section>
 <section>
 <section id="binomial-logistic-regression" class="title-slide slide level1 section center">
 <h1>Binomial Logistic Regression</h1>
 
 </section>
-<section id="binary-outcomes-and-counts" class="slide level2">
-<h2>Binary outcomes and counts</h2>
-<p>The <strong><em>Bernoulli</em></strong> or the <strong><em>Binomial</em></strong> distributions can be used as <strong>random component</strong> when we have a binary dependent variable or the number of successes over the total number of trials.</p>
+<section id="random-component-2" class="slide level2">
+<h2>Random component</h2>
+<p>The <strong><em>Bernoulli(p)</em></strong> or the <strong><em>Binomial(n,p)</em></strong> distributions can be used as <strong>random component</strong> when we have a binary dependent variable or the number of successes over the total number of trials.</p>
 <p><br>
 </p>
 <ul>
@@ -912,18 +922,18 @@ p_i &amp;= \frac{\exp(\eta_i)}{1+\exp(\eta_i)} &amp;&amp; \text{Inverse link (lo
 </section>
 <section id="bernoulli-distribution" class="slide level2">
 <h2>Bernoulli Distribution</h2>
-<p>Suppose one student takes an exam with probability <span class="math inline">\(p\)</span> of passing. Let <span class="math inline">\(K \in \{0, 1\}\)</span> indicate the outcome (0 = fail, 1 = pass).</p>
+<p>Suppose you collected data on whether each student passed the exam. Let <span class="math inline">\(K \in \{0, 1\}\)</span> denote the outcome, where 0 = fail and 1 = pass.</p>
 <p>The probability mass function is:</p>
-<p><span class="math display">\[
-P(K = k) = p^k(1-p)^{1-k}, \quad k \in \{0, 1\}
-\]</span></p>
-<p>Equivalently:</p>
 <p><span class="math display">\[
 P(K = k) =
 \begin{cases}
 p       &amp; \text{if } k = 1 \text{ (pass)}, \\
 1-p &amp; \text{if } k = 0 \text{ (fail)}.
 \end{cases}
+\]</span></p>
+<p>Equivalently:</p>
+<p><span class="math display">\[
+P(K = k) = p^k(1-p)^{1-k}, \quad k \in \{0, 1\}
 \]</span></p>
 <ul>
 <li>Mean: <span class="math inline">\(E[K] = p\)</span></li>
@@ -932,7 +942,7 @@ p       &amp; \text{if } k = 1 \text{ (pass)}, \\
 </section>
 <section id="binomial-distribution" class="slide level2">
 <h2>Binomial Distribution</h2>
-<p>Suppose <span class="math inline">\(n\)</span> students take the same exam, each with probability <span class="math inline">\(p\)</span> of passing independently. Let <span class="math inline">\(K\)</span> be the (random) number who pass.</p>
+<p>Suppose <span class="math inline">\(n\)</span> students take the same exam and let <span class="math inline">\(k\)</span> be the number who pass.</p>
 <p>The probability mass function is:</p>
 <p><span class="math display">\[
 P(K = k) \;=\; \binom{n}{k}\, p^{k}\,(1-p)^{n-k}, \quad k = 0, 1, \ldots, n
@@ -944,8 +954,8 @@ P(K = k) \;=\; \binom{n}{k}\, p^{k}\,(1-p)^{n-k}, \quad k = 0, 1, \ldots, n
 <li>Bernuolli special case of Binomial when <span class="math inline">\(n = 1\)</span></li>
 </ul>
 </section>
-<section id="one-student-takes-the-exam" class="slide level2">
-<h2>One student takes the exam</h2>
+<section id="bernoulli" class="slide level2">
+<h2>Bernoulli</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">rbinom</span>(<span class="at">n =</span> <span class="dv">1</span>, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">prob =</span> <span class="fl">0.7</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -956,7 +966,7 @@ P(K = k) \;=\; \binom{n}{k}\, p^{k}\,(1-p)^{n-k}, \quad k = 0, 1, \ldots, n
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a aria-hidden="true" tabindex="-1"></a>many <span class="ot">=</span> <span class="fu">rbinom</span>(<span class="at">n =</span> <span class="dv">100000</span>, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">prob =</span> <span class="fl">0.7</span>); <span class="fu">head</span>(many)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0 1 0 1 1 1</code></pre>
+<pre><code>[1] 1 1 1 0 1 1</code></pre>
 </div>
 </div>
 </div>
@@ -965,7 +975,7 @@ P(K = k) \;=\; \binom{n}{k}\, p^{k}\,(1-p)^{n-k}, \quad k = 0, 1, \ldots, n
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Mean</span></span>
 <span id="cb9-2"><a aria-hidden="true" tabindex="-1"></a>(<span class="at">p =</span> <span class="fu">mean</span>(many))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.70083</code></pre>
+<pre><code>[1] 0.70097</code></pre>
 </div>
 </div>
 </div>
@@ -974,30 +984,29 @@ P(K = k) \;=\; \binom{n}{k}\, p^{k}\,(1-p)^{n-k}, \quad k = 0, 1, \ldots, n
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Variance</span></span>
 <span id="cb11-2"><a aria-hidden="true" tabindex="-1"></a>(p<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>p))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.2096673</code></pre>
+<pre><code>[1] 0.2096111</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">var</span>(many)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.2096694</code></pre>
+<pre><code>[1] 0.2096132</code></pre>
 </div>
 </div>
 </div>
 </section>
-<section id="ten-students-take-the-exam" class="slide level2">
-<h2>Ten students take the exam</h2>
-<p>How many pass?</p>
+<section id="binomial" class="slide level2">
+<h2>Binomial</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a aria-hidden="true" tabindex="-1"></a>n <span class="ot">=</span> <span class="dv">10</span>; p <span class="ot">=</span> <span class="fl">0.7</span></span>
 <span id="cb15-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">rbinom</span>(<span class="at">n =</span> <span class="dv">1</span>, <span class="at">size =</span> n, <span class="at">prob =</span> <span class="fl">0.7</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 9</code></pre>
+<pre><code>[1] 7</code></pre>
 </div>
 </div>
 <div class="fragment">
 <div class="cell">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a aria-hidden="true" tabindex="-1"></a>many <span class="ot">=</span> <span class="fu">rbinom</span>(<span class="at">n =</span> <span class="dv">100000</span>, <span class="at">size =</span> n, <span class="at">prob =</span> p); <span class="fu">head</span>(many)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 5 8 6 6 8 8</code></pre>
+<pre><code>[1] 6 7 5 5 6 7</code></pre>
 </div>
 </div>
 </div>
@@ -1009,7 +1018,7 @@ P(K = k) \;=\; \binom{n}{k}\, p^{k}\,(1-p)^{n-k}, \quad k = 0, 1, \ldots, n
 </div>
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(many)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 7.00082</code></pre>
+<pre><code>[1] 7.00063</code></pre>
 </div>
 </div>
 </div>
@@ -1021,7 +1030,7 @@ P(K = k) \;=\; \binom{n}{k}\, p^{k}\,(1-p)^{n-k}, \quad k = 0, 1, \ldots, n
 </div>
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">var</span>(many)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 2.1049</code></pre>
+<pre><code>[1] 2.105251</code></pre>
 </div>
 </div>
 </div>
@@ -1029,7 +1038,7 @@ P(K = k) \;=\; \binom{n}{k}\, p^{k}\,(1-p)^{n-k}, \quad k = 0, 1, \ldots, n
 <div class="cell">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(many<span class="sc">/</span>n) <span class="co"># Mean proportion = p</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.700082</code></pre>
+<pre><code>[1] 0.700063</code></pre>
 </div>
 </div>
 </div>
@@ -1066,15 +1075,9 @@ P(K = k) \;=\; \binom{n}{k}\, p^{k}\,(1-p)^{n-k}, \quad k = 0, 1, \ldots, n
 </section>
 <section id="meanvariance-relationship" class="slide level2">
 <h2>Mean–variance relationship</h2>
-<p><span class="math inline">\(E[Y] = np \quad \text{and} \quad \mathrm{Var}(Y) = np(1-p)\)</span></p>
+<p><span class="math display">\[E[Y] = np \quad \text{and} \quad \mathrm{Var}(Y) = np(1-p)\]</span></p>
 
-<img data-src="01-intro-glm_files/figure-revealjs/unnamed-chunk-36-1.svg" class="r-stretch"><p><strong>Variance is not constant!</strong></p>
-</section></section>
-<section>
-<section id="odds-odds-ratio-and-logit-link" class="title-slide slide level1 section center">
-<h1>Odds, Odds Ratio and Logit Link</h1>
-
-</section>
+<img data-src="01-intro-glm_files/figure-revealjs/unnamed-chunk-36-1.svg" class="quarto-figure quarto-figure-center r-stretch"></section>
 <section id="why-not-model-probability-directly" class="slide level2">
 <h2>Why not model probability directly?</h2>
 <p><br>
@@ -1100,12 +1103,15 @@ A linear model can predict values outside, but probabilities must stay between 0
 </p>
 <p><strong>Solution:</strong><br>
 Transform <span class="math inline">\(p\)</span> using a <strong>link function</strong> that maps <span class="math inline">\([0,1]\)</span> to <span class="math inline">\((-\infty, +\infty)\)</span>, then model <em>that</em> with a linear predictor.</p>
+</section></section>
+<section>
+<section id="odds-odds-ratio-and-log-odds" class="title-slide slide level1 section center">
+<h1>Odds, Odds Ratio and Log-Odds</h1>
+
 </section>
 <section id="odds" class="slide level2">
 <h2>Odds</h2>
 <p>The <strong>odds</strong> compare the probability of success to the probability of failure:</p>
-<p><br>
-</p>
 <p><span class="math display">\[
 \text{odds}(p) = \frac{p}{1-p}
 \]</span></p>
@@ -1114,8 +1120,7 @@ Transform <span class="math inline">\(p\)</span> using a <strong>link function</
 <div class="fragment">
 <p><strong>Example:</strong> If <span class="math inline">\(p=0.80\)</span> (80% chance of passing), then<br>
 </p>
-<p><span class="math display">\[\text{odds}=\frac{0.80}{0.20}=4\]</span><br>
-</p>
+<p><span class="math display">\[\text{odds}=\frac{0.80}{0.20}=4\]</span></p>
 <p>This means 4 successes per 1 failure, on average.</p>
 </div>
 <p><br>
@@ -1127,8 +1132,6 @@ Transform <span class="math inline">\(p\)</span> using a <strong>link function</
 <section id="log-odds-logit" class="slide level2">
 <h2>Log-odds (logit)</h2>
 <p>Taking the <strong>logarithm</strong> of the odds gives the <strong>logit</strong>:</p>
-<p><br>
-</p>
 <p><span class="math display">\[
 \text{logit}(p) = \log\!\left(\frac{p}{1-p}\right)
 \]</span></p>
@@ -1152,8 +1155,8 @@ Transform <span class="math inline">\(p\)</span> using a <strong>link function</
 
 <img data-src="01-intro-glm_files/figure-revealjs/unnamed-chunk-37-1.svg" class="quarto-figure quarto-figure-left r-stretch"><p><strong>At <span class="math inline">\(p=0.5\)</span>:</strong> log-odds = 0 (equal odds of success/failure).</p>
 </section>
-<section id="the-logistic-regression-model" class="slide level2">
-<h2>The logistic regression model</h2>
+<section id="logistic-regression" class="slide level2">
+<h2>Logistic regression</h2>
 <p><strong>What we model linearly:</strong></p>
 <p><br>
 </p>
@@ -1171,7 +1174,9 @@ p_i = \frac{\exp(\eta_i)}{1+\exp(\eta_i)} = \frac{\exp(\beta_0+\beta_1 x_i)}{1+\
 </section>
 <section id="example" class="slide level2">
 <h2>Example</h2>
-<p>Let <span class="math inline">\(Y_i \in \{0,1\}\)</span> (Pass), and <span class="math inline">\(p_i = P(Y_i=1 \mid x_i)\)</span> where <span class="math inline">\(x_i\)</span> = hours studied.</p>
+<p>Let <span class="math inline">\(y_i \in \{0,1\}\)</span> (Pass), and <span class="math inline">\(p_i = P(y_i=1 \mid x_i)\)</span> where <span class="math inline">\(x_i\)</span> = hours studied.</p>
+<p><br>
+</p>
 <div class="fragment">
 <div class="columns">
 <div class="column" style="width:52%;">
@@ -1192,13 +1197,12 @@ p_i = \frac{\exp(\eta_i)}{1+\exp(\eta_i)} = \frac{\exp(\beta_0+\beta_1 x_i)}{1+\
 <p><br>
 </p>
 <div class="fragment">
-<p><strong>Interpretation challenge</strong>: <span class="math inline">\(\beta_1\)</span> describes change in <em>log-odds</em>, not probability.</p>
-<p><span class="math inline">\(\rightarrow\)</span> Need to transform back to something interpretable!</p>
+<p><span class="math inline">\(\beta_1\)</span> describes change in <em>log-odds</em>, not probability. What does that mean?</p>
 </div>
 </section>
-<section id="step-1-from-log-odds-to-odds" class="slide level2">
-<h2>Step 1: From Log-Odds to Odds</h2>
-<p><strong>Starting point</strong>: <span class="math inline">\(\log\!\left(\dfrac{p_i}{1-p_i}\right) =  \beta_0 + \beta_1 x_i\)</span></p>
+<section id="from-log-odds-to-odds" class="slide level2">
+<h2>From Log-Odds to Odds</h2>
+<p><strong>Starting point</strong>: <span class="math inline">\(\log\!\left(\dfrac{p(x)}{1-p(x)}\right) =  \beta_0 + \beta_1 x\)</span></p>
 <p><br>
 </p>
 <div class="fragment">
@@ -1213,19 +1217,40 @@ p_i = \frac{\exp(\eta_i)}{1+\exp(\eta_i)} = \frac{\exp(\beta_0+\beta_1 x_i)}{1+\
 <p>Using properties of exponents: <span class="math inline">\(\exp(\beta_0 + \beta_1 x) = \exp(\beta_0) \cdot \exp(\beta_1 x)\)</span></p>
 </div>
 </section>
-<section id="step-2-what-happens-when-x-increases" class="slide level2">
-<h2>Step 2: What Happens When <span class="math inline">\(x\)</span> Increases?</h2>
-<p>From <span class="math inline">\(\text{odds}(x) = \exp(\beta_0) \cdot \exp(\beta_1 x)\)</span>:</p>
+<section id="comparing-two-values-of-x-the-odds-ratio" class="slide level2">
+<h2>Comparing Two Values of <span class="math inline">\(x\)</span>: The Odds Ratio</h2>
+<p><strong>When <span class="math inline">\(x = 0\)</span></strong>:</p>
+<p><span class="math display">\[
+\text{odds}(0) = \exp(\beta_0)
+\]</span></p>
 <p><br>
 </p>
-<p><strong>If <span class="math inline">\(x\)</span> increases by 1</strong> (from <span class="math inline">\(x\)</span> to <span class="math inline">\(x+1\)</span>):</p>
+<div class="fragment">
+<p><strong>When <span class="math inline">\(x = 1\)</span></strong>:</p>
+<p><span class="math display">\[
+\text{odds}(1) = \exp(\beta_0 + \beta_1) = \exp(\beta_0) \cdot \exp(\beta_1)
+\]</span></p>
+</div>
+<p><br>
+</p>
+<div class="fragment">
+<p><strong>The ratio</strong>:</p>
+<p><span class="math display">\[
+\frac{\text{odds}(1)}{\text{odds}(0)} = \frac{\exp(\beta_0) \cdot \exp(\beta_1)}{\exp(\beta_0)} = \exp(\beta_1)
+\]</span></p>
+</div>
+</section>
+<section id="the-odds-ratio" class="slide level2">
+<h2>The Odds Ratio</h2>
+<p>This ratio is constant <strong>regardless of where you start</strong>!</p>
+<p><br>
+</p>
+<p><strong>For any 1-unit increase</strong> (from <span class="math inline">\(x\)</span> to <span class="math inline">\(x+1\)</span>):</p>
 <p><span class="math display">\[
 \frac{\text{odds}(x+1)}{\text{odds}(x)}
 =
 \frac{\exp(\beta_0) \cdot \exp(\beta_1(x+1))}{\exp(\beta_0) \cdot \exp(\beta_1 x)}
 \]</span></p>
-<p><br>
-</p>
 <div class="fragment">
 <p>The <span class="math inline">\(\exp(\beta_0)\)</span> terms cancel:</p>
 <p><span class="math display">\[
@@ -1235,15 +1260,6 @@ p_i = \frac{\exp(\eta_i)}{1+\exp(\eta_i)} = \frac{\exp(\beta_0+\beta_1 x_i)}{1+\
 = \exp(\beta_1)
 \]</span></p>
 </div>
-</section>
-<section id="step-3-the-odds-ratio" class="slide level2">
-<h2>Step 3: The Odds Ratio</h2>
-<p>This ratio is constant <strong>regardless of where you start</strong>!</p>
-<p><br>
-</p>
-<p><span class="math display">\[
-\frac{\text{odds}(x+1)}{\text{odds}(x)} = \exp(\beta_1)
-\]</span></p>
 <p><br>
 </p>
 <div class="fragment">
@@ -1251,8 +1267,6 @@ p_i = \frac{\exp(\eta_i)}{1+\exp(\eta_i)} = \frac{\exp(\beta_0+\beta_1 x_i)}{1+\
 <p><br>
 </p>
 <p><span class="math inline">\(\rightarrow\)</span> <span class="math inline">\(\exp(\beta_1)\)</span> tells us how the odds multiply for each 1-unit increase in <span class="math inline">\(x\)</span>.</p>
-<p><br>
-</p>
 </div>
 </section>
 <section id="concrete-example-one-unit-change" class="slide level2">
@@ -1268,8 +1282,8 @@ p_i = \frac{\exp(\eta_i)}{1+\exp(\eta_i)} = \frac{\exp(\beta_0+\beta_1 x_i)}{1+\
 <div class="fragment">
 <p><strong>What this means</strong>:</p>
 <ul>
-<li>Studying 1 more hour multiplies your odds of passing by 2.23</li>
-<li>This is true whether you go from 2→3 hours, 5→6 hours, or 10→11 hours</li>
+<li>Studying 1 more hour multiplies your odds of passing by 2.23 (not the probability!)</li>
+<li>This is true whether you go from 2 to 3 hours, 5 to 6 hours, or 10 to 11 hours</li>
 </ul>
 </div>
 </section>
@@ -1327,15 +1341,166 @@ p(x) = \frac{\text{odds}(x)}{1 + \text{odds}(x)} = \frac{\exp(\beta_0 + \beta_1 
 </ul>
 </div>
 </section>
+<section id="lets-try" class="slide level2">
+<h2>Let’s try</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a aria-hidden="true" tabindex="-1"></a>beta0 <span class="ot">=</span> <span class="dv">0</span></span>
+<span id="cb29-2"><a aria-hidden="true" tabindex="-1"></a><span class="co"># odds?</span></span>
+<span id="cb29-3"><a aria-hidden="true" tabindex="-1"></a><span class="co"># p?</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="fragment">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a aria-hidden="true" tabindex="-1"></a>(<span class="at">odds =</span> <span class="fu">exp</span>(beta0))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1</code></pre>
+</div>
+</div>
+</div>
+<div class="fragment">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a aria-hidden="true" tabindex="-1"></a>(<span class="at">p =</span> odds<span class="sc">/</span>(<span class="dv">1</span><span class="sc">+</span>odds))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.5</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a aria-hidden="true" tabindex="-1"></a>(<span class="at">p =</span> <span class="fu">exp</span>(beta0)<span class="sc">/</span>(<span class="dv">1</span><span class="sc">+</span><span class="fu">exp</span>(beta0)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.5</code></pre>
+</div>
+</div>
+</div>
+</section>
+<section id="lets-try-1" class="slide level2">
+<h2>Let’s try</h2>
+<div class="fragment">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a aria-hidden="true" tabindex="-1"></a>beta1 <span class="ot">=</span> <span class="dv">1</span></span>
+<span id="cb36-2"><a aria-hidden="true" tabindex="-1"></a><span class="co"># what happen moving from x = 0 to x = 1?</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div class="fragment">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a aria-hidden="true" tabindex="-1"></a>(<span class="at">odds1 =</span> odds<span class="sc">*</span><span class="fu">exp</span>(beta1))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2.718282</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a aria-hidden="true" tabindex="-1"></a>(<span class="at">odds1 =</span> <span class="fu">exp</span>(beta0)<span class="sc">*</span><span class="fu">exp</span>(beta1))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2.718282</code></pre>
+</div>
+</div>
+</div>
+<div class="fragment">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a aria-hidden="true" tabindex="-1"></a>(<span class="at">p1 =</span> odds1 <span class="sc">/</span>(<span class="dv">1</span><span class="sc">+</span>odds1))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.7310586</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a aria-hidden="true" tabindex="-1"></a>(<span class="at">p1 =</span> <span class="fu">exp</span>(beta0 <span class="sc">+</span> beta1)<span class="sc">/</span>(<span class="dv">1</span><span class="sc">+</span><span class="fu">exp</span>(beta0<span class="sc">+</span>beta1)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.7310586</code></pre>
+</div>
+</div>
+</div>
+</section>
+<section id="lets-try-2" class="slide level2">
+<h2>Let’s try</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a aria-hidden="true" tabindex="-1"></a>beta0 <span class="ot">=</span> <span class="dv">3</span></span>
+<span id="cb45-2"><a aria-hidden="true" tabindex="-1"></a><span class="co"># odds?</span></span>
+<span id="cb45-3"><a aria-hidden="true" tabindex="-1"></a><span class="co"># p?</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="fragment">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a aria-hidden="true" tabindex="-1"></a>(<span class="at">odds =</span> <span class="fu">exp</span>(beta0))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 20.08554</code></pre>
+</div>
+</div>
+</div>
+<div class="fragment">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a aria-hidden="true" tabindex="-1"></a>(<span class="at">p =</span> odds<span class="sc">/</span>(<span class="dv">1</span><span class="sc">+</span>odds))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.9525741</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a aria-hidden="true" tabindex="-1"></a>(<span class="at">p =</span> <span class="fu">exp</span>(beta0)<span class="sc">/</span>(<span class="dv">1</span><span class="sc">+</span><span class="fu">exp</span>(beta0)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.9525741</code></pre>
+</div>
+</div>
+</div>
+</section>
+<section id="lets-try-3" class="slide level2">
+<h2>Let’s try</h2>
+<div class="fragment">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a aria-hidden="true" tabindex="-1"></a>beta1 <span class="ot">=</span> <span class="dv">1</span></span>
+<span id="cb52-2"><a aria-hidden="true" tabindex="-1"></a><span class="co"># what happen moving from x = 0 to x = 1?</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div class="fragment">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a aria-hidden="true" tabindex="-1"></a>(<span class="at">odds1 =</span> odds<span class="sc">*</span><span class="fu">exp</span>(beta1))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 54.59815</code></pre>
+</div>
+</div>
+</div>
+<div class="fragment">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a aria-hidden="true" tabindex="-1"></a>(<span class="at">p1 =</span> odds1 <span class="sc">/</span>(<span class="dv">1</span><span class="sc">+</span>odds1))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.9820138</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a aria-hidden="true" tabindex="-1"></a>(<span class="at">p1 =</span> <span class="fu">exp</span>(beta0 <span class="sc">+</span> beta1)<span class="sc">/</span>(<span class="dv">1</span><span class="sc">+</span><span class="fu">exp</span>(beta0<span class="sc">+</span>beta1)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.9820138</code></pre>
+</div>
+</div>
+</div>
+</section>
 <section id="not-linear-in-probability" class="slide level2">
 <h2>Not linear in probability</h2>
 <p><span class="math inline">\(\rightarrow\)</span> <strong>Same <span class="math inline">\(\beta_1\)</span>, same OR (2.23×), but different probability changes!</strong></p>
 
-<img data-src="01-intro-glm_files/figure-revealjs/unnamed-chunk-39-1.svg" class="quarto-figure quarto-figure-left r-stretch"></section>
+<img data-src="01-intro-glm_files/figure-revealjs/unnamed-chunk-51-1.svg" class="quarto-figure quarto-figure-left r-stretch"></section>
 <section id="section-1" class="slide level2">
 <h2></h2>
 
 <img data-src="../img/coffe.png" class="quarto-figure quarto-figure-center r-stretch" width="500"><p><a href="https://www.vecteezy.com/free-png/funny">Vecteezy</a></p>
+</section></section>
+<section>
+<section id="extra-slides" class="title-slide slide level1 center">
+<h1>Extra slides</h1>
+
+</section>
+<section id="the-glm-variance-structure" class="slide level2">
+<h2>The GLM variance structure</h2>
+<ul>
+<li class="fragment"><p>In GLMs, variance is <strong>not constant</strong> — it changes with the mean: <span class="math inline">\(\mathrm{Var}(Y\mid X) = \phi V(\mu)\)</span></p></li>
+<li class="fragment"><p>The <strong>variance function</strong> <span class="math inline">\(V(\mu)\)</span> defines how variance depends on the mean (e.g., <span class="math inline">\(V(\mu) = \mu\)</span> for Poisson, <span class="math inline">\(V(\mu) = \mu(1-\mu)\)</span> for binomial)</p></li>
+<li class="fragment"><p>Once you model <span class="math inline">\(\mu(x)\)</span>, the variance is also determined <strong>at each x</strong> (up to the scale <span class="math inline">\(\phi\)</span>).</p></li>
+<li class="fragment"><p><strong>Heteroscedasticity</strong> is implicit in GLMs</p></li>
+</ul>
+</section>
+<section id="what-is-dispersion" class="slide level2">
+<h2>What is dispersion?</h2>
+<ul>
+<li class="fragment"><p><strong>Dispersion</strong> quantifies how spread out the data are around the mean</p></li>
+<li class="fragment"><p>In the <strong>Normal distribution</strong>: <span class="math inline">\(Y \sim N(\mu, \sigma^2)\)</span>, the dispersion parameter is <span class="math inline">\(\phi = \sigma^2\)</span> (the variance)</p></li>
+<li class="fragment"><p><span class="math inline">\(\sigma^2\)</span> controls spread <strong>independently</strong> of <span class="math inline">\(\mu\)</span> — you can have any mean with any variance</p></li>
+<li class="fragment"><p>This <strong>separation</strong> between location (<span class="math inline">\(\mu\)</span>) and scale (<span class="math inline">\(\sigma^2\)</span>) is a defining feature of the Normal family</p></li>
+</ul>
+</section>
+<section id="dispersion-phi-is-fixed" class="slide level2">
+<h2>Dispersion (<span class="math inline">\(\phi\)</span>) is fixed</h2>
+<ul>
+<li class="fragment"><p>Different families handle dispersion <strong>differently</strong></p></li>
+<li class="fragment"><p><strong>Normal</strong>: <span class="math inline">\(\text{Var}(Y) = \sigma^2\)</span> (constant, independent of mean)</p></li>
+<li class="fragment"><p><strong>Poisson</strong>: <span class="math inline">\(\text{Var}(Y) = \mu\)</span> (variance <strong>equals</strong> the mean, <span class="math inline">\(\phi = 1\)</span> fixed)</p></li>
+<li class="fragment"><p><strong>Binomial</strong>: <span class="math inline">\(\text{Var}(Y) = n\mu(1-\mu)\)</span> (variance is a <strong>function</strong> of the mean, <span class="math inline">\(\phi = 1\)</span> fixed)</p></li>
+<li class="fragment"><p>Fixing <span class="math inline">\(\phi = 1\)</span> means the <strong>entire variance is determined by</strong> <span class="math inline">\(V(\mu)\)</span> — no additional free parameter for “extra variability”.</p></li>
+</ul>
 
 
 </section></section>
