@@ -121,8 +121,8 @@ dd_step$y_next <- dd$mean[-1]
 dd_step$dy     <- dd_step$y_next - dd_step$mean
 
 p +  geom_segment(data = dd_step,
-               aes(x = x, y = mean, xend = xend, yend = mean),
-               color = my_cols[5], linewidth = 2) +
+                  aes(x = x, y = mean, xend = xend, yend = mean),
+                  color = my_cols[5], linewidth = 2) +
   geom_segment(data = dd_step,
                aes(x = xend, y = mean, xend = xend, yend = y_next),
                color = my_cols[5], linewidth = 2) +
@@ -300,13 +300,13 @@ p4 <- ggplot(df_binom, aes(k, prob)) +
 
 ::: incremental
 - **Expected value (mean)**: $E[Y]=\mu$.  
-  The long-run average of $Y$ under its distribution.
+The long-run average of $Y$ under its distribution.
 
 - **Conditional expected value**: $E[Y\mid X]=\mu(X)$.  
-  The long-run average outcome **for a fixed predictor value** $X=x$.
+The long-run average outcome **for a fixed predictor value** $X=x$.
 
 - **Variance**: $\mathrm{Var}(Y)$ (or, in regression, $\mathrm{Var}(Y\mid X)$).  
-  How much outcomes vary around the mean (overall or at a given $x$).
+How much outcomes vary around the mean (overall or at a given $x$).
 
 :::
 
@@ -359,8 +359,8 @@ $$f(y \mid \mu, \sigma^2) = \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left( - \frac{(y 
 
 dat = data.frame(x = rbind(gen_norm(0,1),gen_norm(0,2),gen_norm(2,1)),
                  parameters = rep(c("Normal(0, 1)",
-                              "Normal(0, 2)",
-                              "Normal(2, 1)"), each = nrow(gen_norm(0,1))))
+                                    "Normal(0, 2)",
+                                    "Normal(2, 1)"), each = nrow(gen_norm(0,1))))
 
 ggplot(subset(dat,parameters == "Normal(0, 1)"), aes(x=x, fill = parameters))+
   geom_density(alpha = 0.8)+
@@ -391,7 +391,7 @@ ggplot(subset(dat, parameters != "Normal(2, 1)"), aes(x = x, fill = parameters))
   theme_clean(base_size = 24) +
   theme(legend.position = "right", legend.title = element_blank())
 ```
-  
+
 
 
 ## Normal distribution
@@ -412,7 +412,7 @@ ggplot(dat, aes(x=x, fill = parameters))+
   geom_density(alpha = 0.8)+
   scale_fill_manual(values = my_cols)+
   xlab("")+xlim(-8,8)+
-   ylim(0,0.4)+
+  ylim(0,0.4)+
   theme_clean(base_size = 24)+
   theme(legend.position = "right",
         legend.title=element_blank())
@@ -524,17 +524,17 @@ Real-world measurements are not automatically Normal, **Normality** is a **model
 
 set.seed(42)
 dat_rt <- data.frame(
-    rt = c(rgamma(1e5, 7, scale = 0.05) * 1000,
-           rgamma(1e5, 14, scale = 0.05) * 1000),
-    slow = rep(c("fast","slow"), each = 1e5)
+  rt = c(rgamma(1e5, 7, scale = 0.05) * 1000,
+         rgamma(1e5, 14, scale = 0.05) * 1000),
+  slow = rep(c("fast","slow"), each = 1e5)
 ) 
 
 dat_rt |> 
-    ggplot(aes(x = rt, fill = slow)) +
-    geom_density( color = "black", alpha = 0.8, show.legend = FALSE) +
-    labs(x = "Reaction Time (ms)", y = "Count", 
-         title = " ") +
-    theme_clean(base_size = 24)+
+  ggplot(aes(x = rt, fill = slow)) +
+  geom_density( color = "black", alpha = 0.8, show.legend = FALSE) +
+  labs(x = "Reaction Time (ms)", y = "Count", 
+       title = " ") +
+  theme_clean(base_size = 24)+
   scale_fill_manual(values = my_cols[4:5])+
   scale_x_continuous(limits = c(0,1800))+
   ylab("density")
@@ -550,12 +550,12 @@ dat_rt |>
 dat_exam <- data.frame(y = c(70, 30), x = c("Passed", "Failed"))
 
 dat_exam |> 
-    ggplot(aes(x = reorder(x, -y), y = y, fill = x)) +
-    geom_col(color = "black",  width = 0.5, show.legend = FALSE) +
-    labs(y = "Count (out of 100)", x = "", 
-         title = " ") +
-    ylim(c(0, 100)) +
-    theme_clean(base_size = 24)+
+  ggplot(aes(x = reorder(x, -y), y = y, fill = x)) +
+  geom_col(color = "black",  width = 0.5, show.legend = FALSE) +
+  labs(y = "Count (out of 100)", x = "", 
+       title = " ") +
+  ylim(c(0, 100)) +
+  theme_clean(base_size = 24)+
   scale_fill_manual(values = my_cols)
 ```
 
@@ -569,12 +569,12 @@ set.seed(42)
 dat_count <- data.frame(x = rpois(1e4, 12))
 
 dat_count |> 
-    ggplot(aes(x = x)) +
-    geom_bar(fill = my_cols[3], color = "black") +
-    scale_x_continuous(breaks = seq(0, 30, 3)) +
-    labs(x = "Number of Errors", y = "Count", 
-         title = " ") +
-    theme_clean(base_size = 24)+
+  ggplot(aes(x = x)) +
+  geom_bar(fill = my_cols[3], color = "black") +
+  scale_x_continuous(breaks = seq(0, 30, 3)) +
+  labs(x = "Number of Errors", y = "Count", 
+       title = " ") +
+  theme_clean(base_size = 24)+
   guides(
     x = guide_axis(cap = "both"),
     y = guide_axis(cap = "both")
@@ -664,8 +664,8 @@ exam_plot
 #| fig-height: 8
 #| fig-align: left
 exam_plot +
-    geom_smooth(method = "lm", se = FALSE, color = my_cols[2], linewidth = 2.5) +
-    ggtitle(" ")
+  geom_smooth(method = "lm", se = FALSE, color = my_cols[2], linewidth = 2.5) +
+  ggtitle(" ")
 
 ```
 
@@ -683,9 +683,9 @@ The model should consider both the **support** of the $y$ variable and the **non
 #| fig-height: 8
 #| fig-align: left
 exam_plot +
-    stat_smooth(method = "glm", se = FALSE, method.args = list(family = binomial),
-                color = my_cols[2], linewidth = 2.5) +
-    ggtitle(" ")
+  stat_smooth(method = "glm", se = FALSE, method.args = list(family = binomial),
+              color = my_cols[2], linewidth = 2.5) +
+  ggtitle(" ")
 ```
 
 ## Example: Reaction times
@@ -761,8 +761,8 @@ rt_plot
 #| fig-height: 8
 #| fig-align: left
 rt_plot +
-    geom_smooth(method = "lm", se = FALSE, color = my_cols[2], linewidth = 2.5) +
-    ggtitle(" ")+
+  geom_smooth(method = "lm", se = FALSE, color = my_cols[2], linewidth = 2.5) +
+  ggtitle(" ")+
   geom_hline(yintercept = 0)
 
 ```
@@ -781,9 +781,9 @@ The model should consider both the **support** of the $y$ variable and the **non
 #| fig-height: 8
 #| fig-align: left
 rt_plot +
-    stat_smooth(method = "glm", se = FALSE, method.args = list(family = Gamma),
-                color = my_cols[2], linewidth = 2.5) +
-    ggtitle(" ")+
+  stat_smooth(method = "glm", se = FALSE, method.args = list(family = Gamma),
+              color = my_cols[2], linewidth = 2.5) +
+  ggtitle(" ")+
   geom_hline(yintercept = 0)
 ```
 
@@ -803,7 +803,7 @@ rt_plot +
 1.  **Random Component**: Choose a distribution
 
 2.  **Systematic Component**: Linear predictor
-    $\eta_i = \beta_0 + \beta_1 x_i$
+$\eta_i = \beta_0 + \beta_1 x_i$
 
 3.  **Link Function**: Transform the mean $g(\mu_i) = \eta_i$
 :::
@@ -824,10 +824,10 @@ $$
 What **support**?
 
 -   Binary: $\{0,1\}$ $\rightarrow$ $\text{Bernoulli}(p)$ (or
-    $\text{Binomial}(1,p)$)
+$\text{Binomial}(1,p)$)
 -   Counts: $\{0,1,2,\ldots\}$ $\rightarrow$ $\text{Poisson}(\lambda)$
 -   Any real number: $(-\infty,\infty)$ $\rightarrow$
-    $\text{Normal}(\mu,\sigma^2)$
+$\text{Normal}(\mu,\sigma^2)$
 :::
 
 ## Random component 
@@ -879,9 +879,9 @@ $$
 $$
 
 -   The linear predictor $\eta_i$ can be any real number:
-    $(-\infty, +\infty)$
+$(-\infty, +\infty)$
 -   But $\mu_i$ (the mean) is **constrained** by the distribution's
-    support
+support
 -   The link function **transforms** $\mu_i$ to be unbounded
 
 ## Common link functions
@@ -1171,12 +1171,12 @@ dat_binom <- data.frame(k = 0:n)
 dat_binom$prob <- dbinom(x = dat_binom$k, size = n, prob = p)
 
 p05 = dat_binom |> 
-    ggplot(aes(x = k, y = prob)) +
-    geom_segment(aes(x = k, xend = k, y = 0, yend = prob), 
-                 color = my_cols[2], linewidth = 3) +
-   geom_point(size = 4, color = my_cols[2]) +
-    labs(x = "Number of Successes (k)", y = "Probability") +
-    theme_clean(base_size = 24)+
+  ggplot(aes(x = k, y = prob)) +
+  geom_segment(aes(x = k, xend = k, y = 0, yend = prob), 
+               color = my_cols[2], linewidth = 3) +
+  geom_point(size = 4, color = my_cols[2]) +
+  labs(x = "Number of Successes (k)", y = "Probability") +
+  theme_clean(base_size = 24)+
   scale_x_continuous(breaks = round(seq(0,20,1)))+
   scale_y_continuous(breaks = round(seq(0,.5,.05),2))+
   guides(
@@ -1207,12 +1207,12 @@ dat_binom <- data.frame(k = 0:n)
 dat_binom$prob <- dbinom(x = dat_binom$k, size = n, prob = p)
 
 p09 = dat_binom |> 
-    ggplot(aes(x = k, y = prob)) +
-    geom_segment(aes(x = k, xend = k, y = 0, yend = prob), 
-                 color = my_cols[1], linewidth = 3) +
-   geom_point(size = 4, color = my_cols[1]) +
-    labs(x = "Number of Successes (k)", y = "Probability") +
-    theme_clean(base_size = 24)+
+  ggplot(aes(x = k, y = prob)) +
+  geom_segment(aes(x = k, xend = k, y = 0, yend = prob), 
+               color = my_cols[1], linewidth = 3) +
+  geom_point(size = 4, color = my_cols[1]) +
+  labs(x = "Number of Successes (k)", y = "Probability") +
+  theme_clean(base_size = 24)+
   scale_x_continuous(breaks = round(seq(0,20,1)))+
   scale_y_continuous(breaks = round(seq(0,.5,.05),2))+
   guides(
@@ -1450,11 +1450,9 @@ $\beta_1$ describes change in *log-odds*, not probability. What does that mean?
 
 
 
-## From Log-Odds to Odds
+## From log-odds to odds
 
-**Starting point**: $\log\!\left(\dfrac{p(x)}{1-p(x)}\right) =  \beta_0 + \beta_1 x$ 
-
-\
+$$\log\!\left(\dfrac{p(x)}{1-p(x)}\right) =  \beta_0 + \beta_1 x$$ 
 
 ::: fragment
 Exponentiating both sides gives the **odds**: 
@@ -1467,14 +1465,6 @@ $$
 \
 
 ::: fragment
-Using properties of exponents: $\exp(\beta_0 + \beta_1 x) = \exp(\beta_0) \cdot \exp(\beta_1 x)$
-:::
-
-## From $x = 0$ to $x = 1$
-
-$$\text{odds}(x) = \exp(\beta_0 + \beta_1 x)$$
-
-::: fragment
 **When $x = 0$**: $\text{odds}(0) = \exp(\beta_0)$
 :::
 
@@ -1485,12 +1475,32 @@ $$\text{odds}(x) = \exp(\beta_0 + \beta_1 x)$$
 
 
 ::: fragment
-**The ratio**:
+
+$\rightarrow \exp(\beta_1)$ tells us how the odds multiply for a 1-unit increase in $x$.
+:::
+
+
+## Difference in log-odds = ratio of odds
+
 
 $$
-\frac{\text{odds}(1)}{\text{odds}(0)} = \frac{\exp(\beta_0) \cdot \exp(\beta_1)}{\exp(\beta_0)} = \exp(\beta_1)
+\log(\text{odds}(1)) - \log(\text{odds}(0)) = (\beta_0 + \beta_1) - \beta_0 = \beta_1
+$$
+
+::: fragment
+$$
+\log\!\left(\frac{\text{odds}(1)}{\text{odds}(0)}\right) = \log\!\left(\frac{(\beta_0 + \beta_1)}{\beta_0}\right) = \log(\beta_1)
 $$
 :::
+
+::: fragment
+**Exponentiating both sides**:
+
+$$
+\frac{\text{odds}(1)}{\text{odds}(0)} = \exp(\beta_1)
+$$
+:::
+
 
 ## The Odds Ratio
 
@@ -1525,7 +1535,7 @@ This constant multiplier is the **odds ratio (OR)**.
 
 \
 
-$\rightarrow$ $\exp(\beta_1)$ tells us how the odds multiply for each 1-unit increase in $x$.
+$\rightarrow$ $\exp(\beta_1)$ tells us how the odds **multiply** for each 1-unit increase in $x$.
 :::
 
 ## Example
@@ -1580,29 +1590,29 @@ y_LogOdds <- b0 + b1 * x_positions
 
 # PLOT
 ggplot(data, aes(x = x, y = Y_LogOdds)) +
-  geom_line(color = my_cols[2], linewidth = 3) +
-  geom_vline(xintercept = x_positions, linetype = "dashed",
-             color = "red", linewidth = 1) +
-  geom_hline(yintercept = y_LogOdds, linetype = 1,
-             color = "#777777", linewidth = 1) +
-  theme_clean(base_size = 26) +
-  labs(x = expression(x), y = expression(log(odds))) +
-  scale_y_continuous(breaks = y_LogOdds) +
-  scale_x_continuous(breaks = -4:4) +
-  coord_cartesian(ylim = c(-3, 3), 
-                  xlim = c(-4, 4.3))+
-  theme(plot.margin = margin(10, 80, 10, 10)) +                    
-  geom_text(
-    data = data.frame(
-      x = 4.35,  # put just to the right of the panel
-      y = y_LogOdds,
-      label = paste0("odds(x) = ", round(exp(y_LogOdds), 2))
-    ),
-    aes(x = x, y = y, label = label),
-    inherit.aes = FALSE,
-    color = "black", hjust = .8, vjust = -0.2, size = 10, 
-    fontface = "bold"
-  )
+geom_line(color = my_cols[2], linewidth = 3) +
+geom_vline(xintercept = x_positions, linetype = "dashed",
+color = "red", linewidth = 1) +
+geom_hline(yintercept = y_LogOdds, linetype = 1,
+color = "#777777", linewidth = 1) +
+theme_clean(base_size = 26) +
+labs(x = expression(x), y = expression(log(odds))) +
+scale_y_continuous(breaks = y_LogOdds) +
+scale_x_continuous(breaks = -4:4) +
+coord_cartesian(ylim = c(-3, 3), 
+xlim = c(-4, 4.3))+
+theme(plot.margin = margin(10, 80, 10, 10)) +                    
+geom_text(
+data = data.frame(
+x = 4.35,  # put just to the right of the panel
+y = y_LogOdds,
+label = paste0("odds(x) = ", round(exp(y_LogOdds), 2))
+),
+aes(x = x, y = y, label = label),
+inherit.aes = FALSE,
+color = "black", hjust = .8, vjust = -0.2, size = 10, 
+fontface = "bold"
+)
 
 
 
@@ -1697,33 +1707,37 @@ y_logis <- plogis(b0 + b1 * x_positions)  # [web:227]
 
 # PLOT
 ggplot(data, aes(x = x, y = Y_Logit)) +
-  geom_line(color = my_cols[2], linewidth = 3) +
-  geom_vline(xintercept = x_positions, linetype = "dashed",
-             color = "red", linewidth = 1) +
-  geom_hline(yintercept = y_logis, linetype = 1,
-             color = "#777777", linewidth = 1) +
-  labs(
-    x = expression(x),
-    y = "p"
-  ) +
-  scale_x_continuous(breaks = -4:4) +
-  coord_cartesian(xlim = c(-5, 4), ylim = c(0, 1)) +
-  scale_y_continuous(breaks = seq(0, 1, .1)) +
-  theme_clean(base_size = 24) +
-  geom_text(
-    data = data.frame(x = x_positions, y = 0.05, label = paste0("x = ", x_positions)),
-    aes(x = x, y = y, label = label),
-    color = "black", vjust = 3, size = 7, fontface = "bold"
-  ) +
-  geom_text(
-    data = data.frame(x = -5, y = y_logis, label = paste0("p = ", round(y_logis, 2))),
-    aes(x = x, y = y, label = label),
-    color = "black", hjust = 0, vjust = -.2, size = 8, fontface = "bold"
-  )
+geom_line(color = my_cols[2], linewidth = 3) +
+geom_vline(xintercept = x_positions, linetype = "dashed",
+color = "red", linewidth = 1) +
+geom_hline(yintercept = y_logis, linetype = 1,
+color = "#777777", linewidth = 1) +
+labs(
+x = expression(x),
+y = "p"
+) +
+scale_x_continuous(breaks = -4:4) +
+coord_cartesian(xlim = c(-5, 4), ylim = c(0, 1)) +
+scale_y_continuous(breaks = seq(0, 1, .1)) +
+theme_clean(base_size = 24) +
+geom_text(
+data = data.frame(x = x_positions, y = 0.05, label = paste0("x = ", x_positions)),
+aes(x = x, y = y, label = label),
+color = "black", vjust = 3, size = 7, fontface = "bold"
+) +
+geom_text(
+data = data.frame(x = -5, y = y_logis, label = paste0("p = ", round(y_logis, 2))),
+aes(x = x, y = y, label = label),
+color = "black", hjust = 0, vjust = -.2, size = 8, fontface = "bold"
+)
 ```
 
 
 ## Let's try
+
+$$\log\!\left(\dfrac{p(x)}{1-p(x)}\right) =  \beta_0 + \beta_1 x$$ 
+
+**When $x = 0$**
 
 ```{r, echo=TRUE}
 beta0 = 0
@@ -1745,6 +1759,11 @@ beta0 = 0
 :::
 
 ## Let's try
+
+$$\log\!\left(\dfrac{p(x)}{1-p(x)}\right) =  \beta_0 + \beta_1 x$$ 
+
+
+**When $x = 1$**
 
 ::: fragment
 ```{r, echo=TRUE}
@@ -1770,6 +1789,11 @@ beta1 = 1
 
 ## Let's try
 
+$$\log\!\left(\dfrac{p(x)}{1-p(x)}\right) =  \beta_0 + \beta_1 x$$ 
+
+
+**When $x = 0$**
+
 ```{r, echo=TRUE}
 beta0 = 3
 # odds?
@@ -1790,10 +1814,15 @@ beta0 = 3
 :::
 
 ## Let's try
+
+$$\log\!\left(\dfrac{p(x)}{1-p(x)}\right) =  \beta_0 + \beta_1 x$$ 
+
+
+**At $x = 1$**
+
 ::: fragment
 ```{r, echo=TRUE}
 beta1 = 1
-# what happen moving from x = 0 to x = 1?
 ```
 :::
 
@@ -1810,6 +1839,30 @@ beta1 = 1
 ```
 :::
 
+## Let's try
+
+From **$x=4$** to **$x = 8$**
+
+::: fragment
+```{r, echo=TRUE}
+beta0 = 0
+beta1 = 1
+```
+:::
+
+::: fragment
+```{r, echo=TRUE}
+(odds4 = exp(beta0)*exp(beta1*4))
+(odds8 = odds4*exp(beta1*(8-4)))
+```
+:::
+
+::: fragment
+```{r, echo=TRUE}
+(p4 = odds4 /(1+odds4))
+(p8 = odds8 /(1+odds8))
+```
+:::
 
 ##
 
@@ -1820,7 +1873,7 @@ beta1 = 1
 [Vecteezy](https://www.vecteezy.com/free-png/funny)
 
 
-# Extra slides 
+# Extra 
 
 ## The GLM variance structure
 
