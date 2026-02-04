@@ -226,7 +226,7 @@
     </div>
 </div>
 
-  <p class="date"><em>Last modified: 03-02-2026</em></p>
+  <p class="date"><em>Last modified: 04-02-2026</em></p>
 </section>
 <section id="TOC">
 <nav role="doc-toc"> 
@@ -238,7 +238,7 @@
 <li><a href="#/generalized-linear-models-glm" id="/toc-generalized-linear-models-glm">Generalized Linear Models (GLM)</a></li>
 <li><a href="#/binomial-logistic-regression" id="/toc-binomial-logistic-regression">Binomial Logistic Regression</a></li>
 <li><a href="#/odds-odds-ratio-and-log-odds" id="/toc-odds-odds-ratio-and-log-odds">Odds, Odds Ratio and Log-Odds</a></li>
-<li><a href="#/extra-slides" id="/toc-extra-slides">Extra slides</a></li>
+<li><a href="#/extra" id="/toc-extra">Extra</a></li>
 </ul>
 </nav>
 </section>
@@ -1263,10 +1263,8 @@ Transform <span class="math inline">\(p\)</span> using a <strong>link function</
 </div>
 </section>
 <section id="from-log-odds-to-odds" class="slide level2">
-<h2>From Log-Odds to Odds</h2>
-<p><strong>Starting point</strong>: <span class="math inline">\(\log\!\left(\dfrac{p(x)}{1-p(x)}\right) =  \beta_0 + \beta_1 x\)</span></p>
-<p><br>
-</p>
+<h2>From log-odds to odds</h2>
+<p><span class="math display">\[\log\!\left(\dfrac{p(x)}{1-p(x)}\right) =  \beta_0 + \beta_1 x\]</span></p>
 <div class="fragment">
 <p>Exponentiating both sides gives the <strong>odds</strong>:</p>
 <p><span class="math display">\[
@@ -1276,22 +1274,29 @@ Transform <span class="math inline">\(p\)</span> using a <strong>link function</
 <p><br>
 </p>
 <div class="fragment">
-<p>Using properties of exponents: <span class="math inline">\(\exp(\beta_0 + \beta_1 x) = \exp(\beta_0) \cdot \exp(\beta_1 x)\)</span></p>
-</div>
-</section>
-<section id="from-x-0-to-x-1" class="slide level2">
-<h2>From <span class="math inline">\(x = 0\)</span> to <span class="math inline">\(x = 1\)</span></h2>
-<p><span class="math display">\[\text{odds}(x) = \exp(\beta_0 + \beta_1 x)\]</span></p>
-<div class="fragment">
 <p><strong>When <span class="math inline">\(x = 0\)</span></strong>: <span class="math inline">\(\text{odds}(0) = \exp(\beta_0)\)</span></p>
 </div>
 <div class="fragment">
 <p><strong>When <span class="math inline">\(x = 1\)</span></strong>: <span class="math inline">\(\text{odds}(1) = \exp(\beta_0 + \beta_1) = \exp(\beta_0) \cdot \exp(\beta_1)\)</span></p>
 </div>
 <div class="fragment">
-<p><strong>The ratio</strong>:</p>
+<p><span class="math inline">\(\rightarrow \exp(\beta_1)\)</span> tells us how the odds multiply for a 1-unit increase in <span class="math inline">\(x\)</span>.</p>
+</div>
+</section>
+<section id="difference-in-log-odds-ratio-of-odds" class="slide level2">
+<h2>Difference in log-odds = ratio of odds</h2>
 <p><span class="math display">\[
-\frac{\text{odds}(1)}{\text{odds}(0)} = \frac{\exp(\beta_0) \cdot \exp(\beta_1)}{\exp(\beta_0)} = \exp(\beta_1)
+\log(\text{odds}(1)) - \log(\text{odds}(0)) = (\beta_0 + \beta_1) - \beta_0 = \beta_1
+\]</span></p>
+<div class="fragment">
+<p><span class="math display">\[
+\log\!\left(\frac{\text{odds}(1)}{\text{odds}(0)}\right) = \log\!\left(\frac{(\beta_0 + \beta_1)}{\beta_0}\right) = \log(\beta_1)
+\]</span></p>
+</div>
+<div class="fragment">
+<p><strong>Exponentiating both sides</strong>:</p>
+<p><span class="math display">\[
+\frac{\text{odds}(1)}{\text{odds}(0)} = \exp(\beta_1)
 \]</span></p>
 </div>
 </section>
@@ -1321,7 +1326,7 @@ Transform <span class="math inline">\(p\)</span> using a <strong>link function</
 <p>This constant multiplier is the <strong>odds ratio (OR)</strong>.</p>
 <p><br>
 </p>
-<p><span class="math inline">\(\rightarrow\)</span> <span class="math inline">\(\exp(\beta_1)\)</span> tells us how the odds multiply for each 1-unit increase in <span class="math inline">\(x\)</span>.</p>
+<p><span class="math inline">\(\rightarrow\)</span> <span class="math inline">\(\exp(\beta_1)\)</span> tells us how the odds <strong>multiply</strong> for each 1-unit increase in <span class="math inline">\(x\)</span>.</p>
 </div>
 </section>
 <section id="example-1" class="slide level2">
@@ -1403,6 +1408,8 @@ p(x) = \frac{\text{odds}(x)}{1 + \text{odds}(x)} = \frac{\exp(\beta_0 + \beta_1 
 <img data-src="01-intro-glm_files/figure-revealjs/unnamed-chunk-41-1.svg" class="quarto-figure quarto-figure-left r-stretch"></section>
 <section id="lets-try" class="slide level2">
 <h2>Let’s try</h2>
+<p><span class="math display">\[\log\!\left(\dfrac{p(x)}{1-p(x)}\right) =  \beta_0 + \beta_1 x\]</span></p>
+<p><strong>When <span class="math inline">\(x = 0\)</span></strong></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a aria-hidden="true" tabindex="-1"></a>beta0 <span class="ot">=</span> <span class="dv">0</span></span>
 <span id="cb29-2"><a aria-hidden="true" tabindex="-1"></a><span class="co"># odds?</span></span>
@@ -1431,6 +1438,8 @@ p(x) = \frac{\text{odds}(x)}{1 + \text{odds}(x)} = \frac{\exp(\beta_0 + \beta_1 
 </section>
 <section id="lets-try-1" class="slide level2">
 <h2>Let’s try</h2>
+<p><span class="math display">\[\log\!\left(\dfrac{p(x)}{1-p(x)}\right) =  \beta_0 + \beta_1 x\]</span></p>
+<p><strong>When <span class="math inline">\(x = 1\)</span></strong></p>
 <div class="fragment">
 <div class="cell">
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a aria-hidden="true" tabindex="-1"></a>beta1 <span class="ot">=</span> <span class="dv">1</span></span>
@@ -1464,6 +1473,8 @@ p(x) = \frac{\text{odds}(x)}{1 + \text{odds}(x)} = \frac{\exp(\beta_0 + \beta_1 
 </section>
 <section id="lets-try-2" class="slide level2">
 <h2>Let’s try</h2>
+<p><span class="math display">\[\log\!\left(\dfrac{p(x)}{1-p(x)}\right) =  \beta_0 + \beta_1 x\]</span></p>
+<p><strong>When <span class="math inline">\(x = 0\)</span></strong></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a aria-hidden="true" tabindex="-1"></a>beta0 <span class="ot">=</span> <span class="dv">3</span></span>
 <span id="cb45-2"><a aria-hidden="true" tabindex="-1"></a><span class="co"># odds?</span></span>
@@ -1492,10 +1503,11 @@ p(x) = \frac{\text{odds}(x)}{1 + \text{odds}(x)} = \frac{\exp(\beta_0 + \beta_1 
 </section>
 <section id="lets-try-3" class="slide level2">
 <h2>Let’s try</h2>
+<p><span class="math display">\[\log\!\left(\dfrac{p(x)}{1-p(x)}\right) =  \beta_0 + \beta_1 x\]</span></p>
+<p><strong>At <span class="math inline">\(x = 1\)</span></strong></p>
 <div class="fragment">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a aria-hidden="true" tabindex="-1"></a>beta1 <span class="ot">=</span> <span class="dv">1</span></span>
-<span id="cb52-2"><a aria-hidden="true" tabindex="-1"></a><span class="co"># what happen moving from x = 0 to x = 1?</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a aria-hidden="true" tabindex="-1"></a>beta1 <span class="ot">=</span> <span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div class="fragment">
@@ -1519,14 +1531,48 @@ p(x) = \frac{\text{odds}(x)}{1 + \text{odds}(x)} = \frac{\exp(\beta_0 + \beta_1 
 </div>
 </div>
 </section>
+<section id="lets-try-4" class="slide level2">
+<h2>Let’s try</h2>
+<p>From <strong><span class="math inline">\(x=4\)</span></strong> to <strong><span class="math inline">\(x = 8\)</span></strong></p>
+<div class="fragment">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a aria-hidden="true" tabindex="-1"></a>beta0 <span class="ot">=</span> <span class="dv">0</span></span>
+<span id="cb59-2"><a aria-hidden="true" tabindex="-1"></a>beta1 <span class="ot">=</span> <span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div class="fragment">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a aria-hidden="true" tabindex="-1"></a>(<span class="at">odds4 =</span> <span class="fu">exp</span>(beta0)<span class="sc">*</span><span class="fu">exp</span>(beta1<span class="sc">*</span><span class="dv">4</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 54.59815</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a aria-hidden="true" tabindex="-1"></a>(<span class="at">odds8 =</span> odds4<span class="sc">*</span><span class="fu">exp</span>(beta1<span class="sc">*</span>(<span class="dv">8-4</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2980.958</code></pre>
+</div>
+</div>
+</div>
+<div class="fragment">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a aria-hidden="true" tabindex="-1"></a>(<span class="at">p4 =</span> odds4 <span class="sc">/</span>(<span class="dv">1</span><span class="sc">+</span>odds4))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.9820138</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a aria-hidden="true" tabindex="-1"></a>(<span class="at">p8 =</span> odds8 <span class="sc">/</span>(<span class="dv">1</span><span class="sc">+</span>odds8))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.9996646</code></pre>
+</div>
+</div>
+</div>
+</section>
 <section id="section-1" class="slide level2">
 <h2></h2>
 
 <img data-src="../img/coffe.png" class="quarto-figure quarto-figure-center r-stretch" width="500"><p><a href="https://www.vecteezy.com/free-png/funny">Vecteezy</a></p>
 </section></section>
 <section>
-<section id="extra-slides" class="title-slide slide level1 center">
-<h1>Extra slides</h1>
+<section id="extra" class="title-slide slide level1 center">
+<h1>Extra</h1>
 
 </section>
 <section id="the-glm-variance-structure" class="slide level2">

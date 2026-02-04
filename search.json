@@ -928,7 +928,7 @@
     "href": "index.html",
     "title": "Introduction to Generalized Linear Models",
     "section": "",
-    "text": "Introduction\nIntroductory workshop about Generalized Linear Models starting from the general theory, model fitting, parameters interpretation and data simulation.\n\n\nSlides\n\n\n   \n    \n    \n      Order By\n      Default\n      \n        Date - Oldest\n      \n      \n        Date - Newest\n      \n      \n        Title\n      \n    \n  \n    \n      \n      \n    \n\n\n\n\n\n\nTitle\n\n\n\nDate\n\n\n\n\n\n\n\n\nIntroduction to Generalized Linear Models for Psychology\n\n\nLast modified: 03-02-2026\n\n\n\n\n\n\nBinomial GLM example\n\n\nLast modified: 02-02-2026\n\n\n\n\n\n\nNo matching items\n\n\n\nMaterials\n\nGLMphd is a complete course on GLM part of the PhD Course in Psychological Sciences (University of Padova).\nGeneral workflow for Monte Carlo Simulations: a short blog post about a general framework to create MCS in R.\n\n\n\nBooks\nSome books about Generalized Linear Models:\n\nGelman, A., Hill, J., & Vehtari, A. (2020). Regression and Other Stories. Cambridge University Press. https://doi.org/10.1017/9781139161879\nAgresti, A. (2018). An Introduction to Categorical Data Analysis. John Wiley & Sons.\nAgresti, A. (2015). Foundations of Linear and Generalized Linear Models. John Wiley & Sons.\nDunn, P. K., & Smyth, G. K. (2018). Generalized Linear Models With Examples in R. Springer.\nFox, J. (2015). Applied Regression Analysis and Generalized Linear Models. SAGE Publications.\nFaraway, J. J. (2016). Extending the linear model with R: Generalized linear, mixed effects and nonparametric regression models, second edition. Chapman; Hall/CRC. https://doi.org/10.1201/9781315382722\nMcCullagh, P., & Nelder, J. A. (1989). Generalized Linear Models (2nd ed.). Chapman & Hall/CRC. https://doi.org/10.1007/978-1-4899-3242-6"
+    "text": "Introduction\nIntroductory workshop about Generalized Linear Models starting from the general theory, model fitting, parameters interpretation and data simulation.\n\n\nSlides\n\n\n   \n    \n    \n      Order By\n      Default\n      \n        Date - Oldest\n      \n      \n        Date - Newest\n      \n      \n        Title\n      \n    \n  \n    \n      \n      \n    \n\n\n\n\n\n\nTitle\n\n\n\nDate\n\n\n\n\n\n\n\n\nIntroduction to Generalized Linear Models for Psychology\n\n\nLast modified: 04-02-2026\n\n\n\n\n\n\nBinomial GLM example\n\n\nLast modified: 02-02-2026\n\n\n\n\n\n\nNo matching items\n\n\n\nMaterials\n\nGLMphd is a complete course on GLM part of the PhD Course in Psychological Sciences (University of Padova).\nGeneral workflow for Monte Carlo Simulations: a short blog post about a general framework to create MCS in R.\n\n\n\nBooks\nSome books about Generalized Linear Models:\n\nGelman, A., Hill, J., & Vehtari, A. (2020). Regression and Other Stories. Cambridge University Press. https://doi.org/10.1017/9781139161879\nAgresti, A. (2018). An Introduction to Categorical Data Analysis. John Wiley & Sons.\nAgresti, A. (2015). Foundations of Linear and Generalized Linear Models. John Wiley & Sons.\nDunn, P. K., & Smyth, G. K. (2018). Generalized Linear Models With Examples in R. Springer.\nFox, J. (2015). Applied Regression Analysis and Generalized Linear Models. SAGE Publications.\nFaraway, J. J. (2016). Extending the linear model with R: Generalized linear, mixed effects and nonparametric regression models, second edition. Chapman; Hall/CRC. https://doi.org/10.1201/9781315382722\nMcCullagh, P., & Nelder, J. A. (1989). Generalized Linear Models (2nd ed.). Chapman & Hall/CRC. https://doi.org/10.1007/978-1-4899-3242-6"
   },
   {
     "objectID": "slides/01-intro-glm.html#linear-regression-1",
@@ -1291,15 +1291,15 @@
     "objectID": "slides/01-intro-glm.html#from-log-odds-to-odds",
     "href": "slides/01-intro-glm.html#from-log-odds-to-odds",
     "title": "Introduction to Generalized Linear Models for Psychology",
-    "section": "From Log-Odds to Odds",
-    "text": "From Log-Odds to Odds\nStarting point: \\(\\log\\!\\left(\\dfrac{p(x)}{1-p(x)}\\right) =  \\beta_0 + \\beta_1 x\\)\n\n\n\nExponentiating both sides gives the odds:\n\\[\n\\text{odds}(x) = \\frac{p(x)}{1-p(x)} = \\exp(\\beta_0 + \\beta_1 x)\n\\]\n\n\n\n\nUsing properties of exponents: \\(\\exp(\\beta_0 + \\beta_1 x) = \\exp(\\beta_0) \\cdot \\exp(\\beta_1 x)\\)"
+    "section": "From log-odds to odds",
+    "text": "From log-odds to odds\n\\[\\log\\!\\left(\\dfrac{p(x)}{1-p(x)}\\right) =  \\beta_0 + \\beta_1 x\\]\n\nExponentiating both sides gives the odds:\n\\[\n\\text{odds}(x) = \\frac{p(x)}{1-p(x)} = \\exp(\\beta_0 + \\beta_1 x)\n\\]\n\n\n\n\nWhen \\(x = 0\\): \\(\\text{odds}(0) = \\exp(\\beta_0)\\)\n\n\nWhen \\(x = 1\\): \\(\\text{odds}(1) = \\exp(\\beta_0 + \\beta_1) = \\exp(\\beta_0) \\cdot \\exp(\\beta_1)\\)\n\n\n\\(\\rightarrow \\exp(\\beta_1)\\) tells us how the odds multiply for a 1-unit increase in \\(x\\)."
   },
   {
-    "objectID": "slides/01-intro-glm.html#from-x-0-to-x-1",
-    "href": "slides/01-intro-glm.html#from-x-0-to-x-1",
+    "objectID": "slides/01-intro-glm.html#difference-in-log-odds-ratio-of-odds",
+    "href": "slides/01-intro-glm.html#difference-in-log-odds-ratio-of-odds",
     "title": "Introduction to Generalized Linear Models for Psychology",
-    "section": "From \\(x = 0\\) to \\(x = 1\\)",
-    "text": "From \\(x = 0\\) to \\(x = 1\\)\n\\[\\text{odds}(x) = \\exp(\\beta_0 + \\beta_1 x)\\]\n\nWhen \\(x = 0\\): \\(\\text{odds}(0) = \\exp(\\beta_0)\\)\n\n\nWhen \\(x = 1\\): \\(\\text{odds}(1) = \\exp(\\beta_0 + \\beta_1) = \\exp(\\beta_0) \\cdot \\exp(\\beta_1)\\)\n\n\nThe ratio:\n\\[\n\\frac{\\text{odds}(1)}{\\text{odds}(0)} = \\frac{\\exp(\\beta_0) \\cdot \\exp(\\beta_1)}{\\exp(\\beta_0)} = \\exp(\\beta_1)\n\\]"
+    "section": "Difference in log-odds = ratio of odds",
+    "text": "Difference in log-odds = ratio of odds\n\\[\n\\log(\\text{odds}(1)) - \\log(\\text{odds}(0)) = (\\beta_0 + \\beta_1) - \\beta_0 = \\beta_1\n\\]\n\n\\[\n\\log\\!\\left(\\frac{\\text{odds}(1)}{\\text{odds}(0)}\\right) = \\log\\!\\left(\\frac{(\\beta_0 + \\beta_1)}{\\beta_0}\\right) = \\log(\\beta_1)\n\\]\n\n\nExponentiating both sides:\n\\[\n\\frac{\\text{odds}(1)}{\\text{odds}(0)} = \\exp(\\beta_1)\n\\]"
   },
   {
     "objectID": "slides/01-intro-glm.html#the-odds-ratio",
@@ -1348,28 +1348,35 @@
     "href": "slides/01-intro-glm.html#lets-try",
     "title": "Introduction to Generalized Linear Models for Psychology",
     "section": "Let’s try",
-    "text": "Let’s try\n\nbeta0 = 0\n# odds?\n# p?\n\n\n\n(odds = exp(beta0))\n\n[1] 1\n\n\n\n\n\n(p = odds/(1+odds))\n\n[1] 0.5\n\n(p = exp(beta0)/(1+exp(beta0)))\n\n[1] 0.5"
+    "text": "Let’s try\n\\[\\log\\!\\left(\\dfrac{p(x)}{1-p(x)}\\right) =  \\beta_0 + \\beta_1 x\\]\nWhen \\(x = 0\\)\n\nbeta0 = 0\n# odds?\n# p?\n\n\n\n(odds = exp(beta0))\n\n[1] 1\n\n\n\n\n\n(p = odds/(1+odds))\n\n[1] 0.5\n\n(p = exp(beta0)/(1+exp(beta0)))\n\n[1] 0.5"
   },
   {
     "objectID": "slides/01-intro-glm.html#lets-try-1",
     "href": "slides/01-intro-glm.html#lets-try-1",
     "title": "Introduction to Generalized Linear Models for Psychology",
     "section": "Let’s try",
-    "text": "Let’s try\n\n\nbeta1 = 1\n# what happen moving from x = 0 to x = 1?\n\n\n\n\n(odds1 = odds*exp(beta1))\n\n[1] 2.718282\n\n(odds1 = exp(beta0)*exp(beta1))\n\n[1] 2.718282\n\n\n\n\n\n(p1 = odds1 /(1+odds1))\n\n[1] 0.7310586\n\n(p1 = exp(beta0 + beta1)/(1+exp(beta0+beta1)))\n\n[1] 0.7310586"
+    "text": "Let’s try\n\\[\\log\\!\\left(\\dfrac{p(x)}{1-p(x)}\\right) =  \\beta_0 + \\beta_1 x\\]\nWhen \\(x = 1\\)\n\n\nbeta1 = 1\n# what happen moving from x = 0 to x = 1?\n\n\n\n\n(odds1 = odds*exp(beta1))\n\n[1] 2.718282\n\n(odds1 = exp(beta0)*exp(beta1))\n\n[1] 2.718282\n\n\n\n\n\n(p1 = odds1 /(1+odds1))\n\n[1] 0.7310586\n\n(p1 = exp(beta0 + beta1)/(1+exp(beta0+beta1)))\n\n[1] 0.7310586"
   },
   {
     "objectID": "slides/01-intro-glm.html#lets-try-2",
     "href": "slides/01-intro-glm.html#lets-try-2",
     "title": "Introduction to Generalized Linear Models for Psychology",
     "section": "Let’s try",
-    "text": "Let’s try\n\nbeta0 = 3\n# odds?\n# p?\n\n\n\n(odds = exp(beta0))\n\n[1] 20.08554\n\n\n\n\n\n(p = odds/(1+odds))\n\n[1] 0.9525741\n\n(p = exp(beta0)/(1+exp(beta0)))\n\n[1] 0.9525741"
+    "text": "Let’s try\n\\[\\log\\!\\left(\\dfrac{p(x)}{1-p(x)}\\right) =  \\beta_0 + \\beta_1 x\\]\nWhen \\(x = 0\\)\n\nbeta0 = 3\n# odds?\n# p?\n\n\n\n(odds = exp(beta0))\n\n[1] 20.08554\n\n\n\n\n\n(p = odds/(1+odds))\n\n[1] 0.9525741\n\n(p = exp(beta0)/(1+exp(beta0)))\n\n[1] 0.9525741"
   },
   {
     "objectID": "slides/01-intro-glm.html#lets-try-3",
     "href": "slides/01-intro-glm.html#lets-try-3",
     "title": "Introduction to Generalized Linear Models for Psychology",
     "section": "Let’s try",
-    "text": "Let’s try\n\n\nbeta1 = 1\n# what happen moving from x = 0 to x = 1?\n\n\n\n\n(odds1 = odds*exp(beta1))\n\n[1] 54.59815\n\n\n\n\n\n(p1 = odds1 /(1+odds1))\n\n[1] 0.9820138\n\n(p1 = exp(beta0 + beta1)/(1+exp(beta0+beta1)))\n\n[1] 0.9820138"
+    "text": "Let’s try\n\\[\\log\\!\\left(\\dfrac{p(x)}{1-p(x)}\\right) =  \\beta_0 + \\beta_1 x\\]\nAt \\(x = 1\\)\n\n\nbeta1 = 1\n\n\n\n\n(odds1 = odds*exp(beta1))\n\n[1] 54.59815\n\n\n\n\n\n(p1 = odds1 /(1+odds1))\n\n[1] 0.9820138\n\n(p1 = exp(beta0 + beta1)/(1+exp(beta0+beta1)))\n\n[1] 0.9820138"
+  },
+  {
+    "objectID": "slides/01-intro-glm.html#lets-try-4",
+    "href": "slides/01-intro-glm.html#lets-try-4",
+    "title": "Introduction to Generalized Linear Models for Psychology",
+    "section": "Let’s try",
+    "text": "Let’s try\nFrom \\(x=4\\) to \\(x = 8\\)\n\n\nbeta0 = 0\nbeta1 = 1\n\n\n\n\n(odds4 = exp(beta0)*exp(beta1*4))\n\n[1] 54.59815\n\n(odds8 = odds4*exp(beta1*(8-4)))\n\n[1] 2980.958\n\n\n\n\n\n(p4 = odds4 /(1+odds4))\n\n[1] 0.9820138\n\n(p8 = odds8 /(1+odds8))\n\n[1] 0.9996646"
   },
   {
     "objectID": "slides/01-intro-glm.html#section-1",
